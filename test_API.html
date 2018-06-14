@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>test API</title>
+    <meta content="">
+    <style></style>
+  </head>
+  <body></body>
+  <script>
+
+    function login() {
+      var formData = new FormData();
+      // formData.append('email', 'agent150891@gmail.com');
+      // formData.append('password', '1234567');
+
+      formData.append('email', 'admin@admin.com');
+      formData.append('password', 'password');
+
+      fetch("http://127.0.0.1:8000/api/auth/login",
+      {
+          method: "POST",
+          body: formData,
+          credentials: 'omit',
+          mode: 'cors',
+      })
+      .then(function(res){
+        return res.json();
+      })
+      .then(function(data){
+        create(data.access_token);
+      });
+    };
+
+    function me(jwtToken) {
+      var tokenData = new FormData();
+      tokenData.append('token', jwtToken);
+
+      fetch("http://127.0.0.1:8000/api/users/get",
+      {
+          method: "POST",
+          credentials: 'omit',
+          mode: 'cors',
+          body: tokenData,
+      })
+      .then(function(res){
+        console.log(res);
+        return res.json();
+      })
+      .then(function(data){
+          console.log('data=', data);
+      });
+    }
+
+     function create(jwtToken) {
+      
+      var formData = new FormData();
+      formData.append('token', jwtToken);
+      formData.append('name', 'Vasya33');
+      formData.append('first_name', 'Vasya');
+      formData.append('email', 'vasya@i.ua');
+      formData.append('password', '1234567');
+      formData.append('password_confirmation', '1234567');
+      formData.append('role', '2');
+      
+      fetch("http://127.0.0.1:8000/api/users/store",
+      {
+          method: "POST",
+          credentials: 'omit',
+          mode: 'cors',
+          body: formData,
+      })
+      .then(function(res){
+        console.log(res);
+        return res.json();
+      })
+      .then(function(data){
+          console.log('data=', data);
+      });
+    }
+
+    login();
+
+  </script>
+</html>
