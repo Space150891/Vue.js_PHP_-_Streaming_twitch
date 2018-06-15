@@ -1,0 +1,87 @@
+version: '2'
+services:
+
+  # The Application
+  app:
+    build:
+      context: ./
+      dockerfile: docker/app.dockerfile
+    working_dir: /var/www
+    volumes:
+    - ./:/var/www/
+    # environment:
+    # - "DB_PORT=5432"
+    # - "DB_HOST=172.25.0.3"
+    env_file:
+    - docker/.env
+    expose:
+    - "9000"
+    networks: ['mynetwork']
+
+  # The Web Server
+  web:
+    build:
+      context: ./
+      args:
+        - PHP_UPSTREAM_CONTAINER=app
+        - PHP_UPSTREAM_PORT=9000
+      dockerfile: docker/web.dockerfile
+    working_dir: /var/www/
+    volumes:
+    - ./:/var/www
+    volumes_from:
+    - app
+    ports:
+    - 8081:81
+    depends_on:
+    - database
+    - app
+    networks: ['mynetwork']
+
+  # The Database
+  database:
+    # build:
+    #   context: ./
+    #   dockerfile: docker/database.dockerfile
+    # volumes:
+    # - dbdata:/var/lib/mysql
+    # environment:
+    # - "MYSQL_DATABASE=ospp"
+    # - "MYSQL_USER=root"
+    # - "MYSQL_PASSWORD=root"
+    # - "MYSQL_ROOT_PASSWORD=root"
+    # ports:
+    #     - "33062:3306"
+    env_file:
+    - docker/.env
+    build:
+      context: ./
+      dockerfile: docker/database.dockerfile
+    # volumes:
+    # - dbdata:pgsql
+    # environment:
+    # - "POSTGRES_DB=ospp"
+    # - "POSTGRES_USER=docker"
+    # - "POSTGRES_PASSWORD=docker"
+    # - "PGDATA=pgsql"
+
+    ports:
+    - "54321:5432"
+    networks: ['mynetwork']
+
+  redis:
+    image: redis:4.0.8
+    ports:
+      - "63791:6379"
+
+  composer:
+    image: composer:latest
+    restart: 'no'
+    volumes:
+    - ./:/app/api
+    command:
+      --working-dir=api install --ignore-platform-reqs
+    depends_on:
+    - app
+
+networks: {mynetwork: {}}
