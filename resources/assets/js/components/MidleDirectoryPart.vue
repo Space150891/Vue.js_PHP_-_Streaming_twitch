@@ -103,6 +103,7 @@
         }
     .midle-directory {
         width: 75%;
+        margin-left: 15%;
         
     }
     .flex-pos {

@@ -105,19 +105,7 @@
                         downText: "Text",
                         image:require('../../../../public/images/tvitch-question.png'),
                         imageName: "alt"
-                    },
-                    {
-                        mainText: "Text",
-                        downText: "Text",
-                        image:require('../../../../public/images/tvitch-question.png'),
-                        imageName: "alt"
-                    },
-                    {
-                        mainText: "Text",
-                        downText: "Text",
-                        image:require('../../../../public/images/tvitch-question.png'),
-                        imageName: "alt"
-                    },
+                    }
                 ]
             }
         },

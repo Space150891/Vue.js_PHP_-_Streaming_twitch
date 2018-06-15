@@ -1,4 +1,5 @@
 <template>
+<div class="main-menu">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img class="nav-logo" src="../../../../public/images/logo.png" alt="logo"></a>
         <button @click.prevent="menuBurger()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,10 +10,10 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item" v-for="(item, index) in menuItems">
                     <a 
-                        v-bind:class="[(index == selected) ? 'active' : '', 'nav-link']"
+                        v-bind:class="[(setSelected(item)) ? 'active' : '', 'nav-link']"
                         v-bind:href="item.link"
                         v-bind:key="index"
-                        @click="setSelected(index, item)"
+                        
                     > 
                         {{ item.name }}
                     </a>
@@ -29,7 +30,7 @@
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">0</a>
                 </li>
                 <li class="nav-item tagging">
-                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
+                    <a class="nav-link" v-bind:href="bagPage"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
                 </li>
                 <li class="nav-item tagging social">
                     <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
@@ -39,13 +40,13 @@
             </ul>
         </div>
     </nav>
+</div>
 </template>
 
 <script>
     export default {
         data(){
             return {
-                selected: 0,
                 clicked: false,
                 bagPage: "/bagpage",
                 menuItems: [
@@ -62,15 +63,15 @@
                     {
                         name: "Prices",
                         activ: false,
-                        link: "/pricespage",
+                        link: "/prices",
                     },
                 ]
             }
         },
         methods: {
-            setSelected(index, item) {
-                window.location.assign(item.link);
-                // this.selected = index;
+            setSelected(item) {
+                const locUrl = window.location.pathname;
+                return locUrl===item.link;
             },
             menuBurger() {
                 this.clicked = !this.clicked
@@ -83,7 +84,16 @@
     body {
         height: 100vh;
         max-height: 100vh;
-        overflow: hidden;
+        
+    }
+    .main-menu {
+        position: fixed;
+        top: 0px;
+        width: 100vw;
+        z-index: 100;
+    }
+    .navbar {
+        padding-top: 5px;
     }
     
     .nav-logo {

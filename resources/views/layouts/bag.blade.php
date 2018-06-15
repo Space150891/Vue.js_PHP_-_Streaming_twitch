@@ -38,7 +38,7 @@
             <main>
                 <left-part></left-part>
                 
-                <midle-part-home></midle-part-home>
+                <midle-part-bag></midle-part-bag>
                 
                 <right-part></right-part>
                 

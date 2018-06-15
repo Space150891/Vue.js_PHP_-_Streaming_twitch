@@ -142,3 +142,6 @@ Route::redirect('/php', '/phpinfo', 301);
 
 Route::get('/homepage', 'HomePageController');
 Route::get('/directory', 'DirectoryPageController');
+Route::get('/prices', 'PricesPageController');
+Route::get('/bagpage', 'BagPageController');
+Route::get('/video', 'VideoPageController');

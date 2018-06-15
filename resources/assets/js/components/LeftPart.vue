@@ -166,9 +166,10 @@
 <style lang="scss">
     
     .leftPart-main {
-        position: relative;
         width: 15%;
         height: 100vh;
+        position: fixed;
+        margin-top: 10%;
     }
     .leftPart {
         width: 100%;
@@ -200,11 +201,15 @@
     .btn-up {
         border-bottom: 1px solid black;
         margin-bottom: 10px;
-        top: 0px;
+        position: fixed;
+        top: 8.5%;
+        width: 15%;
        }
     .btn-down {
         border-top:  1px solid black;
-        bottom: 98px;
+        position: fixed;
+        bottom: 0px;
+        width: 15%;
     }
     
     .leftPart-scroll {
@@ -265,21 +270,7 @@
             font-size: 15px;
         }
     }
-    @media screen and (max-width: 1783px)  {
-        .btn-down {
-            bottom: 89px;
-        }
-    }
-    @media screen and (max-width: 1569px)  {
-        .btn-down {
-            bottom: 79px;
-        }
-    }
-    @media screen and (max-width: 1331px)  {
-        .btn-down {
-            bottom: 69px;
-        }
-    }
+   
 
     @media screen and (max-width: 1471px)  {
         .leftPart-item {
@@ -305,9 +296,7 @@
                 font-size: 12px;
             }
         }
-        .btn-down {
-            height: 35px;
-        }
+        
     }
 
     @media screen and (max-width: 1085px)  {
@@ -333,16 +322,35 @@
                 font-size: 12px;
             }
         }
-        .btn-down {
-            bottom: 69px;
-        }
+        
     }
-    @media screen and (max-width: 991px)  {
-        .btn-down {
-            bottom: 45px;
-        }
-    }
+    
     @media screen and (max-width: 775px)  {
+        .leftPart-item {
+            justify-content: space-between;
+        }
+        .leftPart-img {
+            img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .leftPart-mainText {
+            h1 {
+                font-size: 12px;
+            }
+            p {
+                font-size: 11px;
+            }
+        }
+        .leftPart-rightText {
+            p {
+                font-size: 11px;
+            }
+        }
+        
+    }
+    @media screen and (max-width: 767px)  {
         .leftPart-item {
             justify-content: space-between;
         }

@@ -38,7 +38,7 @@
             <main>
                 <left-part></left-part>
                 
-                <midle-part-home></midle-part-home>
+                <midle-part-price></midle-part-price>
                 
                 <right-part></right-part>
                 

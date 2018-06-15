@@ -36,9 +36,7 @@
                 <menu-block></menu-block>
             </header>
             <main>
-                <left-part></left-part>
-                
-                <midle-part-home></midle-part-home>
+               <video-part></video-part>
                 
                 <right-part></right-part>
                 

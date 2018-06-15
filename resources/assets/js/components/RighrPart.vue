@@ -74,7 +74,6 @@
 <style lang="scss">
     
     .rightPart-main {
-        position: relative;
         width: 15%;
         height: 100vh;
     }
@@ -82,7 +81,7 @@
         width: 100%;
         display: inline-block;
         height: calc(100vh - 16vh);
-        sposition: relative;
+        position: static;
         z-index: -20;
         padding-left: 2px;
     }
@@ -190,6 +189,7 @@
         }
         
     }
+    
 
 </style>
 
