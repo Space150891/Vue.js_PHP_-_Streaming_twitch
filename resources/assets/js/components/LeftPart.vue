@@ -169,13 +169,14 @@
         width: 15%;
         height: 100vh;
         position: fixed;
-        margin-top: 10%;
+        margin-top: 8%;
+        overflow: hidden;
     }
     .leftPart {
         width: 100%;
         display: inline-block;
         height: calc(100vh - 16vh);
-        transform: translate(0px, 37px);
+        margin-top: 10px;
         position: relative;
         z-index: -20;
         padding-left: 2px;
@@ -202,7 +203,7 @@
         border-bottom: 1px solid black;
         margin-bottom: 10px;
         position: fixed;
-        top: 8.5%;
+        top: 95px;
         width: 15%;
        }
     .btn-down {
@@ -321,6 +322,12 @@
             p {
                 font-size: 12px;
             }
+        }
+        
+    }
+    @media screen and (max-width: 991px)  {
+        .btn-up {
+            top: 50px;
         }
         
     }

@@ -34,11 +34,16 @@
     }
 </script>
 <style lang="scss">
+    body {
+        overflow: hidden;
+    }
     main {
             display: flex;
+            
         }
     .video-part {
-        width: 85%;    
+        width: 85%;
+        margin-top: 5%;   
     }
     
     .midle-home-iframes {

@@ -49,6 +49,8 @@
     }
     .midle-home {
         width: 75%;
+        margin-left: 15%;
+        margin-top: 9%;
         
     }
     .midle-home-content {

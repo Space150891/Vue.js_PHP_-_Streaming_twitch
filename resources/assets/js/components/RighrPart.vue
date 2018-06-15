@@ -76,6 +76,7 @@
     .rightPart-main {
         width: 15%;
         height: 100vh;
+        margin-top: 7%;
     }
     .rightPart {
         width: 100%;

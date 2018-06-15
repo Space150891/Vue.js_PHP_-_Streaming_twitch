@@ -118,6 +118,8 @@
         }
     .midle-bag {
         width: 75%;
+        margin-left: 15%;
+        margin-top: 5%;
         
     }
     .flex-pos {

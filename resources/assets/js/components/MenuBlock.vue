@@ -30,7 +30,7 @@
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">0</a>
                 </li>
                 <li class="nav-item tagging">
-                    <a class="nav-link" v-bind:href="bagPage"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
+                    <a class="nav-link bag-span" v-bind:href="bagPage"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
                 </li>
                 <li class="nav-item tagging social">
                     <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
@@ -90,10 +90,16 @@
         position: fixed;
         top: 0px;
         width: 100vw;
-        z-index: 100;
+        height: auto;
+        z-index: 10000;
+        background-color: #fff;
     }
     .navbar {
         padding-top: 5px;
+        height: 95px;
+    }
+    .left {
+        margin-right: 20px;
     }
     
     .nav-logo {
@@ -207,9 +213,22 @@
         .navbar {
             height: 50px;
         }
+        .navbar-toggler {
+            margin-right: 10px;
+        }
+        .toggle-block {
+            .social {
+                margin-top: 20%;
+                position: relative;
+                right: 11px;
+                img {
+                    width: 35%;
+                }
+            }
+        }
         
     }
-
+   
     @media screen and (max-width: 969px)  {
         .toggle-block {
             font-size: 16px;
@@ -219,17 +238,19 @@
                 font-size: 11px;
             }
         }
-        
     }
     @media screen and (max-width: 750px)  {
         .toggle-block {
             font-size: 14px;
         
             .tagging-item {
-                top: 237px;
+                top: 255px;
                 right: 116px;
                 font-size: 11px;
             }
+        }
+        .navbar-nav {
+            margin-bottom: 27px;
         }
     
         .nav-logo {
@@ -262,13 +283,12 @@
                 }
             }
             .tagging-item {
-                top: 130px;
-                right: 24px;
+                top: 138px;
+                right: 50px;
             }
             .social {
-                position: absolute;
-                bottom: 84px;
-                right: 15px;
+                    bottom: -25px;
+                    right: 77px;
                 .social-link {
                     width: 35px;
                 }
