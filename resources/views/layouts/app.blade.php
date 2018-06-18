@@ -36,13 +36,7 @@
                 <menu-block></menu-block>
             </header>
             <main>
-                <left-part></left-part>
-                
-                <midle-part-home></midle-part-home>
-                
-                <right-part></right-part>
-                
-
+                <router-view></router-view>
             </main>
             <footer>
                 

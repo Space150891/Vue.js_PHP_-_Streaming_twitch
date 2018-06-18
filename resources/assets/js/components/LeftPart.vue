@@ -28,7 +28,6 @@
                 leftItems: [
                     {
                         mainText: "Text",
-
                         image:require('../../../../public/images/logo.png'),
                         imageName: "alt",
                         downText: "text",
@@ -157,10 +156,6 @@
                 }
             },
         },
-        mounted() {
-            // console.log('Tabs mounted', this.menuItems);
-        },
-        
     }
 </script>
 <style lang="scss">
@@ -297,7 +292,6 @@
                 font-size: 12px;
             }
         }
-        
     }
 
     @media screen and (max-width: 1085px)  {
@@ -325,11 +319,11 @@
         }
         
     }
+
     @media screen and (max-width: 991px)  {
         .btn-up {
             top: 50px;
         }
-        
     }
     
     @media screen and (max-width: 775px)  {
@@ -355,8 +349,8 @@
                 font-size: 11px;
             }
         }
-        
     }
+
     @media screen and (max-width: 767px)  {
         .leftPart-item {
             justify-content: space-between;
@@ -380,7 +374,6 @@
                 font-size: 11px;
             }
         }
-        
     }
 
 </style>

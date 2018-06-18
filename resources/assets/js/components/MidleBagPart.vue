@@ -114,13 +114,12 @@
 </script>
 <style lang="scss">
     main {
-            display: flex;
-        }
+        display: flex;
+    }
     .midle-bag {
         width: 75%;
         margin-left: 15%;
-        margin-top: 5%;
-        
+        margin-top: 95px;
     }
     .flex-pos {
         justify-content: center;
@@ -159,9 +158,7 @@
         }
         p {
             margin-top: 5px;
-           
         }
-
     }
     .bag-image {
         width: 100%;
@@ -177,10 +174,16 @@
         width: 70%;
         padding-top: 1%;
     }
-
     .page-link {
         color: black;
     }
+
+    @media screen and (max-width: 991px)  {
+        .midle-bag {
+            margin-top: 47px;
+        }
+    }
+
     @media screen and (max-width: 758px)  {
         .bag-image {
             width: 50%;
@@ -195,8 +198,8 @@
         .page-link {
             padding: 0.4rem 0.75rem;
         }
-        
     }
+
     @media screen and (max-width: 740px)  {
         .bag-image {
             width: 50%;
@@ -211,7 +214,6 @@
         .page-link {
             padding: 0.4rem 0.75rem;
         }
-        
     }
     
     @media (min-width: 576px) {
@@ -219,8 +221,6 @@
             flex: 0 0 50%;
         }
     }
-
-
-
+    
 </style>
 

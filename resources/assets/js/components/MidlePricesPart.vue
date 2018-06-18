@@ -149,14 +149,10 @@
     }
 </script>
 <style lang="scss">
-    main {
-            display: flex;
-        }
     .midle-price {
         width: 75%;
         margin-left: 15%;
         margin-top: 5%;
-        
     }
     .flex-pos {
         justify-content: center;
@@ -180,7 +176,6 @@
         &:active {
             background: #c3c3c3;
         }
-        
     }
     .prices-items {
         display: flex;
@@ -199,7 +194,6 @@
             border: 3px solid black;
             border-radius: 10px;
         }
-
     }
     .price-image {
         width: 50%;
@@ -215,7 +209,6 @@
         width: 70%;
         padding-top: 1%;
     }
-
     .page-link {
         color: black;
     }
@@ -251,8 +244,6 @@
             }
         }
     }
-
-
 
 </style>
 

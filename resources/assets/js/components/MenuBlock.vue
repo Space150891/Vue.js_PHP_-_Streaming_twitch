@@ -9,14 +9,13 @@
         <div v-bind:class="['collapse navbar-collapse', (clicked) ? 'toggle-block' : '']" id="navbarTogglerDemo01">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item" v-for="(item, index) in menuItems">
-                    <a 
-                        v-bind:class="[(setSelected(item)) ? 'active' : '', 'nav-link']"
-                        v-bind:href="item.link"
+                    <router-link
+                        class="nav-link"
+                        v-bind:to="item.link" 
                         v-bind:key="index"
-                        
                     > 
                         {{ item.name }}
-                    </a>
+                    </router-link>
                 </li>
             </ul>
             <ul class="navbar-nav my-2 my-lg-0 left">
@@ -30,7 +29,13 @@
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">0</a>
                 </li>
                 <li class="nav-item tagging">
-                    <a class="nav-link bag-span" v-bind:href="bagPage"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
+                    <router-link 
+                        class="nav-link bag-span"
+                        v-bind:to="bagPage"
+                        >
+                            <img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag">
+                    </router-link>
+                    <span class="tagging-item">2</span>
                 </li>
                 <li class="nav-item tagging social">
                     <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
@@ -48,12 +53,13 @@
         data(){
             return {
                 clicked: false,
-                bagPage: "/bagpage",
+                selected: 0,
+                bagPage: "/bag",
                 menuItems: [
                     {
                         name: "Home",
                         activ: true,
-                        link: "/homepage",
+                        link: "/",
                     },
                     {
                         name: "Directory",
@@ -69,9 +75,8 @@
             }
         },
         methods: {
-            setSelected(item) {
-                const locUrl = window.location.pathname;
-                return locUrl===item.link;
+            setSelected(index) {
+                this.selected = index;
             },
             menuBurger() {
                 this.clicked = !this.clicked
@@ -84,7 +89,6 @@
     body {
         height: 100vh;
         max-height: 100vh;
-        
     }
     .main-menu {
         position: fixed;
@@ -92,7 +96,6 @@
         width: 100vw;
         height: auto;
         z-index: 10000;
-        background-color: #fff;
     }
     .navbar {
         padding-top: 5px;
@@ -101,10 +104,8 @@
     .left {
         margin-right: 20px;
     }
-    
     .nav-logo {
         width: 4vw;
-       
     }
     .social {
         display: none;
@@ -114,7 +115,6 @@
         min-width: 20px;
         margin: 0 10px 0 20px;
     }
-
     .tagging-item {
         background-color: red;
         padding: 0 8px 2px 8px;
@@ -125,7 +125,7 @@
         top: -51px;
         right: -39px;
     }
-    .active {
+    .router-link-exact-active {
         background-color: #d2d2d2ed;
     }
     .toggle-block {
@@ -148,7 +148,6 @@
         .left {
             text-align: left;
             margin-left: 30%;
-            
         }
         .tagging-item {
             position: absolute;
@@ -157,7 +156,6 @@
             font-size: 13px;
             padding: 1px 8px 1px 8px;
         }
-   
         .social {
             display: flex;
             justify-content: space-around;
@@ -179,11 +177,13 @@
             right: 5px;
         }
     }
+    .bag-span {
+        width: 78px;
+        &:hover {
+            background-color: #eaeaea;
+        }
+    }
          
-    
-
- 
- 
     @keyframes slideLeft {
         0% {
             transform: translateX(150%);
@@ -242,7 +242,6 @@
     @media screen and (max-width: 750px)  {
         .toggle-block {
             font-size: 14px;
-        
             .tagging-item {
                 top: 255px;
                 right: 116px;
@@ -252,7 +251,6 @@
         .navbar-nav {
             margin-bottom: 27px;
         }
-    
         .nav-logo {
             width: 45px;
         }
@@ -260,6 +258,7 @@
             width: 40%;
         }
     }
+    
     @media (max-height: 520px)  {
         .toggle-block {
             width: 200px;
@@ -287,8 +286,8 @@
                 right: 50px;
             }
             .social {
-                    bottom: -25px;
-                    right: 77px;
+                bottom: -25px;
+                right: 77px;
                 .social-link {
                     width: 35px;
                 }
@@ -298,9 +297,5 @@
             }
         }
     }
-
-    
-   
-
 </style>
 

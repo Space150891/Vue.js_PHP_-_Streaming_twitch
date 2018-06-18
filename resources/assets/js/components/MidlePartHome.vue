@@ -27,31 +27,11 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data(){
-            return {
-               
-            }
-        },
-        methods: {
-            
-        },
-        mounted() {
-            
-        },
-        
-    }
-</script>
 <style lang="scss">
-    main {
-        display: flex;
-    }
     .midle-home {
         width: 75%;
         margin-left: 15%;
-        margin-top: 9%;
-        
+        margin-top: 95px;
     }
     .midle-home-content {
         width: 99%;
@@ -69,14 +49,17 @@
     .video-part {
         width: 75%;
         margin-right: 1%;
-        
     }
     .chat-part {
         width: 25%;
         height: 100%;
     }
     
+    @media (max-width: 991px) {
+       .midle-home {
+            margin-top: 47px;
+        }
+    }
     
-
 </style>
 

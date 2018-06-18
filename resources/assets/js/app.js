@@ -7,10 +7,24 @@
 
 require('./bootstrap');
 require('hideshowpassword');
-// var Dropzone = require('dropzone');
 var password = require('password-strength-meter');
-
+import VueRouter from 'vue-router'
 window.Vue = require('vue');
+var Home = require('./components/Home.vue');
+var Directory = require('./components/Directory.vue');
+var Price = require('./components/Price.vue');
+var Bag = require('./components/Bag.vue');
+
+
+var router = new VueRouter({
+    routes: [
+        { path: '/', component: Home },
+        { path: '/directory', component: Directory },
+        { path: '/prices', component: Price },
+        { path: '/bag', component: Bag },
+    ]
+});
+Vue.use(VueRouter);
 
 
 /**
@@ -31,44 +45,8 @@ Vue.component('midle-part-directory', require('./components/MidleDirectoryPart.v
 Vue.component('midle-part-bag', require('./components/MidleBagPart.vue'));
 Vue.component('video-part', require('./components/VideoPart.vue'));
 
+
 const app = new Vue({
-    el: '#app'
-});
-
-$.fn.extend({
-    toggleText: function(a, b){
-        return this.text(this.text() == b ? a : b);
-    },
-
-    /**
-     * Remove element classes with wildcard matching. Optionally add classes:
-     *   $( '#foo' ).alterClass( 'foo-* bar-*', 'foobar' )
-     *
-     */
-    alterClass: function(removals, additions) {
-        var self = this;
-
-        if(removals.indexOf('*') === -1) {
-            // Use native jQuery methods if there is no wildcard matching
-            self.removeClass(removals);
-            return !additions ? self : self.addClass(additions);
-        }
-
-        var patt = new RegExp( '\\s' +
-                removals.
-                    replace( /\*/g, '[A-Za-z0-9-_]+' ).
-                    split( ' ' ).
-                    join( '\\s|\\s' ) +
-                '\\s', 'g' );
-
-        self.each(function(i, it) {
-            var cn = ' ' + it.className + ' ';
-            while(patt.test(cn)) {
-                cn = cn.replace( patt, ' ' );
-            }
-            it.className = $.trim(cn);
-        });
-
-        return !additions ? self : self.addClass(additions);
-    }
+    el: '#app',
+    router: router
 });
