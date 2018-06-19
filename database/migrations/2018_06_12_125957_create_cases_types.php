@@ -30,6 +30,6 @@ class CreateCasesTypes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cases_types');
+        Schema::dropIfExists('case_types');
     }
 }

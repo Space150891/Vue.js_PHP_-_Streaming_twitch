@@ -38,34 +38,10 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        echo "\n start testing stripe \n";
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        // creating product
-        // $product = \Stripe\Product::create([
-        //     'name' => 'Online Streamer Promotion Platform',
-        //     'type' => 'service',
-        // ]);
-
-        // $plan = \Stripe\Plan::create([
-        //     'product' => $product->id,
-        //     'nickname' => 'OSPP Platform VIP USD',
-        //     'interval' => 'month',
-        //     'currency' => 'usd',
-        //     'amount' => 10,
-        //   ]);
-
-        $source = \Stripe\Source::create([
-            "type" => "ideal",
-            "currency" => "usd",
-            "owner" => array(
-              "email" => "jenny.rosen@example.com"
-            )
-        ]);
-        $customer = \Stripe\Customer::create([
-            'email' => 'johd.doe@example.com',
-            'source' => $source->id,
-        ]);
-
-        var_dump($customer);
+       echo config('database.connections.mysql.host') . "\n";
+       echo config('database.connections.mysql.port') . "\n";
+       echo config('database.connections.mysql.username') . "\n";
+       echo config('database.connections.mysql.password') . "\n";
+       echo env('DB_CONNECTION') . "\n";
     }
 }
