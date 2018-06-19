@@ -50,4 +50,10 @@ Route::group([
     Route::post('users/delete', 'Api\UserManagementController@destroy');
     Route::post('users/search', 'Api\UserManagementController@search');
 
+    Route::post('itemtypes/list', 'Api\ItemTypesManagementController@index');
+    Route::post('itemtypes/store', 'Api\ItemTypesManagementController@store');
+    Route::post('itemtypes/get', 'Api\ItemTypesManagementController@show');
+    Route::post('itemtypes/update', 'Api\ItemTypesManagementController@update');
+    Route::post('itemtypes/delete', 'Api\ItemTypesManagementController@destroy');
+
 });

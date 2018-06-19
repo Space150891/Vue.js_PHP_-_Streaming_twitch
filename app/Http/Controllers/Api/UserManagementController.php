@@ -25,7 +25,7 @@ class UserManagementController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => []]);
-        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
     /**
@@ -133,7 +133,13 @@ class UserManagementController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'errors' => ['user id not found'],
+            ]);
+        }
+
         $roles = Role::all();
 
         foreach ($user->roles as $user_role) {
@@ -230,7 +236,14 @@ class UserManagementController extends Controller
     {
         $id = $request->id;
         $currentUser = Auth::user();
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'errors' => ['user id not found'],
+            ]);
+        }
+
         $ipAddress = new CaptureIpTrait();
 
         if ($user->id != $currentUser->id) {
@@ -240,7 +253,6 @@ class UserManagementController extends Controller
 
             return response()->json([
                 'message' => 'user deleted successful',
-                'data' => $data,
             ]);
         }
 

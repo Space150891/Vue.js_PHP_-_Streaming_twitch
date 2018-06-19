@@ -10,20 +10,12 @@ class ServerEventsController extends Controller
 {
     public function serverSideEvents(Request $request)
     {
-        if (array_key_exists('HTTP_ORIGIN', $_SERVER)) {
-            $origin = $_SERVER['HTTP_ORIGIN'];
-        }
-        else if (array_key_exists('HTTP_REFERER', $_SERVER)) {
-            $origin = $_SERVER['HTTP_REFERER'];
-        } else {
-            $origin = $_SERVER['REMOTE_ADDR'];
-        }
         $response = new StreamedResponse();
         $response->headers->set('Content-Type', 'text/event-stream');
-        $response->headers->set('Access-Control-Allow-Origin', $origin);
+        $response->headers->set('Access-Control-Allow-Origin', getOrigin($_SERVER));
         $response->headers->set('Cache-Control', 'public');
         $response->setCallback(
-            function() use ($origin, $request){
+            function() use ($request){
                 if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined') {
                     $auth = auth()->setToken($_COOKIE['token']);
                     if ($auth) {
@@ -37,7 +29,7 @@ class ServerEventsController extends Controller
                 }
                 ob_flush();
                 flush();
-                usleep(200000);
+                sleep(10);
             });
         $response->send();
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CaseTypes extends Model
+class CaseType extends Model
 {
     //
 }

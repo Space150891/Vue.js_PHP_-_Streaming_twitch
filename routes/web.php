@@ -136,7 +136,6 @@ Route::get('streams4', 'StreamController@streams4');
 
 Route::get('twitch/redirect', 'Auth\SocialController@twitchRedirect');
 Route::get('twitch/callback', 'Auth\SocialController@twitchCallback');
-Route::post('twitch/callback', 'Auth\SocialController@getUserAccessToken');
 
 Route::redirect('/php', '/phpinfo', 301);
 
@@ -145,3 +144,5 @@ Route::get('/directory', 'DirectoryPageController');
 
 Route::get('sse', 'Api\ServerEventsController@serverSideEvents');
 Route::get('testpagesse', 'Api\ServerEventsController@testPageSSE');
+
+Route::post('front/gettoken', 'Auth\SocialController@getToken');
