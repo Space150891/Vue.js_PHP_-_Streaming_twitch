@@ -27,9 +27,8 @@ class ServerEventsController extends Controller
                 } else {
                     echo "data: error= do not have token\n\n";
                 }
-                ob_flush();
                 flush();
-                sleep(10);
+                sleep(2);
             });
         $response->send();
     }

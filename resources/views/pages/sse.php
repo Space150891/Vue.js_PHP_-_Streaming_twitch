@@ -10,11 +10,11 @@
 
     function login() {
       var formData = new FormData();
-      // formData.append('email', 'agent150891@gmail.com');
-      // formData.append('password', '1234567');
+      formData.append('email', 'agent150891@gmail.com');
+      formData.append('password', '1234567');
 
-      formData.append('email', 'admin@admin.com');
-      formData.append('password', 'password');
+      // formData.append('email', 'admin@admin.com');
+      // formData.append('password', 'password');
 
       fetch("http://127.0.0.1:8081/api/auth/login",
       {

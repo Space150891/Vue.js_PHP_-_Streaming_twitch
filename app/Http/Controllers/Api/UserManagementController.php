@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Http\Response;
 use Validator;
+use Illuminate\Support\Facades\Storage;
 use jeremykenedy\LaravelRoles\Models\Role;
 
 use App\Models\Profile;

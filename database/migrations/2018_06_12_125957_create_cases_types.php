@@ -17,7 +17,7 @@ class CreateCasesTypes extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('price');
-            $table->string('image')->default(null);
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

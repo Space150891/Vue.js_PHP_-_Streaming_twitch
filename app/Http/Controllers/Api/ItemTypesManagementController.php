@@ -119,6 +119,9 @@ class ItemTypesManagementController extends Controller
                 'errors' => ['item type id not found'],
             ]);
         }
+
+        $itemType->name = $request->name;
+        $itemType->save();
         
         return response()->json([
             'message' => 'item type update successful',

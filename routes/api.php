@@ -56,4 +56,10 @@ Route::group([
     Route::post('itemtypes/update', 'Api\ItemTypesManagementController@update');
     Route::post('itemtypes/delete', 'Api\ItemTypesManagementController@destroy');
 
+    Route::post('items/list', 'Api\ItemsManagementController@index');
+    Route::post('items/store', 'Api\ItemsManagementController@store');
+    Route::post('items/get', 'Api\ItemsManagementController@show');
+    Route::post('items/update', 'Api\ItemsManagementController@update');
+    Route::post('items/delete', 'Api\ItemsManagementController@destroy');
+
 });
