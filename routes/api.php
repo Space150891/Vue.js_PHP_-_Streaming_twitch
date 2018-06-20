@@ -72,11 +72,11 @@ Route::group([
     Route::post('rarities/update', 'Api\RaritiesManagementController@update');
     Route::post('rarities/delete', 'Api\RaritiesManagementController@destroy');
 
-    Route::post('casetypes/list', 'Api\CaseTypesManagementController@index');
-    Route::post('casetypes/store', 'Api\CaseTypesManagementController@store');
-    Route::post('casetypes/get', 'Api\CaseTypesManagementController@show');
-    Route::post('casetypes/update', 'Api\CaseTypesManagementController@update');
-    Route::post('casetypes/delete', 'Api\CaseTypesManagementController@destroy');
+    Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
+    Route::post('cases/types/store', 'Api\CaseTypesManagementController@store');
+    Route::post('cases/types/get', 'Api\CaseTypesManagementController@show');
+    Route::post('cases/types/update', 'Api\CaseTypesManagementController@update');
+    Route::post('cases/types/delete', 'Api\CaseTypesManagementController@destroy');
 
     Route::post('cases/list', 'Api\CasesManagementController@index');
     Route::post('cases/store', 'Api\CasesManagementController@store');
@@ -85,5 +85,12 @@ Route::group([
     Route::post('cases/delete', 'Api\CasesManagementController@destroy');
     Route::post('cases/item/delete', 'Api\CasesManagementController@deleteItem');
     Route::post('cases/item/add', 'Api\CasesManagementController@addItem');
+
+    Route::post('contact/types/list', 'Api\ContactTypesManagementController@index');
+    Route::post('contact/types/store', 'Api\ContactTypesManagementController@store');
+    Route::post('contact/types/get', 'Api\ContactTypesManagementController@show');
+    Route::post('contact/types/update', 'Api\ContactTypesManagementController@update');
+    Route::post('contact/types/delete', 'Api\ContactTypesManagementController@destroy');
+
     
 });
