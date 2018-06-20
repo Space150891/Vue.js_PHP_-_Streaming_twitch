@@ -44,6 +44,14 @@ Route::group([
     Route::post('contacts/get', 'Api\ContactsController@show');
     Route::post('contacts/update', 'Api\ContactsController@update');
     Route::post('contacts/delete', 'Api\ContactsController@destroy');
+    
+    Route::post('referals/viewer/add', 'Api\ReferalViewersController@store');
+    Route::post('referals/viewer/get', 'Api\ReferalViewersController@show');
+    Route::post('referals/viewer/me', 'Api\ReferalViewersController@me');
+
+    Route::post('referals/streamer/add', 'Api\ReferalStreamersController@store');
+    Route::post('referals/streamer/get', 'Api\ReferalStreamersController@show');
+    Route::post('referals/streamer/me', 'Api\ReferalStreamersController@me');
 });
 
 

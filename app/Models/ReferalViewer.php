@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReferalViewer extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'viewer_id',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

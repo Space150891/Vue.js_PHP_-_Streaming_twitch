@@ -15,4 +15,9 @@ class Streamer extends Model
     {
         return $this->hasMany('App\Models\Contact');
     }
+
+    public function referals()
+    {
+        return $this->hasMany('App\Models\ReferalStreamer');
+    }
 }
