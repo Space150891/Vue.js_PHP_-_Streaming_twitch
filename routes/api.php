@@ -62,4 +62,10 @@ Route::group([
     Route::post('items/update', 'Api\ItemsManagementController@update');
     Route::post('items/delete', 'Api\ItemsManagementController@destroy');
 
+    Route::post('rarities/list', 'Api\RaritiesManagementController@index');
+    Route::post('rarities/store', 'Api\RaritiesManagementController@store');
+    Route::post('rarities/get', 'Api\RaritiesManagementController@show');
+    Route::post('rarities/update', 'Api\RaritiesManagementController@update');
+    Route::post('rarities/delete', 'Api\RaritiesManagementController@destroy');
+
 });
