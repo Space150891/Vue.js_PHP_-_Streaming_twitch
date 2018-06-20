@@ -35,6 +35,8 @@ Route::group([
     Route::post('channels/update', 'Api\ChannelsController@update');
     Route::post('channels/delete', 'Api\ChannelsController@destroy');
 
+    Route::post('viewers/get', 'Api\ViewersController@show');
+
 });
 
 

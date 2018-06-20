@@ -142,14 +142,12 @@ class SocialController extends Controller
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
         session(['twitch_state' => $state]);
-        // $url = "https://id.twitch.tv/oauth2/authorize";
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
         $url .= "&scope=user_read";
         $url .= "&state={$state}";
-        // echo 'redirect to ' . $url;
         return redirect($url);
     }
 
