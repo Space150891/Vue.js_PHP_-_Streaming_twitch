@@ -40,10 +40,7 @@ class CasesManagementController extends Controller
             $lootItems = $cases[$i]->items()->get();
             $caseItems = [];
             foreach ($lootItems as $lootItem) {
-                $caseItems[] = [
-                    'loot_id'   => $lootItem->id,
-                    'item'      => $lootItem->item()->first(),
-                ];
+                $caseItems[] = $lootItem->item()->first();
             }
             $cases[$i]->items = $caseItems;
         }
@@ -136,10 +133,7 @@ class CasesManagementController extends Controller
         $lootItems = $case->items()->get();
         $caseItems = [];
         foreach ($lootItems as $lootItem) {
-            $caseItems[] = [
-                'loot_id'   => $lootItem->id,
-                'item'      => $lootItem->item()->first(),
-            ];
+            $caseItems[] =  $lootItem->item()->first();
         }
         $case->items = $caseItems;
         return response()->json([
@@ -241,6 +235,71 @@ class CasesManagementController extends Controller
         $case->delete();
         return response()->json([
             'message' => 'case delete successful',
+        ]);
+    }
+
+    public function deleteItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'case_id'       => 'required|numeric',
+            'item_id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $case = LootCase::find($request->case_id);
+        if (!$case) {
+            return response()->json([
+                'errors' => ['case id not found'],
+            ]);
+        }
+        $item = $case->items()->where('item_id', $request->item_id)->first();
+        if (!$item) {
+            return response()->json([
+                'errors' => ['item id not found'],
+            ]);
+        }
+        $item->delete();
+        return response()->json([
+            'message' => 'item remove successful',
+        ]);
+    }
+
+    public function addItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'case_id'       => 'required|numeric',
+            'item_id'       => 'required|numeric',
+            'rarity_id'     => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $case = LootCase::find($request->case_id);
+        if (!$case) {
+            return response()->json([
+                'errors' => ['case id not found'],
+            ]);
+        }
+        $item = Item::find($request->item_id);
+        if (!$item) {
+            return response()->json([
+                'errors' => ['item id not found'],
+            ]);
+        }
+        $rarity = Raritie::find($request->rarity_id);
+        if (!$rarity) {
+            return response()->json([
+                'errors' => ['rarity id not found'],
+            ]);
+        }
+        $itemCase = new ItemCase();
+        $itemCase->case_id = $request->case_id;
+        $itemCase->item_id = $request->item_id;
+        $itemCase->rarity_id = $request->rarity_id;
+        $itemCase->save();
+        return response()->json([
+            'message' => 'item added successful',
         ]);
     }
 }

@@ -79,5 +79,7 @@ Route::group([
     Route::post('cases/get', 'Api\CasesManagementController@show');
     Route::post('cases/update', 'Api\CasesManagementController@update');
     Route::post('cases/delete', 'Api\CasesManagementController@destroy');
+    Route::post('cases/item/delete', 'Api\CasesManagementController@deleteItem');
+    Route::post('cases/item/add', 'Api\CasesManagementController@addItem');
     
 });
