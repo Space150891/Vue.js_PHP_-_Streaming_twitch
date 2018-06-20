@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
-use jeremykenedy\LaravelRoles\Models\Role;
+// use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\Raritie;
+use App\Models\CaseType;
 
-class RaritiesManagementController extends Controller
+class CaseTypesManagementController extends Controller
 {
         /**
      * Create a new controller instance.
@@ -31,9 +31,9 @@ class RaritiesManagementController extends Controller
      */
     public function index()
     {
-        $rarities = Raritie::all();
+        $caseTypes = CaseType::all();
         return response()->json(['data' => [
-            'rarities' => $rarities,
+            'caseTypes' => $caseTypes,
         ]]);
     }
 
@@ -48,8 +48,8 @@ class RaritiesManagementController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'name'  => 'required|max:255|unique:rarities',
-                'percent'  => 'required|numeric|max:100',
+                'name'  => 'required|max:255|unique:case_types',
+                'price'  => 'required|numeric',
             ]
         );
 
@@ -59,15 +59,24 @@ class RaritiesManagementController extends Controller
             ]);
         }
 
-        $raritie = new Raritie();
-        $raritie->name = $request->name;
-        $raritie->percent = $request->percent;
-        $raritie->save();
+        $caseType = new CaseType();
+        $caseType->name = $request->name;
+        $caseType->price = $request->price;
+        $caseType->save();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extention = strtolower($file->extension());
+            $fileName = 'image_' . $caseType->id . '_' . $extention;
+            $destination = 'public/case_types/';
+            Storage::putFileAs($destination, $file, $fileName);
+            $caseType->image = $destination . "/" . $fileName;
+            $caseType->save();
+        }
 
         return response()->json([
-            'message' => 'new raritie created successful',
+            'message' => 'new case type created successful',
             'data' => [
-                'id' => $raritie->id,
+                'id' => $caseType->id,
             ]
         ]);
     }
@@ -82,16 +91,16 @@ class RaritiesManagementController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-        $raritie = Raritie::find($id);
+        $caseType = CaseType::find($id);
 
-        if (!$raritie) {
+        if (!$caseType) {
             return response()->json([
-                'errors' => ['raritie id not found'],
+                'errors' => ['case type id not found'],
             ]);
         }
 
         return response()->json([
-            'data' => $raritie,
+            'data' => $caseType,
         ]);
     }
 
@@ -108,27 +117,37 @@ class RaritiesManagementController extends Controller
         $validator = Validator::make($request->all(), [
             'id'       => 'required|numeric',
             'name'     => 'required|max:255',
-            'percent'  => 'required|numeric|max:100',
+            'price'    => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $raritie = Raritie::find($request->id);
+        $caseType = CaseType::find($request->id);
 
-        if (!$raritie) {
+        if (!$caseType) {
             return response()->json([
-                'errors' => ['raritie id not found'],
+                'errors' => ['case type id not found'],
             ]);
         }
 
-        $raritie->name = $request->name;
-        $raritie->percent = $request->percent;
-        $raritie->save();
+        $caseType->name = $request->name;
+        $caseType->price = $request->price;
+        $caseType->save();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extention = strtolower($file->extension());
+            $fileName = 'image_' . $caseType->id . '_' . $extention;
+            $destination = 'public/case_types/';
+            Storage::putFileAs($destination, $file, $fileName);
+            $caseType->image = $destination . "/" . $fileName;
+            $caseType->save();
+        }
         
         return response()->json([
-            'message' => 'raritie update successful',
+            'message' => 'case type update successful',
         ]);
     }
 
@@ -147,16 +166,16 @@ class RaritiesManagementController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $raritie = Raritie::find($request->id);
-        if (!$raritie) {
+        $caseType = CaseType::find($request->id);
+        if (!$caseType) {
             return response()->json([
-                'errors' => ['raritie id not found'],
+                'errors' => ['case type id not found'],
             ]);
         }
 
-        $raritie->delete();
+        $caseType->delete();
         return response()->json([
-            'message' => 'raritie delete successful',
+            'message' => 'case type delete successful',
         ]);
     }
 }

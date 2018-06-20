@@ -68,4 +68,10 @@ Route::group([
     Route::post('rarities/update', 'Api\RaritiesManagementController@update');
     Route::post('rarities/delete', 'Api\RaritiesManagementController@destroy');
 
+    Route::post('casetypes/list', 'Api\CaseTypesManagementController@index');
+    Route::post('casetypes/store', 'Api\CaseTypesManagementController@store');
+    Route::post('casetypes/get', 'Api\CaseTypesManagementController@show');
+    Route::post('casetypes/update', 'Api\CaseTypesManagementController@update');
+    Route::post('casetypes/delete', 'Api\CaseTypesManagementController@destroy');
+
 });
