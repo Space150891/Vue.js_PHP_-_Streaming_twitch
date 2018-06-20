@@ -37,6 +37,8 @@ Route::group([
 
     Route::post('viewers/get', 'Api\ViewersController@show');
 
+    Route::post('streamers/get', 'Api\StreamersController@show');
+
 });
 
 
