@@ -74,4 +74,10 @@ Route::group([
     Route::post('casetypes/update', 'Api\CaseTypesManagementController@update');
     Route::post('casetypes/delete', 'Api\CaseTypesManagementController@destroy');
 
+    Route::post('cases/list', 'Api\CasesManagementController@index');
+    Route::post('cases/store', 'Api\CasesManagementController@store');
+    Route::post('cases/get', 'Api\CasesManagementController@show');
+    Route::post('cases/update', 'Api\CasesManagementController@update');
+    Route::post('cases/delete', 'Api\CasesManagementController@destroy');
+    
 });
