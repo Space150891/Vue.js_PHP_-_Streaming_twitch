@@ -48,6 +48,12 @@ class StreamersController extends Controller
             ]);
         }
         $streamer->user = $streamer->user()->first();
+        $contacts = $streamer->contacts()->get();
+        for ($i = 0; $i < count($contacts); $i++) {
+            $type = $contacts[$i]->type()->first();
+            $contacts[$i]->type = $type['name'];
+        }
+        $streamer->contacts = $contacts;
         return response()->json([
             'data' => $streamer,
         ]);

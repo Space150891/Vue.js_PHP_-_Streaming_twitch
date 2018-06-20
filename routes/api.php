@@ -39,6 +39,11 @@ Route::group([
 
     Route::post('streamers/get', 'Api\StreamersController@show');
 
+    Route::post('contacts/list', 'Api\ContactsController@index');
+    Route::post('contacts/store', 'Api\ContactsController@store');
+    Route::post('contacts/get', 'Api\ContactsController@show');
+    Route::post('contacts/update', 'Api\ContactsController@update');
+    Route::post('contacts/delete', 'Api\ContactsController@destroy');
 });
 
 
