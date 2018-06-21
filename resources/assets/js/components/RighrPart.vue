@@ -71,7 +71,7 @@
     .rightPart-main {
         width: 15%;
         height: 100vh;
-        margin-top: 7%;
+        margin-top: 95px;
     }
     .rightPart {
         width: 100%;
@@ -160,6 +160,12 @@
             }
         }
         
+    }
+
+    @media screen and (max-width: 991px)  {
+        .rightPart-main {
+            margin-top: 52px;
+        }
     }
     
     @media screen and (max-width: 775px)  {

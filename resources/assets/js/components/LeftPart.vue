@@ -16,7 +16,7 @@
         </div>
     </div>
     
-    <div class="scroll-item btn-down" @click.prevent="scrollDown()"><span class="leftPart-scroll"> < </span></div>
+    <div class="scroll-item btn-down" @click.prevent="scrollDown()"><span class="leftPart-scroll"> &lt; </span></div>
 </div>
 </template>
 
@@ -148,7 +148,6 @@
                 const elemLeftPart = document.getElementsByClassName('leftPart')[0];
                 const elemLeftPartH = elemLeftPart.offsetHeight;
                 const elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
-                console.log(this.num)
                 if(this.num<10){
                     this.num = this.num+(elemItemH);
                     elemLeftPart.style.transform = "translate(0px,"+(this.num+20)+"px)";

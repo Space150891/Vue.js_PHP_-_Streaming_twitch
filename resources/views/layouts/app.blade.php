@@ -29,6 +29,15 @@
         
         @yield('head')
         @yield('header_scripts')
+        
+        <script>
+            
+            @if (isset($tw_res))
+                window.TwichInfo = {{json_encode($tw_res)}};
+            @endif
+            debugger;
+            console.log(window);
+        </script>
     </head>
     <body>
         <div id="app" class="container-fluid">
@@ -46,6 +55,7 @@
             
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
+        
 
         
         @yield('footer_scripts')

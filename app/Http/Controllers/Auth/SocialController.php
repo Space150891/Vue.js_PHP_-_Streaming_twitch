@@ -199,6 +199,8 @@ class SocialController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+
+        return view('layouts.app', ['tw_res'=>$request]);
     }
 
     public function getUserAccessToken(Request $request)

@@ -144,8 +144,4 @@ Route::get('/vue/{vue_capture?}', function () {
     return view('vue.index');
    })->where('vue_capture', '[\/\w\.-]*');
 
-// Route::get('/homepage', 'HomePageController');
-// Route::get('/directory', 'DirectoryPageController');
-// Route::get('/prices', 'PricesPageController');
-// Route::get('/bagpage', 'BagPageController');
 // Route::get('/video', 'VideoPageController');

@@ -152,7 +152,7 @@
     .midle-price {
         width: 75%;
         margin-left: 15%;
-        margin-top: 5%;
+        margin-top: 95px;
     }
     .flex-pos {
         justify-content: center;
@@ -212,8 +212,13 @@
     .page-link {
         color: black;
     }
+    @media (max-width: 991px) {
+        .midle-price {
+            margin-top: 47px;
+        }
+    }
     
-    @media (min-width: 576px) {
+    @media (max-width: 767px) {
         .col-sm-12 {
             flex: 0 0 50%;
         }

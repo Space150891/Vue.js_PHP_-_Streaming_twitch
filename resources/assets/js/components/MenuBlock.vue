@@ -18,6 +18,7 @@
                     </router-link>
                 </li>
             </ul>
+            <div @click.prevent="authentication()" class="sing-up">Sign up</div>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -80,6 +81,18 @@
             },
             menuBurger() {
                 this.clicked = !this.clicked
+           },
+           authentication() {
+                window.Twich = Twitch.init({
+                    clientId: 'leh3fb6zxnnb4n3jtziooi0qrygx2e',
+                    redirect_uri: 'http://127.0.0.1:8000/'
+                }, function(error, status) {
+                    console.log('the library is now loaded')
+                });
+                window.Twitch.login({
+                    redirect_uri: 'http://127.0.0.1:8000/',
+                    scope: ['user_read', 'channel_read']
+                })
            }
         },
         
@@ -107,6 +120,23 @@
     .nav-logo {
         width: 4vw;
     }
+    .sing-up {
+        margin-bottom: 19px;
+        padding: 6px 12px;
+        background: #6441a4;
+        font-size: 18px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        &:hover {
+            background: #3f148c;
+        }
+        &:active {
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+    }
     .social {
         display: none;
     }
@@ -127,6 +157,9 @@
     }
     .router-link-exact-active {
         background-color: #d2d2d2ed;
+    }
+    .tagging {
+        position: relative;
     }
     .toggle-block {
         display: block !important;
@@ -205,8 +238,8 @@
         .toggle-block {
             font-size: 16px;
             .tagging-item {
-                top: 255px;
-                right: 117px;
+                top: -6px;
+                right: 99px;
                 font-size: 11px;
             }
         }
@@ -233,8 +266,8 @@
         .toggle-block {
             font-size: 16px;
             .tagging-item {
-                top: 255px;
-                right: 117px;
+                top: -5px;
+                right: 98px;
                 font-size: 11px;
             }
         }
@@ -243,8 +276,8 @@
         .toggle-block {
             font-size: 14px;
             .tagging-item {
-                top: 255px;
-                right: 116px;
+                top: -8px;
+                right: 98px;
                 font-size: 11px;
             }
         }
@@ -282,12 +315,12 @@
                 }
             }
             .tagging-item {
-                top: 138px;
-                right: 50px;
+                top: -11px;
+                right: 74px;
             }
             .social {
-                bottom: -25px;
-                right: 77px;
+                bottom: -12px;
+                right: 125px;
                 .social-link {
                     width: 35px;
                 }
@@ -295,6 +328,12 @@
                     width: 30px;
                 }
             }
+        }
+        .navbar-nav {
+            margin: 0;
+        }
+        .sing-up {
+            font-size: 14px;
         }
     }
 </style>
