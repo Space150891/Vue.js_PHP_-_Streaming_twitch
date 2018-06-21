@@ -44,6 +44,8 @@ Vue.component('midle-part-price', require('./components/MidlePricesPart.vue'));
 Vue.component('midle-part-directory', require('./components/MidleDirectoryPart.vue'));
 Vue.component('midle-part-bag', require('./components/MidleBagPart.vue'));
 Vue.component('video-part', require('./components/VideoPart.vue'));
+Vue.component('up-nav', require('./components/UpNav.vue'));
+Vue.component('footer-part', require('./components/FooretPart.vue'));
 
 
 const app = new Vue({

@@ -42,13 +42,14 @@
     <body>
         <div id="app" class="container-fluid">
             <header>
+                <up-nav></up-nav>
                 <menu-block></menu-block>
             </header>
             <main>
                 <router-view></router-view>
             </main>
             <footer>
-                
+                <footer-part></footer-part>
             </footer>
             
 

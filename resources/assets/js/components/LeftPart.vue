@@ -197,7 +197,7 @@
         border-bottom: 1px solid black;
         margin-bottom: 10px;
         position: fixed;
-        top: 95px;
+        top: 107px;
         width: 15%;
        }
     .btn-down {
@@ -321,7 +321,7 @@
 
     @media screen and (max-width: 991px)  {
         .btn-up {
-            top: 50px;
+            top: 69px;
         }
     }
     

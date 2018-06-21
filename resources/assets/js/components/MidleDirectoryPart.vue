@@ -101,7 +101,7 @@
     .midle-directory {
         width: 75%;
         margin-left: 15%;
-        margin-top: 95px;
+        margin-top: 111px;
     }
     .flex-pos {
         justify-content: center;
@@ -116,7 +116,7 @@
 
      @media (max-width: 991px) {
        .midle-directory {
-            margin-top: 47px;
+            margin-top: 69px;
         }
     }
 

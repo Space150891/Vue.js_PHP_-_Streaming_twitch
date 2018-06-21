@@ -105,14 +105,14 @@
     }
     .main-menu {
         position: fixed;
-        top: 0px;
+        top: 22px;
         width: 100vw;
         height: auto;
         z-index: 10000;
     }
     .navbar {
         padding-top: 5px;
-        height: 95px;
+        height: 88px;
     }
     .left {
         margin-right: 20px;
