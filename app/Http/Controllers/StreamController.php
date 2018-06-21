@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StreamController extends Controller
 {
@@ -42,16 +43,4 @@ class StreamController extends Controller
         return view('pages.stream.streams4', $data);
     }
 
-    public function test()
-    {
-        $twitchSecret = config('services.twitch.client_secret');
-        $twitchId = config('services.twitch.client_id');
-        $guzzle = new Guzzle([ 'headers' => [ 'Client-ID' => $twitchId ] ]);
-        $top1 = 'https://api.twitch.tv/helix/games/top';
-        $result = $guzzle->request('GET', $top1);
-        $body = (string) $result->getBody();
-        dd(json_decode($body));
-        $data = [];
-        return view('pages.stream.test', $data);
-    }
 }

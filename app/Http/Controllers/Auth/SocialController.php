@@ -142,14 +142,14 @@ class SocialController extends Controller
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
         session(['twitch_state' => $state]);
-        // $url = "https://id.twitch.tv/oauth2/authorize";
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
+        // $url = "https://api.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
         $url .= "&scope=user_read";
         $url .= "&state={$state}";
-        // echo 'redirect to ' . $url;
+        // echo $url;
         return redirect($url);
     }
 
@@ -179,31 +179,32 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
-        $twitchId = $body['_id'];
-        $user = User::where('twitch_id', $twitchId)->first();
+        $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $user = new User();
-            $user->name = $body['display_name'];
-            $user->first_name = $body['name'];
-            $user->last_name = '';
-            $user->email = $body['email'];
-            $user->password = '123';
-            $user->activated = 1;
-            $user->twitch_id = $twitchId;
             $user->token = '';
-            $user->save();
+            $user->activated = 1;
+            $user->password = '123';
+            $user->last_name = '';
         }
+        $user->name = $body['name'];
+        $user->first_name = $body['display_name'];
+        $user->email = $body['email'];
+        $user->bio = $body['bio'];
+        $user->avatar = $body['avatar'];
+        $user->save();
+
         $token = auth()->login($user);
-        return response()->json([
-            'access_token' => $token,
+
+        $data = [
+            'access_token'  => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
-
-        return view('layouts.app', ['tw_res'=>$request]);
+        ];
+        return view('pages.getjwt', $data);
     }
 
-    public function getUserAccessToken(Request $request)
+    public function getToken(Request $request)
     {
         \Log::info('TOKEN INFO:');
         \Log::info($request->access_token);

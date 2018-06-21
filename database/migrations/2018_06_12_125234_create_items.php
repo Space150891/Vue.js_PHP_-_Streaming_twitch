@@ -17,10 +17,10 @@ class CreateItems extends Migration
             $table->increments('id');
             $table->integer('item_type_id');
             $table->string('title');
-            $table->string('description')->default(null);
+            $table->string('description')->nullable();
             $table->integer('worth')->default(0);
-            $table->string('image')->default(null);
-            $table->string('icon')->default(null);
+            $table->string('image')->nullable();
+            $table->string('icon')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

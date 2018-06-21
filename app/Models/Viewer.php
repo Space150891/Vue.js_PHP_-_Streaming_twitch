@@ -6,5 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Viewer extends Model
 {
-    //
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function referals()
+    {
+        return $this->hasMany('App\Models\ReferalViewer');
+    }
+
+    public function items()
+    {
+        return $this->hasMany('App\Models\ViewerItem');
+    }
+
+    public function buyedCaseTypes()
+    {
+        return $this->hasMany('App\Models\BuyedCaseType');
+    }
+
+    public function cards()
+    {
+        return $this->hasMany('App\Models\Card');
+    }
 }
