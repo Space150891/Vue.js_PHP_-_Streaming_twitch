@@ -16,4 +16,9 @@ class Viewer extends Model
     {
         return $this->hasMany('App\Models\ReferalViewer');
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\Models\ViewerItem');
+    }
 }

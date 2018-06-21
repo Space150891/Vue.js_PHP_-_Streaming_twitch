@@ -52,6 +52,11 @@ Route::group([
     Route::post('referals/streamer/add', 'Api\ReferalStreamersController@store');
     Route::post('referals/streamer/get', 'Api\ReferalStreamersController@show');
     Route::post('referals/streamer/me', 'Api\ReferalStreamersController@me');
+
+    Route::post('viewer/items/list', 'Api\ViewerItemsController@index');
+    Route::post('viewer/items/store', 'Api\ViewerItemsController@store');
+    Route::post('viewer/items/get', 'Api\ViewerItemsController@show');
+    Route::post('viewer/items/delete', 'Api\ViewerItemsController@destroy');
 });
 
 
