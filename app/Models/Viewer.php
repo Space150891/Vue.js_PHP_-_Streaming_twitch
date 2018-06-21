@@ -21,4 +21,9 @@ class Viewer extends Model
     {
         return $this->hasMany('App\Models\ViewerItem');
     }
+
+    public function buyedCaseTypes()
+    {
+        return $this->hasMany('App\Models\BuyedCaseType');
+    }
 }

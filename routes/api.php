@@ -57,6 +57,9 @@ Route::group([
     Route::post('viewer/items/store', 'Api\ViewerItemsController@store');
     Route::post('viewer/items/get', 'Api\ViewerItemsController@show');
     Route::post('viewer/items/delete', 'Api\ViewerItemsController@destroy');
+
+    Route::post('viewer/cases/list', 'Api\ViewerCaseTypesController@index');
+    Route::post('viewer/cases/store', 'Api\ViewerCaseTypesController@store');
 });
 
 
