@@ -6,7 +6,8 @@
   </head>
   <body></body>
   <script>
-  @if (isset($tw_res))
+  
+  @if (isset($access_token))
     window.access_token = {{($access_token)}};
     console.log({{($access_token)}});
   @endif
