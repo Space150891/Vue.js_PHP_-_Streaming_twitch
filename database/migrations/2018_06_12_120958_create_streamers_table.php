@@ -15,7 +15,7 @@ class CreateStreamersTable extends Migration
     {
         Schema::create('streamers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('alert_type_id')->default(null);
+            $table->integer('alert_type_id')->nullable();
             $table->integer('referal')->default(0);
             $table->string('name')->default('');
             $table->integer('user_id');

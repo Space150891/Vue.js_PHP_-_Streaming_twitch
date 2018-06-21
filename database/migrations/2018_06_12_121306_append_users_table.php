@@ -15,6 +15,8 @@ class AppendUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('twitch_id')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('bio')->nullable();
         });
     }
 

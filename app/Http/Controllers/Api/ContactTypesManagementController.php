@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Channel;
+use App\Models\ContactType;
 
-class ChannelsController extends Controller
+class ContactTypesManagementController extends Controller
 {
         /**
      * Create a new controller instance.
@@ -23,13 +23,16 @@ class ChannelsController extends Controller
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
-    public function list()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $user = auth()->user();
-        $streamer = $user->streamer()->first();
-        $channels = Channel::where('streamer_id', $streamer->id)->get();
+        $contactTypes = ContactType::all();
         return response()->json(['data' => [
-            'channels' => $channels,
+            'contact types' => $contactTypes,
         ]]);
     }
 
@@ -42,37 +45,26 @@ class ChannelsController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(),
             [
-                'name'                  => 'required|max:255',
-                'twitch_id'             => 'required|numeric|min:1'
-            ],
-            [
-                'name.required'       => 'channel name required',
+                'name'  => 'required|max:255|unique:contact_types',
             ]
         );
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'errors' => $validator->errors(),
             ]);
         }
 
-        $user = auth()->user();
-        $streamer = $user->streamer()->first();
-
-        $channel = Channel::create([
-            'name'             => $request->input('name'),
-            'streamer_id'      => $streamer->id,
-        ]);
-
-        $channel->save();
+        $contactType = new ContactType();
+        $contactType->name = $request->name;
+        $contactType->save();
         
         return response()->json([
-            'message' => 'new channel created successful',
+            'message' => 'new contsact type created successful',
             'data' => [
-                'id' => $channel->id,
+                'id' => $contactType->id,
             ]
         ]);
     }
@@ -87,22 +79,16 @@ class ChannelsController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
+        $contactType = ContactType::find($id);
 
-        $channel = Channel::find($id);
-        if (!$channel) {
+        if (!$contactType) {
             return response()->json([
-                'errors' => ['channel did not find'],
+                'errors' => ['contact type id not found'],
             ]);
         }
-        $data = [
-            'id'          => $channel->id,
-            'name'        => $channel->name,
-            'twitch_id'   => $channel->name,
-            'created_at'  => $channel->created_at,
-            'updated_at'  => $channel->updated_at,
-        ];
+
         return response()->json([
-            'data' => $data,
+            'data' => $contactType,
         ]);
     }
 
@@ -116,28 +102,28 @@ class ChannelsController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
-            'id'       => 'required',
-            'name'     => 'required|max:255|unique:users',
-            'twitch_id'             => 'required|numeric|min:1'
+            'id'       => 'required|numeric',
+            'name'     => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $contactType = ContactType::find($request->id);
+
+        if (!$contactType) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => ['contact type id not found'],
             ]);
         }
 
-        $channel = Channel::find($id);
-        if (!$channel) {
-            return response()->json([
-                'errors' => ['channel did not find'],
-            ]);
-        }
+        $contactType->name = $request->name;
+        $contactType->save();
         
         return response()->json([
-            'message' => 'channel update successful',
+            'message' => 'contact type update successful',
         ]);
     }
 
@@ -150,28 +136,23 @@ class ChannelsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
-            'id'       => 'required',
+            'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ]);
+            return back()->withErrors($validator)->withInput();
         }
-        $channel = Channel::find($id);
-        if (!$channel) {
+        $contactType = ContactType::find($request->id);
+
+        if (!$contactType) {
             return response()->json([
-                'errors' => ['channel did not find'],
+                'errors' => ['contact type id not found'],
             ]);
         }
 
-        $channel->delete();
+        $contactType->delete();
         return response()->json([
-            'message' => 'channel delete successful',
+            'message' => 'contact type delete successful',
         ]);
-        
     }
-
- 
 }

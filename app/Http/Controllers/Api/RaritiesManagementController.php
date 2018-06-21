@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
+use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\Channel;
+use App\Models\Raritie;
 
-class ChannelsController extends Controller
+class RaritiesManagementController extends Controller
 {
         /**
      * Create a new controller instance.
@@ -23,13 +24,16 @@ class ChannelsController extends Controller
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
-    public function list()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $user = auth()->user();
-        $streamer = $user->streamer()->first();
-        $channels = Channel::where('streamer_id', $streamer->id)->get();
+        $rarities = Raritie::all();
         return response()->json(['data' => [
-            'channels' => $channels,
+            'rarities' => $rarities,
         ]]);
     }
 
@@ -42,37 +46,28 @@ class ChannelsController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(),
             [
-                'name'                  => 'required|max:255',
-                'twitch_id'             => 'required|numeric|min:1'
-            ],
-            [
-                'name.required'       => 'channel name required',
+                'name'  => 'required|max:255|unique:rarities',
+                'percent'  => 'required|numeric|max:100',
             ]
         );
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'errors' => $validator->errors(),
             ]);
         }
 
-        $user = auth()->user();
-        $streamer = $user->streamer()->first();
+        $raritie = new Raritie();
+        $raritie->name = $request->name;
+        $raritie->percent = $request->percent;
+        $raritie->save();
 
-        $channel = Channel::create([
-            'name'             => $request->input('name'),
-            'streamer_id'      => $streamer->id,
-        ]);
-
-        $channel->save();
-        
         return response()->json([
-            'message' => 'new channel created successful',
+            'message' => 'new raritie created successful',
             'data' => [
-                'id' => $channel->id,
+                'id' => $raritie->id,
             ]
         ]);
     }
@@ -87,22 +82,16 @@ class ChannelsController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
+        $raritie = Raritie::find($id);
 
-        $channel = Channel::find($id);
-        if (!$channel) {
+        if (!$raritie) {
             return response()->json([
-                'errors' => ['channel did not find'],
+                'errors' => ['raritie id not found'],
             ]);
         }
-        $data = [
-            'id'          => $channel->id,
-            'name'        => $channel->name,
-            'twitch_id'   => $channel->name,
-            'created_at'  => $channel->created_at,
-            'updated_at'  => $channel->updated_at,
-        ];
+
         return response()->json([
-            'data' => $data,
+            'data' => $raritie,
         ]);
     }
 
@@ -116,28 +105,30 @@ class ChannelsController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
-            'id'       => 'required',
-            'name'     => 'required|max:255|unique:users',
-            'twitch_id'             => 'required|numeric|min:1'
+            'id'       => 'required|numeric',
+            'name'     => 'required|max:255',
+            'percent'  => 'required|numeric|max:100',
         ]);
 
         if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $raritie = Raritie::find($request->id);
+
+        if (!$raritie) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => ['raritie id not found'],
             ]);
         }
 
-        $channel = Channel::find($id);
-        if (!$channel) {
-            return response()->json([
-                'errors' => ['channel did not find'],
-            ]);
-        }
+        $raritie->name = $request->name;
+        $raritie->percent = $request->percent;
+        $raritie->save();
         
         return response()->json([
-            'message' => 'channel update successful',
+            'message' => 'raritie update successful',
         ]);
     }
 
@@ -150,28 +141,22 @@ class ChannelsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
-            'id'       => 'required',
+            'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ]);
+            return back()->withErrors($validator)->withInput();
         }
-        $channel = Channel::find($id);
-        if (!$channel) {
+        $raritie = Raritie::find($request->id);
+        if (!$raritie) {
             return response()->json([
-                'errors' => ['channel did not find'],
+                'errors' => ['raritie id not found'],
             ]);
         }
 
-        $channel->delete();
+        $raritie->delete();
         return response()->json([
-            'message' => 'channel delete successful',
+            'message' => 'raritie delete successful',
         ]);
-        
     }
-
- 
 }
