@@ -54,12 +54,21 @@ Route::group([
     Route::post('referals/streamer/me', 'Api\ReferalStreamersController@me');
 
     Route::post('viewer/items/list', 'Api\ViewerItemsController@index');
-    Route::post('viewer/items/store', 'Api\ViewerItemsController@store');
+    Route::post('viewer/items/add', 'Api\ViewerItemsController@store');
     Route::post('viewer/items/get', 'Api\ViewerItemsController@show');
     Route::post('viewer/items/delete', 'Api\ViewerItemsController@destroy');
 
     Route::post('viewer/cases/list', 'Api\ViewerCaseTypesController@index');
-    Route::post('viewer/cases/store', 'Api\ViewerCaseTypesController@store');
+    Route::post('viewer/cases/add', 'Api\ViewerCaseTypesController@store');
+    
+    Route::post('cards/list', 'Api\CardsController@index');
+    Route::post('cards/add', 'Api\CardsController@store');
+    Route::post('cards/get', 'Api\CardsController@show');
+    Route::post('cards/delete', 'Api\CardsController@destroy');
+    Route::post('card/items/list', 'Api\CardsController@itemsList');
+    Route::post('card/items/add', 'Api\CardsController@itemAdd');
+    Route::post('card/items/delete', 'Api\CardsController@itemDestroy');
+
 });
 
 

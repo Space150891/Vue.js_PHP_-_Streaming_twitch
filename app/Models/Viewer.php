@@ -26,4 +26,9 @@ class Viewer extends Model
     {
         return $this->hasMany('App\Models\BuyedCaseType');
     }
+
+    public function cards()
+    {
+        return $this->hasMany('App\Models\Card');
+    }
 }
