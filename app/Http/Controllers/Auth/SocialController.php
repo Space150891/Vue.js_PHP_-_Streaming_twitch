@@ -143,11 +143,13 @@ class SocialController extends Controller
         $state = str_random(30);
         session(['twitch_state' => $state]);
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
+        // $url = "https://api.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
         $url .= "&scope=user_read";
         $url .= "&state={$state}";
+        // echo $url;
         return redirect($url);
     }
 
@@ -194,11 +196,12 @@ class SocialController extends Controller
 
         $token = auth()->login($user);
 
-        return response()->json([
-            'access_token' => $token,
+        $data = [
+            'access_token'  => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        ];
+        return view('pages.getjwt', $data);
     }
 
     public function getToken(Request $request)

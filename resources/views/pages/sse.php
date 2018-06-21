@@ -4,10 +4,11 @@
     <meta content="">
     <style></style>
   </head>
-  <body></body>
+  <body>
+    <a href="/twitch/redirect">twitch login</a>
+  </body>
   <script>
     console.log('start');
-
     function login() {
       var formData = new FormData();
       formData.append('email', 'agent150891@gmail.com');
