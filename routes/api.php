@@ -126,3 +126,10 @@ Route::group([
     Route::post('streamers/promoted/add', 'Api\PromotedStreamersManagementController@store');
     Route::post('streamers/promoted/delete', 'Api\PromotedStreamersManagementController@delete');
 });
+
+// bot routes
+Route::group([
+    'middleware' => ['api', 'activated', 'role:bot'],
+], function ($router) {
+    Route::post('bot/', 'Api\BotController@getEvent');
+});

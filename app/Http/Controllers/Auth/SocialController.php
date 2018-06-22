@@ -160,6 +160,9 @@ class SocialController extends Controller
         if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
             exit("wrong request!");
         }
+        echo $request->session()->get('twitch_state') . "<br>";
+        echo $request->state;
+        exit();
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -178,7 +181,6 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
-        // dd($body);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $user = new User();
