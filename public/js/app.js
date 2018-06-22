@@ -21236,7 +21236,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.footer-part {\n  text-align: center;\n  width: 100%;\n  position: fixed;\n  bottom: 0;\n}\n.footer-part h2 {\n    width: 68%;\n    height: 19px;\n    display: inline-block;\n    margin: 0;\n    padding: 0;\n    background-color: #f6f8fa;\n    font-size: 14px;\n}\n", ""]);
+exports.push([module.i, "\n.footer-part {\n  text-align: center;\n  width: 70%;\n  position: fixed;\n  bottom: 0;\n  left: 16%;\n}\n.footer-part h2 {\n    width: 98%;\n    height: 19px;\n    display: inline-block;\n    margin: 0;\n    padding: 0;\n    background-color: #f6f8fa;\n    font-size: 14px;\n}\n", ""]);
 
 // exports
 
@@ -74163,16 +74163,8 @@ var render = function() {
             ),
             _vm._v(" "),
             _c(
-              "div",
-              {
-                staticClass: "sing-up",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.authentication()
-                  }
-                }
-              },
+              "a",
+              { staticClass: "sing-up", attrs: { href: "twitch/redirect" } },
               [_vm._v("Sign up")]
             ),
             _vm._v(" "),

@@ -7,11 +7,12 @@
 <style lang="scss">
     .footer-part {
         text-align: center;
-        width: 100%;
+        width: 70%;
         position: fixed;
         bottom: 0;
+        left: 16%;
         h2 {
-            width: 68%;
+            width: 98%;
             height: 19px;
             display: inline-block;
             margin: 0;

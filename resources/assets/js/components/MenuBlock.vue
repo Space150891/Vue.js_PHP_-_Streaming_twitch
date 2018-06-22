@@ -18,7 +18,7 @@
                     </router-link>
                 </li>
             </ul>
-            <div @click.prevent="authentication()" class="sing-up">Sign up</div>
+            <a href="twitch/redirect"  class="sing-up">Sign up</a>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>

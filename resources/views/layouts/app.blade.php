@@ -35,7 +35,6 @@
             @if (isset($tw_res))
                 window.TwichInfo = {{json_encode($tw_res)}};
             @endif
-            debugger;
             console.log(window);
         </script>
     </head>
