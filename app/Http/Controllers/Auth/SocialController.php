@@ -136,21 +136,19 @@ class SocialController extends Controller
         return redirect('home');
     }
 
-    public function twitchRedirect()
+    public function twitchRedirect(Request $request)
     {
         $clientId = config('services.twitch.client_id');
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
-        session(['twitch_state' => $state]);
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
         // $url = "https://id.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
-        // $url .= "&response_type=token";
         $url .= "&scope=user_read";
         $url .= "&state={$state}";
-        // echo $url;
+        $request->session()->put('twitch_state', $state);
         return redirect($url);
     }
 
@@ -159,7 +157,7 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
-        if (!$request->has('state') || $request->state !== session('twitch_state')) {
+        if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
             exit("wrong request!");
         }
         $guzzle = new Guzzle();
