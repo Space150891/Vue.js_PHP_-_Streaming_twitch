@@ -122,5 +122,7 @@ Route::group([
     Route::post('contact/types/update', 'Api\ContactTypesManagementController@update');
     Route::post('contact/types/delete', 'Api\ContactTypesManagementController@destroy');
 
-    
+    Route::post('streamers/promoted/get', 'Api\PromotedStreamersManagementController@show');
+    Route::post('streamers/promoted/add', 'Api\PromotedStreamersManagementController@store');
+    Route::post('streamers/promoted/delete', 'Api\PromotedStreamersManagementController@delete');
 });
