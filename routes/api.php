@@ -129,7 +129,9 @@ Route::group([
 
 // bot routes
 Route::group([
-    'middleware' => ['api', 'activated', 'role:bot'],
+    'middleware' => ['api'],
 ], function ($router) {
     Route::post('bot/', 'Api\BotController@getEvent');
 });
+
+// Route::post('api/bot/', 'Api\BotController@getEvent');
