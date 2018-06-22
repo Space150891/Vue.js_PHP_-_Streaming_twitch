@@ -136,20 +136,19 @@ class SocialController extends Controller
         return redirect('home');
     }
 
-    public function twitchRedirect()
+    public function twitchRedirect(Request $request)
     {
         $clientId = config('services.twitch.client_id');
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
-        session(['twitch_state' => $state]);
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
-        // $url = "https://api.twitch.tv/oauth2/authorize";
+        // $url = "https://id.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
         $url .= "&scope=user_read";
         $url .= "&state={$state}";
-        // echo $url;
+        $request->session()->put('twitch_state', $state);
         return redirect($url);
     }
 
@@ -158,9 +157,9 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
-        if (!$request->has('state') || $request->state !== session('twitch_state')) {
+        if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
             exit("wrong request!");
-        } 
+        }
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -179,6 +178,7 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
+        // dd($body);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $user = new User();
@@ -191,7 +191,7 @@ class SocialController extends Controller
         $user->first_name = $body['display_name'];
         $user->email = $body['email'];
         $user->bio = $body['bio'];
-        $user->avatar = $body['avatar'];
+        $user->avatar = $body['logo'];
         $user->save();
 
         $token = auth()->login($user);
@@ -213,5 +213,13 @@ class SocialController extends Controller
         \Log::info($scope);
     }
 
-
+    public function test()
+    {
+        $data = [
+            'access_token'  => '1234',
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ];
+        return view('pages.getjwt', $data);
+    }
 }

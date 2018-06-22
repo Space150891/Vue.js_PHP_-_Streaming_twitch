@@ -8,8 +8,8 @@
   <script>
   
   @if (isset($access_token))
-    window.access_token = {{($access_token)}};
-    console.log({{($access_token)}});
+    window.access_token = "{{($access_token)}}";
+    console.log("{{($access_token)}}");
   @endif
 
   </script>
