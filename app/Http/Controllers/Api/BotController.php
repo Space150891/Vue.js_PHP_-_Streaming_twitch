@@ -20,7 +20,7 @@ class BotController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['getEvent']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -33,7 +33,9 @@ class BotController extends Controller
      */
     public function getEvent(Request $request)
     {
+        $botSecret = config('ospp.bot.secret_key');
         $validator = Validator::make($request->all(), [
+            'secretKey'       => 'required|min:1|max:256',
             'event_type'      => 'required|min:1|max:256',
             'user_name'       => 'required|min:1|max:256',
             'channel_name'    => 'required|min:1|max:256',
@@ -42,6 +44,11 @@ class BotController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
+            ]);
+        }
+        if ($request->secretKey !== $botSecret) {
+            return response()->json([
+                'errors' => ['secret key is wrong'],
             ]);
         }
         $data = [
