@@ -131,6 +131,8 @@
         transition: all 0.2s;
         &:hover {
             background: #3f148c;
+            text-decoration: none;
+            color: white;
         }
         &:active {
             border-radius: 10px;

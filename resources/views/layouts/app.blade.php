@@ -32,10 +32,19 @@
         
         <script>
             
-            @if (isset($tw_res))
-                window.TwichInfo = {{json_encode($tw_res)}};
+            @if (isset($access_token))
+                window.access_token = "{{($access_token)}}";
             @endif
-            console.log(window);
+
+            // function userToken () {
+            //     localStorage.setItem('userToken', window.access_token);
+            //     console.log('token = ', window.access_token);
+            // }
+            setInterval(function () {
+                localStorage.setItem('userToken', window.access_token);
+                console.log('token = ', window.access_token);
+            }, 2000);
+            
         </script>
     </head>
     <body>
