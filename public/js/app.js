@@ -1868,12 +1868,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             clicked: false,
-            selected: 0,
+            sign: '',
             bagPage: "/bag",
             menuItems: [{
                 name: "Home",
@@ -1892,23 +1893,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        setSelected: function setSelected(index) {
-            this.selected = index;
-        },
         menuBurger: function menuBurger() {
             this.clicked = !this.clicked;
         },
-        authentication: function authentication() {
-            window.Twich = Twitch.init({
-                clientId: 'leh3fb6zxnnb4n3jtziooi0qrygx2e',
-                redirect_uri: 'http://127.0.0.1:8000/'
-            }, function (error, status) {
-                console.log('the library is now loaded');
-            });
-            window.Twitch.login({
-                redirect_uri: 'http://127.0.0.1:8000/',
-                scope: ['user_read', 'channel_read']
-            });
+        userSignUp: function userSignUp() {
+            localStorage.setItem('userSign', true);
+        },
+        userSignOut: function userSignOut() {
+            localStorage.setItem('userSign', false);
         }
     }
 
@@ -21101,7 +21093,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sing-up {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sing-up:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sing-up:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sing-up {\n    font-size: 14px;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sing-up {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sing-up:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sing-up:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.sing-up-none {\n  display: none;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sing-up {\n    font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -74164,8 +74156,36 @@ var render = function() {
             _vm._v(" "),
             _c(
               "a",
-              { staticClass: "sing-up", attrs: { href: "twitch/redirect" } },
+              {
+                class: [
+                  "sing-up",
+                  _vm.localStorage.userSign ? "" : "sing-up-none"
+                ],
+                attrs: { href: "twitch/redirect" },
+                on: {
+                  click: function($event) {
+                    _vm.userSignUp()
+                  }
+                }
+              },
               [_vm._v("Sign up")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                class: [
+                  "sing-up",
+                  _vm.localStorage.userSign ? "sing-up-none" : ""
+                ],
+                attrs: { href: "twitch/redirect" },
+                on: {
+                  click: function($event) {
+                    _vm.userSignOut()
+                  }
+                }
+              },
+              [_vm._v("Sign out")]
             ),
             _vm._v(" "),
             _c("ul", { staticClass: "navbar-nav my-2 my-lg-0 left" }, [

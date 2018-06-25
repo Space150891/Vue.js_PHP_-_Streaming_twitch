@@ -81,18 +81,6 @@
             },
             menuBurger() {
                 this.clicked = !this.clicked
-           },
-           authentication() {
-                window.Twich = Twitch.init({
-                    clientId: 'leh3fb6zxnnb4n3jtziooi0qrygx2e',
-                    redirect_uri: 'http://127.0.0.1:8000/'
-                }, function(error, status) {
-                    console.log('the library is now loaded')
-                });
-                window.Twitch.login({
-                    redirect_uri: 'http://127.0.0.1:8000/',
-                    scope: ['user_read', 'channel_read']
-                })
            }
         },
         
