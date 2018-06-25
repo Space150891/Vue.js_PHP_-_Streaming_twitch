@@ -19,23 +19,23 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <h3>Video</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 video-iframe-item">
                 <iframe
                     src={{ twitchVideoUrl($channels[0]) }}
-                    height="200px"
+                    height="400px"
                     width=100%
                     frameborder="0"
                     scrolling="no"
                     allowfullscreen="false">
                 </iframe>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 video-iframe-item">
                 <iframe
                     src={{ twitchVideoUrl($channels[1]) }}
-                    height="200px"
+                    height="400px"
                     width=100%
                     frameborder="0"
                     scrolling="no"
@@ -44,20 +44,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 video-iframe-item">
                 <iframe
                     src={{ twitchVideoUrl($channels[2]) }}
-                    height="200px"
+                    height="400px"
                     width=100%
                     frameborder="0"
                     scrolling="no"
                     allowfullscreen="false">
                 </iframe>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 video-iframe-item">
                 <iframe
                     src={{ twitchVideoUrl($channels[3]) }}
-                    height="200px"
+                    height="400px"
                     width=100%
                     frameborder="0"
                     scrolling="no"
@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2 video-iframe-chat">
         <h3>Chat</h3>
         <chat-tabs><chat-tabs />
     </div>

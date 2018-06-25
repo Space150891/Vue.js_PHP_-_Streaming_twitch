@@ -24,39 +24,28 @@
 
 </template>
 
-<script>
-    export default {
-        data(){
-            return {
-                
-            }
-        },
-    }
-</script>
 <style lang="scss">
-    main {
-            display: flex;
-        }
-    .video-part {
-        width: 85%;    
+    body {
+        overflow: hidden;
     }
-    
+    .video-part {
+        width: 85%;
+    }
     .midle-home-iframes {
         display: flex;
         justify-content: start;
         height: 88vh;
-   }
-    
+        margin-top: 95px;
+    }
     .chat-part {
         width: 15%;
-        height: 100%;
     }
 
-
-    
-   
-
-
+    @media (max-width: 991px) {
+       .midle-home-iframes {
+            margin-top: 47px;
+        }
+    }
 
 </style>
 

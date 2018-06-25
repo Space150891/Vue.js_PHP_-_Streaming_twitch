@@ -62,31 +62,25 @@
                 ]
             }
         },
-        methods: {
-            
-        },
-        mounted() {
-            
-        },
+       
         
     }
 </script>
 <style lang="scss">
     
     .rightPart-main {
-        position: relative;
         width: 15%;
         height: 100vh;
+        margin-top: 111px;
     }
     .rightPart {
         width: 100%;
         display: inline-block;
         height: calc(100vh - 16vh);
-        sposition: relative;
+        position: static;
         z-index: -20;
         padding-left: 2px;
     }
-
     .rightPart-item {
         display: flex;
         justify-content: center;
@@ -114,7 +108,6 @@
         justify-content: center;
         text-align: center;
         word-wrap:break-word;
-        
         h1 {
             font-size: 20px;
             font-weight: 800;
@@ -127,7 +120,6 @@
         }
     }
     
-
     @media screen and (max-width: 1471px)  {
         .rightPart-item {
             justify-content: space-between;
@@ -147,7 +139,6 @@
                 font-size: 13px;
             }
         }
-        
     }
 
     @media screen and (max-width: 1085px)  {
@@ -170,6 +161,13 @@
         }
         
     }
+
+    @media screen and (max-width: 991px)  {
+        .rightPart-main {
+            margin-top: 73px;
+        }
+    }
+    
     @media screen and (max-width: 775px)  {
         .rightPart-item {
             justify-content: space-between;
@@ -188,8 +186,7 @@
                 font-size: 11px;
             }
         }
-        
     }
-
+    
 </style>
 

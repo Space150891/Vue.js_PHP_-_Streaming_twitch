@@ -16,7 +16,7 @@
         </div>
     </div>
     
-    <div class="scroll-item btn-down" @click.prevent="scrollDown()"><span class="leftPart-scroll"> < </span></div>
+    <div class="scroll-item btn-down" @click.prevent="scrollDown()"><span class="leftPart-scroll"> &lt; </span></div>
 </div>
 </template>
 
@@ -28,7 +28,6 @@
                 leftItems: [
                     {
                         mainText: "Text",
-
                         image:require('../../../../public/images/logo.png'),
                         imageName: "alt",
                         downText: "text",
@@ -149,7 +148,6 @@
                 const elemLeftPart = document.getElementsByClassName('leftPart')[0];
                 const elemLeftPartH = elemLeftPart.offsetHeight;
                 const elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
-                console.log(this.num)
                 if(this.num<10){
                     this.num = this.num+(elemItemH);
                     elemLeftPart.style.transform = "translate(0px,"+(this.num+20)+"px)";
@@ -157,24 +155,22 @@
                 }
             },
         },
-        mounted() {
-            // console.log('Tabs mounted', this.menuItems);
-        },
-        
     }
 </script>
 <style lang="scss">
     
     .leftPart-main {
-        position: relative;
         width: 15%;
         height: 100vh;
+        position: fixed;
+        margin-top: 8%;
+        overflow: hidden;
     }
     .leftPart {
         width: 100%;
         display: inline-block;
         height: calc(100vh - 16vh);
-        transform: translate(0px, 37px);
+        margin-top: 10px;
         position: relative;
         z-index: -20;
         padding-left: 2px;
@@ -200,11 +196,15 @@
     .btn-up {
         border-bottom: 1px solid black;
         margin-bottom: 10px;
-        top: 0px;
+        position: fixed;
+        top: 107px;
+        width: 15%;
        }
     .btn-down {
         border-top:  1px solid black;
-        bottom: 98px;
+        position: fixed;
+        bottom: 0px;
+        width: 15%;
     }
     
     .leftPart-scroll {
@@ -265,21 +265,7 @@
             font-size: 15px;
         }
     }
-    @media screen and (max-width: 1783px)  {
-        .btn-down {
-            bottom: 89px;
-        }
-    }
-    @media screen and (max-width: 1569px)  {
-        .btn-down {
-            bottom: 79px;
-        }
-    }
-    @media screen and (max-width: 1331px)  {
-        .btn-down {
-            bottom: 69px;
-        }
-    }
+   
 
     @media screen and (max-width: 1471px)  {
         .leftPart-item {
@@ -304,9 +290,6 @@
             p {
                 font-size: 12px;
             }
-        }
-        .btn-down {
-            height: 35px;
         }
     }
 
@@ -333,15 +316,15 @@
                 font-size: 12px;
             }
         }
-        .btn-down {
-            bottom: 69px;
-        }
+        
     }
+
     @media screen and (max-width: 991px)  {
-        .btn-down {
-            bottom: 45px;
+        .btn-up {
+            top: 69px;
         }
     }
+    
     @media screen and (max-width: 775px)  {
         .leftPart-item {
             justify-content: space-between;
@@ -365,7 +348,31 @@
                 font-size: 11px;
             }
         }
-        
+    }
+
+    @media screen and (max-width: 767px)  {
+        .leftPart-item {
+            justify-content: space-between;
+        }
+        .leftPart-img {
+            img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .leftPart-mainText {
+            h1 {
+                font-size: 12px;
+            }
+            p {
+                font-size: 11px;
+            }
+        }
+        .leftPart-rightText {
+            p {
+                font-size: 11px;
+            }
+        }
     }
 
 </style>

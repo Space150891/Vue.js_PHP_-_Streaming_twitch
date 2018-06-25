@@ -29,6 +29,7 @@
         "moment": "^2.21.0",
         "node-sass": "^4.9.0",
         "password-strength-meter": "^1.2.1",
-        "pusher-js": "^4.2.2"
+        "pusher-js": "^4.2.2",
+        "vue-router": "^3.0.1"
     }
 }
