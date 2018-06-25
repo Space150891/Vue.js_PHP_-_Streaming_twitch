@@ -98,12 +98,10 @@
     }
 </script>
 <style lang="scss">
-    main {
-            display: flex;
-        }
     .midle-directory {
         width: 75%;
-        
+        margin-left: 15%;
+        margin-top: 111px;
     }
     .flex-pos {
         justify-content: center;
@@ -116,6 +114,11 @@
         }
     }
 
+     @media (max-width: 991px) {
+       .midle-directory {
+            margin-top: 69px;
+        }
+    }
 
     @media (max-width: 767px) {
        .directory-items {
@@ -127,8 +130,5 @@
         }
     }
    
-
-
-
 </style>
 

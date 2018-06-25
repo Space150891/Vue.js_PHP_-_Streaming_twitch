@@ -139,8 +139,13 @@ Route::get('twitch/callback', 'Auth\SocialController@twitchCallback');
 
 Route::redirect('/php', '/phpinfo', 301);
 
-Route::get('/homepage', 'HomePageController');
-Route::get('/directory', 'DirectoryPageController');
+Route::get('/vue/{vue_capture?}', function () {
+    return view('vue.index');
+   })->where('vue_capture', '[\/\w\.-]*');
+
+// Route::get('/video', 'VideoPageController');
+// Route::get('/homepage', 'HomePageController');
+// Route::get('/directory', 'DirectoryPageController');
 
 Route::get('sse', 'Api\ServerEventsController@serverSideEvents');
 Route::get('testpagesse', 'Api\ServerEventsController@testPageSSE');

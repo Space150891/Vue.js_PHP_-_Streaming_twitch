@@ -29,42 +29,29 @@
         
         @yield('head')
         @yield('header_scripts')
-        
-        <script>
-            
-            @if (isset($access_token))
-                window.access_token = "{{($access_token)}}";
-            @endif
-
-            // function userToken () {
-            //     localStorage.setItem('userToken', window.access_token);
-            //     console.log('token = ', window.access_token);
-            // }
-            setInterval(function () {
-                localStorage.setItem('userToken', window.access_token);
-                console.log('token = ', window.access_token);
-            }, 2000);
-            
-        </script>
     </head>
     <body>
         <div id="app" class="container-fluid">
             <header>
-                <up-nav></up-nav>
                 <menu-block></menu-block>
             </header>
             <main>
-                <router-view></router-view>
+                <left-part></left-part>
+                
+                <midle-part-bag></midle-part-bag>
+                
+                <right-part></right-part>
+                
+
             </main>
             <footer>
-                <footer-part></footer-part>
+                
             </footer>
             
 
             
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
-        
 
         
         @yield('footer_scripts')

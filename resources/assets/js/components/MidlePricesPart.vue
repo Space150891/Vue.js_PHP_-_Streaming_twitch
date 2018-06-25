@@ -1,18 +1,18 @@
 <template>
     <div class="midle-price" >
         <div class="price-up-items">
-            <div class="price-up-item">Tier 1</div>
-            <div class="price-up-item">Tier 2</div>
-            <div class="price-up-item">Tier 3</div>
-            <div class="price-up-item">Tier 4</div>
-            <div class="price-up-item">Tier 5</div>
+            <div class="price-up-item" v-on:click="(setPrise(1))">Tier 1</div>
+            <div class="price-up-item" v-on:click="(setPrise(2))">Tier 2</div>
+            <div class="price-up-item" v-on:click="(setPrise(3))">Tier 3</div>
+            <div class="price-up-item" v-on:click="(setPrise(4))">Tier 4</div>
+            <div class="price-up-item" v-on:click="(setPrise(5))">Tier 5</div>
         </div>
         <div class="container-fluid ">
             <div class="row flex-pos">
                 <div v-for="(item) in pricesItems" class="col-xl-2 col-md-3 col-sm-12 prices-items" >
                     <h2>{{ item.mainText }}</h2>
                     <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
-                    <span> $ {{ item.price }}</span>
+                    <span> $ {{ price }}</span>
                 </div>
                 
             </div>
@@ -45,115 +45,114 @@
     export default {
         data(){
             return {
+                priceDefault: 9.99,
+                price: 9.99,
                 pricesItems: [
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                    
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                       
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/logodarck.png'),
                         imageName: "alt",
-                        price: "9.99"
+                        
                     },
                 ]
             }
         },
         methods: {
-            paginatiopPosition() {
-                const pag = document.getElementsByClassName('price-items-pagination')[0];
-                console.log(pag);
+            setPrise(index) {
+                this.price = (this.priceDefault*index); 
             }
         },
     }
 </script>
 <style lang="scss">
-    main {
-            display: flex;
-        }
     .midle-price {
         width: 75%;
-        
+        margin-left: 15%;
+        margin-top: 111px;
     }
     .flex-pos {
         justify-content: center;
@@ -177,7 +176,6 @@
         &:active {
             background: #c3c3c3;
         }
-        
     }
     .prices-items {
         display: flex;
@@ -196,7 +194,6 @@
             border: 3px solid black;
             border-radius: 10px;
         }
-
     }
     .price-image {
         width: 50%;
@@ -212,17 +209,25 @@
         width: 70%;
         padding-top: 1%;
     }
-
     .page-link {
         color: black;
     }
-    @media screen and (max-width: 969px)  {
-        
-        
+    @media (max-width: 991px) {
+        .midle-price {
+            margin-top: 69px;
+        }
     }
-    @media (min-width: 576px) {
+    
+    @media (max-width: 767px) {
         .col-sm-12 {
             flex: 0 0 50%;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .price-up-item {
+            padding: 5px;
+            font-size: 15px;
         }
     }
     @media (max-width: 600px) and (max-height: 321px) {
@@ -244,8 +249,6 @@
             }
         }
     }
-
-
 
 </style>
 

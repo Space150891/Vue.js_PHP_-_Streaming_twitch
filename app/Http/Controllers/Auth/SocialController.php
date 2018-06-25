@@ -155,13 +155,8 @@ class SocialController extends Controller
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
         // if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
-        //     echo $request->state . "=from twitch <br>";
-        //     echo $request->session()->get('twitch_state') . " =from session<br>";
         //     exit("wrong request!");
         // }
-        // echo $request->session()->get('twitch_state') . "<br>";
-        // echo $request->state;
-        // exit();
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -204,7 +199,7 @@ class SocialController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
-        return view('pages.getjwt', $data);
+        return view('layouts.app', $data);
     }
 
     public function getToken(Request $request)

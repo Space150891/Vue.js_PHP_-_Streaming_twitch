@@ -1,4 +1,5 @@
 <template>
+<div class="main-menu">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img class="nav-logo" src="../../../../public/images/logo.png" alt="logo"></a>
         <button @click.prevent="menuBurger()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,16 +9,16 @@
         <div v-bind:class="['collapse navbar-collapse', (clicked) ? 'toggle-block' : '']" id="navbarTogglerDemo01">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item" v-for="(item, index) in menuItems">
-                    <a 
-                        v-bind:class="[(index == selected) ? 'active' : '', 'nav-link']"
-                        v-bind:href="item.link"
+                    <router-link
+                        class="nav-link"
+                        v-bind:to="item.link" 
                         v-bind:key="index"
-                        @click="setSelected(index, item)"
                     > 
                         {{ item.name }}
-                    </a>
+                    </router-link>
                 </li>
             </ul>
+            <a href="twitch/redirect"  class="sing-up">Sign up</a>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -29,7 +30,13 @@
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">0</a>
                 </li>
                 <li class="nav-item tagging">
-                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag"></a><span class="tagging-item">2</span>
+                    <router-link 
+                        class="nav-link bag-span"
+                        v-bind:to="bagPage"
+                        >
+                            <img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag">
+                    </router-link>
+                    <span class="tagging-item">2</span>
                 </li>
                 <li class="nav-item tagging social">
                     <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
@@ -39,20 +46,21 @@
             </ul>
         </div>
     </nav>
+</div>
 </template>
 
 <script>
     export default {
         data(){
             return {
-                selected: 0,
                 clicked: false,
-                bagPage: "/bagpage",
+                selected: 0,
+                bagPage: "/bag",
                 menuItems: [
                     {
                         name: "Home",
                         activ: true,
-                        link: "/homepage",
+                        link: "/",
                     },
                     {
                         name: "Directory",
@@ -62,18 +70,29 @@
                     {
                         name: "Prices",
                         activ: false,
-                        link: "/pricespage",
+                        link: "/prices",
                     },
                 ]
             }
         },
         methods: {
-            setSelected(index, item) {
-                window.location.assign(item.link);
-                // this.selected = index;
+            setSelected(index) {
+                this.selected = index;
             },
             menuBurger() {
                 this.clicked = !this.clicked
+           },
+           authentication() {
+                window.Twich = Twitch.init({
+                    clientId: 'leh3fb6zxnnb4n3jtziooi0qrygx2e',
+                    redirect_uri: 'http://127.0.0.1:8000/'
+                }, function(error, status) {
+                    console.log('the library is now loaded')
+                });
+                window.Twitch.login({
+                    redirect_uri: 'http://127.0.0.1:8000/',
+                    scope: ['user_read', 'channel_read']
+                })
            }
         },
         
@@ -83,12 +102,42 @@
     body {
         height: 100vh;
         max-height: 100vh;
-        overflow: hidden;
     }
-    
+    .main-menu {
+        position: fixed;
+        top: 22px;
+        width: 100vw;
+        height: auto;
+        z-index: 10000;
+    }
+    .navbar {
+        padding-top: 5px;
+        height: 88px;
+    }
+    .left {
+        margin-right: 20px;
+    }
     .nav-logo {
         width: 4vw;
-       
+    }
+    .sing-up {
+        margin-bottom: 19px;
+        padding: 6px 12px;
+        background: #6441a4;
+        font-size: 18px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        &:hover {
+            background: #3f148c;
+            text-decoration: none;
+            color: white;
+        }
+        &:active {
+            border-radius: 10px;
+            transition: 0.2s;
+        }
     }
     .social {
         display: none;
@@ -98,7 +147,6 @@
         min-width: 20px;
         margin: 0 10px 0 20px;
     }
-
     .tagging-item {
         background-color: red;
         padding: 0 8px 2px 8px;
@@ -109,8 +157,11 @@
         top: -51px;
         right: -39px;
     }
-    .active {
+    .router-link-exact-active {
         background-color: #d2d2d2ed;
+    }
+    .tagging {
+        position: relative;
     }
     .toggle-block {
         display: block !important;
@@ -132,7 +183,6 @@
         .left {
             text-align: left;
             margin-left: 30%;
-            
         }
         .tagging-item {
             position: absolute;
@@ -141,7 +191,6 @@
             font-size: 13px;
             padding: 1px 8px 1px 8px;
         }
-   
         .social {
             display: flex;
             justify-content: space-around;
@@ -163,11 +212,13 @@
             right: 5px;
         }
     }
+    .bag-span {
+        width: 78px;
+        &:hover {
+            background-color: #eaeaea;
+        }
+    }
          
-    
-
- 
- 
     @keyframes slideLeft {
         0% {
             transform: translateX(150%);
@@ -189,39 +240,52 @@
         .toggle-block {
             font-size: 16px;
             .tagging-item {
-                top: 255px;
-                right: 117px;
+                top: -6px;
+                right: 99px;
                 font-size: 11px;
             }
         }
         .navbar {
             height: 50px;
         }
+        .navbar-toggler {
+            margin-right: 10px;
+        }
+        .toggle-block {
+            .social {
+                margin-top: 20%;
+                position: relative;
+                right: 11px;
+                img {
+                    width: 35%;
+                }
+            }
+        }
         
     }
-
+   
     @media screen and (max-width: 969px)  {
         .toggle-block {
             font-size: 16px;
             .tagging-item {
-                top: 255px;
-                right: 117px;
+                top: -5px;
+                right: 98px;
                 font-size: 11px;
             }
         }
-        
     }
     @media screen and (max-width: 750px)  {
         .toggle-block {
             font-size: 14px;
-        
             .tagging-item {
-                top: 237px;
-                right: 116px;
+                top: -8px;
+                right: 98px;
                 font-size: 11px;
             }
         }
-    
+        .navbar-nav {
+            margin-bottom: 27px;
+        }
         .nav-logo {
             width: 45px;
         }
@@ -229,6 +293,7 @@
             width: 40%;
         }
     }
+    
     @media (max-height: 520px)  {
         .toggle-block {
             width: 200px;
@@ -252,13 +317,12 @@
                 }
             }
             .tagging-item {
-                top: 130px;
-                right: 24px;
+                top: -11px;
+                right: 74px;
             }
             .social {
-                position: absolute;
-                bottom: 84px;
-                right: 15px;
+                bottom: -12px;
+                right: 125px;
                 .social-link {
                     width: 35px;
                 }
@@ -267,10 +331,12 @@
                 }
             }
         }
+        .navbar-nav {
+            margin: 0;
+        }
+        .sing-up {
+            font-size: 14px;
+        }
     }
-
-    
-   
-
 </style>
 
