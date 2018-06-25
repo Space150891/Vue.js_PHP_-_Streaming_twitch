@@ -4,7 +4,7 @@ namespace App\Achievements;
 
 use Gstt\Achievements\Achievement;
 
-class Open3CasesAchievement extends Achievement
+class Open5CasesAchievement extends Achievement
 {
     /*
      * The achievement name

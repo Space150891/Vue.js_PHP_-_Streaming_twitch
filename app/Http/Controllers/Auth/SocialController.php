@@ -3,20 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
-use App\Models\Social;
-use App\Models\User;
+use App\Models\{Profile, Social, User, Viewer, Streamer};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Viewer;
-use App\Models\Streamer;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Facades\Auth;
+use App\Achievements\{FirstLoginAchievement, Login10daysAchievement, Login20daysAchievement};
 
 class SocialController extends Controller
 {
@@ -157,12 +154,14 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
-        if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
-            exit("wrong request!");
-        }
-        echo $request->session()->get('twitch_state') . "<br>";
-        echo $request->state;
-        exit();
+        // if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
+        //     echo $request->state . "=from twitch <br>";
+        //     echo $request->session()->get('twitch_state') . " =from session<br>";
+        //     exit("wrong request!");
+        // }
+        // echo $request->session()->get('twitch_state') . "<br>";
+        // echo $request->state;
+        // exit();
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -195,7 +194,9 @@ class SocialController extends Controller
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
         $user->save();
-
+        $user->addProgress(new FirstLoginAchievement(), 1);
+        $user->addProgress(new Login10daysAchievement(), 1);
+        $user->addProgress(new Login20daysAchievement(), 1);
         $token = auth()->login($user);
 
         $data = [

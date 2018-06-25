@@ -4,7 +4,7 @@ namespace App\Achievements;
 
 use Gstt\Achievements\Achievement;
 
-class BuyFirstDiamondsAchievement extends Achievement
+class Buy100DiamondsAchievement extends Achievement
 {
     /*
      * The achievement name

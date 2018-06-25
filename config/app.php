@@ -173,6 +173,7 @@ return [
         jeremykenedy\laravelexceptionnotifier\LaravelExceptionNotifier::class,
         Laravel\Cashier\CashierServiceProvider::class, 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Gstt\Achievements\AchievementsServiceProvider::class,
 
     ],
 
