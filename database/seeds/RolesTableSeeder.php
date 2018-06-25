@@ -43,5 +43,14 @@ class RolesTableSeeder extends Seeder
                 'level'       => 0,
             ]);
         }
+
+        if (Role::where('slug', '=', 'bot')->first() === null) {
+            $userRole = Role::create([
+                'name'        => 'Bot',
+                'slug'        => 'bot',
+                'description' => 'Bot Role',
+                'level'       => 1,
+            ]);
+        }
     }
 }

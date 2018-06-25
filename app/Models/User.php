@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Cashier\Billable;
+use Gstt\Achievements\Achiever;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -16,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use SoftDeletes;
     use Billable;
+    use Achiever;
 
     /**
      * The database table used by the model.
