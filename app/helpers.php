@@ -14,7 +14,9 @@ function getOrigin(Array $server) :string{
     }
     else if (array_key_exists('HTTP_REFERER', $server)) {
         return $server['HTTP_REFERER'];
-    } else {
+    } elseif (array_key_exists('REMOTE_ADDR', $server)) {
         return $server['REMOTE_ADDR'];
+    } else {
+        return '';
     }
 }
