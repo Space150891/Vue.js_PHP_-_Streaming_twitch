@@ -151,3 +151,6 @@ Route::get('sse', 'Api\ServerEventsController@serverSideEvents');
 Route::get('testpagesse', 'Api\ServerEventsController@testPageSSE');
 
 Route::post('front/gettoken', 'Auth\SocialController@getToken');
+
+// admin routes
+Route::get('admin', 'AdminController@adminPage');
