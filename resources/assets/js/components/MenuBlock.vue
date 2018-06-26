@@ -18,7 +18,10 @@
                     </router-link>
                 </li>
             </ul>
-            <a href="twitch/redirect"  class="sing-up">Sign up</a>
+            <a href="auth/logout" class="sign" v-if="signVal">Sign out</a>
+            <a href="twitch/redirect" class="sign" v-else>Sign up</a>
+            <!-- <a href="twitch/redirect" class="sign">
+            <a href="auth/logout" v-bind:class="['sign', (signVal) ? 'sign-none' : '']">Sign out</a> -->
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -54,7 +57,6 @@
         data(){
             return {
                 clicked: false,
-                selected: 0,
                 bagPage: "/bag",
                 menuItems: [
                     {
@@ -75,15 +77,17 @@
                 ]
             }
         },
+        computed: {
+            signVal: function () {
+                return window.localStorage.getItem("userToken")
+            }
+        },
         methods: {
-            setSelected(index) {
-                this.selected = index;
-            },
             menuBurger() {
                 this.clicked = !this.clicked
            }
         },
-        
+          
     }
 </script>
 <style lang="scss">
@@ -108,7 +112,7 @@
     .nav-logo {
         width: 4vw;
     }
-    .sing-up {
+    .sign {
         margin-bottom: 19px;
         padding: 6px 12px;
         background: #6441a4;
@@ -126,6 +130,9 @@
             border-radius: 10px;
             transition: 0.2s;
         }
+    }
+    .sign-none {
+        display: none;
     }
     .social {
         display: none;
@@ -322,7 +329,7 @@
         .navbar-nav {
             margin: 0;
         }
-        .sing-up {
+        .sign {
             font-size: 14px;
         }
     }

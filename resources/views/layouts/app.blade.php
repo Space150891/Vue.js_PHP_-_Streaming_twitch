@@ -49,7 +49,7 @@
                 window.location.replace("http://localhost:8000/");
 
             }
-            var responseStatus = 200;
+            var responseStatus = 0;
             
             function userStatus () {
                 
@@ -74,13 +74,14 @@
                 );
                 
             }
-            setInterval( userStatus, 6000);
+            setInterval( userStatus, 60000);
 
             if(responseStatus === 401) {
                 console.log('sdfsdfsdfsdfsdfsdef')
                 // delete localStorage["userToken"];
                 // console.log(localStorage.userToken);
             }
+            
             
             
             
@@ -100,11 +101,13 @@
             <footer>
                 <footer-part></footer-part>
             </footer>
+
             
 
             
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
+        
         
 
         
