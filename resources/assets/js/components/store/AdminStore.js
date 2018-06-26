@@ -45,7 +45,9 @@ const AdminStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log(jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
                 state.itemTypes = jsonResp.data ? jsonResp.data.item_types : [];
             });
         },
@@ -64,14 +66,15 @@ const AdminStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log('from state', jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
             });
         },
         deleteItemType(state, id) {
             var formData = new FormData();
-            // formData.append('token', state.token);
+            formData.append('token', state.token);
             formData.append('id', id);
-            formData.append('id', 0);
             fetch(state.apiUrl + 'itemtypes/delete',
             {
                 method: "POST",
@@ -83,7 +86,6 @@ const AdminStore = new Vuex.Store({
                 return res.json();
             }).then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    console.log('error', jsonResp.errors[0]);
                     state.token = false;
                 }
             });
@@ -104,7 +106,9 @@ const AdminStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log('from state', jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
             });
         }
     },
