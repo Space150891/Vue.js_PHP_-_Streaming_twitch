@@ -1677,6 +1677,104 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			editMode: false,
+			newItemType: {
+				name: ''
+			},
+			editItemType: {
+				name: '',
+				id: 0
+			}
+		};
+	},
+	mounted: function mounted() {
+		if (this.checkToken) {
+			this.getList();
+		}
+	},
+
+	methods: {
+		deleteAction: function deleteAction(id) {
+			this.$store.dispatch('ItemTypeDeleteAction', id);
+		},
+		editAction: function editAction(item) {
+			this.editItemType.name = item.name;
+			this.editItemType.id = item.id;
+			this.editMode = true;
+			//this.$store.dispatch('ItemTypeEditAction');
+		},
+		createAction: function createAction() {
+			this.$store.dispatch('createItemTypeAction', this.newItemType);
+		},
+		getList: function getList() {
+			this.$store.dispatch('getItemTypesListAction');
+		},
+		saveAction: function saveAction() {
+			this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
+			this.editMode = false;
+		},
+		createCancelAction: function createCancelAction() {
+			this.editMode = false;
+		}
+	},
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/LoginPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -41477,10 +41575,14 @@ var staticRenderFns = [
       [
         _c("ul", { staticClass: "navbar-nav mr-auto" }, [
           _c("li", { staticClass: "nav-item active" }, [
-            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-              _vm._v("Home "),
-              _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
-            ])
+            _c(
+              "a",
+              { staticClass: "nav-link", attrs: { href: "#/item-types" } },
+              [
+                _vm._v("Item-types "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
+              ]
+            )
           ])
         ])
       ]
@@ -41632,6 +41734,189 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-4ad461f1", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8aeb03a4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.checkToken
+      ? _c("div", [
+          _c("h5", [_vm._v("Item types page")]),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.itemTypes, function(itemType) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(itemType.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(itemType.name))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.deleteAction(itemType.id)
+                          }
+                        }
+                      },
+                      [_vm._v("del")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-warning",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#modalItemTypes"
+                        },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.editAction(itemType)
+                          }
+                        }
+                      },
+                      [_vm._v("edit")]
+                    )
+                  ])
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _vm.editMode
+              ? _c("form", { staticClass: "form form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editItemType.name,
+                        expression: "editItemType.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Name..." },
+                    domProps: { value: _vm.editItemType.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editItemType, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.saveAction()
+                        }
+                      }
+                    },
+                    [_vm._v("SAVE")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createCancelAction()
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  )
+                ])
+              : _c("form", { staticClass: "form form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItemType.name,
+                        expression: "newItemType.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Name..." },
+                    domProps: { value: _vm.newItemType.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newItemType, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createAction()
+                        }
+                      }
+                    },
+                    [_vm._v("Create new")]
+                  )
+                ])
+          ])
+        ])
+      : _c("h5", [_vm._v("login first")])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8aeb03a4", module.exports)
   }
 }
 
@@ -55243,7 +55528,7 @@ module.exports = Vue;
 /* unused harmony export install */
 /* unused harmony export mapState */
 /* unused harmony export mapMutations */
-/* unused harmony export mapGetters */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapGetters; });
 /* unused harmony export mapActions */
 /* unused harmony export createNamespacedHelpers */
 /**
@@ -56249,12 +56534,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 
-
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+
 var LoginPage = __webpack_require__("./resources/assets/js/components/admin/LoginPage.vue");
+var ItemTypesPage = __webpack_require__("./resources/assets/js/components/admin/ItemTypesPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/main', component: LoginPage }, { path: '/login', component: LoginPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -56320,9 +56606,9 @@ var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+} else {}
+// console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -56380,6 +56666,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-46940ab2", Component.options)
   } else {
     hotAPI.reload("data-v-46940ab2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/ItemTypesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8aeb03a4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/ItemTypesPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8aeb03a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-8aeb03a4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -56453,9 +56787,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
-        logged: false,
         token: false,
-        apiUrl: 'http://localhost:8000/api/'
+        apiUrl: 'http://localhost:8000/api/',
+        itemTypes: []
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -56474,12 +56808,97 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             }).then(function (jsonResp) {
                 state.token = jsonResp.access_token ? jsonResp.access_token : false;
             });
+        },
+        getItemTypesList: function getItemTypesList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'itemtypes/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log(jsonResp);
+                state.itemTypes = jsonResp.data ? jsonResp.data.item_types : [];
+            });
+        },
+        createItemType: function createItemType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            fetch(state.apiUrl + 'itemtypes/store', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log('from state', jsonResp);
+            });
+        },
+        deleteItemType: function deleteItemType(state, id) {
+            var formData = new FormData();
+            // formData.append('token', state.token);
+            formData.append('id', id);
+            formData.append('id', 0);
+            fetch(state.apiUrl + 'itemtypes/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    console.log('error', jsonResp.errors[0]);
+                    state.token = false;
+                }
+            });
+        },
+        saveItemType: function saveItemType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            fetch(state.apiUrl + 'itemtypes/update', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log('from state', jsonResp);
+            });
         }
     },
-    actions: {},
+    actions: {
+        getItemTypesListAction: function getItemTypesListAction(context) {
+            context.commit('getItemTypesList');
+        },
+        createItemTypeAction: function createItemTypeAction(context, data) {
+            context.commit('createItemType', data);
+            context.commit('getItemTypesList');
+        },
+        ItemTypeDeleteAction: function ItemTypeDeleteAction(context, id) {
+            context.commit('deleteItemType', id);
+            context.commit('getItemTypesList');
+        },
+        ItemTypeSaveAction: function ItemTypeSaveAction(context, data) {
+            context.commit('saveItemType', data);
+            context.commit('getItemTypesList');
+        }
+    },
     getters: {
         checkToken: function checkToken(state) {
             return state.token ? true : false;
+        },
+        itemTypes: function itemTypes(state) {
+            return state.itemTypes;
         }
     }
 });
