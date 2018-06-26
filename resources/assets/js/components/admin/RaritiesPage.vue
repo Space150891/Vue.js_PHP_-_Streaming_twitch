@@ -1,34 +1,38 @@
 <template>
 <div class="container">
   <div v-if="checkToken">
-		<h5>Item types page</h5>
+		<h5>Rarities</h5>
 		<table class="table table-striped">
 		  <thead>
 				<tr>
 					<th>id</th>
 					<th>Name</th>
+                    <th>Percent</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="itemType in itemTypes">
-					<td>{{itemType.id}}</td>
-					<td>{{itemType.name}}</td>
+				<tr v-for="item in Rarities">
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+                    <td>{{item.percent}}</td>
 					<td>
-						<button class="btn btn-xs btn-danger" @click.prevent="deleteAction(itemType.id)">del</button>
-						<button class="btn btn-xs btn-warning" @click.prevent="editAction(itemType)">edit</button>
+						<button class="btn btn-xs btn-danger" @click.prevent="deleteAction(item.id)">del</button>
+						<button class="btn btn-xs btn-warning" @click.prevent="editAction(item)">edit</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div>
 			<form v-if="editMode" class="form form-inline">
-				<input class="form-control" placeholder="Name..." v-model="editItemType.name" type="text">
+				<input class="form-control" placeholder="Name..." v-model="editItem.name"  type="text">
+                <input class="form-control" placeholder="Percent..." v-model="editItem.percent" type="number">
 				<button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
 				<button @click.prevent="createCancelAction()" class="btn btn-default">cancel</button>
 			</form>
 			<form v-else class="form form-inline">
-				<input class="form-control" placeholder="Name..." v-model="newItemType.name"  type="text">
+				<input class="form-control" placeholder="Name..." v-model="newItem.name">
+                <input class="form-control" placeholder="Percent..." v-model="newItem.percent" type="number">
 				<button @click.prevent="createAction()" class="btn btn-success">Create new</button>
 			</form>
 		</div>
@@ -44,11 +48,13 @@
     data: () => {
       return {
 					editMode: false,
-					newItemType: {
+					newItem: {
 						name: '',
+                        percent: 0,
 					},
-					editItemType: {
+					editItem: {
 						name: '',
+                        percent: 0,
 						id: 0,
 					},
         }
@@ -60,22 +66,22 @@
 		},
     methods: {
 			deleteAction: function (id) {
-				this.$store.dispatch('ItemTypeDeleteAction', id);
+				this.$store.dispatch('RarityDeleteAction', id);
 			},
 			editAction: function (item) {
-				this.editItemType.name = item.name;
-				this.editItemType.id = item.id;
+				this.editItem.name = item.name;
+                this.editItem.percent = item.percent;
+				this.editItem.id = item.id;
 				this.editMode = true;
-				//this.$store.dispatch('ItemTypeEditAction');
 			},
 			createAction: function () {
-				this.$store.dispatch('createItemTypeAction', this.newItemType);
+				this.$store.dispatch('createRarityAction', this.newItem);
 			},
 			getList: function () {
-				this.$store.dispatch('getItemTypesListAction');
+				this.$store.dispatch('getRaritiesListAction');
 			},
 			saveAction: function() {
-				this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
+				this.$store.dispatch('RaritySaveAction', this.editItem);
 				this.editMode = false;
 			},
 			createCancelAction: function() {
@@ -85,7 +91,7 @@
     computed: {
 			...mapGetters([
 				'checkToken',
-				'itemTypes',
+				'Rarities',
 			]),
     }
   }

@@ -6,12 +6,14 @@ window.Vue = require('vue');
 
 var LoginPage = require('./components/admin/LoginPage.vue');
 var ItemTypesPage = require('./components/admin/ItemTypesPage.vue');
+var RaritiesPage = require('./components/admin/RaritiesPage.vue');
 
 var router = new VueRouter({
     routes: [
         { path: '/', component: LoginPage },
         { path: '/login', component: LoginPage },
         { path: '/item-types', component: ItemTypesPage },
+        { path: '/rarities', component: RaritiesPage },
     ]
 });
 Vue.use(VueRouter);
@@ -24,6 +26,6 @@ const app = new Vue({
     router: router,
     store: AdminStore,
     mounted () {
-        
+
     },
 });

@@ -8,6 +8,7 @@ const AdminStore = new Vuex.Store({
         token: false,
         apiUrl : 'http://localhost:8000/api/',
         itemTypes: [],
+        rarities: [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -110,7 +111,91 @@ const AdminStore = new Vuex.Store({
                     state.token = false;
                 }
             });
-        }
+        },
+        ////
+        getRaritiesList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'rarities/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.rarities = jsonResp.data ? jsonResp.data.rarities : [];
+            });
+        },
+        createRarity(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('percent', data.percent);
+            fetch(state.apiUrl + 'rarities/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteRarity(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'rarities/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveRarity(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('percent', data.percent);
+            fetch(state.apiUrl + 'rarities/update',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -128,6 +213,21 @@ const AdminStore = new Vuex.Store({
             context.commit('saveItemType', data);
             context.commit('getItemTypesList');
         },
+        getRaritiesListAction(context) {
+            context.commit('getRaritiesList');
+        },
+        createRarityAction(context, data) {
+            context.commit('createRarity', data);
+            context.commit('getRaritiesList');
+        },
+        RarityDeleteAction(context, id) {
+            context.commit('deleteRarity', id);
+            context.commit('getRaritiesList');
+        },
+        RaritySaveAction(context, data) {
+            context.commit('saveRarity', data);
+            context.commit('getRaritiesList');
+        },
     },
     getters : {
         checkToken: state => {
@@ -135,6 +235,9 @@ const AdminStore = new Vuex.Store({
         },
         itemTypes: state => {
             return state.itemTypes;
+        },
+        Rarities: state => {
+            return state.rarities;
         },
     }
 });

@@ -1657,6 +1657,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1844,6 +1847,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.checkToken;
         }
     }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/RaritiesPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			editMode: false,
+			newItem: {
+				name: '',
+				percent: 0
+			},
+			editItem: {
+				name: '',
+				percent: 0,
+				id: 0
+			}
+		};
+	},
+	mounted: function mounted() {
+		if (this.checkToken) {
+			this.getList();
+		}
+	},
+
+	methods: {
+		deleteAction: function deleteAction(id) {
+			this.$store.dispatch('RarityDeleteAction', id);
+		},
+		editAction: function editAction(item) {
+			this.editItem.name = item.name;
+			this.editItem.percent = item.percent;
+			this.editItem.id = item.id;
+			this.editMode = true;
+		},
+		createAction: function createAction() {
+			this.$store.dispatch('createRarityAction', this.newItem);
+		},
+		getList: function getList() {
+			this.$store.dispatch('getRaritiesListAction');
+		},
+		saveAction: function saveAction() {
+			this.$store.dispatch('RaritySaveAction', this.editItem);
+			this.editMode = false;
+		},
+		createCancelAction: function createCancelAction() {
+			this.editMode = false;
+		}
+	},
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'Rarities']))
 });
 
 /***/ }),
@@ -41574,7 +41681,7 @@ var staticRenderFns = [
       },
       [
         _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-          _c("li", { staticClass: "nav-item active" }, [
+          _c("li", { staticClass: "nav-item" }, [
             _c(
               "a",
               { staticClass: "nav-link", attrs: { href: "#/item-types" } },
@@ -41582,6 +41689,14 @@ var staticRenderFns = [
                 _vm._v("Item-types "),
                 _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
               ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              { staticClass: "nav-link", attrs: { href: "#/rarities" } },
+              [_vm._v("Rarities")]
             )
           ])
         ])
@@ -41739,6 +41854,233 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7bd2a6ef\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/RaritiesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.checkToken
+      ? _c("div", [
+          _c("h5", [_vm._v("Rarities")]),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.Rarities, function(item) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(item.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.percent))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.deleteAction(item.id)
+                          }
+                        }
+                      },
+                      [_vm._v("del")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-warning",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.editAction(item)
+                          }
+                        }
+                      },
+                      [_vm._v("edit")]
+                    )
+                  ])
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _vm.editMode
+              ? _c("form", { staticClass: "form form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editItem.name,
+                        expression: "editItem.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Name...", type: "text" },
+                    domProps: { value: _vm.editItem.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editItem, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editItem.percent,
+                        expression: "editItem.percent"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Percent...", type: "number" },
+                    domProps: { value: _vm.editItem.percent },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editItem, "percent", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.saveAction()
+                        }
+                      }
+                    },
+                    [_vm._v("SAVE")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createCancelAction()
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  )
+                ])
+              : _c("form", { staticClass: "form form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.name,
+                        expression: "newItem.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Name..." },
+                    domProps: { value: _vm.newItem.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newItem, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.percent,
+                        expression: "newItem.percent"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Percent...", type: "number" },
+                    domProps: { value: _vm.newItem.percent },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newItem, "percent", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.createAction()
+                        }
+                      }
+                    },
+                    [_vm._v("Create new")]
+                  )
+                ])
+          ])
+        ])
+      : _c("h5", [_vm._v("login first")])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Percent")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7bd2a6ef", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8aeb03a4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41781,10 +42123,6 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-xs btn-warning",
-                        attrs: {
-                          "data-toggle": "modal",
-                          "data-target": "#modalItemTypes"
-                        },
                         on: {
                           click: function($event) {
                             $event.preventDefault()
@@ -41813,7 +42151,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { placeholder: "Name..." },
+                    attrs: { placeholder: "Name...", type: "text" },
                     domProps: { value: _vm.editItemType.name },
                     on: {
                       input: function($event) {
@@ -41864,7 +42202,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { placeholder: "Name..." },
+                    attrs: { placeholder: "Name...", type: "text" },
                     domProps: { value: _vm.newItemType.name },
                     on: {
                       input: function($event) {
@@ -56538,9 +56876,10 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 var LoginPage = __webpack_require__("./resources/assets/js/components/admin/LoginPage.vue");
 var ItemTypesPage = __webpack_require__("./resources/assets/js/components/admin/ItemTypesPage.vue");
+var RaritiesPage = __webpack_require__("./resources/assets/js/components/admin/RaritiesPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -56773,6 +57112,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/admin/RaritiesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/RaritiesPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7bd2a6ef\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/RaritiesPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/RaritiesPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7bd2a6ef", Component.options)
+  } else {
+    hotAPI.reload("data-v-7bd2a6ef", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/store/AdminStore.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56789,7 +57176,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
     state: {
         token: false,
         apiUrl: 'http://localhost:8000/api/',
-        itemTypes: []
+        itemTypes: [],
+        rarities: []
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -56821,7 +57209,9 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                console.log(jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
                 state.itemTypes = jsonResp.data ? jsonResp.data.item_types : [];
             });
         },
@@ -56837,14 +57227,15 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                console.log('from state', jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
             });
         },
         deleteItemType: function deleteItemType(state, id) {
             var formData = new FormData();
-            // formData.append('token', state.token);
+            formData.append('token', state.token);
             formData.append('id', id);
-            formData.append('id', 0);
             fetch(state.apiUrl + 'itemtypes/delete', {
                 method: "POST",
                 body: formData,
@@ -56854,7 +57245,6 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 return res.json();
             }).then(function (jsonResp) {
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    console.log('error', jsonResp.errors[0]);
                     state.token = false;
                 }
             });
@@ -56872,7 +57262,83 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                console.log('from state', jsonResp);
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+
+        ////
+        getRaritiesList: function getRaritiesList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'rarities/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.rarities = jsonResp.data ? jsonResp.data.rarities : [];
+            });
+        },
+        createRarity: function createRarity(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('percent', data.percent);
+            fetch(state.apiUrl + 'rarities/store', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteRarity: function deleteRarity(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'rarities/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveRarity: function saveRarity(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('percent', data.percent);
+            fetch(state.apiUrl + 'rarities/update', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
             });
         }
     },
@@ -56891,6 +57357,21 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         ItemTypeSaveAction: function ItemTypeSaveAction(context, data) {
             context.commit('saveItemType', data);
             context.commit('getItemTypesList');
+        },
+        getRaritiesListAction: function getRaritiesListAction(context) {
+            context.commit('getRaritiesList');
+        },
+        createRarityAction: function createRarityAction(context, data) {
+            context.commit('createRarity', data);
+            context.commit('getRaritiesList');
+        },
+        RarityDeleteAction: function RarityDeleteAction(context, id) {
+            context.commit('deleteRarity', id);
+            context.commit('getRaritiesList');
+        },
+        RaritySaveAction: function RaritySaveAction(context, data) {
+            context.commit('saveRarity', data);
+            context.commit('getRaritiesList');
         }
     },
     getters: {
@@ -56899,6 +57380,9 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         itemTypes: function itemTypes(state) {
             return state.itemTypes;
+        },
+        Rarities: function Rarities(state) {
+            return state.rarities;
         }
     }
 });
