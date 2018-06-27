@@ -17,7 +17,7 @@
 					<td>{{item.name}}</td>
                     <td>{{item.percent}}</td>
 					<td>
-						<button class="btn btn-xs btn-danger" @click.prevent="deleteAction(item.id)">del</button>
+						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
 						<button class="btn btn-xs btn-warning" @click.prevent="editAction(item)">edit</button>
 					</td>
 				</tr>
@@ -36,7 +36,13 @@
 				<button @click.prevent="createAction()" class="btn btn-success">Create new</button>
 			</form>
 		</div>
-
+		<modal-delete 
+			v-bind:name="deletingItem.name"
+			v-bind:opened="deletingItem.openModal"
+			v-on:close-delete-modal="deletingItem.openModal=false"
+			v-on:confirm-delete="deleteAction"
+			>
+		</modal-delete>
 	</div>
   <h5 v-else>login first</h5>
 </div>
@@ -47,16 +53,21 @@
   export default {
     data: () => {
       return {
-					editMode: false,
-					newItem: {
-						name: '',
-                        percent: 0,
-					},
-					editItem: {
-						name: '',
-                        percent: 0,
-						id: 0,
-					},
+			editMode: false,
+			newItem: {
+				name: '',
+                percent: 0,
+			},
+			editItem: {
+				name: '',
+                percent: 0,
+				id: 0,
+			},
+			deletingItem: {
+			    name: '',
+				id: 0,
+				openModal: false,
+			},
         }
     },
 		mounted() {
@@ -67,6 +78,15 @@
     methods: {
 			deleteAction: function (id) {
 				this.$store.dispatch('RarityDeleteAction', id);
+			},
+            confirmDeleteAction: function (item) {
+				this.deletingItem.name = item.name;
+				this.deletingItem.id = item.id;
+				this.deletingItem.openModal = true;
+			},
+			deleteAction: function () {
+                this.$store.dispatch('RarityDeleteAction', this.deletingItem.id);
+				this.deletingItem.openModal = false;
 			},
 			editAction: function (item) {
 				this.editItem.name = item.name;

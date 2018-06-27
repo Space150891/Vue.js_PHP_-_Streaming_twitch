@@ -19,6 +19,7 @@ var router = new VueRouter({
 Vue.use(VueRouter);
 
 Vue.component('admin-menu', require('./components/admin/AdminMenu.vue'));
+Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
 
 
 const app = new Vue({

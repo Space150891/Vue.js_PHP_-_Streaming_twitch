@@ -15,7 +15,7 @@
 					<td>{{itemType.id}}</td>
 					<td>{{itemType.name}}</td>
 					<td>
-						<button class="btn btn-xs btn-danger" @click.prevent="deleteAction(itemType.id)">del</button>
+						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(itemType)">del</button>
 						<button class="btn btn-xs btn-warning" @click.prevent="editAction(itemType)">edit</button>
 					</td>
 				</tr>
@@ -32,14 +32,20 @@
 				<button @click.prevent="createAction()" class="btn btn-success">Create new</button>
 			</form>
 		</div>
-
+		<modal-delete 
+			v-bind:name="deletingItem.name"
+			v-bind:opened="deletingItem.openModal"
+			v-on:close-delete-modal="deletingItem.openModal=false"
+			v-on:confirm-delete="deleteAction"
+			>
+		</modal-delete>
 	</div>
   <h5 v-else>login first</h5>
 </div>
 </template>
 <script>
   import { mapGetters} from 'vuex';
-
+	
   export default {
     data: () => {
       return {
@@ -51,6 +57,11 @@
 						name: '',
 						id: 0,
 					},
+					deletingItem: {
+						name: '',
+						id: 0,
+						openModal: false,
+					},
         }
     },
 		mounted() {
@@ -59,14 +70,19 @@
 			}
 		},
     methods: {
-			deleteAction: function (id) {
-				this.$store.dispatch('ItemTypeDeleteAction', id);
+			confirmDeleteAction: function (item) {
+				this.deletingItem.name = item.name;
+				this.deletingItem.id = item.id;
+				this.deletingItem.openModal = true;
+			},
+			deleteAction: function () {
+				this.$store.dispatch('ItemTypeDeleteAction', this.deletingItem.id);
+				this.deletingItem.openModal = false;
 			},
 			editAction: function (item) {
 				this.editItemType.name = item.name;
 				this.editItemType.id = item.id;
 				this.editMode = true;
-				//this.$store.dispatch('ItemTypeEditAction');
 			},
 			createAction: function () {
 				this.$store.dispatch('createItemTypeAction', this.newItemType);

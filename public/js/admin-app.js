@@ -1680,6 +1680,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['name', 'opened'],
+  data: function data() {
+    return {
+      styleBack: {
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        background: "rgba(0,0,0, .5)",
+        top: "0",
+        left: "0"
+      },
+      styleDiv: {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        marginLeft: "-150px",
+        width: "300px",
+        border: "1px 777 solid",
+        background: "#fff",
+        borderRadius: "10px",
+        padding: "10px"
+      }
+    };
+  },
+  mounted: function mounted() {},
+
+  methods: {
+    deleteClick: function deleteClick() {
+      console.log('delete');
+    },
+    cancelClick: function cancelClick() {
+      console.log('cancel');
+    }
+  },
+  computed: {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ItemTypesPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1688,6 +1745,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1740,6 +1803,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			editItemType: {
 				name: '',
 				id: 0
+			},
+			deletingItem: {
+				name: '',
+				id: 0,
+				openModal: false
 			}
 		};
 	},
@@ -1750,14 +1818,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 	},
 
 	methods: {
-		deleteAction: function deleteAction(id) {
-			this.$store.dispatch('ItemTypeDeleteAction', id);
+		confirmDeleteAction: function confirmDeleteAction(item) {
+			this.deletingItem.name = item.name;
+			this.deletingItem.id = item.id;
+			this.deletingItem.openModal = true;
+		},
+		deleteAction: function deleteAction() {
+			this.$store.dispatch('ItemTypeDeleteAction', this.deletingItem.id);
+			this.deletingItem.openModal = false;
 		},
 		editAction: function editAction(item) {
 			this.editItemType.name = item.name;
 			this.editItemType.id = item.id;
 			this.editMode = true;
-			//this.$store.dispatch('ItemTypeEditAction');
 		},
 		createAction: function createAction() {
 			this.$store.dispatch('createItemTypeAction', this.newItemType);
@@ -1859,6 +1932,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1917,6 +2000,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 				name: '',
 				percent: 0,
 				id: 0
+			},
+			deletingItem: {
+				name: '',
+				id: 0,
+				openModal: false
 			}
 		};
 	},
@@ -1926,30 +2014,33 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		}
 	},
 
-	methods: {
+	methods: (_methods = {
 		deleteAction: function deleteAction(id) {
 			this.$store.dispatch('RarityDeleteAction', id);
 		},
-		editAction: function editAction(item) {
-			this.editItem.name = item.name;
-			this.editItem.percent = item.percent;
-			this.editItem.id = item.id;
-			this.editMode = true;
-		},
-		createAction: function createAction() {
-			this.$store.dispatch('createRarityAction', this.newItem);
-		},
-		getList: function getList() {
-			this.$store.dispatch('getRaritiesListAction');
-		},
-		saveAction: function saveAction() {
-			this.$store.dispatch('RaritySaveAction', this.editItem);
-			this.editMode = false;
-		},
-		createCancelAction: function createCancelAction() {
-			this.editMode = false;
+		confirmDeleteAction: function confirmDeleteAction(item) {
+			this.deletingItem.name = item.name;
+			this.deletingItem.id = item.id;
+			this.deletingItem.openModal = true;
 		}
-	},
+	}, _defineProperty(_methods, 'deleteAction', function deleteAction() {
+		this.$store.dispatch('RarityDeleteAction', this.deletingItem.id);
+		this.deletingItem.openModal = false;
+	}), _defineProperty(_methods, 'editAction', function editAction(item) {
+		this.editItem.name = item.name;
+		this.editItem.percent = item.percent;
+		this.editItem.id = item.id;
+		this.editMode = true;
+	}), _defineProperty(_methods, 'createAction', function createAction() {
+		this.$store.dispatch('createRarityAction', this.newItem);
+	}), _defineProperty(_methods, 'getList', function getList() {
+		this.$store.dispatch('getRaritiesListAction');
+	}), _defineProperty(_methods, 'saveAction', function saveAction() {
+		this.$store.dispatch('RaritySaveAction', this.editItem);
+		this.editMode = false;
+	}), _defineProperty(_methods, 'createCancelAction', function createCancelAction() {
+		this.editMode = false;
+	}), _methods),
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'Rarities']))
 });
 
@@ -41863,192 +41954,209 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _vm.checkToken
-      ? _c("div", [
-          _c("h5", [_vm._v("Rarities")]),
-          _vm._v(" "),
-          _c("table", { staticClass: "table table-striped" }, [
-            _vm._m(0),
+      ? _c(
+          "div",
+          [
+            _c("h5", [_vm._v("Rarities")]),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.Rarities, function(item) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(item.id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.percent))]),
-                  _vm._v(" "),
-                  _c("td", [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.Rarities, function(item) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(item.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.percent))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.confirmDeleteAction(item)
+                            }
+                          }
+                        },
+                        [_vm._v("del")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-warning",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.editAction(item)
+                            }
+                          }
+                        },
+                        [_vm._v("edit")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _vm.editMode
+                ? _c("form", { staticClass: "form form-inline" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.name,
+                          expression: "editItem.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Name...", type: "text" },
+                      domProps: { value: _vm.editItem.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.editItem, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.percent,
+                          expression: "editItem.percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Percent...", type: "number" },
+                      domProps: { value: _vm.editItem.percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.editItem, "percent", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-xs btn-danger",
+                        staticClass: "btn btn-success",
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            _vm.deleteAction(item.id)
+                            _vm.saveAction()
                           }
                         }
                       },
-                      [_vm._v("del")]
+                      [_vm._v("SAVE")]
                     ),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-xs btn-warning",
+                        staticClass: "btn btn-default",
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            _vm.editAction(item)
+                            _vm.createCancelAction()
                           }
                         }
                       },
-                      [_vm._v("edit")]
+                      [_vm._v("cancel")]
                     )
                   ])
-                ])
-              })
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _vm.editMode
-              ? _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.name,
-                        expression: "editItem.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.editItem.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                : _c("form", { staticClass: "form form-inline" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newItem.name,
+                          expression: "newItem.name"
                         }
-                        _vm.$set(_vm.editItem, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.percent,
-                        expression: "editItem.percent"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Percent...", type: "number" },
-                    domProps: { value: _vm.editItem.percent },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "percent", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Name..." },
+                      domProps: { value: _vm.newItem.name },
                       on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.saveAction()
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.newItem, "name", $event.target.value)
                         }
                       }
-                    },
-                    [_vm._v("SAVE")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-default",
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newItem.percent,
+                          expression: "newItem.percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Percent...", type: "number" },
+                      domProps: { value: _vm.newItem.percent },
                       on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.createCancelAction()
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.newItem, "percent", $event.target.value)
                         }
                       }
-                    },
-                    [_vm._v("cancel")]
-                  )
-                ])
-              : _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newItem.name,
-                        expression: "newItem.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name..." },
-                    domProps: { value: _vm.newItem.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.createAction()
+                          }
                         }
-                        _vm.$set(_vm.newItem, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newItem.percent,
-                        expression: "newItem.percent"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Percent...", type: "number" },
-                    domProps: { value: _vm.newItem.percent },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.newItem, "percent", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.createAction()
-                        }
-                      }
-                    },
-                    [_vm._v("Create new")]
-                  )
-                ])
-          ])
-        ])
+                      },
+                      [_vm._v("Create new")]
+                    )
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("modal-delete", {
+              attrs: {
+                name: _vm.deletingItem.name,
+                opened: _vm.deletingItem.openModal
+              },
+              on: {
+                "close-delete-modal": function($event) {
+                  _vm.deletingItem.openModal = false
+                },
+                "confirm-delete": _vm.deleteAction
+              }
+            })
+          ],
+          1
+        )
       : _c("h5", [_vm._v("login first")])
   ])
 }
@@ -42090,146 +42198,167 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _vm.checkToken
-      ? _c("div", [
-          _c("h5", [_vm._v("Item types page")]),
-          _vm._v(" "),
-          _c("table", { staticClass: "table table-striped" }, [
-            _vm._m(0),
+      ? _c(
+          "div",
+          [
+            _c("h5", [_vm._v("Item types page")]),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.itemTypes, function(itemType) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(itemType.id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(itemType.name))]),
-                  _vm._v(" "),
-                  _c("td", [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.itemTypes, function(itemType) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(itemType.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(itemType.name))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.confirmDeleteAction(itemType)
+                            }
+                          }
+                        },
+                        [_vm._v("del")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-warning",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.editAction(itemType)
+                            }
+                          }
+                        },
+                        [_vm._v("edit")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _vm.editMode
+                ? _c("form", { staticClass: "form form-inline" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItemType.name,
+                          expression: "editItemType.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Name...", type: "text" },
+                      domProps: { value: _vm.editItemType.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItemType,
+                            "name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-xs btn-danger",
+                        staticClass: "btn btn-success",
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            _vm.deleteAction(itemType.id)
+                            _vm.saveAction()
                           }
                         }
                       },
-                      [_vm._v("del")]
+                      [_vm._v("SAVE")]
                     ),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-xs btn-warning",
+                        staticClass: "btn btn-default",
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            _vm.editAction(itemType)
+                            _vm.createCancelAction()
                           }
                         }
                       },
-                      [_vm._v("edit")]
+                      [_vm._v("cancel")]
                     )
                   ])
-                ])
-              })
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _vm.editMode
-              ? _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
+                : _c("form", { staticClass: "form form-inline" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newItemType.name,
+                          expression: "newItemType.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Name...", type: "text" },
+                      domProps: { value: _vm.newItemType.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.newItemType, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItemType.name,
-                        expression: "editItemType.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.editItemType.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.createAction()
+                          }
                         }
-                        _vm.$set(_vm.editItemType, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.saveAction()
-                        }
-                      }
-                    },
-                    [_vm._v("SAVE")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-default",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.createCancelAction()
-                        }
-                      }
-                    },
-                    [_vm._v("cancel")]
-                  )
-                ])
-              : _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newItemType.name,
-                        expression: "newItemType.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.newItemType.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.newItemType, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.createAction()
-                        }
-                      }
-                    },
-                    [_vm._v("Create new")]
-                  )
-                ])
-          ])
-        ])
+                      },
+                      [_vm._v("Create new")]
+                    )
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("modal-delete", {
+              attrs: {
+                name: _vm.deletingItem.name,
+                opened: _vm.deletingItem.openModal
+              },
+              on: {
+                "close-delete-modal": function($event) {
+                  _vm.deletingItem.openModal = false
+                },
+                "confirm-delete": _vm.deleteAction
+              }
+            })
+          ],
+          1
+        )
       : _c("h5", [_vm._v("login first")])
   ])
 }
@@ -42255,6 +42384,65 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-8aeb03a4", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-98757238\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.opened
+    ? _c("div", { style: _vm.styleBack }, [
+        _c("div", { style: _vm.styleDiv }, [
+          _c("h5", { staticClass: "text-center" }, [
+            _vm._v("Confirm deleting")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-center" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.name))])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function($event) {
+                  _vm.$emit("confirm-delete")
+                }
+              }
+            },
+            [_vm._v("delete")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default pull-right",
+              on: {
+                click: function($event) {
+                  _vm.$emit("close-delete-modal")
+                }
+              }
+            },
+            [_vm._v("cancel")]
+          )
+        ])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-98757238", module.exports)
   }
 }
 
@@ -56884,6 +57072,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
 Vue.component('admin-menu', __webpack_require__("./resources/assets/js/components/admin/AdminMenu.vue"));
+Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
 
 var app = new Vue({
     el: '#admin-app',
@@ -57005,6 +57194,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-46940ab2", Component.options)
   } else {
     hotAPI.reload("data-v-46940ab2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-98757238\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/ConfirmDelete.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-98757238", Component.options)
+  } else {
+    hotAPI.reload("data-v-98757238", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
