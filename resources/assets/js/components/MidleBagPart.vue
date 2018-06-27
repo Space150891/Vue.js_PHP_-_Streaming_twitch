@@ -9,7 +9,7 @@
         </div>
         <div class="container-fluid ">
             <div class="row flex-pos">
-                <div v-for="(item) in bagItems" class="col-xl-2 col-md-3 col-sm-12 bag-items" >
+                <div v-for="(item) in bagItems" class="col-lg-2 col-md-3 col-sm-4 col-12 bag-items" >
                     <img class="bag-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                     <h2>{{ item.mainText }}</h2>
                     <p> {{ item.downText }} </p>
@@ -162,6 +162,7 @@
     }
     .bag-image {
         width: 100%;
+        height: auto;
     }
     .bag-items-pagination {
         display: flex;
@@ -185,9 +186,6 @@
     }
 
     @media screen and (max-width: 758px)  {
-        .bag-image {
-            width: 50%;
-        }
         .bag-items-pagination {
             height: 40px;
         }
@@ -201,9 +199,7 @@
     }
 
     @media screen and (max-width: 740px)  {
-        .bag-image {
-            width: 50%;
-        }
+       
         .bag-items-pagination {
             height: 40px;
         }
@@ -216,9 +212,9 @@
         }
     }
     
-    @media (min-width: 576px) {
-        .col-sm-12 {
-            flex: 0 0 50%;
+    @media (max-width: 576px) {
+        .bag-image {
+            width: 75%;
         }
     }
     

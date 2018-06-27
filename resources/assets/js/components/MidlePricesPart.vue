@@ -9,7 +9,7 @@
         </div>
         <div class="container-fluid ">
             <div class="row flex-pos">
-                <div v-for="(item) in pricesItems" class="col-xl-2 col-md-3 col-sm-12 prices-items" >
+                <div v-for="(item) in pricesItems" class="col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items" >
                     <h2>{{ item.mainText }}</h2>
                     <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                     <span> $ {{ price }}</span>
@@ -50,91 +50,91 @@
                 pricesItems: [
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/BF2EF.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/cs.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/ufc.png'),
                         imageName: "alt",
                     
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/Illuminati.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/SH2.png'),
                         imageName: "alt",
                        
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/Residentevil.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/PUBG.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/superman.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/lastSurvivalist.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/Liverpool.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/Colgate.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/Illuminati.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/pxEA.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/thelastofus.png'),
                         imageName: "alt",
                         
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logodarck.png'),
+                        image:require('../../../../public/images/superman.png'),
                         imageName: "alt",
                         
                     },
@@ -178,6 +178,7 @@
         }
     }
     .prices-items {
+        height: 180px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -185,18 +186,21 @@
         margin: 1%;
         padding: 10px;
         cursor: pointer;
+        position: relative;
         h2 {
             font-size: 20px;
         }
         span {
-            margin-top: 5px;
             padding: 0px 14px 3px 14px;
             border: 3px solid black;
             border-radius: 10px;
+            position: absolute;
+            bottom: 10px;
         }
     }
     .price-image {
-        width: 50%;
+        width: 80px;
+        height: 80px;
     }
     .price-items-pagination {
         display: flex;

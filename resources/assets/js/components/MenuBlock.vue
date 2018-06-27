@@ -13,6 +13,7 @@
                         class="nav-link"
                         v-bind:to="item.link" 
                         v-bind:key="index"
+                        @click.prevent="menuBurger()"
                     > 
                         {{ item.name }}
                     </router-link>
@@ -85,11 +86,6 @@
         methods: {
             menuBurger() {
                 this.clicked = !this.clicked
-            },
-            computed: {
-                checkToken: function () {
-                    return this.$store.getters.checkToken;
-                }
             }
         }
           
@@ -335,6 +331,7 @@
             margin: 0;
         }
         .sign {
+            display: block;
             font-size: 14px;
         }
     }

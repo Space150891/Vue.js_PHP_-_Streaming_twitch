@@ -1690,97 +1690,97 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             num: 10,
             leftItems: [{
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "lorem",
+                image: __webpack_require__("./public/images/BF2EF.png"),
                 imageName: "alt",
                 downText: "text",
-                rightText: "text"
+                rightText: "Lorem, ipsum dolor."
+            }, {
+                mainText: "ipsum",
+                image: __webpack_require__("./public/images/cs.png"),
+                imageName: "alt",
+                downText: "text",
+                rightText: "Lorem, ipsum dolor."
+            }, {
+                mainText: "scroll",
+                image: __webpack_require__("./public/images/ufc.png"),
+                downText: "text",
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                image: __webpack_require__("./public/images/Illuminati.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "public text",
+                image: __webpack_require__("./public/images/SH2.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
+
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "Resident evil",
+                image: __webpack_require__("./public/images/Residentevil.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "PUBG",
+                image: __webpack_require__("./public/images/PUBG.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "superman",
+                image: __webpack_require__("./public/images/superman.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "lastSurvivalist",
+                image: __webpack_require__("./public/images/lastSurvivalist.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "Liverpool",
+                image: __webpack_require__("./public/images/Liverpool.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "Colgate",
+                image: __webpack_require__("./public/images/Colgate.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "Illuminati",
+                image: __webpack_require__("./public/images/Illuminati.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "pxEA",
+                image: __webpack_require__("./public/images/pxEA.png"),
                 downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "thelastofus",
+                image: __webpack_require__("./public/images/thelastofus.png"),
                 downText: "text",
-                rightText: "text"
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                imageName: "alt",
+                rightText: "Lorem, ipsum dolor."
             }]
         };
     },
@@ -1871,6 +1871,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1901,12 +1902,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         menuBurger: function menuBurger() {
             this.clicked = !this.clicked;
-        },
-
-        computed: {
-            checkToken: function checkToken() {
-                return this.$store.getters.checkToken;
-            }
         }
     }
 
@@ -2115,6 +2110,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MidlePartHome.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MidlePricesPart.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2171,77 +2231,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             price: 9.99,
             pricesItems: [{
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/BF2EF.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/cs.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/ufc.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/Illuminati.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/SH2.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/Residentevil.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/PUBG.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/superman.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/lastSurvivalist.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/Liverpool.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/Colgate.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/Illuminati.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/pxEA.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/thelastofus.png"),
                 imageName: "alt"
 
             }, {
                 mainText: "Text",
-                image: __webpack_require__("./public/images/logodarck.png"),
+                image: __webpack_require__("./public/images/superman.png"),
                 imageName: "alt"
 
             }]
@@ -2280,42 +2340,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             leftItems: [{
-                mainText: "Text",
-
-                image: __webpack_require__("./public/images/logo.png"),
+                mainText: "Residentevil",
+                image: __webpack_require__("./public/images/Residentevil.png"),
                 imageName: "alt",
-                downText: "text",
-                rightText: "text"
+                downText: "Lorem ipsum dolor sit."
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                mainText: "superman",
+                image: __webpack_require__("./public/images/superman.png"),
+                downText: "Lorem ipsum dolor sit.",
+                imageName: "alt"
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                mainText: "Liverpool",
+                image: __webpack_require__("./public/images/Liverpool.png"),
+                downText: "Lorem ipsum dolor sit.",
+                imageName: "alt"
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                mainText: "Illuminati",
+                image: __webpack_require__("./public/images/Illuminati.png"),
+                downText: "Lorem ipsum dolor sit.",
+                imageName: "alt"
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                mainText: "thelastofus",
+                image: __webpack_require__("./public/images/thelastofus.png"),
+                downText: "Lorem ipsum dolor sit.",
+                imageName: "alt"
             }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/logo.png"),
-                downText: "text",
-                rightText: "text"
+                mainText: "CS",
+                image: __webpack_require__("./public/images/cs.png"),
+                downText: "Lorem ipsum dolor sit.",
+                imageName: "alt"
             }]
         };
     }
@@ -21084,7 +21143,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.rightPart-main {\n  width: 15%;\n  height: 100vh;\n  margin-top: 111px;\n}\n.rightPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  position: static;\n  z-index: -20;\n  padding-left: 2px;\n}\n.rightPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  width: 100%;\n  height: auto;\n  border-bottom: 1px solid black;\n  padding-bottom: 10%;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.rightPart-img {\n  width: 33%;\n}\n.rightPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.rightPart-mainText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.rightPart-mainText h1 {\n    font-size: 20px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.rightPart-mainText p {\n    font-size: 15px;\n}\n@media screen and (max-width: 1471px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.rightPart-mainText {\n    text-align: center;\n}\n.rightPart-mainText h1 {\n      font-size: 16px;\n}\n.rightPart-mainText p {\n      font-size: 13px;\n}\n}\n@media screen and (max-width: 1085px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.rightPart-mainText h1 {\n    font-size: 13px;\n}\n.rightPart-mainText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.rightPart-main {\n    margin-top: 73px;\n}\n}\n@media screen and (max-width: 775px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.rightPart-mainText h1 {\n    font-size: 12px;\n}\n.rightPart-mainText p {\n    font-size: 11px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.rightPart-main {\n  width: 15%;\n  height: 100vh;\n  margin-top: 111px;\n}\n.rightPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  position: static;\n  z-index: -20;\n  padding-left: 2px;\n}\n.rightPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  width: 100%;\n  height: auto;\n  border-bottom: 1px solid black;\n  padding-bottom: 10%;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.rightPart-img {\n  width: 33%;\n}\n.rightPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.rightPart-mainText {\n  width: 59%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.rightPart-mainText h1 {\n    font-size: 20px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.rightPart-mainText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.rightPart-mainText {\n    text-align: center;\n}\n.rightPart-mainText h1 {\n      font-size: 16px;\n}\n.rightPart-mainText p {\n      font-size: 13px;\n}\n}\n@media screen and (max-width: 1085px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.rightPart-mainText h1 {\n    font-size: 13px;\n}\n.rightPart-mainText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.rightPart-main {\n    margin-top: 73px;\n}\n}\n@media screen and (max-width: 775px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.rightPart-mainText h1 {\n    font-size: 12px;\n}\n.rightPart-mainText p {\n    font-size: 11px;\n}\n}\n", ""]);
 
 // exports
 
@@ -21099,7 +21158,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sign {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sign:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sign:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.sign-none {\n  display: none;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sign {\n    font-size: 14px;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sign {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sign:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sign:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.sign-none {\n  display: none;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sign {\n    display: block;\n    font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -21114,7 +21173,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.midle-price {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.price-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.price-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.price-up-item:hover {\n    background: #e2e2e2;\n}\n.price-up-item:active {\n    background: #c3c3c3;\n}\n.prices-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 3px solid black;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.prices-items h2 {\n    font-size: 20px;\n}\n.prices-items span {\n    margin-top: 5px;\n    padding: 0px 14px 3px 14px;\n    border: 3px solid black;\n    border-radius: 10px;\n}\n.price-image {\n  width: 50%;\n}\n.price-items-pagination {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: fixed;\n  bottom: 0%;\n  height: 78px;\n  background: #f7f7f7;\n  padding-top: 1%;\n  width: 70%;\n  padding-top: 1%;\n}\n.page-link {\n  color: black;\n}\n@media (max-width: 991px) {\n.midle-price {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 50%;\n            flex: 0 0 50%;\n}\n}\n@media (max-width: 600px) {\n.price-up-item {\n    padding: 5px;\n    font-size: 15px;\n}\n}\n@media (max-width: 600px) and (max-height: 321px) {\n.price-items-pagination {\n    height: 50px;\n}\n.price-image {\n    width: 35%;\n}\n.prices-items span {\n    font-size: 13px;\n}\n.prices-items {\n    padding: 2px;\n}\n.prices-items h2 {\n    font-size: 17px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.midle-price {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.price-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.price-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.price-up-item:hover {\n    background: #e2e2e2;\n}\n.price-up-item:active {\n    background: #c3c3c3;\n}\n.prices-items {\n  height: 180px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 3px solid black;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n  position: relative;\n}\n.prices-items h2 {\n    font-size: 20px;\n}\n.prices-items span {\n    padding: 0px 14px 3px 14px;\n    border: 3px solid black;\n    border-radius: 10px;\n    position: absolute;\n    bottom: 10px;\n}\n.price-image {\n  width: 80px;\n  height: 80px;\n}\n.price-items-pagination {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: fixed;\n  bottom: 0%;\n  height: 78px;\n  background: #f7f7f7;\n  padding-top: 1%;\n  width: 70%;\n  padding-top: 1%;\n}\n.page-link {\n  color: black;\n}\n@media (max-width: 991px) {\n.midle-price {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 50%;\n            flex: 0 0 50%;\n}\n}\n@media (max-width: 600px) {\n.price-up-item {\n    padding: 5px;\n    font-size: 15px;\n}\n}\n@media (max-width: 600px) and (max-height: 321px) {\n.price-items-pagination {\n    height: 50px;\n}\n.price-image {\n    width: 35%;\n}\n.prices-items span {\n    font-size: 13px;\n}\n.prices-items {\n    padding: 2px;\n}\n.prices-items h2 {\n    font-size: 17px;\n}\n}\n", ""]);
 
 // exports
 
@@ -21159,7 +21218,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.midle-directory {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 30%;\n      height: auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: auto;\n}\n.midle-directory {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -21219,7 +21278,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.midle-home {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.midle-home-content {\n  width: 99%;\n  height: 30%;\n  text-align: center;\n  background: #dcdcdc;\n  margin: 0.5%;\n}\n.midle-home-iframes {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: start;\n  height: 55vh;\n  margin: 2%;\n}\n.video-part {\n  width: 75%;\n  margin-right: 1%;\n}\n.chat-part {\n  width: 25%;\n  height: 100%;\n}\n@media (max-width: 991px) {\n.midle-home {\n    margin-top: 69px;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-home {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.midle-home-content {\n  height: auto;\n  margin: 0.5%;\n  padding: 0.5% 1%;\n  text-align: justify;\n}\n.midle-home-content h2 {\n    text-align: center;\n    font-size: 1.3rem;\n}\n.iframe-part {\n  padding-bottom: 8%;\n}\n.video-part {\n  width: 100%;\n  height: 62vh;\n  margin-right: 1%;\n}\n.chat-part {\n  width: 100%;\n  height: 100%;\n}\n@media (max-width: 991px) {\n.midle-home {\n    margin-top: 72px;\n    height: 88vh;\n}\n.iframe-part {\n    padding-bottom: 10%;\n}\n.chat-part-mrt {\n    margin-top: 10px;\n}\n.chat-part {\n    height: 62vh;\n}\n}\n", ""]);
 
 // exports
 
@@ -21234,7 +21293,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.footer-part {\n  text-align: center;\n  width: 70%;\n  position: fixed;\n  bottom: 0;\n  left: 16%;\n}\n.footer-part h2 {\n    width: 98%;\n    height: 19px;\n    display: inline-block;\n    margin: 0;\n    padding: 0;\n    background-color: #f6f8fa;\n    font-size: 14px;\n}\n", ""]);
+exports.push([module.i, "\n.footer-part {\n  width: 100%;\n  height: auto;\n  padding: 10px;\n  padding-bottom: 5%;\n}\n.footer-part h3 {\n    font-size: 12px;\n    text-align: center;\n    margin-top: 5px;\n}\nul {\n  margin: 0;\n}\nul li {\n    list-style: none;\n}\nul li a {\n      text-decoration: none;\n      color: gray;\n}\nul li a:hover {\n        text-decoration: none;\n        color: #444343;\n}\n", ""]);
 
 // exports
 
@@ -21264,7 +21323,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.leftPart-main {\n  width: 15%;\n  height: 100vh;\n  position: fixed;\n  margin-top: 8%;\n  overflow: hidden;\n}\n.leftPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  margin-top: 10px;\n  position: relative;\n  z-index: -20;\n  padding-left: 2px;\n}\n.scroll-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  position: absolute;\n  width: 100%;\n  height: 35px;\n  z-index: 100;\n  background-color: white;\n}\n.scroll-item:hover {\n    background-color: #e4e4e4;\n}\n.scroll-item:active {\n    background-color: #b9b9b9;\n    border-radius: 2px;\n}\n.btn-up {\n  border-bottom: 1px solid black;\n  margin-bottom: 10px;\n  position: fixed;\n  top: 107px;\n  width: 15%;\n}\n.btn-down {\n  border-top: 1px solid black;\n  position: fixed;\n  bottom: 0px;\n  width: 15%;\n}\n.leftPart-scroll {\n  width: 10px;\n  -webkit-transform: rotate(-90deg);\n          transform: rotate(-90deg);\n  font-size: 20px;\n}\n.leftPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  width: 100%;\n  height: auto;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.leftPart-item:hover {\n    background-color: #e6e6e6;\n    text-decoration: none;\n    color: black;\n}\n.leftPart-img {\n  width: 33%;\n}\n.leftPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.leftPart-mainText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.leftPart-mainText h1 {\n    font-size: 20px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.leftPart-mainText p {\n    font-size: 15px;\n}\n.leftPart-rightText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  word-wrap: break-word;\n}\n.leftPart-rightText p {\n    font-size: 15px;\n}\n@media screen and (max-width: 1471px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.leftPart-mainText {\n    text-align: center;\n}\n.leftPart-mainText h1 {\n      font-size: 16px;\n}\n.leftPart-mainText p {\n      font-size: 13px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 1085px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.leftPart-mainText h1 {\n    font-size: 13px;\n}\n.leftPart-mainText p {\n    font-size: 12px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.btn-up {\n    top: 69px;\n}\n}\n@media screen and (max-width: 775px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n@media screen and (max-width: 767px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.leftPart-main {\n  width: 15%;\n  height: 100vh;\n  position: fixed;\n  margin-top: 8%;\n  overflow: hidden;\n}\n.leftPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  margin-top: 10px;\n  position: relative;\n  z-index: -20;\n  padding-left: 2px;\n}\n.scroll-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  position: absolute;\n  width: 100%;\n  height: 35px;\n  z-index: 100;\n  background-color: white;\n}\n.scroll-item:hover {\n    background-color: #e4e4e4;\n}\n.scroll-item:active {\n    background-color: #b9b9b9;\n    border-radius: 2px;\n}\n.btn-up {\n  border-bottom: 1px solid black;\n  margin-bottom: 10px;\n  position: fixed;\n  top: 107px;\n  width: 15%;\n}\n.btn-down {\n  border-top: 1px solid black;\n  position: fixed;\n  bottom: 0px;\n  width: 15%;\n}\n.leftPart-scroll {\n  width: 10px;\n  -webkit-transform: rotate(-90deg);\n          transform: rotate(-90deg);\n  font-size: 20px;\n}\n.leftPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  width: 100%;\n  height: auto;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.leftPart-item:hover {\n    background-color: #e6e6e6;\n    text-decoration: none;\n    color: black;\n}\n.leftPart-img {\n  width: 33%;\n}\n.leftPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.leftPart-mainText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.leftPart-mainText h1 {\n    font-size: 17px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.leftPart-mainText p {\n    font-size: 15px;\n}\n.leftPart-rightText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  word-wrap: break-word;\n}\n.leftPart-rightText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.leftPart-mainText {\n    text-align: center;\n}\n.leftPart-mainText h1 {\n      font-size: 13px;\n}\n.leftPart-mainText p {\n      font-size: 13px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 1085px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.leftPart-mainText h1 {\n    font-size: 13px;\n}\n.leftPart-mainText p {\n    font-size: 12px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.btn-up {\n    top: 69px;\n}\n}\n@media screen and (max-width: 775px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n@media screen and (max-width: 767px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n", ""]);
 
 // exports
 
@@ -21279,7 +21338,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nmain {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.midle-bag {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.bag-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  margin-bottom: 20px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.bag-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.bag-up-item:hover {\n    background: #e2e2e2;\n}\n.bag-up-item:active {\n    background: #c3c3c3;\n}\n.bag-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.bag-items h2 {\n    font-size: 20px;\n}\n.bag-items p {\n    margin-top: 5px;\n}\n.bag-image {\n  width: 100%;\n}\n.bag-items-pagination {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: fixed;\n  bottom: 0%;\n  height: 78px;\n  background: #f7f7f7;\n  padding-top: 1%;\n  width: 70%;\n  padding-top: 1%;\n}\n.page-link {\n  color: black;\n}\n@media screen and (max-width: 991px) {\n.midle-bag {\n    margin-top: 69px;\n}\n}\n@media screen and (max-width: 758px) {\n.bag-image {\n    width: 50%;\n}\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media screen and (max-width: 740px) {\n.bag-image {\n    width: 50%;\n}\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media (min-width: 576px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 50%;\n            flex: 0 0 50%;\n}\n}\n", ""]);
+exports.push([module.i, "\nmain {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.midle-bag {\n  width: 75%;\n  margin-left: 15%;\n  margin-top: 111px;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.bag-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  margin-bottom: 20px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.bag-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.bag-up-item:hover {\n    background: #e2e2e2;\n}\n.bag-up-item:active {\n    background: #c3c3c3;\n}\n.bag-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.bag-items h2 {\n    font-size: 20px;\n}\n.bag-items p {\n    margin-top: 5px;\n}\n.bag-image {\n  width: 100%;\n  height: auto;\n}\n.bag-items-pagination {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  position: fixed;\n  bottom: 0%;\n  height: 78px;\n  background: #f7f7f7;\n  padding-top: 1%;\n  width: 70%;\n  padding-top: 1%;\n}\n.page-link {\n  color: black;\n}\n@media screen and (max-width: 991px) {\n.midle-bag {\n    margin-top: 69px;\n}\n}\n@media screen and (max-width: 758px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media screen and (max-width: 740px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media (max-width: 576px) {\n.bag-image {\n    width: 75%;\n}\n}\n", ""]);
 
 // exports
 
@@ -74066,7 +74125,7 @@ var render = function() {
           _c("div", { staticClass: "rightPart-mainText" }, [
             _c("h1", [_vm._v(_vm._s(item.mainText))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.mainText))])
+            _c("p", [_vm._v(_vm._s(item.downText))])
           ])
         ])
       })
@@ -74144,7 +74203,13 @@ var render = function() {
                       {
                         key: index,
                         staticClass: "nav-link",
-                        attrs: { to: item.link }
+                        attrs: { to: item.link },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.menuBurger()
+                          }
+                        }
                       },
                       [
                         _vm._v(
@@ -74409,7 +74474,9 @@ var render = function() {
         _vm._l(_vm.pricesItems, function(item) {
           return _c(
             "div",
-            { staticClass: "col-xl-2 col-md-3 col-sm-12 prices-items" },
+            {
+              staticClass: "col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items"
+            },
             [
               _c("h2", [_vm._v(_vm._s(item.mainText))]),
               _vm._v(" "),
@@ -74626,7 +74693,10 @@ var render = function() {
         _vm._l(_vm.directoryItems, function(item) {
           return _c(
             "div",
-            { staticClass: "col-xl-2 col-md-3 col-sm-12 directory-items" },
+            {
+              staticClass:
+                "col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12 directory-items"
+            },
             [
               _c("img", {
                 staticClass: "price-image",
@@ -74802,42 +74872,73 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "midle-home" }, [
+    _c("div", { staticClass: "scroll" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-12" }, [
+            _c("footer", [_c("footer-part")], 1)
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "midle-home" }, [
-      _c("div", { staticClass: "midle-home-content" }, [
-        _vm._v("\n        CONTENT\n    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "midle-home-iframes" }, [
-        _c("div", { staticClass: "video-part" }, [
-          _c("iframe", {
-            attrs: {
-              src: "https://player.twitch.tv/?channel=ubah",
-              width: "100%",
-              height: "100%",
-              frameborder: "0",
-              scrolling: "no",
-              allowfullscreen: "false"
-            }
-          })
+    return _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-12" }, [
+          _c("div", { staticClass: "midle-home-content" }, [
+            _c("h2", [_vm._v("CONTENT")]),
+            _vm._v(
+              "\n                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi sed ratione optio natus, doloribus porro. Officiis pariatur qui repudiandae quidem, quasi non nostrum at molestiae iure perspiciatis odio tempore repellat neque. Dolores dolorum obcaecati debitis alias quibusdam molestiae laboriosam iusto molestias enim, itaque hic minima incidunt nemo voluptatem, laudantium voluptas consectetur animi sint corporis a ex. Vero eum, culpa corporis aliquid quisquam earum rem quaerat nulla sapiente adipisci quibusdam minus mollitia, quas optio illum deserunt voluptates dignissimos accusamus reprehenderit! Dolor praesentium quidem consequuntur hic placeat, corrupti adipisci ex? Praesentium quasi cum dignissimos voluptates aspernatur dicta! Laudantium, id officiis. Libero, error.  \n                    "
+            )
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container-fluid iframe-part" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-12 col-lg-8" }, [
+          _c("div", { staticClass: "video-part" }, [
+            _c("iframe", {
+              attrs: {
+                src: "https://player.twitch.tv/?channel=ubah",
+                width: "100%",
+                height: "100%",
+                frameborder: "0",
+                scrolling: "no",
+                allowfullscreen: "false"
+              }
+            })
+          ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "chat-part" }, [
-          _c("iframe", {
-            attrs: {
-              frameborder: "1",
-              scrolling: "true",
-              src: "https://www.twitch.tv/embed/ubah/chat",
-              height: "100%",
-              width: "100%"
-            }
-          })
+        _c("div", { staticClass: "col-sm-12 col-lg-4 chat-part-mrt" }, [
+          _c("div", { staticClass: "chat-part" }, [
+            _c("iframe", {
+              attrs: {
+                frameborder: "1",
+                scrolling: "true",
+                src: "https://www.twitch.tv/embed/ubah/chat",
+                height: "100%",
+                width: "100%"
+              }
+            })
+          ])
         ])
       ])
     ])
@@ -74869,7 +74970,59 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "footer-part" }, [
-      _c("h2", [_vm._v("© 2018")])
+      _c("div", { staticClass: "footer-wrap" }, [
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("img", {
+                attrs: {
+                  src: __webpack_require__("./public/images/footerImgFull.png"),
+                  alt: "footer-logo"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("ul", [
+                _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("Help")])]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Support")])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Contact Us")])
+                ]),
+                _vm._v(" "),
+                _c("li", [_c("a", { attrs: { href: "#" } }, [_vm._v("FAQ")])])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("About Us")])
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Packages")])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("h3", [
+        _vm._v(
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, nemo! "
+        ),
+        _c("span", [_vm._v("© 2018")])
+      ])
     ])
   }
 ]
@@ -74973,7 +75126,7 @@ var render = function() {
           _c("div", { staticClass: "leftPart-mainText" }, [
             _c("h1", [_vm._v(_vm._s(item.mainText))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.mainText))])
+            _c("p", [_vm._v(_vm._s(item.downText))])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "leftPart-rightText" }, [
@@ -75027,7 +75180,7 @@ var render = function() {
         _vm._l(_vm.bagItems, function(item) {
           return _c(
             "div",
-            { staticClass: "col-xl-2 col-md-3 col-sm-12 bag-items" },
+            { staticClass: "col-lg-2 col-md-3 col-sm-4 col-12 bag-items" },
             [
               _c("img", {
                 staticClass: "bag-image",
@@ -90395,6 +90548,55 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./public/images/BF2EF.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/BF2EF.png?767cfe98dd737d06880f450e9a2aff26";
+
+/***/ }),
+
+/***/ "./public/images/Colgate.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/Colgate.png?3f80c8847370726f0fd6e7728cb9c449";
+
+/***/ }),
+
+/***/ "./public/images/Illuminati.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/Illuminati.png?f249cdd0b4bd9b878d7747b455596a3b";
+
+/***/ }),
+
+/***/ "./public/images/Liverpool.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/Liverpool.png?c03af1df857a1db7694491df12096ac6";
+
+/***/ }),
+
+/***/ "./public/images/PUBG.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/PUBG.png?85b12739c9c6d31259c5c934ffd71bdb";
+
+/***/ }),
+
+/***/ "./public/images/Residentevil.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/Residentevil.png?c4a0507eb84d3b2bdeccfc1ddb2bc09b";
+
+/***/ }),
+
+/***/ "./public/images/SH2.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/SH2.png?4b9c6acdc98c6122e4ae411f66adfb08";
+
+/***/ }),
+
 /***/ "./public/images/arrows.svg":
 /***/ (function(module, exports) {
 
@@ -90416,6 +90618,13 @@ module.exports = "/images/cash.svg?45dabb3c14f7dc2c34e94847a87d8eb0";
 
 /***/ }),
 
+/***/ "./public/images/cs.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/cs.png?70c1cb1ae29cd07efaa86960dfd2e159";
+
+/***/ }),
+
 /***/ "./public/images/diamond.svg":
 /***/ (function(module, exports) {
 
@@ -90430,6 +90639,13 @@ module.exports = "/images/facebook.svg?bc073e7f1f3042661cfbb1d992e13fa3";
 
 /***/ }),
 
+/***/ "./public/images/footerImgFull.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/footerImgFull.png?b3f93046d0a6c1aeb0e1d7810a9e9e35";
+
+/***/ }),
+
 /***/ "./public/images/google-plus.svg":
 /***/ (function(module, exports) {
 
@@ -90437,17 +90653,38 @@ module.exports = "/images/google-plus.svg?62c39658f2ad5848ca3abd6034974ab5";
 
 /***/ }),
 
-/***/ "./public/images/logo.png":
+/***/ "./public/images/lastSurvivalist.png":
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.png?5a891db12d4c77da7b275c9a34b64a21";
+module.exports = "/images/lastSurvivalist.png?3eda09707d1db94a37c300b188278c2a";
 
 /***/ }),
 
-/***/ "./public/images/logodarck.png":
+/***/ "./public/images/logo.png":
 /***/ (function(module, exports) {
 
-module.exports = "/images/logodarck.png?6c29e0b321e91c820b03b5abef1fe4af";
+module.exports = "/images/logo.png?a2f884ac056229b3f27e4aeb1484ffb9";
+
+/***/ }),
+
+/***/ "./public/images/pxEA.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/pxEA.png?505e9fdd34d78510c45237d8adb81c13";
+
+/***/ }),
+
+/***/ "./public/images/superman.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/superman.png?d04bfbd3dbe0af2356084ff825ee9cf1";
+
+/***/ }),
+
+/***/ "./public/images/thelastofus.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/thelastofus.png?1234fa1d4df637d77e2e0c9290ce6757";
 
 /***/ }),
 
@@ -90462,6 +90699,13 @@ module.exports = "/images/tvitch-question.png?5b250a21de350ae241ba050030670a10";
 /***/ (function(module, exports) {
 
 module.exports = "/images/twitter.svg?7e27b1b12671a8b63d8d6bd4e5578aba";
+
+/***/ }),
+
+/***/ "./public/images/ufc.png":
+/***/ (function(module, exports) {
+
+module.exports = "/images/ufc.png?a26d1d6807a3b449e74612f8d2ef9042";
 
 /***/ }),
 
@@ -91073,7 +91317,7 @@ function injectStyle (ssrContext) {
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MidlePartHome.vue")
 /* template */
 var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-758e73a8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MidlePartHome.vue")
 /* template functional */
@@ -91482,7 +91726,6 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-STORE;
 
 
 
@@ -91495,22 +91738,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
     },
     mutations: {
         signVal: function signVal() {
-            var tokenData = new FormData();
-            tokenData.append('token', localStorage.userToken);
-            fetch("http://127.0.0.1:8000/api/auth/me", {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors',
-                body: tokenData
-            }).then(function (res) {
-                if (res.status === 401) {
-                    delete localStorage["userToken"];
-                }
-
-                return res.json();
-            }).then(function (data) {
-                console.log('data=', data);
-            });
+            var tokenData = localStorage.userToken;
+            console.log(tokenData);
+            state.token = tokenData;
         }
     },
     actions: {},

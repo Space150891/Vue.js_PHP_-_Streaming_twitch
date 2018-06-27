@@ -31,23 +31,14 @@
         @yield('header_scripts')
         
         <script>
-            // function userToken () {
-            //     localStorage.setItem('userToken', window.access_token);
-            //     // console.log('token = ', window.access_token);
-            // }
-            // userToken ();
             
             var pageUrl = window.location.pathname;
             if(pageUrl == "/twitch/callback") {
                 @if (isset($access_token))
                     window.access_token = "{{($access_token)}}";
-                    // console.log("{{$expires_in}}");
                 @endif
                 localStorage.setItem('userToken', window.access_token);
-                console.log('token = ', window.access_token);
-                
                 window.location.replace("http://localhost:8000/");
-
             }
 
             // var responseStatus = 0;
@@ -98,10 +89,9 @@
             </header>
             <main>
                 <router-view></router-view>
+
             </main>
-            <footer>
-                <footer-part></footer-part>
-            </footer>
+            
 
             
 

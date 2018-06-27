@@ -8,12 +8,13 @@
             </div>
             <div class="leftPart-mainText">
                 <h1>{{ item.mainText }}</h1>
-                <p>{{ item.mainText }}</p>
+                <p>{{ item.downText }}</p>
             </div>
             <div class="leftPart-rightText">
                 <p>{{ item.rightText }}</p>
             </div>
         </div>
+        
     </div>
     
     <div class="scroll-item btn-down" @click.prevent="scrollDown()"><span class="leftPart-scroll"> &lt; </span></div>
@@ -27,107 +28,103 @@
                 num : 10,
                 leftItems: [
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "lorem",
+                        image:require('../../../../public/images/BF2EF.png'),
                         imageName: "alt",
                         downText: "text",
-                        rightText: "text"
+                        rightText: "Lorem, ipsum dolor."
+                    },
+                    {
+                        mainText: "ipsum",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        downText: "text",
+                        rightText: "Lorem, ipsum dolor."
+                    },
+                    {
+                        mainText: "scroll",
+                        image:require('../../../../public/images/ufc.png'),
+                        downText: "text",
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
                         mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        image:require('../../../../public/images/Illuminati.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "public text",
+                        image:require('../../../../public/images/SH2.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
+                        
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "Resident evil",
+                        image:require('../../../../public/images/Residentevil.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "PUBG",
+                        image:require('../../../../public/images/PUBG.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "superman",
+                        image:require('../../../../public/images/superman.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "lastSurvivalist",
+                        image:require('../../../../public/images/lastSurvivalist.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "Liverpool",
+                        image:require('../../../../public/images/Liverpool.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "Colgate",
+                        image:require('../../../../public/images/Colgate.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "Illuminati",
+                        image:require('../../../../public/images/Illuminati.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "pxEA",
+                        image:require('../../../../public/images/pxEA.png'),
                         downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "thelastofus",
+                        image:require('../../../../public/images/thelastofus.png'),
                         downText: "text",
-                        rightText: "text"
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        imageName: "alt",
+                        rightText: "Lorem, ipsum dolor."
                     }
                 ]
             }
@@ -245,7 +242,7 @@
         word-wrap:break-word;
         
         h1 {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 800;
             margin: 0;
             padding: 0;
@@ -263,6 +260,7 @@
          word-wrap:break-word;
         p {
             font-size: 15px;
+            line-height: 10px;
         }
     }
    
@@ -280,7 +278,7 @@
         .leftPart-mainText {
             text-align: center;
             h1 {
-                font-size: 16px;
+                font-size: 13px;
             }
             p {
                 font-size: 13px;
