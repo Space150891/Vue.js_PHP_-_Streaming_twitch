@@ -49,38 +49,39 @@
                 window.location.replace("http://localhost:8000/");
 
             }
-            var responseStatus = 0;
-            
-            function userStatus () {
-                
-                var tokenData = new FormData();
-                tokenData.append('token', localStorage.userToken);
-                fetch("http://127.0.0.1:8000/api/auth/me",
-                    {
-                        method: "POST",
-                        credentials: 'omit',
-                        mode: 'cors',
-                        body: tokenData,
-                    })
-                    .then(function(res){
-                        if (res.status === 401) {
-                            responseStatus = 401;
-                        }
-                        return res.json();
-                    })
-                    .then(function(data){
-                        console.log('data=', data);
-                    }
-                );
-                
-            }
-            setInterval( userStatus, 60000);
 
-            if(responseStatus === 401) {
-                console.log('sdfsdfsdfsdfsdfsdef')
-                // delete localStorage["userToken"];
-                // console.log(localStorage.userToken);
-            }
+            // var responseStatus = 0;
+            
+            // function userStatus () {
+                
+            //     var tokenData = new FormData();
+            //     tokenData.append('token', localStorage.userToken);
+            //     fetch("http://127.0.0.1:8000/api/auth/me",
+            //         {
+            //             method: "POST",
+            //             credentials: 'omit',
+            //             mode: 'cors',
+            //             body: tokenData,
+            //         })
+            //         .then(function(res){
+            //             if (res.status === 401) {
+            //                 responseStatus = 401;
+            //             }
+            //             return res.json();
+            //         })
+            //         .then(function(data){
+            //             console.log('data=', data);
+            //         }
+            //     );
+                
+            // }
+            // setInterval( userStatus, 60000);
+
+            // if(responseStatus === 401) {
+            //     console.log('sdfsdfsdfsdfsdfsdef')
+            //     delete localStorage["userToken"];
+            //     console.log(localStorage.userToken);
+            // }
             
             
             

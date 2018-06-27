@@ -18,7 +18,7 @@
                     </router-link>
                 </li>
             </ul>
-            <a href="auth/logout" class="sign" v-if="signVal">Sign out</a>
+            <a href="auth/logout" class="sign" v-if="checkToken">Sign out</a>
             <a href="twitch/redirect" class="sign" v-else>Sign up</a>
             <!-- <a href="twitch/redirect" class="sign">
             <a href="auth/logout" v-bind:class="['sign', (signVal) ? 'sign-none' : '']">Sign out</a> -->
@@ -78,15 +78,20 @@
             }
         },
         computed: {
-            signVal: function () {
-                return window.localStorage.getItem("userToken")
-            }
+            checkToken: function () {
+              return this.$store.getters.checkToken;
+            },
         },
         methods: {
             menuBurger() {
                 this.clicked = !this.clicked
-           }
-        },
+            },
+            computed: {
+                checkToken: function () {
+                    return this.$store.getters.checkToken;
+                }
+            }
+        }
           
     }
 </script>
