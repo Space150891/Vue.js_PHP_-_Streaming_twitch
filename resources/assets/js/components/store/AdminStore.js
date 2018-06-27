@@ -9,6 +9,7 @@ const AdminStore = new Vuex.Store({
         apiUrl : 'http://localhost:8000/api/',
         itemTypes: [],
         rarities: [],
+        items: [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -112,7 +113,6 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
-        ////
         getRaritiesList(state) {
             var formData = new FormData();
 
@@ -196,6 +196,94 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
+        // items
+        getItemsList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'items/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.items = jsonResp.data ? jsonResp.data.items : [];
+            });
+        },
+        createItem(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('title', data.title);
+            formData.append('item_type_id', data.item_type_id);
+            formData.append('description', data.description);
+            formData.append('worth', data.worth);
+            fetch(state.apiUrl + 'items/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteItem(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'items/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveItem(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('title', data.title);
+            formData.append('item_type_id', data.item_type_id);
+            formData.append('description', data.description);
+            formData.append('worth', data.worth);
+            fetch(state.apiUrl + 'items/update',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -213,6 +301,7 @@ const AdminStore = new Vuex.Store({
             context.commit('saveItemType', data);
             context.commit('getItemTypesList');
         },
+        // rarities
         getRaritiesListAction(context) {
             context.commit('getRaritiesList');
         },
@@ -228,6 +317,23 @@ const AdminStore = new Vuex.Store({
             context.commit('saveRarity', data);
             context.commit('getRaritiesList');
         },
+        // items
+        getItemsListAction(context) {
+            context.commit('getItemsList');
+            context.commit('getItemTypesList');
+        },
+        createItemAction(context, data) {
+            context.commit('createItem', data);
+            context.commit('getItemsList');
+        },
+        ItemDeleteAction(context, id) {
+            context.commit('deleteItem', id);
+            context.commit('getItemsList');
+        },
+        ItemSaveAction(context, data) {
+            context.commit('saveItem', data);
+            context.commit('getItemsList');
+        },
     },
     getters : {
         checkToken: state => {
@@ -238,6 +344,9 @@ const AdminStore = new Vuex.Store({
         },
         Rarities: state => {
             return state.rarities;
+        },
+        items: state => {
+            return state.items;
         },
     }
 });

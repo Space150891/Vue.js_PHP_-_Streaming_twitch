@@ -33,6 +33,9 @@ class itemsManagementController extends Controller
     public function index()
     {
         $items = Item::all();
+        for ($i = 0; $i < count($items); $i++) {
+            $items[$i]->type = $items[$i]->type()->first()->name;
+        }
         return response()->json(['data' => [
             'items' => $items,
         ]]);
@@ -138,7 +141,7 @@ class itemsManagementController extends Controller
         $validator = Validator::make($request->all(), [
             'id'             => 'required|numeric',
             'title'          => 'required|max:255',
-            'item_type_id'   => 'required|unique:item_types:id',
+            'item_type_id'   => 'required|numeric',
             'description'    => 'max:255',
             'worth'          => 'numeric',
         ]);
@@ -159,8 +162,8 @@ class itemsManagementController extends Controller
         $item->item_type_id = $request->item_type_id;
         $item->description = $request->description;
         $item->worth = $request->worth;
-        $item->image = $request->image; // upload ?
-        $item->icon = $request->icon;   // upload ?
+        $item->image = $request->image;
+        $item->icon = $request->icon;
         $item->save();
         
         if ($request->hasFile('image')) {

@@ -35,19 +35,5 @@
         },
       }
     },
-    mounted() {
-
-    },
-    methods: {
-      deleteClick : function() {
-        console.log('delete');
-      },
-      cancelClick : function() {
-        console.log('cancel');
-      },
-    },
-    computed: {
-
-    },
   }
 </script>
