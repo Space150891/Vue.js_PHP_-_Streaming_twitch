@@ -1,43 +1,34 @@
 <template>
     <div class="midle-bag" >
-        <div class="bag-up-items">
-            <div class="bag-up-item">Link</div>
-            <div class="bag-up-item">Link</div>
-            <div class="bag-up-item">Link</div>
-            <div class="bag-up-item">Link</div>
-            <div class="bag-up-item">Link</div>
-        </div>
-        <div class="container-fluid ">
-            <div class="row flex-pos">
-                <div v-for="(item) in bagItems" class="col-lg-2 col-md-3 col-sm-4 col-12 bag-items" >
-                    <img class="bag-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
-                    <h2>{{ item.mainText }}</h2>
-                    <p> {{ item.downText }} </p>
+        <div class="scroll">
+            <div class="bag-up-items">
+                <div class="bag-up-item">Link</div>
+                <div class="bag-up-item">Link</div>
+                <div class="bag-up-item">Link</div>
+                <div class="bag-up-item">Link</div>
+                <div class="bag-up-item">Link</div>
+            </div>
+            <div class="container-fluid ">
+                <!-- paginate -->
+                <paginate name="bagItems" :per="10" :list="bagItems" class="row flex-pos">
+                    <div v-for="(item) in paginated('bagItems')" class="col-lg-2 col-md-3 col-sm-4 col-12 bag-items" >
+                        <img class="bag-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
+                        <h2>{{ item.mainText }}</h2>
+                        <p> {{ item.downText }} </p>
+                    </div>
+                </paginate>
+                <paginate-links for="bagItems" :limit="0" :show-step-links="true"></paginate-links>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <footer>
+                            <footer-part></footer-part>            
+                        </footer>
+                    </div>
                 </div>
-                
             </div>
         </div>
-        <div class="bag-items-pagination">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
     </div>
 </template>
 
@@ -105,21 +96,228 @@
                         downText: "Text",
                         image:require('../../../../public/images/tvitch-question.png'),
                         imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
                     }
-                ]
+                ],
+                paginate: ['bagItems']
             }
         },
         
     }
 </script>
 <style lang="scss">
-    main {
-        display: flex;
+    body {
+        overflow: hidden;
     }
     .midle-bag {
         width: 75%;
+        height: 89vh;
         margin-left: 15%;
-        margin-top: 111px;
+        margin-top: 109px;
+        overflow-y: scroll;
     }
     .flex-pos {
         justify-content: center;
@@ -164,19 +362,33 @@
         width: 100%;
         height: auto;
     }
-    .bag-items-pagination {
+    li {
+        margin: 0 10px;
+        
+    }
+    .paginate-links.bagItems {
+        user-select: none;
         display: flex;
         justify-content: center;
-        position: fixed;
-        bottom: 0%;
-        height: 78px;
-        background: #f7f7f7;
-        padding-top: 1%;
-        width: 70%;
-        padding-top: 1%;
-    }
-    .page-link {
-        color: black;
+        margin-top: 2%;
+        margin-bottom: 6%;
+        list-style-type: none;
+        a {
+            cursor: pointer;
+            color: #555555;
+        }
+        li.active a {
+            font-weight: bold;
+        }
+        li.next:before {
+            content: ' | ';
+            margin-right: 13px;
+            color: #ddd;
+        }
+        li.disabled a {
+            color: #ccc;
+            cursor: no-drop;
+        }
     }
 
     @media screen and (max-width: 991px)  {

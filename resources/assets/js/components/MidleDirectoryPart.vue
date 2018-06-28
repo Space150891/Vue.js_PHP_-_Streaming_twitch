@@ -1,17 +1,27 @@
 <template>
     <div class="midle-directory" >
-        <div class="container-fluid ">
-            <div class="row flex-pos">
-                <div v-for="(item) in directoryItems" class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12 directory-items" >
-                    <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
-                    <h2>{{ item.mainText }}</h2>
-                    <p> {{ item.downText }} </p>
+        <div class="scroll">
+            <div class="container-fluid ">
+                <div class="row flex-pos">
+                    <div v-for="(item) in directoryItems" class="col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12 directory-items" >
+                        <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
+                        <h2>{{ item.mainText }}</h2>
+                        <p> {{ item.downText }} </p>
+                    </div>
+                    
                 </div>
-                
             </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <footer>
+                            <footer-part></footer-part>            
+                        </footer>
+                    </div>
+                </div>
+             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -19,6 +29,114 @@
         data(){
             return {
                 directoryItems: [
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
+                    {
+                        mainText: "Text",
+                        downText: "Text",
+                        image:require('../../../../public/images/tvitch-question.png'),
+                        imageName: "alt"
+                    },
                     {
                         mainText: "Text",
                         downText: "Text",
@@ -99,12 +217,14 @@
 </script>
 <style lang="scss">
     body {
-        overflow: auto;
+        overflow: hidden;
     }
     .midle-directory {
         width: 75%;
+        height: 89vh;
         margin-left: 15%;
-        margin-top: 111px;
+        margin-top: 109px;
+        overflow-y: scroll;
     }
     .flex-pos {
         justify-content: center;

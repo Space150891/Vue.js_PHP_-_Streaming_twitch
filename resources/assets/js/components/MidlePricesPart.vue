@@ -1,43 +1,35 @@
 <template>
     <div class="midle-price" >
-        <div class="price-up-items">
-            <div class="price-up-item" v-on:click="(setPrise(1))">Tier 1</div>
-            <div class="price-up-item" v-on:click="(setPrise(2))">Tier 2</div>
-            <div class="price-up-item" v-on:click="(setPrise(3))">Tier 3</div>
-            <div class="price-up-item" v-on:click="(setPrise(4))">Tier 4</div>
-            <div class="price-up-item" v-on:click="(setPrise(5))">Tier 5</div>
-        </div>
-        <div class="container-fluid ">
-            <div class="row flex-pos">
-                <div v-for="(item) in pricesItems" class="col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items" >
-                    <h2>{{ item.mainText }}</h2>
-                    <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
-                    <span> $ {{ price }}</span>
+        <div class="scroll">
+            <div class="price-up-items">
+                <div class="price-up-item" v-on:click="(setPrise(1))">Tier 1</div>
+                <div class="price-up-item" v-on:click="(setPrise(2))">Tier 2</div>
+                <div class="price-up-item" v-on:click="(setPrise(3))">Tier 3</div>
+                <div class="price-up-item" v-on:click="(setPrise(4))">Tier 4</div>
+                <div class="price-up-item" v-on:click="(setPrise(5))">Tier 5</div>
+            </div>
+            <div class="container-fluid ">
+                <!-- paginate -->
+                <paginate name="pricesItems" :per="15" :list="pricesItems" class="row flex-pos">
+                    <div v-for="(item) in paginated('pricesItems')" class="col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items" >
+                        <h2>{{ item.mainText }}</h2>
+                        <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
+                        <span> $ {{ price }}</span>
+                    </div>
+                </paginate>
+
+                <paginate-links for="pricesItems" :limit="0" :show-step-links="true"></paginate-links>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <footer>
+                            <footer-part></footer-part>            
+                        </footer>
+                    </div>
                 </div>
-                
             </div>
         </div>
-        <div class="price-items-pagination">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
     </div>
 </template>
 
@@ -56,7 +48,79 @@
                     },
                     {
                         mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
                         image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
                         imageName: "alt",
                         
                     },
@@ -74,13 +138,109 @@
                     },
                     {
                         mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
                         image:require('../../../../public/images/SH2.png'),
                         imageName: "alt",
                        
                     },
                     {
                         mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
                         image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/cs.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
                         imageName: "alt",
                         
                     },
@@ -102,6 +262,18 @@
                         imageName: "alt",
                         
                     },
+                     {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
+                        imageName: "alt",
+                        
+                    },
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/Liverpool.png'),
@@ -117,6 +289,18 @@
                     {
                         mainText: "Text",
                         image:require('../../../../public/images/Illuminati.png'),
+                        imageName: "alt",
+                        
+                    },
+                     {
+                        mainText: "Text",
+                        image:require('../../../../public/images/Residentevil.png'),
+                        imageName: "alt",
+                        
+                    },
+                    {
+                        mainText: "Text",
+                        image:require('../../../../public/images/PUBG.png'),
                         imageName: "alt",
                         
                     },
@@ -138,7 +322,8 @@
                         imageName: "alt",
                         
                     },
-                ]
+                ],
+                paginate: ['pricesItems']
             }
         },
         methods: {
@@ -149,13 +334,53 @@
     }
 </script>
 <style lang="scss">
+    body {
+        overflow: hidden;
+    }
     .midle-price {
         width: 75%;
+        height: 89vh;
         margin-left: 15%;
-        margin-top: 111px;
+        margin-top: 109px;
+        overflow-y: scroll;
     }
     .flex-pos {
         justify-content: center;
+    }
+    li {
+        margin: 0 10px;
+        
+    }
+    .paginate-list {
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+        li {
+            display: inline-block;
+        }
+    }
+    .paginate-links.pricesItems {
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 2%;
+        margin-bottom: 6%;
+        a {
+            cursor: pointer;
+            color: #555555;
+        }
+        li.active a {
+            font-weight: bold;
+        }
+        li.next:before {
+            content: ' | ';
+            margin-right: 13px;
+            color: #ddd;
+        }
+        li.disabled a {
+            color: #ccc;
+            cursor: no-drop;
+        }
     }
     .price-up-items {
         display: flex;
@@ -202,20 +427,7 @@
         width: 80px;
         height: 80px;
     }
-    .price-items-pagination {
-        display: flex;
-        justify-content: center;
-        position: fixed;
-        bottom: 0%;
-        height: 78px;
-        background: #f7f7f7;
-        padding-top: 1%;
-        width: 70%;
-        padding-top: 1%;
-    }
-    .page-link {
-        color: black;
-    }
+    
     @media (max-width: 991px) {
         .midle-price {
             margin-top: 69px;

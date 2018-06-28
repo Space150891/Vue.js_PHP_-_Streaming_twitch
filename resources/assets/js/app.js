@@ -9,8 +9,11 @@ require('./bootstrap');
 require('hideshowpassword');
 var password = require('password-strength-meter');
 
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
 import UserSignStore from './components/store/UserSignStore.js';
+
+import VuePaginate from 'vue-paginate';
+Vue.use(VuePaginate);
 
 window.Vue = require('vue');
 var Home = require('./components/Home.vue');
