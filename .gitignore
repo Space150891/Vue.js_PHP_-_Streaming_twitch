@@ -45,6 +45,7 @@ composer.lock
 /storage/framework/*
 /storage/logs/*
 /storage/users/*
+/storage/public/*
 packages/
 
 # Debug Files

@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+var config = require('../admin/config.json');
 
 Vue.use(Vuex);
 
 const AdminStore = new Vuex.Store({
     state: {
         token: false,
-        apiUrl : 'http://localhost:8000/api/',
+        // apiUrl : 'http://localhost:8000/api/',
+        apiUrl : config.baseUrl + '/api/',
         itemTypes: [],
         rarities: [],
         items: [],
@@ -215,31 +217,35 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
+                console.log('get list response');
                 state.items = jsonResp.data ? jsonResp.data.items : [];
             });
         },
-        createItem(state, data) {
+        async createItem(state, data) {
             var formData = new FormData();
             formData.append('token', state.token);
             formData.append('title', data.title);
             formData.append('item_type_id', data.item_type_id);
             formData.append('description', data.description);
             formData.append('worth', data.worth);
-            fetch(state.apiUrl + 'items/store',
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            if (data.icon) {
+                formData.append('icon', data.icon);
+            }
+            var res = await fetch(state.apiUrl + 'items/store',
             {
                 method: "POST",
                 body: formData,
                 credentials: 'omit',
                 mode: 'cors',
-            })
-            .then(function(res){
-                return res.json();
-            })
-            .then(function(jsonResp){
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
             });
+            console.log('get create response');
+            var jsonResp = await res.json();
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
         },
         deleteItem(state, id) {
             var formData = new FormData();
@@ -268,6 +274,12 @@ const AdminStore = new Vuex.Store({
             formData.append('item_type_id', data.item_type_id);
             formData.append('description', data.description);
             formData.append('worth', data.worth);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            if (data.icon) {
+                formData.append('icon', data.icon);
+            }
             fetch(state.apiUrl + 'items/update',
             {
                 method: "POST",
@@ -322,17 +334,20 @@ const AdminStore = new Vuex.Store({
             context.commit('getItemsList');
             context.commit('getItemTypesList');
         },
-        createItemAction(context, data) {
-            context.commit('createItem', data);
-            context.commit('getItemsList');
+        async createItemAction(context, data) {
+            console.log('before create action');
+            await context.commit('createItem', data);
+            console.log('after create action');
+            await context.commit('getItemsList');
+            console.log('after get action');
         },
-        ItemDeleteAction(context, id) {
-            context.commit('deleteItem', id);
-            context.commit('getItemsList');
+        async ItemDeleteAction(context, id) {
+            await context.commit('deleteItem', id);
+            await context.commit('getItemsList');
         },
-        ItemSaveAction(context, data) {
-            context.commit('saveItem', data);
-            context.commit('getItemsList');
+        async ItemSaveAction(context, data) {
+            await context.commit('saveItem', data);
+            await context.commit('getItemsList');
         },
     },
     getters : {

@@ -23,6 +23,7 @@ Vue.use(VueRouter);
 Vue.component('admin-menu', require('./components/admin/AdminMenu.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
+Vue.component('upload-image', require('./components/admin/UploadImage.vue'));
 
 const app = new Vue({
     el: '#admin-app',

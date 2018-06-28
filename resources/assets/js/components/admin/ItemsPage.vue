@@ -20,13 +20,23 @@
 					<td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
 					<td>{{ item.type }}</td>
-                    <td>{{ item.description }}</td>
+                    <td>
+                        <span v-if="item.description">{{ item.description }}</span>
+                    </td>
                     <td>{{ item.worth }}</td>
                     <td>
-                        <image v-bind:src="item.image" alt="item image"/>
+                        <img 
+                          v-if="item.image"
+                          v-bind:src="imagesUrl + item.image"
+                          v-bind:style="styleImage"
+                          alt="item image"/>
                     </td>
                     <td>
-                        <image v-bind:src="item.icon" alt="item icon"/>
+                        <img
+                          v-if="item.icon"
+                          v-bind:src="imagesUrl + item.icon"
+                          v-bind:style="styleImage"
+                          alt="item icon"/>
                     </td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
@@ -65,13 +75,25 @@
           v-on:close-alert-modal="openAlertModal=false"
         >
         </modal-alert>
-
+        <upload-image
+          title="Image"
+          v-bind:fileName="editItem.image"
+          v-on:upload-file="uploadImage($event)"
+        >
+        </upload-image>
+        <upload-image
+          title="Icon"
+          v-bind:fileName="editItem.icon"
+          v-on:upload-file="uploadIcon($event)"
+        >
+        </upload-image>
 	</div>
   <h5 v-else>login first</h5>
 </div>
 </template>
 <script>
   import { mapGetters} from 'vuex';
+  var config = require('../admin/config.json');
 	
   export default {
     data: () => {
@@ -95,6 +117,12 @@
             openAlertModal: false,
             image: false,
             icon: false,
+            styleImage: {
+                width: "100px",
+                border: "1px #888 solid",
+                borderRadius: "2px",
+            },
+            imagesUrl : (config.baseUrl + '/storage/'),
         }
     },
 		mounted() {
@@ -114,12 +142,12 @@
 			},
 			editAction: function (item) {
 				this.editItem.title = item.title;
-                this.editItem.description = item.description;
+                this.editItem.description = item.description ? item.description : '';
                 this.editItem.worth = item.worth;
                 this.editItem.item_type_id = item.item_type_id;
                 this.editItem.image = item.image;
-                this.editItem.icon = item.icon;
-				this.editItem.id = item.id;
+                this.editItem.icon = null;
+				this.editItem.id = null;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -134,7 +162,7 @@
                     this.$store.dispatch('createItemAction', this.editItem);
                     this.editItem.title = '';
                     this.editItem.description = '';
-                    this.editItem.worth = '';
+                    this.editItem.worth = 0;
                     this.editItem.item_type_id = 0;
                     this.editItem.image = null;
                     this.editItem.icon = null;
@@ -149,7 +177,7 @@
 				this.$store.dispatch('ItemSaveAction', this.editItem);
                 this.editItem.title = '';
                 this.editItem.description = '';
-                this.editItem.worth = '';
+                this.editItem.worth = 0;
                 this.editItem.item_type_id = 0;
                 this.editItem.image = null;
                 this.editItem.icon = null;
@@ -159,6 +187,12 @@
 			createCancelAction: function() {
 				this.editMode = false;
 			},
+            uploadImage: function(file) {
+                this.editItem.image = file;
+            },
+            uploadIcon: function(file) {
+                this.editItem.icon = file;
+            },
     },
     computed: {
 			...mapGetters([
