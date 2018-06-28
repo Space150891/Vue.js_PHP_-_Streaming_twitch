@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in Rarities">
+				<tr v-for="item in rarities">
 					<td>{{item.id}}</td>
 					<td>{{item.name}}</td>
                     <td>{{item.percent}}</td>
@@ -141,7 +141,7 @@
     computed: {
 			...mapGetters([
 				'checkToken',
-				'Rarities',
+				'rarities',
 			]),
     }
   }

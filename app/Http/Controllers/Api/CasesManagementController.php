@@ -37,12 +37,14 @@ class CasesManagementController extends Controller
     {
         $cases = LootCase::all();
         for ($i = 0; $i < count($cases); $i++) {
-            $lootItems = $cases[$i]->items()->get();
-            $caseItems = [];
-            foreach ($lootItems as $lootItem) {
-                $caseItems[] = $lootItem->item()->first();
-            }
-            $cases[$i]->items = $caseItems;
+            // $lootItems = $cases[$i]->items()->get();
+            // $caseItems = [];
+            // foreach ($lootItems as $lootItem) {
+            //     $caseItems[] = $lootItem->item()->first();
+            // }
+            // $cases[$i]->items = $caseItems;
+            $type = $cases[$i]->type()->first();
+            $cases[$i]->type = $type->name;
         }
         return response()->json(['data' => [
             'cases' => $cases,
@@ -120,7 +122,7 @@ class CasesManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request) //// 
+    public function show(Request $request)
     {
         $id = $request->id;
         $case = LootCase::find($id);
@@ -238,22 +240,44 @@ class CasesManagementController extends Controller
         ]);
     }
 
-    public function deleteItem(Request $request)
+    public function itemsList(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'case_id'       => 'required|numeric',
-            'item_id'       => 'required|numeric',
+            'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $case = LootCase::find($request->case_id);
+        $case = LootCase::find($request->id);
         if (!$case) {
             return response()->json([
                 'errors' => ['case id not found'],
             ]);
         }
-        $item = $case->items()->where('item_id', $request->item_id)->first();
+        $caseItems = ItemCase::query()
+                    ->select('items_cases.id', 'items_cases.item_id', 'items_cases.rarity_id', 'items.title', 'items.icon', 'rarities.name as rarity', 'item_types.name as type')
+                    ->where('items_cases.case_id', '=', $request->id)
+                    ->join('items', 'items.id', '=', 'items_cases.item_id')
+                    ->join('rarities', 'rarities.id', '=', 'items_cases.rarity_id')
+                    ->join('item_types', 'item_types.id', '=', 'items.item_type_id')
+                    ->get();
+        return response()->json([
+            'data' => [
+                'items' => $caseItems,
+            ],
+        ]);
+    }
+
+    public function deleteItem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        // $item = $case->items()->where('item_id', $request->item_id)->first();
+        $item = ItemCase::find($request->id);
         if (!$item) {
             return response()->json([
                 'errors' => ['item id not found'],

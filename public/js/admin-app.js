@@ -1666,6 +1666,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1898,7 +1901,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
       this.editItem.name = item.name;
       this.editItem.price = item.price;
       this.editItem.image = null;
-      this.editItem.id = null;
+      this.editItem.id = item.id;
       this.editMode = true;
     },
     createAction: function createAction() {
@@ -1936,7 +1939,336 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
       this.editItem.image = file;
     }
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'CaseTypes']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CasesItemsList.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // props: ['LootCase'],
+  props: {
+    LootCase: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      newItem: {
+        item_id: 0,
+        rarity_id: 0,
+        id: 0,
+        case_id: this.LootCase.id
+      },
+      deletingItem: {
+        name: '',
+        id: 0,
+        openModal: false
+      },
+      errors: [],
+      openAlertModal: false,
+      imagesUrl: config.baseUrl + '/storage/',
+      styleImage: {
+        width: "100px",
+        border: "1px #888 solid",
+        borderRadius: "2px"
+      }
+    };
+  },
+  mounted: function mounted() {
+    if (this.checkToken) {
+      this.getList();
+    }
+  },
+
+  methods: {
+    confirmDeleteAction: function confirmDeleteAction(item) {
+      this.deletingItem.name = item.title + ' ' + item.rarity;
+      this.deletingItem.id = item.id;
+      this.deletingItem.openModal = true;
+    },
+    deleteAction: function deleteAction() {
+      this.$store.dispatch('CaseItemDeleteAction', this.deletingItem.id);
+      this.deletingItem.openModal = false;
+    },
+    createAction: function createAction() {
+      this.errors = [];
+      if (this.newItem.item_id == 0) {
+        this.errors.push('select item');
+      }
+      if (this.newItem.rarity_id == 0) {
+        this.errors.push('select rarity');
+      }
+      if (this.errors.length == 0) {
+        this.$store.dispatch('CaseItemCreateAction', this.newItem);
+        this.newItem.rarity_id = 0;
+        this.newItem.item_id = 0;
+      } else {
+        this.openAlertModal = true;
+      }
+    },
+    getList: function getList() {
+      this.$store.dispatch('CaseItemsListAction', this.LootCase.id);
+    }
+  },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'items', 'rarities', 'caseItems']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CasesPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			editMode: false,
+			editItemsMode: false,
+			editCase: {
+				name: '',
+				description: '',
+				case_type_id: 0,
+				id: 0
+			},
+			deletingCase: {
+				name: '',
+				id: 0,
+				openModal: false
+			},
+			errors: [],
+			openAlertModal: false,
+			imagesUrl: config.baseUrl + '/storage/',
+			selectedCase: {
+				id: 0,
+				name: ''
+			}
+		};
+	},
+	mounted: function mounted() {
+		if (this.checkToken) {
+			this.getList();
+		}
+	},
+
+	methods: {
+		confirmDeleteAction: function confirmDeleteAction(lootCase) {
+			this.deletingCase.name = lootCase.name;
+			this.deletingCase.id = lootCase.id;
+			this.deletingCase.openModal = true;
+		},
+		deleteAction: function deleteAction() {
+			this.$store.dispatch('CaseDeleteAction', this.deletingCase.id);
+			this.deletingCase.openModal = false;
+		},
+		editAction: function editAction(item) {
+			this.editCase.name = item.name;
+			this.editCase.case_type_id = item.case_type_id;
+			this.editCase.id = item.id;
+			this.editMode = true;
+		},
+		createAction: function createAction() {
+			this.errors = [];
+			if (this.editCase.name == '') {
+				this.errors.push('name empty');
+			}
+			if (this.editCase.case_type_id == 0) {
+				this.errors.push('select case type');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('CaseCreateAction', this.editCase);
+				this.editCase.name = '';
+				this.editCase.case_type_id = 0;
+				this.editCase.id = 0;
+			} else {
+				this.openAlertModal = true;
+			}
+		},
+		getList: function getList() {
+			this.$store.dispatch('CasesListAction');
+		},
+		saveAction: function saveAction() {
+			this.errors = [];
+			if (this.editCase.name == '') {
+				this.errors.push('name empty');
+			}
+			if (this.editCase.case_type_id == 0) {
+				this.errors.push('select case type');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('CaseSaveAction', this.editCase);
+				this.editCase.name = '';
+				this.editCase.case_type_id = 0;
+				this.editCase.id = 0;
+				this.editMode = false;
+			} else {
+				this.openAlertModal = true;
+			}
+		},
+		createCancelAction: function createCancelAction() {
+			this.editMode = false;
+		},
+		closeItemsListAction: function closeItemsListAction() {
+			this.editItemsMode = false;
+		},
+		toggleItemsListAction: function toggleItemsListAction(lootCase) {
+			this.$store.dispatch('CaseItemClear');
+			this.selectedCase.id = lootCase.id;
+			this.selectedCase.name = lootCase.name;
+			this.editItemsMode = true;
+		}
+	},
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'cases']))
 });
 
 /***/ }),
@@ -2570,7 +2902,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	}), _defineProperty(_methods, 'createCancelAction', function createCancelAction() {
 		this.editMode = false;
 	}), _methods),
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'Rarities']))
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'rarities']))
 });
 
 /***/ }),
@@ -2607,7 +2939,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 display: "inline-block",
                 margin: "5px",
                 width: "300px",
-                height: "200px",
+                // height: "200px",
                 border: "1px 999 solid",
                 background: "#fff",
                 borderRadius: "5px",
@@ -42833,7 +43165,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.CaseTypes, function(item) {
+                _vm._l(_vm.caseTypes, function(item) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(item.id))]),
                     _vm._v(" "),
@@ -43473,6 +43805,12 @@ var staticRenderFns = [
               { staticClass: "nav-link", attrs: { href: "#/case-types" } },
               [_vm._v("Case Types")]
             )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "#/cases" } }, [
+              _vm._v("Cases")
+            ])
           ])
         ])
       ]
@@ -43629,6 +43967,261 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5cfc0f1c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CasesItemsList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.checkToken
+      ? _c(
+          "div",
+          [
+            _c("h5", [
+              _vm._v("Case "),
+              _c("strong", [_vm._v(_vm._s(_vm.LootCase.name))])
+            ]),
+            _vm._v(" "),
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.caseItems, function(item) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(item.title))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      item.icon
+                        ? _c("img", {
+                            style: _vm.styleImage,
+                            attrs: {
+                              src: _vm.imagesUrl + item.icon,
+                              alt: "item icon"
+                            }
+                          })
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.type))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.rarity))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.confirmDeleteAction(item)
+                            }
+                          }
+                        },
+                        [_vm._v("del")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("form", { staticClass: "form form-inline" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.item_id,
+                        expression: "newItem.item_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.newItem,
+                          "item_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("Select item")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.items, function(item) {
+                      return _c("option", { domProps: { value: item.id } }, [
+                        _vm._v(
+                          _vm._s(
+                            item.title + " " + item.type + " " + item.worth
+                          )
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newItem.rarity_id,
+                        expression: "newItem.rarity_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.newItem,
+                          "rarity_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("Select rarity")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.rarities, function(rarity) {
+                      return _c("option", { domProps: { value: rarity.id } }, [
+                        _vm._v(_vm._s(rarity.name + " " + rarity.percent + "%"))
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.createAction()
+                      }
+                    }
+                  },
+                  [_vm._v("Add")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  on: {
+                    click: function($event) {
+                      _vm.$emit("close-items-list")
+                    }
+                  }
+                },
+                [_vm._v("DONE")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("modal-delete", {
+              attrs: {
+                name: _vm.deletingItem.name,
+                opened: _vm.deletingItem.openModal
+              },
+              on: {
+                "close-delete-modal": function($event) {
+                  _vm.deletingItem.openModal = false
+                },
+                "confirm-delete": _vm.deleteAction
+              }
+            }),
+            _vm._v(" "),
+            _c("modal-alert", {
+              attrs: {
+                AlertType: "warning",
+                messages: _vm.errors,
+                opened: _vm.openAlertModal
+              },
+              on: {
+                "close-alert-modal": function($event) {
+                  _vm.openAlertModal = false
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Title")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Icon")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rarity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5cfc0f1c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-64295ef3\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/UploadImage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43762,7 +44355,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.Rarities, function(item) {
+                _vm._l(_vm.rarities, function(item) {
                   return _c("tr", [
                     _c("td", [_vm._v(_vm._s(item.id))]),
                     _vm._v(" "),
@@ -44267,6 +44860,277 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-98757238", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e92a386a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CasesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _vm.checkToken && !_vm.editItemsMode
+        ? _c(
+            "div",
+            [
+              _c("h5", [_vm._v("Cases page")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.cases, function(lootCase) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(lootCase.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(lootCase.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(lootCase.type))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-danger",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.confirmDeleteAction(lootCase)
+                              }
+                            }
+                          },
+                          [_vm._v("del")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-warning",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.editAction(lootCase)
+                              }
+                            }
+                          },
+                          [_vm._v("edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-success",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.toggleItemsListAction(lootCase)
+                              }
+                            }
+                          },
+                          [_vm._v("items")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("form", { staticClass: "form form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editCase.name,
+                        expression: "editCase.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Name...", type: "text" },
+                    domProps: { value: _vm.editCase.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editCase, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editCase.case_type_id,
+                          expression: "editCase.case_type_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editCase,
+                            "case_type_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Select case type")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.caseTypes, function(caseType) {
+                        return _c(
+                          "option",
+                          { domProps: { value: caseType.id } },
+                          [
+                            _vm._v(
+                              _vm._s(caseType.name + " cost " + caseType.price)
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.editMode
+                    ? _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.saveAction()
+                              }
+                            }
+                          },
+                          [_vm._v("SAVE")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-default",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.editCancelAction()
+                              }
+                            }
+                          },
+                          [_vm._v("cancel")]
+                        )
+                      ])
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.createAction()
+                            }
+                          }
+                        },
+                        [_vm._v("Create new")]
+                      )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("modal-delete", {
+                attrs: {
+                  name: _vm.deletingCase.name,
+                  opened: _vm.deletingCase.openModal
+                },
+                on: {
+                  "close-delete-modal": function($event) {
+                    _vm.deletingCase.openModal = false
+                  },
+                  "confirm-delete": _vm.deleteAction
+                }
+              }),
+              _vm._v(" "),
+              _c("modal-alert", {
+                attrs: {
+                  AlertType: "warning",
+                  messages: _vm.errors,
+                  opened: _vm.openAlertModal
+                },
+                on: {
+                  "close-alert-modal": function($event) {
+                    _vm.openAlertModal = false
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && _vm.editItemsMode
+        ? _c("case-items", {
+            attrs: { LootCase: _vm.selectedCase },
+            on: { "close-items-list": _vm.closeItemsListAction }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e92a386a", module.exports)
   }
 }
 
@@ -58884,9 +59748,10 @@ var ItemTypesPage = __webpack_require__("./resources/assets/js/components/admin/
 var ItemsPage = __webpack_require__("./resources/assets/js/components/admin/ItemsPage.vue");
 var RaritiesPage = __webpack_require__("./resources/assets/js/components/admin/RaritiesPage.vue");
 var CaseTypesPage = __webpack_require__("./resources/assets/js/components/admin/CaseTypesPage.vue");
+var CasesPage = __webpack_require__("./resources/assets/js/components/admin/CasesPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -58894,6 +59759,7 @@ Vue.component('admin-menu', __webpack_require__("./resources/assets/js/component
 Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
 Vue.component('modal-alert', __webpack_require__("./resources/assets/js/components/admin/AlertModal.vue"));
 Vue.component('upload-image', __webpack_require__("./resources/assets/js/components/admin/UploadImage.vue"));
+Vue.component('case-items', __webpack_require__("./resources/assets/js/components/admin/CasesItemsList.vue"));
 
 var app = new Vue({
     el: '#admin-app',
@@ -59111,6 +59977,102 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-1865559e", Component.options)
   } else {
     hotAPI.reload("data-v-1865559e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/CasesItemsList.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CasesItemsList.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5cfc0f1c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CasesItemsList.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/CasesItemsList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5cfc0f1c", Component.options)
+  } else {
+    hotAPI.reload("data-v-5cfc0f1c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/CasesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CasesPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e92a386a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CasesPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/CasesPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e92a386a", Component.options)
+  } else {
+    hotAPI.reload("data-v-e92a386a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -59443,7 +60405,9 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
         itemTypes: [],
         rarities: [],
         items: [],
-        caseTypes: []
+        caseTypes: [],
+        cases: [],
+        caseItems: []
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -59805,6 +60769,139 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
                     state.token = false;
                 }
             });
+        },
+
+        // cases
+        getCases: function getCases(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'cases/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.cases = jsonResp.data ? jsonResp.data.cases : [];
+            });
+        },
+        createCase: function createCase(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('case_type_id', data.case_type_id);
+            fetch(state.apiUrl + 'cases/store', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCase: function deleteCase(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveCase: function saveCase(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('case_type_id', data.case_type_id);
+            fetch(state.apiUrl + 'cases/update', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+
+        // case items
+        getCaseItems: function getCaseItems(state, CaseId) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', CaseId);
+            fetch(state.apiUrl + 'cases/item/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.caseItems = jsonResp.data ? jsonResp.data.items : [];
+            });
+        },
+        createCaseItem: function createCaseItem(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('item_id', data.item_id);
+            formData.append('rarity_id', data.rarity_id);
+            formData.append('case_id', data.case_id);
+            fetch(state.apiUrl + 'cases/item/add', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCaseItem: function deleteCaseItem(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/item/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        clearCaseItems: function clearCaseItems(state) {
+            state.caseItems = [];
         }
     },
     actions: {
@@ -59948,6 +61045,42 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
         CaseTypeSaveAction: function CaseTypeSaveAction(context, data) {
             context.commit('saveCaseType', data);
             context.commit('getCaseTypesList');
+        },
+
+        // cases
+        CasesListAction: function CasesListAction(context) {
+            context.commit('getCases');
+            context.commit('getCaseTypesList');
+        },
+        CaseCreateAction: function CaseCreateAction(context, data) {
+            context.commit('createCase', data);
+            context.commit('getCases');
+        },
+        CaseDeleteAction: function CaseDeleteAction(context, id) {
+            context.commit('deleteCase', id);
+            context.commit('getCases');
+        },
+        CaseSaveAction: function CaseSaveAction(context, data) {
+            context.commit('saveCase', data);
+            context.commit('getCases');
+        },
+
+        // case items
+        CaseItemsListAction: function CaseItemsListAction(context, id) {
+            context.commit('getItemsList');
+            context.commit('getRaritiesList');
+            context.commit('getCaseItems', id); //
+        },
+        CaseItemCreateAction: function CaseItemCreateAction(context, data) {
+            context.commit('createCaseItem', data); //
+            context.commit('getCaseItems', data.case_id); //
+        },
+        CaseItemDeleteAction: function CaseItemDeleteAction(context, id) {
+            context.commit('deleteCaseItem', id);
+            context.commit('getCaseItems', id);
+        },
+        CaseItemClear: function CaseItemClear(context) {
+            context.commit('clearCaseItems');
         }
     },
     getters: {
@@ -59957,14 +61090,20 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
         itemTypes: function itemTypes(state) {
             return state.itemTypes;
         },
-        Rarities: function Rarities(state) {
+        rarities: function rarities(state) {
             return state.rarities;
         },
         items: function items(state) {
             return state.items;
         },
-        CaseTypes: function CaseTypes(state) {
+        caseTypes: function caseTypes(state) {
             return state.caseTypes;
+        },
+        cases: function cases(state) {
+            return state.cases;
+        },
+        caseItems: function caseItems(state) {
+            return state.caseItems;
         }
     }
 });

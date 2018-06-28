@@ -12,6 +12,8 @@ const AdminStore = new Vuex.Store({
         rarities: [],
         items: [],
         caseTypes: [],
+        cases: [],
+        caseItems: [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -386,6 +388,156 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
+        // cases
+        getCases(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'cases/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.cases = jsonResp.data ? jsonResp.data.cases : [];
+            });
+        },
+        createCase(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('case_type_id', data.case_type_id);
+            fetch(state.apiUrl + 'cases/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCase(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveCase(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('case_type_id', data.case_type_id);
+            fetch(state.apiUrl + 'cases/update',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        // case items
+        getCaseItems(state, CaseId) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', CaseId);
+            fetch(state.apiUrl + 'cases/item/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.caseItems = jsonResp.data ? jsonResp.data.items : [];
+            });
+        },
+        createCaseItem(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('item_id', data.item_id);
+            formData.append('rarity_id', data.rarity_id);
+            formData.append('case_id', data.case_id);
+            fetch(state.apiUrl + 'cases/item/add',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCaseItem(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/item/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        clearCaseItems(state) {
+            state.caseItems = [];
+        }
     },
     actions: {
         getItemTypesListAction(context) {
@@ -455,7 +607,40 @@ const AdminStore = new Vuex.Store({
             context.commit('saveCaseType', data);
             context.commit('getCaseTypesList');
         },
-
+        // cases
+        CasesListAction(context) {
+            context.commit('getCases');
+            context.commit('getCaseTypesList');
+        },
+        CaseCreateAction(context, data) {
+            context.commit('createCase', data);
+            context.commit('getCases');
+        },
+        CaseDeleteAction(context, id) {
+            context.commit('deleteCase', id);
+            context.commit('getCases');
+        },
+        CaseSaveAction(context, data) {
+            context.commit('saveCase', data);
+            context.commit('getCases');
+        },
+        // case items
+        CaseItemsListAction(context, id) {
+            context.commit('getItemsList');
+            context.commit('getRaritiesList');
+            context.commit('getCaseItems', id); //
+        },
+        CaseItemCreateAction(context, data) {
+            context.commit('createCaseItem', data); //
+            context.commit('getCaseItems', data.case_id); //
+        },
+        CaseItemDeleteAction(context, id) {
+            context.commit('deleteCaseItem', id);
+            context.commit('getCaseItems', id);
+        },
+        CaseItemClear(context) {
+            context.commit('clearCaseItems');
+        }
     },
     getters : {
         checkToken: state => {
@@ -464,14 +649,20 @@ const AdminStore = new Vuex.Store({
         itemTypes: state => {
             return state.itemTypes;
         },
-        Rarities: state => {
+        rarities: state => {
             return state.rarities;
         },
         items: state => {
             return state.items;
         },
-        CaseTypes: state => {
+        caseTypes: state => {
             return state.caseTypes;
+        },
+        cases: state => {
+            return state.cases;
+        },
+        caseItems: state => {
+            return state.caseItems;
         },
     }
 });

@@ -18,6 +18,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#/case-types">Case Types</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/cases">Cases</a>
+          </li>
         </ul>
       </div>
     </nav>

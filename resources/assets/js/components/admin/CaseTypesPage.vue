@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in CaseTypes">
+				<tr v-for="item in caseTypes">
 					<td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }}</td>
@@ -115,7 +115,7 @@
 				this.editItem.name = item.name;
                 this.editItem.price = item.price;
                 this.editItem.image = null;
-				this.editItem.id = null;
+				this.editItem.id = item.id;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -156,7 +156,7 @@
     computed: {
 			...mapGetters([
 				'checkToken',
-				'CaseTypes',
+				'caseTypes',
 			]),
     }
   }
