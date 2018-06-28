@@ -223,7 +223,7 @@ const AdminStore = new Vuex.Store({
                 state.items = jsonResp.data ? jsonResp.data.items : [];
             });
         },
-        async createItem(state, data) {
+        createItem(state, data) {
             var formData = new FormData();
             formData.append('token', state.token);
             formData.append('title', data.title);
@@ -236,18 +236,21 @@ const AdminStore = new Vuex.Store({
             if (data.icon) {
                 formData.append('icon', data.icon);
             }
-            var res = await fetch(state.apiUrl + 'items/store',
+            fetch(state.apiUrl + 'items/store',
             {
                 method: "POST",
                 body: formData,
                 credentials: 'omit',
                 mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
             });
-            console.log('get create response');
-            var jsonResp = await res.json();
-            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                state.token = false;
-            }
         },
         deleteItem(state, id) {
             var formData = new FormData();
@@ -576,20 +579,21 @@ const AdminStore = new Vuex.Store({
             context.commit('getItemsList');
             context.commit('getItemTypesList');
         },
-        async createItemAction(context, data) {
-            console.log('before create action');
-            await context.commit('createItem', data);
-            console.log('after create action');
-            await context.commit('getItemsList');
-            console.log('after get action');
+        createItemAction(context, data) {
+            context.commit('createItem', data);
+            setTimeout(() => {
+                context.commit('getItemsList');
+              }, config.timeOut);
         },
-        async ItemDeleteAction(context, id) {
-            await context.commit('deleteItem', id);
-            await context.commit('getItemsList');
+        ItemDeleteAction(context, id) {
+            context.commit('deleteItem', id);
+            context.commit('getItemsList');
         },
-        async ItemSaveAction(context, data) {
-            await context.commit('saveItem', data);
-            await context.commit('getItemsList');
+        ItemSaveAction(context, data) {
+            context.commit('saveItem', data);
+            setTimeout(() => {
+                context.commit('getItemsList');
+              }, config.timeOut);
         },
         // case types
         getCaseTypesListAction(context) {
@@ -597,7 +601,9 @@ const AdminStore = new Vuex.Store({
         },
         createCaseTypeAction(context, data) {
             context.commit('createCaseType', data);
-            context.commit('getCaseTypesList');
+            setTimeout(() => {
+                context.commit('getCaseTypesList');
+              }, config.timeOut);
         },
         CaseTypeDeleteAction(context, id) {
             context.commit('deleteCaseType', id);
@@ -605,7 +611,9 @@ const AdminStore = new Vuex.Store({
         },
         CaseTypeSaveAction(context, data) {
             context.commit('saveCaseType', data);
-            context.commit('getCaseTypesList');
+            setTimeout(() => {
+                context.commit('getCaseTypesList');
+              }, config.timeOut);
         },
         // cases
         CasesListAction(context) {
