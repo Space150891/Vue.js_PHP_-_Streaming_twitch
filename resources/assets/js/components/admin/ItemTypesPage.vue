@@ -39,6 +39,13 @@
 			v-on:confirm-delete="deleteAction"
 			>
 		</modal-delete>
+		<modal-alert
+          AlertType="warning"
+          v-bind:messages="errors"
+          v-bind:opened="openAlertModal"
+          v-on:close-alert-modal="openAlertModal=false"
+        >
+		</modal-alert>
 	</div>
   <h5 v-else>login first</h5>
 </div>
@@ -62,6 +69,8 @@
 						id: 0,
 						openModal: false,
 					},
+					errors: [],
+          openAlertModal: false,
         }
     },
 		mounted() {
@@ -85,14 +94,35 @@
 				this.editMode = true;
 			},
 			createAction: function () {
-				this.$store.dispatch('createItemTypeAction', this.newItemType);
+				this.errors = [];
+          if (this.newItemType.name == '') {
+            this.errors.push('name empty');
+          }
+          if (this.errors.length == 0) {
+            this.$store.dispatch('createItemTypeAction', this.newItemType);
+            this.newItemType.name = '';
+          } else {
+            this.openAlertModal = true;
+          }
+				
 			},
 			getList: function () {
 				this.$store.dispatch('getItemTypesListAction');
 			},
 			saveAction: function() {
-				this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
-				this.editMode = false;
+				this.errors = [];
+        if (this.editItemType.name == '') {
+          this.errors.push('name empty');
+        }
+        if (this.errors.length == 0) {
+          this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
+					this.editItemType.name = '';
+					this.editItemType.id = 0;
+					this.editMode = false;
+        } else {
+          this.openAlertModal = true;
+        }
+				
 			},
 			createCancelAction: function() {
 				this.editMode = false;

@@ -1663,6 +1663,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1769,6 +1772,175 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CaseTypesPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      editMode: false,
+      editItem: {
+        name: '',
+        price: 0,
+        image: null,
+        id: 0
+      },
+      deletingItem: {
+        name: '',
+        id: 0,
+        openModal: false
+      },
+      errors: [],
+      openAlertModal: false,
+      image: false,
+      styleImage: {
+        width: "100px",
+        border: "1px #888 solid",
+        borderRadius: "2px"
+      },
+      imagesUrl: config.baseUrl + '/storage/'
+    };
+  },
+  mounted: function mounted() {
+    if (this.checkToken) {
+      this.getList();
+    }
+  },
+
+  methods: {
+    confirmDeleteAction: function confirmDeleteAction(item) {
+      this.deletingItem.name = item.name;
+      this.deletingItem.id = item.id;
+      this.deletingItem.openModal = true;
+    },
+    deleteAction: function deleteAction() {
+      this.$store.dispatch('CaseTypeDeleteAction', this.deletingItem.id);
+      this.deletingItem.openModal = false;
+    },
+    editAction: function editAction(item) {
+      this.editItem.name = item.name;
+      this.editItem.price = item.price;
+      this.editItem.image = null;
+      this.editItem.id = null;
+      this.editMode = true;
+    },
+    createAction: function createAction() {
+      this.errors = [];
+      if (this.editItem.name == '') {
+        this.errors.push('name empty');
+      }
+      if (this.editItem.price == 0) {
+        this.errors.push('set price');
+      }
+      if (this.errors.length == 0) {
+        this.$store.dispatch('createCaseTypeAction', this.editItem);
+        this.editItem.name = '';
+        this.editItem.price = 0;
+        this.editItem.image = null;
+      } else {
+        this.openAlertModal = true;
+      }
+    },
+    getList: function getList() {
+      this.$store.dispatch('getCaseTypesListAction');
+    },
+    saveAction: function saveAction() {
+      this.$store.dispatch('CaseTypeSaveAction', this.editItem);
+      this.editItem.name = '';
+      this.editItem.price = 0;
+      this.editItem.image = null;
+      this.editItem.id = 0;
+      this.editMode = false;
+    },
+    createCancelAction: function createCancelAction() {
+      this.editMode = false;
+    },
+    uploadImage: function uploadImage(file) {
+      this.editItem.image = file;
+    }
+  },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'CaseTypes']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1868,6 +2040,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1886,7 +2065,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 				name: '',
 				id: 0,
 				openModal: false
-			}
+			},
+			errors: [],
+			openAlertModal: false
 		};
 	},
 	mounted: function mounted() {
@@ -1911,14 +2092,33 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			this.editMode = true;
 		},
 		createAction: function createAction() {
-			this.$store.dispatch('createItemTypeAction', this.newItemType);
+			this.errors = [];
+			if (this.newItemType.name == '') {
+				this.errors.push('name empty');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('createItemTypeAction', this.newItemType);
+				this.newItemType.name = '';
+			} else {
+				this.openAlertModal = true;
+			}
 		},
 		getList: function getList() {
 			this.$store.dispatch('getItemTypesListAction');
 		},
 		saveAction: function saveAction() {
-			this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
-			this.editMode = false;
+			this.errors = [];
+			if (this.editItemType.name == '') {
+				this.errors.push('name empty');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('ItemTypeSaveAction', this.editItemType);
+				this.editItemType.name = '';
+				this.editItemType.id = 0;
+				this.editMode = false;
+			} else {
+				this.openAlertModal = true;
+			}
 		},
 		createCancelAction: function createCancelAction() {
 			this.editMode = false;
@@ -2035,106 +2235,117 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      editMode: false,
-      editItem: {
-        title: '',
-        description: '',
-        item_type_id: 0,
-        worth: 0,
-        image: null,
-        icon: null,
-        id: 0
-      },
-      deletingItem: {
-        name: '',
-        id: 0,
-        openModal: false
-      },
-      errors: [],
-      openAlertModal: false,
-      image: false,
-      icon: false,
-      styleImage: {
-        width: "100px",
-        border: "1px #888 solid",
-        borderRadius: "2px"
-      },
-      imagesUrl: config.baseUrl + '/storage/'
-    };
-  },
-  mounted: function mounted() {
-    if (this.checkToken) {
-      this.getList();
-    }
-  },
+    data: function data() {
+        return {
+            editMode: false,
+            editItem: {
+                title: '',
+                description: '',
+                item_type_id: 0,
+                worth: 0,
+                image: null,
+                icon: null,
+                id: 0
+            },
+            deletingItem: {
+                name: '',
+                id: 0,
+                openModal: false
+            },
+            errors: [],
+            openAlertModal: false,
+            image: false,
+            icon: false,
+            styleImage: {
+                width: "100px",
+                border: "1px #888 solid",
+                borderRadius: "2px"
+            },
+            imagesUrl: config.baseUrl + '/storage/'
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+        }
+    },
 
-  methods: {
-    confirmDeleteAction: function confirmDeleteAction(item) {
-      this.deletingItem.name = item.title;
-      this.deletingItem.id = item.id;
-      this.deletingItem.openModal = true;
+    methods: {
+        confirmDeleteAction: function confirmDeleteAction(item) {
+            this.deletingItem.name = item.title;
+            this.deletingItem.id = item.id;
+            this.deletingItem.openModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.$store.dispatch('ItemDeleteAction', this.deletingItem.id);
+            this.deletingItem.openModal = false;
+        },
+        editAction: function editAction(item) {
+            this.editItem.title = item.title;
+            this.editItem.description = item.description ? item.description : '';
+            this.editItem.worth = item.worth;
+            this.editItem.item_type_id = item.item_type_id;
+            this.editItem.image = null;
+            this.editItem.icon = null;
+            this.editItem.id = null;
+            this.editMode = true;
+        },
+        createAction: function createAction() {
+            this.errors = [];
+            if (this.editItem.title == '') {
+                this.errors.push('item title empty');
+            }
+            if (this.editItem.item_type_id == 0) {
+                this.errors.push('select item type id');
+            }
+            if (this.errors.length == 0) {
+                this.$store.dispatch('createItemAction', this.editItem);
+                this.editItem.title = '';
+                this.editItem.description = '';
+                this.editItem.worth = 0;
+                this.editItem.item_type_id = 0;
+                this.editItem.image = null;
+                this.editItem.icon = null;
+            } else {
+                this.openAlertModal = true;
+            }
+        },
+        getList: function getList() {
+            this.$store.dispatch('getItemsListAction');
+        },
+        saveAction: function saveAction() {
+            this.errors = [];
+            if (this.editItem.title == '') {
+                this.errors.push('item title empty');
+            }
+            if (this.editItem.item_type_id == 0) {
+                this.errors.push('select item type id');
+            }
+            if (this.errors.length == 0) {
+                this.$store.dispatch('ItemSaveAction', this.editItem);
+                this.editItem.title = '';
+                this.editItem.description = '';
+                this.editItem.worth = 0;
+                this.editItem.item_type_id = 0;
+                this.editItem.image = null;
+                this.editItem.icon = null;
+                this.editItem.id = 0;
+                this.editMode = false;
+            } else {
+                this.openAlertModal = true;
+            }
+        },
+        createCancelAction: function createCancelAction() {
+            this.editMode = false;
+        },
+        uploadImage: function uploadImage(file) {
+            this.editItem.image = file;
+        },
+        uploadIcon: function uploadIcon(file) {
+            this.editItem.icon = file;
+        }
     },
-    deleteAction: function deleteAction() {
-      this.$store.dispatch('ItemDeleteAction', this.deletingItem.id);
-      this.deletingItem.openModal = false;
-    },
-    editAction: function editAction(item) {
-      this.editItem.title = item.title;
-      this.editItem.description = item.description ? item.description : '';
-      this.editItem.worth = item.worth;
-      this.editItem.item_type_id = item.item_type_id;
-      this.editItem.image = item.image;
-      this.editItem.icon = null;
-      this.editItem.id = null;
-      this.editMode = true;
-    },
-    createAction: function createAction() {
-      this.errors = [];
-      if (this.editItem.title == '') {
-        this.errors.push('item title empty');
-      }
-      if (this.editItem.item_type_id == 0) {
-        this.errors.push('select item type id');
-      }
-      if (this.errors.length == 0) {
-        this.$store.dispatch('createItemAction', this.editItem);
-        this.editItem.title = '';
-        this.editItem.description = '';
-        this.editItem.worth = 0;
-        this.editItem.item_type_id = 0;
-        this.editItem.image = null;
-        this.editItem.icon = null;
-      } else {
-        this.openAlertModal = true;
-      }
-    },
-    getList: function getList() {
-      this.$store.dispatch('getItemsListAction');
-    },
-    saveAction: function saveAction() {
-      this.$store.dispatch('ItemSaveAction', this.editItem);
-      this.editItem.title = '';
-      this.editItem.description = '';
-      this.editItem.worth = 0;
-      this.editItem.item_type_id = 0;
-      this.editItem.image = null;
-      this.editItem.icon = null;
-      this.editItem.id = 0;
-      this.editMode = false;
-    },
-    createCancelAction: function createCancelAction() {
-      this.editMode = false;
-    },
-    uploadImage: function uploadImage(file) {
-      this.editItem.image = file;
-    },
-    uploadIcon: function uploadIcon(file) {
-      this.editItem.icon = file;
-    }
-  },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items']))
 });
 
 /***/ }),
@@ -2273,6 +2484,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2293,7 +2511,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				name: '',
 				id: 0,
 				openModal: false
-			}
+			},
+			errors: [],
+			openAlertModal: false
 		};
 	},
 	mounted: function mounted() {
@@ -2320,12 +2540,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		this.editItem.id = item.id;
 		this.editMode = true;
 	}), _defineProperty(_methods, 'createAction', function createAction() {
-		this.$store.dispatch('createRarityAction', this.newItem);
+		this.errors = [];
+		if (this.newItem.name == '') {
+			this.errors.push('name empty');
+		}
+		if (this.errors.length == 0) {
+			this.$store.dispatch('createRarityAction', this.newItem);
+			this.newItem.name = '';
+			this.newItem.percent = 0;
+		} else {
+			this.openAlertModal = true;
+		}
 	}), _defineProperty(_methods, 'getList', function getList() {
 		this.$store.dispatch('getRaritiesListAction');
 	}), _defineProperty(_methods, 'saveAction', function saveAction() {
-		this.$store.dispatch('RaritySaveAction', this.editItem);
-		this.editMode = false;
+		this.errors = [];
+		if (this.editItem.name == '') {
+			this.errors.push('name empty');
+		}
+		if (this.errors.length == 0) {
+			this.$store.dispatch('RaritySaveAction', this.editItem);
+			this.editItem.name = '';
+			this.editItem.percent = 0;
+			this.editItem.id = 0;
+			this.editMode = false;
+		} else {
+			this.openAlertModal = true;
+		}
 	}), _defineProperty(_methods, 'createCancelAction', function createCancelAction() {
 		this.editMode = false;
 	}), _methods),
@@ -2366,6 +2607,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 display: "inline-block",
                 margin: "5px",
                 width: "300px",
+                height: "200px",
                 border: "1px 999 solid",
                 background: "#fff",
                 borderRadius: "5px",
@@ -42572,6 +42814,242 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1865559e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CaseTypesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.checkToken
+      ? _c(
+          "div",
+          [
+            _c("h5", [_vm._v("Case types page")]),
+            _vm._v(" "),
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.CaseTypes, function(item) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(item.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.price))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      item.image
+                        ? _c("img", {
+                            style: _vm.styleImage,
+                            attrs: {
+                              src: _vm.imagesUrl + item.image,
+                              alt: "case type image"
+                            }
+                          })
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.confirmDeleteAction(item)
+                            }
+                          }
+                        },
+                        [_vm._v("del")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-warning",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.editAction(item)
+                            }
+                          }
+                        },
+                        [_vm._v("edit")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("form", { staticClass: "form form-inline" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editItem.name,
+                      expression: "editItem.name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { placeholder: "Name...", type: "text" },
+                  domProps: { value: _vm.editItem.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.editItem, "name", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editItem.price,
+                      expression: "editItem.price"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { placeholder: "Price...", type: "number" },
+                  domProps: { value: _vm.editItem.price },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.editItem, "price", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.editMode
+                  ? _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.saveAction()
+                            }
+                          }
+                        },
+                        [_vm._v("SAVE")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.editCancelAction()
+                            }
+                          }
+                        },
+                        [_vm._v("cancel")]
+                      )
+                    ])
+                  : _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.createAction()
+                          }
+                        }
+                      },
+                      [_vm._v("Create new")]
+                    )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("modal-delete", {
+              attrs: {
+                name: _vm.deletingItem.name,
+                opened: _vm.deletingItem.openModal
+              },
+              on: {
+                "close-delete-modal": function($event) {
+                  _vm.deletingItem.openModal = false
+                },
+                "confirm-delete": _vm.deleteAction
+              }
+            }),
+            _vm._v(" "),
+            _c("modal-alert", {
+              attrs: {
+                AlertType: "warning",
+                messages: _vm.errors,
+                opened: _vm.openAlertModal
+              },
+              on: {
+                "close-alert-modal": function($event) {
+                  _vm.openAlertModal = false
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("upload-image", {
+              attrs: { title: "Image", fileName: _vm.editItem.image },
+              on: {
+                "upload-file": function($event) {
+                  _vm.uploadImage($event)
+                }
+              }
+            })
+          ],
+          1
+        )
+      : _c("h5", [_vm._v("login first")])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Image")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1865559e", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-32761348\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ItemsPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42987,6 +43465,14 @@ var staticRenderFns = [
             _c("a", { staticClass: "nav-link", attrs: { href: "#/items" } }, [
               _vm._v("Items")
             ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              { staticClass: "nav-link", attrs: { href: "#/case-types" } },
+              [_vm._v("Case Types")]
+            )
           ])
         ])
       ]
@@ -43465,6 +43951,19 @@ var render = function() {
                 },
                 "confirm-delete": _vm.deleteAction
               }
+            }),
+            _vm._v(" "),
+            _c("modal-alert", {
+              attrs: {
+                AlertType: "warning",
+                messages: _vm.errors,
+                opened: _vm.openAlertModal
+              },
+              on: {
+                "close-alert-modal": function($event) {
+                  _vm.openAlertModal = false
+                }
+              }
             })
           ],
           1
@@ -43666,6 +44165,19 @@ var render = function() {
                   _vm.deletingItem.openModal = false
                 },
                 "confirm-delete": _vm.deleteAction
+              }
+            }),
+            _vm._v(" "),
+            _c("modal-alert", {
+              attrs: {
+                AlertType: "warning",
+                messages: _vm.errors,
+                opened: _vm.openAlertModal
+              },
+              on: {
+                "close-alert-modal": function($event) {
+                  _vm.openAlertModal = false
+                }
               }
             })
           ],
@@ -58371,9 +58883,10 @@ var LoginPage = __webpack_require__("./resources/assets/js/components/admin/Logi
 var ItemTypesPage = __webpack_require__("./resources/assets/js/components/admin/ItemTypesPage.vue");
 var ItemsPage = __webpack_require__("./resources/assets/js/components/admin/ItemsPage.vue");
 var RaritiesPage = __webpack_require__("./resources/assets/js/components/admin/RaritiesPage.vue");
+var CaseTypesPage = __webpack_require__("./resources/assets/js/components/admin/CaseTypesPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -58550,6 +59063,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-756659b0", Component.options)
   } else {
     hotAPI.reload("data-v-756659b0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/CaseTypesPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/CaseTypesPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1865559e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/CaseTypesPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/CaseTypesPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1865559e", Component.options)
+  } else {
+    hotAPI.reload("data-v-1865559e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -58878,11 +59439,11 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vuex
 var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store({
     state: {
         token: false,
-        // apiUrl : 'http://localhost:8000/api/',
         apiUrl: config.baseUrl + '/api/',
         itemTypes: [],
         rarities: [],
-        items: []
+        items: [],
+        caseTypes: []
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -59164,6 +59725,86 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
                     state.token = false;
                 }
             });
+        },
+
+        // case types mutation
+        getCaseTypesList: function getCaseTypesList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'cases/types/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.caseTypes = jsonResp.data ? jsonResp.data.caseTypes : [];
+            });
+        },
+        createCaseType: function createCaseType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('price', data.price);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            fetch(state.apiUrl + 'cases/types/store', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCaseType: function deleteCaseType(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/types/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveCaseType: function saveCaseType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('price', data.price);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            fetch(state.apiUrl + 'cases/types/update', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
         }
     },
     actions: {
@@ -59290,7 +59931,24 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
             }
 
             return ItemSaveAction;
-        }()
+        }(),
+
+        // case types
+        getCaseTypesListAction: function getCaseTypesListAction(context) {
+            context.commit('getCaseTypesList');
+        },
+        createCaseTypeAction: function createCaseTypeAction(context, data) {
+            context.commit('createCaseType', data);
+            context.commit('getCaseTypesList');
+        },
+        CaseTypeDeleteAction: function CaseTypeDeleteAction(context, id) {
+            context.commit('deleteCaseType', id);
+            context.commit('getCaseTypesList');
+        },
+        CaseTypeSaveAction: function CaseTypeSaveAction(context, data) {
+            context.commit('saveCaseType', data);
+            context.commit('getCaseTypesList');
+        }
     },
     getters: {
         checkToken: function checkToken(state) {
@@ -59304,6 +59962,9 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store
         },
         items: function items(state) {
             return state.items;
+        },
+        CaseTypes: function CaseTypes(state) {
+            return state.caseTypes;
         }
     }
 });

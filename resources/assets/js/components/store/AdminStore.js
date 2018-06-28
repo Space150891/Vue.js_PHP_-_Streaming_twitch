@@ -7,11 +7,11 @@ Vue.use(Vuex);
 const AdminStore = new Vuex.Store({
     state: {
         token: false,
-        // apiUrl : 'http://localhost:8000/api/',
         apiUrl : config.baseUrl + '/api/',
         itemTypes: [],
         rarities: [],
         items: [],
+        caseTypes: [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -296,6 +296,96 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
+        // case types mutation
+        getCaseTypesList(state) {
+            var formData = new FormData();
+
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'cases/types/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.caseTypes = jsonResp.data ? jsonResp.data.caseTypes : [];
+            });
+        },
+        createCaseType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', data.name);
+            formData.append('price', data.price);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            fetch(state.apiUrl + 'cases/types/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deleteCaseType(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'cases/types/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        saveCaseType(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', data.id);
+            formData.append('name', data.name);
+            formData.append('price', data.price);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
+            fetch(state.apiUrl + 'cases/types/update',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -349,6 +439,23 @@ const AdminStore = new Vuex.Store({
             await context.commit('saveItem', data);
             await context.commit('getItemsList');
         },
+        // case types
+        getCaseTypesListAction(context) {
+            context.commit('getCaseTypesList');
+        },
+        createCaseTypeAction(context, data) {
+            context.commit('createCaseType', data);
+            context.commit('getCaseTypesList');
+        },
+        CaseTypeDeleteAction(context, id) {
+            context.commit('deleteCaseType', id);
+            context.commit('getCaseTypesList');
+        },
+        CaseTypeSaveAction(context, data) {
+            context.commit('saveCaseType', data);
+            context.commit('getCaseTypesList');
+        },
+
     },
     getters : {
         checkToken: state => {
@@ -362,6 +469,9 @@ const AdminStore = new Vuex.Store({
         },
         items: state => {
             return state.items;
+        },
+        CaseTypes: state => {
+            return state.caseTypes;
         },
     }
 });

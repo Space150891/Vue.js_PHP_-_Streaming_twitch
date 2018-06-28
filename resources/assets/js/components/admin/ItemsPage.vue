@@ -145,7 +145,7 @@
                 this.editItem.description = item.description ? item.description : '';
                 this.editItem.worth = item.worth;
                 this.editItem.item_type_id = item.item_type_id;
-                this.editItem.image = item.image;
+                this.editItem.image = null;
                 this.editItem.icon = null;
 				this.editItem.id = null;
 				this.editMode = true;
@@ -174,15 +174,27 @@
                 this.$store.dispatch('getItemsListAction');
 			},
 			saveAction: function() {
-				this.$store.dispatch('ItemSaveAction', this.editItem);
-                this.editItem.title = '';
-                this.editItem.description = '';
-                this.editItem.worth = 0;
-                this.editItem.item_type_id = 0;
-                this.editItem.image = null;
-                this.editItem.icon = null;
-				this.editItem.id = 0;
-				this.editMode = false;
+                this.errors = [];
+                if (this.editItem.title == '') {
+                    this.errors.push('item title empty');
+                }
+                if (this.editItem.item_type_id == 0) {
+                    this.errors.push('select item type id');
+                }
+                if (this.errors.length == 0) {
+                    this.$store.dispatch('ItemSaveAction', this.editItem);
+                    this.editItem.title = '';
+                    this.editItem.description = '';
+                    this.editItem.worth = 0;
+                    this.editItem.item_type_id = 0;
+                    this.editItem.image = null;
+                    this.editItem.icon = null;
+                    this.editItem.id = 0;
+                    this.editMode = false;
+                } else {
+                    this.openAlertModal = true;
+                }
+
 			},
 			createCancelAction: function() {
 				this.editMode = false;

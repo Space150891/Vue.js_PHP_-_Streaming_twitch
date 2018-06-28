@@ -25,6 +25,7 @@
           display: "inline-block",
           margin: "5px",
           width: "300px",
+          height: "200px",
           border: "1px 999 solid",
           background : "#fff",
           borderRadius: "5px",
