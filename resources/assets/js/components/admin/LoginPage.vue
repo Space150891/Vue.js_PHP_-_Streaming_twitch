@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+    <admin-menu page="/login"></admin-menu>
     <h5 v-if="checkToken" class="success">logged successful</h5>
     <div v-else class="row justify-content-center">
         <div class="col-md-10">

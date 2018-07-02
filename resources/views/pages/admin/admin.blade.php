@@ -7,7 +7,6 @@
   </head>
   <body>
     <div id="admin-app">
-      <admin-menu></admin-menu>
       <main>
         <router-view></router-view>
       </main>

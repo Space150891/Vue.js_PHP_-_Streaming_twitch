@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <admin-menu page="/item-types"></admin-menu>
   <div v-if="checkToken">
 		<h5>Item types page</h5>
 		<table class="table table-striped">

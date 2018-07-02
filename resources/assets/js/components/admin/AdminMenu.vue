@@ -7,19 +7,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#/item-types">Item-types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/item-types')}" href="#/item-types" >Item-types</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/rarities">Rarities</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/rarities')}" href="#/rarities" >Rarities</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/items">Items</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/items')}" href="#/items" >Items</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/case-types">Case Types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case Types</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/cases">Cases</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
           </li>
         </ul>
       </div>
@@ -31,6 +31,13 @@
 </template>
 <script>
     export default {
+        props: {
+          page: {
+            type: String,
+            default: '/',
+            required: false
+          },
+        },
         data() {
             return {
                 count: 0,

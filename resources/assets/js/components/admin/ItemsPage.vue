@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <admin-menu page="/items"></admin-menu>
   <div v-if="checkToken">
 		<h5>Items page</h5>
 		<table class="table table-striped">

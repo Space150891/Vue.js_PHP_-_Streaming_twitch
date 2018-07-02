@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <admin-menu page="/cases"></admin-menu>
   <div v-if="checkToken && !editItemsMode">
 		<h5>Cases page</h5>
 		<table class="table table-striped">

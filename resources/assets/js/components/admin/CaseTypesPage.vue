@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+<admin-menu page="/case-types"></admin-menu>
   <div v-if="checkToken">
 		<h5>Case types page</h5>
 		<table class="table table-striped">

@@ -1,4 +1,3 @@
-
 require('./bootstrap');
 import VueRouter from 'vue-router'
 import AdminStore from './components/store/AdminStore.js';
