@@ -18,30 +18,22 @@ class ServerEventsController extends Controller
         $response->headers->set('Cache-Control', 'public');
         $response->setCallback(
             function() use ($request){
-                $continue = true;
-                do{
-                    if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined') {
-                        $user = auth()->setToken($_COOKIE['token'])->user();
-                        if ($user) {
-                            $data = Redis::command('LPOP', ['messages:' . $user->name]);
-                            if ($data) {
-                                $message = json_decode($data, true);
-                                echo "data: " . json_encode(['message' => $message['event_type']]) . PHP_EOL . PHP_EOL;
-                                flush();
-                            }
-                        } else {
-                            echo "data: " . json_encode(['error' => 1, 'error_message' => 'User Authentication Failed']) . PHP_EOL . PHP_EOL;
-                            flush();
-                            $coutinue = false;
+                if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined') {
+                    $user = auth()->setToken($_COOKIE['token'])->user();
+                    if ($user) {
+                        $data = Redis::command('LPOP', ['messages:' . $user->name]);
+                        if ($data) {
+                            $message = json_decode($data, true);
+                            echo "data: " . json_encode(['message' => $message['event_type']]) . PHP_EOL . PHP_EOL;
                         }
                     } else {
-                        echo "data: " . json_encode(['error' => 1, 'error_message' => 'Do not have token']) . PHP_EOL . PHP_EOL;
-                        flush();
-                        $coutinue = false;
+                        echo "data: " . json_encode(['error' => 1, 'error_message' => 'User Authentication Failed']) . PHP_EOL . PHP_EOL;
                     }
-                    sleep(5);
-                } while ($continue);
-
+                } else {
+                    echo "data: " . json_encode(['error' => 1, 'error_message' => 'Do not have token']) . PHP_EOL . PHP_EOL;
+                }
+                sleep(5);
+                flush();
             });
         $response->send();
     }
