@@ -60277,7 +60277,7 @@ module.exports = Component.exports
 /***/ "./resources/assets/js/components/admin/config.json":
 /***/ (function(module, exports) {
 
-module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000}
+module.exports = {"baseUrl":"http://localhost:8081","timeOut":3000}
 
 /***/ }),
 
