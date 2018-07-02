@@ -13,7 +13,7 @@
       formData.append('email', 'admin@admin.com');
       formData.append('password', 'password');
 
-      fetch("http://127.0.0.1:8000/api/auth/login",
+      fetch("http://127.0.0.1:8081/api/auth/login",
       {
           method: "POST",
           body: formData,
@@ -32,7 +32,7 @@
       var tokenData = new FormData();
       tokenData.append('token', jwtToken);
 
-      fetch("http://127.0.0.1:8000/api/users/get",
+      fetch("http://127.0.0.1:8081/api/users/get",
       {
           method: "POST",
           credentials: 'omit',
