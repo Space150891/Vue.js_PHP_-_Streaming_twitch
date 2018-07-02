@@ -386,12 +386,12 @@
         display: flex;
         justify-content: flex-start;
         margin: 0px 10px;
-        padding: 5px 15px;
+        padding: 0px 15px;
         border-bottom: 1px solid black;
     }
     .price-up-item {
         font-size: 16px;
-        padding: 5px 10px;
+        padding: 3.5px 10px;
         margin-right: 10px; 
         border-right: 1px solid #e2e2e2;
         cursor: pointer;
@@ -436,7 +436,11 @@
     
     @media (max-width: 767px) {
         .col-sm-12 {
-            flex: 0 0 50%;
+            flex: 0 0 100%;
+        }
+        .prices-items {
+            flex: 0 0 60%;
+            min-width: 160px;
         }
     }
     

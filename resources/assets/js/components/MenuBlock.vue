@@ -13,16 +13,14 @@
                         class="nav-link"
                         v-bind:to="item.link" 
                         v-bind:key="index"
-                        v-on:click.native="menuBurger()"
+                        v-on:click.native="menuLink()"
                     > 
                         {{ item.name }}
                     </router-link>
                 </li>
             </ul>
-            <a href="auth/logout" class="sign" v-if="checkToken">Sign out</a>
-            <a href="twitch/redirect" class="sign" v-else>Sign up</a>
-            <!-- <a href="twitch/redirect" class="sign">
-            <a href="auth/logout" v-bind:class="['sign', (signVal) ? 'sign-none' : '']">Sign out</a> -->
+            <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
+            <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -83,9 +81,18 @@
               return this.$store.getters.checkToken;
             }
         },
+        mounted: function () {
+            this.$store.commit('signUp')
+        },
         methods: {
             menuBurger() {
                 this.clicked = !this.clicked
+            },
+            menuLink() {
+                (this.clicked) ? this.clicked = !this.clicked : this.clicked = this.clicked ;
+            },
+            signOut() {
+                this.$store.commit('signOut')
             }
         }
     }
@@ -94,6 +101,9 @@
     body {
         height: 100vh;
         max-height: 100vh;
+    }
+    li.nav-item {
+        margin: 0px 10px;
     }
     .main-menu {
         position: fixed;

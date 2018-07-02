@@ -58,4 +58,14 @@
             }
         }
     }
+    @media (max-height: 520px)  {
+        .footer-part {
+            padding-bottom: 10%;
+        }
+    }
+    @media (max-height: 270px)  {
+        .footer-part {
+            padding-bottom: 13%;
+        }
+    }
 </style>
