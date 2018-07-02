@@ -328,7 +328,6 @@ const AdminStore = new Vuex.Store({
         },
         // case types mutation
         getCaseTypesList(state) {
-            console.log('start loading');
             var formData = new FormData();
             state.caseTypes.loaded = false;
             formData.append('token', state.token);
@@ -348,11 +347,9 @@ const AdminStore = new Vuex.Store({
                 }
                 state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
                 state.caseTypes.loaded = true;
-                console.log('end loading');
             });
         },
         createCaseType(state, data) {
-            console.log('start saving');
             var formData = new FormData();
             state.caseTypes.saved = false;
             state.caseTypes.loaded = false;
@@ -370,14 +367,12 @@ const AdminStore = new Vuex.Store({
                 mode: 'cors',
             })
             .then(function(res){
-                console.log(res);
                 return res.json();
             })
             .then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                console.log('end saving');
                 state.caseTypes.saved = true;
             });
         },
@@ -577,6 +572,22 @@ const AdminStore = new Vuex.Store({
         },
         clearCaseItems(state) {
             state.caseItems.list = [];
+        },
+        logout(state) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'auth/logout',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                state.token = false;
+            });
         }
     },
     actions: {

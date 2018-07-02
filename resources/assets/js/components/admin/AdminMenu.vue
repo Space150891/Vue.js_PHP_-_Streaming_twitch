@@ -21,6 +21,9 @@
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
           </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
+          </li>
         </ul>
       </div>
     </nav>

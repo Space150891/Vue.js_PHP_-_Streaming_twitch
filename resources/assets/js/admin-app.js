@@ -9,6 +9,7 @@ var ItemsPage = require('./components/admin/ItemsPage.vue');
 var RaritiesPage = require('./components/admin/RaritiesPage.vue');
 var CaseTypesPage = require('./components/admin/CaseTypesPage.vue');
 var CasesPage = require('./components/admin/CasesPage.vue');
+var LogoutPage = require('./components/admin/LogoutPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -19,6 +20,7 @@ var router = new VueRouter({
         { path: '/items', component: ItemsPage },
         { path: '/case-types', component: CaseTypesPage },
         { path: '/cases', component: CasesPage },
+        { path: '/logout', component: LogoutPage },
     ]
 });
 Vue.use(VueRouter);
