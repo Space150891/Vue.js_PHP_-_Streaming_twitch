@@ -60347,7 +60347,14 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                     document.cookie = "token=" + jsonResp.access_token;
                     var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
                     source.onmessage = function (event) {
-                        state.sseMessages.push(event.data);
+                        var data = JSON.parse(event.data);
+                        if (data.error) {
+                            state.token = false;
+                            state.sseMessages = [];
+                            source.close();
+                        } else {
+                            state.sseMessages.push(data.message);
+                        }
                     };
                 } else {
                     state.token = false;
