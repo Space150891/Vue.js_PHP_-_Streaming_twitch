@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 
 class ServerEventsController extends Controller
 {
@@ -20,7 +21,9 @@ class ServerEventsController extends Controller
                     $auth = auth()->setToken($_COOKIE['token']);
                     if ($auth) {
                         $user = $auth->user();
-                        echo "data: user_name= {$user->name}\n\n";
+                        $time = new Carbon();
+                        $date = $time->toDateTimeString();
+                        echo "data: user_name= {$user->name} {$date}\n\n";
                     } else {
                         echo "data: error= wrong token\n\n";
                     }

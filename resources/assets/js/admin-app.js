@@ -30,6 +30,7 @@ Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('upload-image', require('./components/admin/UploadImage.vue'));
 Vue.component('case-items', require('./components/admin/CasesItemsList.vue'));
+Vue.component('sse', require('./components/admin/Sse.vue'));
 
 const app = new Vue({
     el: '#admin-app',

@@ -34,6 +34,7 @@ const AdminStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        sseMessages : [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -54,6 +55,17 @@ const AdminStore = new Vuex.Store({
             })
             .then(function(jsonResp){
                 state.token = jsonResp.access_token ? jsonResp.access_token : false;
+                if (jsonResp.access_token) {
+                    state.token = jsonResp.access_token;
+                    document.cookie = "token=" + jsonResp.access_token;
+                    var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
+                    source.onmessage = function(event) {
+                        state.sseMessages.push(event.data);
+                    };
+                } else {
+                    state.token = false;
+                }
+                
             });
         },
         getItemTypesList(state) {
@@ -588,7 +600,11 @@ const AdminStore = new Vuex.Store({
             }).then(function(jsonResp){
                 state.token = false;
             });
-        }
+        },
+        deleteMessage(state, index) {
+            state.sseMessages.splice(index, 1);
+        },
+
     },
     actions: {
         getItemTypesListAction(context) {
@@ -737,6 +753,9 @@ const AdminStore = new Vuex.Store({
         },
         itemsSaved: state => {
             return state.items.saved;
+        },
+        sseMessages: state => {
+            return state.sseMessages;
         },
     }
 });
