@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <admin-menu page="/items"></admin-menu>
-  <div v-if="checkToken">
+  <div v-if="checkToken && itemsLoaded">
 		<h5>Items page</h5>
 		<table class="table table-striped">
 		  <thead>
@@ -89,7 +89,8 @@
         >
         </upload-image>
 	</div>
-  <h5 v-else>login first</h5>
+  <div v-if="checkToken && !itemsLoaded">Loading ...</div>
+  <h5 v-if="!checkToken" class="v-loading"></h5>
 </div>
 </template>
 <script>
@@ -211,7 +212,8 @@
 			...mapGetters([
 				'checkToken',
 				'itemTypes',
-                'items'
+                'items',
+                'itemsLoaded',
 			]),
     }
   }

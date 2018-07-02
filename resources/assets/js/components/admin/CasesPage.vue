@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <admin-menu page="/cases"></admin-menu>
-  <div v-if="checkToken && !editItemsMode">
+  <div v-if="checkToken && !editItemsMode && casesLoaded">
 		<h5>Cases page</h5>
 		<table class="table table-striped">
 		  <thead>
@@ -60,6 +60,7 @@
 	v-on:close-items-list="closeItemsListAction"
   >
   </case-items>
+  <div v-if="checkToken && !casesLoaded && !editItemsMode" class="v-loading"></div>
   <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
@@ -170,6 +171,7 @@
 				'checkToken',
 				'caseTypes',
                 'cases',
+				'casesLoaded',
 			]),
     }
   }

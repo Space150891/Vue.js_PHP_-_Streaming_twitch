@@ -1860,6 +1860,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
@@ -1948,7 +1949,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
       this.editItem.image = file;
     }
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded']))
 });
 
 /***/ }),
@@ -1961,6 +1962,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
 //
 //
 //
@@ -2098,7 +2100,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
       this.$store.dispatch('CaseItemsListAction', this.LootCase.id);
     }
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'items', 'rarities', 'caseItems']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'items', 'rarities', 'caseItems', 'caseItemsLoaded']))
 });
 
 /***/ }),
@@ -2111,6 +2113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
 //
 //
 //
@@ -2278,7 +2281,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
 			this.editItemsMode = true;
 		}
 	},
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'cases']))
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'cases', 'casesLoaded']))
 });
 
 /***/ }),
@@ -2337,6 +2340,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
 //
 //
 //
@@ -2467,7 +2471,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			this.editMode = false;
 		}
 	},
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes']))
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'itemTypesLoaded']))
 });
 
 /***/ }),
@@ -2480,6 +2484,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
 //
 //
 //
@@ -2689,7 +2694,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
             this.editItem.icon = file;
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items', 'itemsLoaded']))
 });
 
 /***/ }),
@@ -2837,6 +2842,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2916,7 +2922,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	}), _defineProperty(_methods, 'createCancelAction', function createCancelAction() {
 		this.editMode = false;
 	}), _methods),
-	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'rarities']))
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'rarities', 'raritiesLoaded']))
 });
 
 /***/ }),
@@ -42656,7 +42662,7 @@ var render = function() {
     [
       _c("admin-menu", { attrs: { page: "/case-types" } }),
       _vm._v(" "),
-      _vm.checkToken
+      _vm.checkToken && _vm.caseTypesLoaded
         ? _c(
             "div",
             [
@@ -42850,7 +42856,13 @@ var render = function() {
             ],
             1
           )
-        : _c("h5", [_vm._v("login first")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.caseTypesLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
     ],
     1
   )
@@ -42899,7 +42911,7 @@ var render = function() {
     [
       _c("admin-menu", { attrs: { page: "/items" } }),
       _vm._v(" "),
-      _vm.checkToken
+      _vm.checkToken && _vm.itemsLoaded
         ? _c(
             "div",
             [
@@ -43196,7 +43208,13 @@ var render = function() {
             ],
             1
           )
-        : _c("h5", [_vm._v("login first")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.itemsLoaded
+        ? _c("div", [_vm._v("Loading ...")])
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", { staticClass: "v-loading" }) : _vm._e()
     ],
     1
   )
@@ -43529,7 +43547,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.checkToken
+    _vm.checkToken && _vm.caseItemsLoaded
       ? _c(
           "div",
           [
@@ -43742,6 +43760,10 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
+    _vm.checkToken && !_vm.caseItemsLoaded
+      ? _c("div", { staticClass: "v-loading" })
+      : _vm._e(),
+    _vm._v(" "),
     !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
   ])
 }
@@ -43910,7 +43932,7 @@ var render = function() {
     [
       _c("admin-menu", { attrs: { page: "/rarities" } }),
       _vm._v(" "),
-      _vm.checkToken
+      _vm.checkToken && _vm.raritiesLoaded
         ? _c(
             "div",
             [
@@ -44135,7 +44157,13 @@ var render = function() {
             ],
             1
           )
-        : _c("h5", [_vm._v("login first")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.raritiesLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
     ],
     1
   )
@@ -44182,7 +44210,7 @@ var render = function() {
     [
       _c("admin-menu", { attrs: { page: "/item-types" } }),
       _vm._v(" "),
-      _vm.checkToken
+      _vm.checkToken && _vm.itemTypesLoaded
         ? _c(
             "div",
             [
@@ -44361,7 +44389,13 @@ var render = function() {
             ],
             1
           )
-        : _c("h5", [_vm._v("login first")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.itemTypesLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
     ],
     1
   )
@@ -44465,7 +44499,7 @@ var render = function() {
     [
       _c("admin-menu", { attrs: { page: "/cases" } }),
       _vm._v(" "),
-      _vm.checkToken && !_vm.editItemsMode
+      _vm.checkToken && !_vm.editItemsMode && _vm.casesLoaded
         ? _c(
             "div",
             [
@@ -44689,6 +44723,10 @@ var render = function() {
             attrs: { LootCase: _vm.selectedCase },
             on: { "close-items-list": _vm.closeItemsListAction }
           })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.casesLoaded && !_vm.editItemsMode
+        ? _c("div", { staticClass: "v-loading" })
         : _vm._e(),
       _vm._v(" "),
       !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
@@ -59333,7 +59371,6 @@ module.exports = function(module) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_store_AdminStore_js__ = __webpack_require__("./resources/assets/js/components/store/AdminStore.js");
-
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 
@@ -59992,12 +60029,30 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
     state: {
         token: false,
         apiUrl: config.baseUrl + '/api/',
-        itemTypes: [],
-        rarities: [],
-        items: [],
-        caseTypes: [],
-        cases: [],
-        caseItems: []
+        itemTypes: {
+            list: [],
+            loaded: false
+        },
+        rarities: {
+            list: [],
+            loaded: false
+        },
+        items: {
+            list: [],
+            loaded: false
+        },
+        caseTypes: {
+            list: [],
+            loaded: false
+        },
+        cases: {
+            list: [],
+            loaded: false
+        },
+        caseItems: {
+            list: [],
+            loaded: false
+        }
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -60019,7 +60074,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         getItemTypesList: function getItemTypesList(state) {
             var formData = new FormData();
-
+            state.itemTypes.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'itemtypes/list', {
                 method: "POST",
@@ -60032,7 +60087,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.itemTypes = jsonResp.data ? jsonResp.data.item_types : [];
+                state.itemTypes.list = jsonResp.data ? jsonResp.data.item_types : [];
+                state.itemTypes.loaded = true;
             });
         },
         createItemType: function createItemType(state, data) {
@@ -60089,7 +60145,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         getRaritiesList: function getRaritiesList(state) {
             var formData = new FormData();
-
+            state.rarities.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'rarities/list', {
                 method: "POST",
@@ -60102,7 +60158,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.rarities = jsonResp.data ? jsonResp.data.rarities : [];
+                state.rarities.list = jsonResp.data ? jsonResp.data.rarities : [];
+                state.rarities.loaded = true;
             });
         },
         createRarity: function createRarity(state, data) {
@@ -60163,7 +60220,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         // items
         getItemsList: function getItemsList(state) {
             var formData = new FormData();
-
+            state.items.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'items/list', {
                 method: "POST",
@@ -60176,8 +60233,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                console.log('get list response');
-                state.items = jsonResp.data ? jsonResp.data.items : [];
+                state.items.list = jsonResp.data ? jsonResp.data.items : [];
+                state.items.loaded = true;
             });
         },
         createItem: function createItem(state, data) {
@@ -60254,7 +60311,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         // case types mutation
         getCaseTypesList: function getCaseTypesList(state) {
             var formData = new FormData();
-
+            state.caseTypes.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'cases/types/list', {
                 method: "POST",
@@ -60267,7 +60324,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.caseTypes = jsonResp.data ? jsonResp.data.caseTypes : [];
+                state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
+                state.caseTypes.loaded = true;
             });
         },
         createCaseType: function createCaseType(state, data) {
@@ -60334,7 +60392,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         // cases
         getCases: function getCases(state) {
             var formData = new FormData();
-
+            state.cases.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'cases/list', {
                 method: "POST",
@@ -60347,7 +60405,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.cases = jsonResp.data ? jsonResp.data.cases : [];
+                state.cases.list = jsonResp.data ? jsonResp.data.cases : [];
+                state.cases.loaded = true;
             });
         },
         createCase: function createCase(state, data) {
@@ -60408,6 +60467,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         // case items
         getCaseItems: function getCaseItems(state, CaseId) {
             var formData = new FormData();
+            state.caseItems.loaded = false;
             formData.append('token', state.token);
             formData.append('id', CaseId);
             fetch(state.apiUrl + 'cases/item/list', {
@@ -60421,7 +60481,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.caseItems = jsonResp.data ? jsonResp.data.items : [];
+                state.caseItems.list = jsonResp.data ? jsonResp.data.items : [];
+                state.caseItems.loaded = true;
             });
         },
         createCaseItem: function createCaseItem(state, data) {
@@ -60461,7 +60522,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             });
         },
         clearCaseItems: function clearCaseItems(state) {
-            state.caseItems = [];
+            state.caseItems.list = [];
         }
     },
     actions: {
@@ -60582,22 +60643,40 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             return state.token ? true : false;
         },
         itemTypes: function itemTypes(state) {
-            return state.itemTypes;
+            return state.itemTypes.list;
         },
         rarities: function rarities(state) {
-            return state.rarities;
+            return state.rarities.list;
         },
         items: function items(state) {
-            return state.items;
+            return state.items.list;
         },
         caseTypes: function caseTypes(state) {
-            return state.caseTypes;
+            return state.caseTypes.list;
         },
         cases: function cases(state) {
-            return state.cases;
+            return state.cases.list;
         },
         caseItems: function caseItems(state) {
-            return state.caseItems;
+            return state.caseItems.list;
+        },
+        itemTypesLoaded: function itemTypesLoaded(state) {
+            return state.itemTypes.loaded;
+        },
+        raritiesLoaded: function raritiesLoaded(state) {
+            return state.rarities.loaded;
+        },
+        itemsLoaded: function itemsLoaded(state) {
+            return state.items.loaded;
+        },
+        caseTypesLoaded: function caseTypesLoaded(state) {
+            return state.caseTypes.loaded;
+        },
+        casesLoaded: function casesLoaded(state) {
+            return state.cases.loaded;
+        },
+        caseItemsLoaded: function caseItemsLoaded(state) {
+            return state.caseItems.loaded;
         }
     }
 });

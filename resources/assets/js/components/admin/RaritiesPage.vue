@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <admin-menu page="/rarities"></admin-menu>
-  <div v-if="checkToken">
+  <div v-if="checkToken && raritiesLoaded">
 		<h5>Rarities</h5>
 		<table class="table table-striped">
 		  <thead>
@@ -52,7 +52,8 @@
         >
 		</modal-alert>
 	</div>
-  <h5 v-else>login first</h5>
+  <div v-if="checkToken && !raritiesLoaded" class="v-loading"></div>
+  <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
 <script>
@@ -143,6 +144,7 @@
 			...mapGetters([
 				'checkToken',
 				'rarities',
+				'raritiesLoaded',
 			]),
     }
   }

@@ -8,12 +8,32 @@ const AdminStore = new Vuex.Store({
     state: {
         token: false,
         apiUrl : config.baseUrl + '/api/',
-        itemTypes: [],
-        rarities: [],
-        items: [],
-        caseTypes: [],
-        cases: [],
-        caseItems: [],
+        itemTypes: {
+            list: [],
+            loaded: false,
+        },
+        rarities: {
+            list: [],
+            loaded: false,
+        },
+        items: {
+            list: [],
+            loaded: false,
+            saved : true,
+        },
+        caseTypes: {
+            list: [],
+            loaded: false,
+            saved : true,
+        },
+        cases: {
+            list: [],
+            loaded: false,
+        },
+        caseItems: {
+            list: [],
+            loaded: false,
+        },
     },
     mutations: {
         authWithToken(state, data) {
@@ -38,7 +58,7 @@ const AdminStore = new Vuex.Store({
         },
         getItemTypesList(state) {
             var formData = new FormData();
-
+            state.itemTypes.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'itemtypes/list',
             {
@@ -54,7 +74,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.itemTypes = jsonResp.data ? jsonResp.data.item_types : [];
+                state.itemTypes.list = jsonResp.data ? jsonResp.data.item_types : [];
+                state.itemTypes.loaded = true;
             });
         },
         createItemType(state, data) {
@@ -119,7 +140,7 @@ const AdminStore = new Vuex.Store({
         },
         getRaritiesList(state) {
             var formData = new FormData();
-
+            state.rarities.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'rarities/list',
             {
@@ -135,7 +156,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.rarities = jsonResp.data ? jsonResp.data.rarities : [];
+                state.rarities.list = jsonResp.data ? jsonResp.data.rarities : [];
+                state.rarities.loaded = true;
             });
         },
         createRarity(state, data) {
@@ -203,7 +225,7 @@ const AdminStore = new Vuex.Store({
         // items
         getItemsList(state) {
             var formData = new FormData();
-
+            state.items.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'items/list',
             {
@@ -219,8 +241,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                console.log('get list response');
-                state.items = jsonResp.data ? jsonResp.data.items : [];
+                state.items.list = jsonResp.data ? jsonResp.data.items : [];
+                state.items.loaded = true;
             });
         },
         createItem(state, data) {
@@ -304,7 +326,7 @@ const AdminStore = new Vuex.Store({
         // case types mutation
         getCaseTypesList(state) {
             var formData = new FormData();
-
+            state.caseTypes.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'cases/types/list',
             {
@@ -320,7 +342,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.caseTypes = jsonResp.data ? jsonResp.data.caseTypes : [];
+                state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
+                state.caseTypes.loaded = true;
             });
         },
         createCaseType(state, data) {
@@ -394,7 +417,7 @@ const AdminStore = new Vuex.Store({
         // cases
         getCases(state) {
             var formData = new FormData();
-
+            state.cases.loaded = false;
             formData.append('token', state.token);
             fetch(state.apiUrl + 'cases/list',
             {
@@ -410,7 +433,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.cases = jsonResp.data ? jsonResp.data.cases : [];
+                state.cases.list = jsonResp.data ? jsonResp.data.cases : [];
+                state.cases.loaded = true;
             });
         },
         createCase(state, data) {
@@ -478,6 +502,7 @@ const AdminStore = new Vuex.Store({
         // case items
         getCaseItems(state, CaseId) {
             var formData = new FormData();
+            state.caseItems.loaded = false;
             formData.append('token', state.token);
             formData.append('id', CaseId);
             fetch(state.apiUrl + 'cases/item/list',
@@ -494,7 +519,8 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                state.caseItems = jsonResp.data ? jsonResp.data.items : [];
+                state.caseItems.list = jsonResp.data ? jsonResp.data.items : [];
+                state.caseItems.loaded = true;
             });
         },
         createCaseItem(state, data) {
@@ -539,7 +565,7 @@ const AdminStore = new Vuex.Store({
             });
         },
         clearCaseItems(state) {
-            state.caseItems = [];
+            state.caseItems.list = [];
         }
     },
     actions: {
@@ -655,22 +681,40 @@ const AdminStore = new Vuex.Store({
             return state.token ? true : false;
         },
         itemTypes: state => {
-            return state.itemTypes;
+            return state.itemTypes.list;
         },
         rarities: state => {
-            return state.rarities;
+            return state.rarities.list;
         },
         items: state => {
-            return state.items;
+            return state.items.list;
         },
         caseTypes: state => {
-            return state.caseTypes;
+            return state.caseTypes.list;
         },
         cases: state => {
-            return state.cases;
+            return state.cases.list;
         },
         caseItems: state => {
-            return state.caseItems;
+            return state.caseItems.list;
+        },
+        itemTypesLoaded: state => {
+            return state.itemTypes.loaded;
+        },
+        raritiesLoaded: state => {
+            return state.rarities.loaded;
+        },
+        itemsLoaded: state => {
+            return state.items.loaded;
+        },
+        caseTypesLoaded: state => {
+            return state.caseTypes.loaded;
+        },
+        casesLoaded: state => {
+            return state.cases.loaded;
+        },
+        caseItemsLoaded: state => {
+            return state.caseItems.loaded;
         },
     }
 });

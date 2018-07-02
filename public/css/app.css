@@ -16041,3 +16041,9 @@ div[data-toggle="buttons"] label.active {
   width: 50%;
 }
 
+.v-loading {
+  width: 100%;
+  height: 300px;
+  background: #fff url(/images/loading.gif?24604263be031a66bc808006b3069d55) center center no-repeat;
+}
+

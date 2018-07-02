@@ -1,7 +1,7 @@
 <template>
 <div class="container">
 <admin-menu page="/case-types"></admin-menu>
-  <div v-if="checkToken">
+  <div v-if="checkToken && caseTypesLoaded">
 		<h5>Case types page</h5>
 		<table class="table table-striped">
 		  <thead>
@@ -64,7 +64,8 @@
         >
         </upload-image>
 	</div>
-  <h5 v-else>login first</h5>
+  <div v-if="checkToken && !caseTypesLoaded" class="v-loading"></div>
+  <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
 <script>
@@ -158,6 +159,7 @@
 			...mapGetters([
 				'checkToken',
 				'caseTypes',
+                'caseTypesLoaded',
 			]),
     }
   }

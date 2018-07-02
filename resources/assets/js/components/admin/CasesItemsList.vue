@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div v-if="checkToken">
+  <div v-if="checkToken && caseItemsLoaded">
 		<h5>Case <strong>{{ LootCase.name }}</strong></h5>
 		<table class="table table-striped">
 		  <thead>
@@ -61,6 +61,7 @@
         >
         </modal-alert>
 	</div>
+  <div v-if="checkToken && !caseItemsLoaded" class="v-loading"></div>
   <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
@@ -141,6 +142,7 @@
                 'items',
                 'rarities',
                 'caseItems',
+                'caseItemsLoaded',
 			]),
     }
   }

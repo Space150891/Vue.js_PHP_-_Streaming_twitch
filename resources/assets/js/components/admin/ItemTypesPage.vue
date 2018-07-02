@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <admin-menu page="/item-types"></admin-menu>
-  <div v-if="checkToken">
+  <div v-if="checkToken && itemTypesLoaded">
 		<h5>Item types page</h5>
 		<table class="table table-striped">
 		  <thead>
@@ -48,7 +48,8 @@
         >
 		</modal-alert>
 	</div>
-  <h5 v-else>login first</h5>
+	<div v-if="checkToken && !itemTypesLoaded" class="v-loading"></div>
+  <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
 <script>
@@ -133,6 +134,7 @@
 			...mapGetters([
 				'checkToken',
 				'itemTypes',
+				'itemTypesLoaded',
 			]),
     }
   }
