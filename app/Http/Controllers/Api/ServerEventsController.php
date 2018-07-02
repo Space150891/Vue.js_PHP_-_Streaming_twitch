@@ -28,7 +28,7 @@ class ServerEventsController extends Controller
                         echo "data: " . json_encode(['error' => 1, 'error_message' => 'User Authentication Failed']) . PHP_EOL . PHP_EOL;
                     }
                 } else {
-                    echo "data: error= do not have token\n\n";
+                    echo "data: " . json_encode(['error' => 1, 'error_message' => 'Do not have token']) . PHP_EOL . PHP_EOL;
                 }
                 flush();
                 sleep(2);
