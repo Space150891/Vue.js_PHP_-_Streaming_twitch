@@ -1923,10 +1923,11 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
         this.errors.push('set price');
       }
       if (this.errors.length == 0) {
-        this.$store.dispatch('createCaseTypeAction', this.editItem);
+        this.$store.commit('createCaseType', this.editItem);
         this.editItem.name = '';
         this.editItem.price = 0;
         this.editItem.image = null;
+        this.$store.commit('getCaseTypesList');
       } else {
         this.openAlertModal = true;
       }
@@ -1949,7 +1950,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
       this.editItem.image = file;
     }
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded', 'caseTypesSaved']))
 });
 
 /***/ }),
@@ -2671,7 +2672,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
                 this.errors.push('select item type id');
             }
             if (this.errors.length == 0) {
-                this.$store.dispatch('ItemSaveAction', this.editItem);
+                this.$store.commit('createItem', this.editItem);
                 this.editItem.title = '';
                 this.editItem.description = '';
                 this.editItem.worth = 0;
@@ -2680,6 +2681,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
                 this.editItem.icon = null;
                 this.editItem.id = 0;
                 this.editMode = false;
+                this.$store.commit('getItemsList');
             } else {
                 this.openAlertModal = true;
             }
@@ -2694,7 +2696,7 @@ var config = __webpack_require__("./resources/assets/js/components/admin/config.
             this.editItem.icon = file;
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items', 'itemsLoaded']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items', 'itemsLoaded', 'itemsSaved']))
 });
 
 /***/ }),
@@ -43211,10 +43213,10 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.checkToken && !_vm.itemsLoaded
-        ? _c("div", [_vm._v("Loading ...")])
+        ? _c("div", { staticClass: "v-loading" })
         : _vm._e(),
       _vm._v(" "),
-      !_vm.checkToken ? _c("h5", { staticClass: "v-loading" }) : _vm._e()
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
     ],
     1
   )
@@ -60039,11 +60041,13 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         items: {
             list: [],
-            loaded: false
+            loaded: false,
+            saved: true
         },
         caseTypes: {
             list: [],
-            loaded: false
+            loaded: false,
+            saved: true
         },
         cases: {
             list: [],
@@ -60239,6 +60243,8 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         createItem: function createItem(state, data) {
             var formData = new FormData();
+            state.items.saved = false;
+            state.items.loaded = false;
             formData.append('token', state.token);
             formData.append('title', data.title);
             formData.append('item_type_id', data.item_type_id);
@@ -60261,6 +60267,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
+                state.items.saved = true;
             });
         },
         deleteItem: function deleteItem(state, id) {
@@ -60310,6 +60317,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
 
         // case types mutation
         getCaseTypesList: function getCaseTypesList(state) {
+            console.log('start loading');
             var formData = new FormData();
             state.caseTypes.loaded = false;
             formData.append('token', state.token);
@@ -60326,10 +60334,14 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 }
                 state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
                 state.caseTypes.loaded = true;
+                console.log('end loading');
             });
         },
         createCaseType: function createCaseType(state, data) {
+            console.log('start saving');
             var formData = new FormData();
+            state.caseTypes.saved = false;
+            state.caseTypes.loaded = false;
             formData.append('token', state.token);
             formData.append('name', data.name);
             formData.append('price', data.price);
@@ -60342,11 +60354,14 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 credentials: 'omit',
                 mode: 'cors'
             }).then(function (res) {
+                console.log(res);
                 return res.json();
             }).then(function (jsonResp) {
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
+                console.log('end saving');
+                state.caseTypes.saved = true;
             });
         },
         deleteCaseType: function deleteCaseType(state, id) {
@@ -60587,9 +60602,6 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         createCaseTypeAction: function createCaseTypeAction(context, data) {
             context.commit('createCaseType', data);
-            setTimeout(function () {
-                context.commit('getCaseTypesList');
-            }, config.timeOut);
         },
         CaseTypeDeleteAction: function CaseTypeDeleteAction(context, id) {
             context.commit('deleteCaseType', id);
@@ -60597,9 +60609,6 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         CaseTypeSaveAction: function CaseTypeSaveAction(context, data) {
             context.commit('saveCaseType', data);
-            setTimeout(function () {
-                context.commit('getCaseTypesList');
-            }, config.timeOut);
         },
 
         // cases
@@ -60677,6 +60686,12 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         caseItemsLoaded: function caseItemsLoaded(state) {
             return state.caseItems.loaded;
+        },
+        caseTypesSaved: function caseTypesSaved(state) {
+            return state.caseTypes.saved;
+        },
+        itemsSaved: function itemsSaved(state) {
+            return state.items.saved;
         }
     }
 });

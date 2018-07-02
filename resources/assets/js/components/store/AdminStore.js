@@ -247,6 +247,8 @@ const AdminStore = new Vuex.Store({
         },
         createItem(state, data) {
             var formData = new FormData();
+            state.items.saved = false;
+            state.items.loaded = false;
             formData.append('token', state.token);
             formData.append('title', data.title);
             formData.append('item_type_id', data.item_type_id);
@@ -272,6 +274,7 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
+                state.items.saved = true;
             });
         },
         deleteItem(state, id) {
@@ -325,6 +328,7 @@ const AdminStore = new Vuex.Store({
         },
         // case types mutation
         getCaseTypesList(state) {
+            console.log('start loading');
             var formData = new FormData();
             state.caseTypes.loaded = false;
             formData.append('token', state.token);
@@ -344,10 +348,14 @@ const AdminStore = new Vuex.Store({
                 }
                 state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
                 state.caseTypes.loaded = true;
+                console.log('end loading');
             });
         },
         createCaseType(state, data) {
+            console.log('start saving');
             var formData = new FormData();
+            state.caseTypes.saved = false;
+            state.caseTypes.loaded = false;
             formData.append('token', state.token);
             formData.append('name', data.name);
             formData.append('price', data.price);
@@ -362,12 +370,15 @@ const AdminStore = new Vuex.Store({
                 mode: 'cors',
             })
             .then(function(res){
+                console.log(res);
                 return res.json();
             })
             .then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
+                console.log('end saving');
+                state.caseTypes.saved = true;
             });
         },
         deleteCaseType(state, id) {
@@ -627,9 +638,6 @@ const AdminStore = new Vuex.Store({
         },
         createCaseTypeAction(context, data) {
             context.commit('createCaseType', data);
-            setTimeout(() => {
-                context.commit('getCaseTypesList');
-              }, config.timeOut);
         },
         CaseTypeDeleteAction(context, id) {
             context.commit('deleteCaseType', id);
@@ -637,9 +645,6 @@ const AdminStore = new Vuex.Store({
         },
         CaseTypeSaveAction(context, data) {
             context.commit('saveCaseType', data);
-            setTimeout(() => {
-                context.commit('getCaseTypesList');
-              }, config.timeOut);
         },
         // cases
         CasesListAction(context) {
@@ -715,6 +720,12 @@ const AdminStore = new Vuex.Store({
         },
         caseItemsLoaded: state => {
             return state.caseItems.loaded;
+        },
+        caseTypesSaved: state => {
+            return state.caseTypes.saved;
+        },
+        itemsSaved: state => {
+            return state.items.saved;
         },
     }
 });

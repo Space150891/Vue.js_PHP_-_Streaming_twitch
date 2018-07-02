@@ -89,8 +89,8 @@
         >
         </upload-image>
 	</div>
-  <div v-if="checkToken && !itemsLoaded">Loading ...</div>
-  <h5 v-if="!checkToken" class="v-loading"></h5>
+  <div v-if="checkToken && !itemsLoaded"  class="v-loading"></div>
+  <h5 v-if="!checkToken">login first</h5>
 </div>
 </template>
 <script>
@@ -184,7 +184,7 @@
                     this.errors.push('select item type id');
                 }
                 if (this.errors.length == 0) {
-                    this.$store.dispatch('ItemSaveAction', this.editItem);
+                    this.$store.commit('createItem', this.editItem);
                     this.editItem.title = '';
                     this.editItem.description = '';
                     this.editItem.worth = 0;
@@ -193,6 +193,7 @@
                     this.editItem.icon = null;
                     this.editItem.id = 0;
                     this.editMode = false;
+                    this.$store.commit('getItemsList');
                 } else {
                     this.openAlertModal = true;
                 }
@@ -214,6 +215,7 @@
 				'itemTypes',
                 'items',
                 'itemsLoaded',
+                'itemsSaved',
 			]),
     }
   }
