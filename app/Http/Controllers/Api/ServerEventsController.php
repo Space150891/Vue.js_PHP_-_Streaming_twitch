@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Controller;
 
 class ServerEventsController extends Controller
@@ -17,20 +18,21 @@ class ServerEventsController extends Controller
         $response->setCallback(
             function() use ($request){
                 if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined') {
-                    $auth = auth()->setToken($_COOKIE['token'])->user();
-                    if ($auth) {
-                        $user = $auth;
-                        $time = new Carbon();
-                        $date = $time->toDateTimeString();
-                        echo "data: " . json_encode(['message' => $date]) . PHP_EOL . PHP_EOL;
+                    $user = auth()->setToken($_COOKIE['token'])->user();
+                    if ($user) {
+                        $data = Redis::command('LPOP', ['messages:' . $user->name]);
+                        if ($data) {
+                            $message = json_decode($data, true);
+                            echo "data: " . json_encode(['message' => $message['event_type']]) . PHP_EOL . PHP_EOL;
+                        }
                     } else {
                         echo "data: " . json_encode(['error' => 1, 'error_message' => 'User Authentication Failed']) . PHP_EOL . PHP_EOL;
                     }
                 } else {
-                    echo "data: error= do not have token\n\n";
+                    echo "data: " . json_encode(['error' => 1, 'error_message' => 'Do not have token']) . PHP_EOL . PHP_EOL;
                 }
+                sleep(5);
                 flush();
-                sleep(2);
             });
         $response->send();
     }
