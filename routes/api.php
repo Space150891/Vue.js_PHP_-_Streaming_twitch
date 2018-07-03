@@ -115,6 +115,7 @@ Route::group([
     Route::post('cases/delete', 'Api\CasesManagementController@destroy');
     Route::post('cases/item/delete', 'Api\CasesManagementController@deleteItem');
     Route::post('cases/item/add', 'Api\CasesManagementController@addItem');
+    Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
 
     Route::post('contact/types/list', 'Api\ContactTypesManagementController@index');
     Route::post('contact/types/store', 'Api\ContactTypesManagementController@store');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Item;
 use App\Models\ItemType;
@@ -33,6 +34,9 @@ class itemsManagementController extends Controller
     public function index()
     {
         $items = Item::all();
+        for ($i = 0; $i < count($items); $i++) {
+            $items[$i]->type = $items[$i]->type()->first()->name;
+        }
         return response()->json(['data' => [
             'items' => $items,
         ]]);
@@ -81,7 +85,7 @@ class itemsManagementController extends Controller
             $fileName = 'image_' . $item->id . '_' . $extention;
             $destination = 'public/items/images';
             Storage::putFileAs($destination, $file, $fileName);
-            $item->image = $destination . "/" . $fileName;
+            $item->image = 'items/images/' . $fileName;
             $item->save();
         }
         if ($request->hasFile('icon')) {
@@ -90,7 +94,7 @@ class itemsManagementController extends Controller
             $fileName = 'icon_' . $item->id . '_' . $extention;
             $destination = 'public/items/icons';
             Storage::putFileAs($destination, $file, $fileName);
-            $item->icon = $destination . "/" . $fileName;
+            $item->icon = 'items/icons/' . $fileName;
             $item->save();
         }
 
@@ -138,7 +142,7 @@ class itemsManagementController extends Controller
         $validator = Validator::make($request->all(), [
             'id'             => 'required|numeric',
             'title'          => 'required|max:255',
-            'item_type_id'   => 'required|unique:item_types:id',
+            'item_type_id'   => 'required|numeric',
             'description'    => 'max:255',
             'worth'          => 'numeric',
         ]);
@@ -154,22 +158,27 @@ class itemsManagementController extends Controller
                 'errors' => ['item id not found'],
             ]);
         }
-
+        if ($item->image) {
+            Storage::delete('public/' . $item->image);
+        }
+        if ($item->icon) {
+            Storage::delete('public/' . $item->icon);
+        }
         $item->title = $request->title;
         $item->item_type_id = $request->item_type_id;
         $item->description = $request->description;
         $item->worth = $request->worth;
-        $item->image = $request->image; // upload ?
-        $item->icon = $request->icon;   // upload ?
+        $item->image = $request->image;
+        $item->icon = $request->icon;
         $item->save();
-        
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = strtolower($file->extension());
             $fileName = 'image_' . $item->id . '_' . $extention;
             $destination = 'public/items/images';
             Storage::putFileAs($destination, $file, $fileName);
-            $item->image = $destination . "/" . $fileName;
+            $item->image = 'items/images/' . $fileName;
             $item->save();
         }
         if ($request->hasFile('icon')) {
@@ -178,7 +187,7 @@ class itemsManagementController extends Controller
             $fileName = 'icon_' . $item->id . '_' . $extention;
             $destination = 'public/items/icons';
             Storage::putFileAs($destination, $file, $fileName);
-            $item->icon = $destination . "/" . $fileName;
+            $item->icon = 'items/icons/' . $fileName;
             $item->save();
         }
 
@@ -211,7 +220,12 @@ class itemsManagementController extends Controller
                 'errors' => ['item id not found'],
             ]);
         }
-
+        // if ($item->image) {
+        //     Storage::delete('public/' . $item->image);
+        // }
+        // if ($item->icon) {
+        //     Storage::delete('public/' . $item->icon);
+        // }
         $item->delete();
 
         return response()->json([

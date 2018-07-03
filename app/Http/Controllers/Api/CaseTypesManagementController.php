@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
-// use jeremykenedy\LaravelRoles\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\CaseType;
 
@@ -69,7 +69,7 @@ class CaseTypesManagementController extends Controller
             $fileName = 'image_' . $caseType->id . '_' . $extention;
             $destination = 'public/case_types/';
             Storage::putFileAs($destination, $file, $fileName);
-            $caseType->image = $destination . "/" . $fileName;
+            $caseType->image = 'case_types/' . $fileName;
             $caseType->save();
         }
 
@@ -142,7 +142,7 @@ class CaseTypesManagementController extends Controller
             $fileName = 'image_' . $caseType->id . '_' . $extention;
             $destination = 'public/case_types/';
             Storage::putFileAs($destination, $file, $fileName);
-            $caseType->image = $destination . "/" . $fileName;
+            $caseType->image = 'case_types/' . $fileName;
             $caseType->save();
         }
         
