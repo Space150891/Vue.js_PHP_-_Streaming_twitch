@@ -7,7 +7,7 @@
         </button>
         
         <div v-bind:class="['collapse navbar-collapse', (clicked) ? 'toggle-block' : '']" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 menu-right-part">
                 <li class="nav-item" v-for="(item, index) in menuItems">
                     <router-link
                         class="nav-link"
@@ -102,9 +102,7 @@
         height: 100vh;
         max-height: 100vh;
     }
-    li.nav-item {
-        margin: 0px 10px;
-    }
+    
     .main-menu {
         position: fixed;
         top: 22px;
@@ -118,6 +116,9 @@
     }
     .left {
         margin-right: 20px;
+    }
+    .menu-right-part {
+        margin-bottom: 4px;
     }
     .nav-logo {
         width: 4vw;

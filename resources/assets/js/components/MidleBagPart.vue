@@ -362,10 +362,7 @@
         width: 100%;
         height: auto;
     }
-    li {
-        margin: 0 10px;
-        
-    }
+    
     .paginate-links.bagItems {
         user-select: none;
         display: flex;
@@ -374,6 +371,7 @@
         margin-bottom: 6%;
         list-style-type: none;
         a {
+            margin: 0 10px;
             cursor: pointer;
             color: #555555;
         }

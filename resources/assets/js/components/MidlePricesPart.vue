@@ -347,10 +347,6 @@
     .flex-pos {
         justify-content: center;
     }
-    li {
-        margin: 0 10px;
-        
-    }
     .paginate-list {
         width: 100%;
         list-style-type: none;
@@ -366,6 +362,7 @@
         margin-top: 2%;
         margin-bottom: 6%;
         a {
+            margin: 0 10px;
             cursor: pointer;
             color: #555555;
         }
