@@ -7,10 +7,11 @@
             </div>
             <div class="rightPart-mainText">
                 <h1>{{ item.mainText }}</h1>
-                <p>{{ item.mainText }}</p>
+                <p>{{ item.downText }}</p>
             </div>
         </div>
     </div>
+    
     
     
 </div>
@@ -22,42 +23,40 @@
             return {
                 leftItems: [
                     {
-                        mainText: "Text",
-
-                        image:require('../../../../public/images/logo.png'),
+                        mainText: "Residentevil",
+                        image:require('../../../../public/images/Residentevil.png'),
                         imageName: "alt",
-                        downText: "text",
-                        rightText: "text"
+                        downText: "Lorem ipsum dolor sit."
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        mainText: "superman",
+                        image:require('../../../../public/images/superman.png'),
+                        downText: "Lorem ipsum dolor sit.",
+                        imageName: "alt"
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        mainText: "Liverpool",
+                        image:require('../../../../public/images/Liverpool.png'),
+                        downText: "Lorem ipsum dolor sit.",
+                        imageName: "alt"
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        mainText: "Illuminati",
+                        image:require('../../../../public/images/Illuminati.png'),
+                        downText: "Lorem ipsum dolor sit.",
+                        imageName: "alt"
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        mainText: "thelastofus",
+                        image:require('../../../../public/images/thelastofus.png'),
+                        downText: "Lorem ipsum dolor sit.",
+                        imageName: "alt"
                     },
                     {
-                        mainText: "Text",
-                        image:require('../../../../public/images/logo.png'),
-                        downText: "text",
-                        rightText: "text"
+                        mainText: "CS",
+                        image:require('../../../../public/images/cs.png'),
+                        downText: "Lorem ipsum dolor sit.",
+                        imageName: "alt"
                     }
                 ]
             }
@@ -102,12 +101,13 @@
         }    
     }
     .rightPart-mainText {
-        width: 33%;
+        width: 59%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
         word-wrap:break-word;
+
         h1 {
             font-size: 20px;
             font-weight: 800;
@@ -117,6 +117,8 @@
         }
         p {
             font-size: 15px;
+            line-height: 10px;
+            
         }
     }
     

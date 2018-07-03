@@ -31,7 +31,7 @@
       .then(function(data){
         document.cookie = "token=" + data.access_token;
         console.log(data.access_token);
-        var source = new EventSource("http://localhost:8000/sse", { withCredentials: true });
+        var source = new EventSource("http://localhost:8081/sse", { withCredentials: true });
         source.onmessage = function(event) {
             console.log(event.data);
         };

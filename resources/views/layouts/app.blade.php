@@ -31,61 +31,16 @@
         @yield('header_scripts')
         
         <script>
-            // function userToken () {
-            //     localStorage.setItem('userToken', window.access_token);
-            //     // console.log('token = ', window.access_token);
-            // }
-            // userToken ();
             
             var pageUrl = window.location.pathname;
             if(pageUrl == "/twitch/callback") {
                 @if (isset($access_token))
                     window.access_token = "{{($access_token)}}";
-                    // console.log("{{$expires_in}}");
                 @endif
                 localStorage.setItem('userToken', window.access_token);
-                console.log('token = ', window.access_token);
-                
-                window.location.replace("http://localhost:8000/");
+                window.location.replace("http://localhost:8081/");
+            }
 
-            }
-            var responseStatus = 200;
-            
-            function userStatus () {
-                
-                var tokenData = new FormData();
-                tokenData.append('token', localStorage.userToken);
-                fetch("http://127.0.0.1:8000/api/auth/me",
-                    {
-                        method: "POST",
-                        credentials: 'omit',
-                        mode: 'cors',
-                        body: tokenData,
-                    })
-                    .then(function(res){
-                        if (res.status === 401) {
-                            responseStatus = 401;
-                        }
-                        return res.json();
-                    })
-                    .then(function(data){
-                        console.log('data=', data);
-                    }
-                );
-                
-            }
-            setInterval( userStatus, 6000);
-
-            if(responseStatus === 401) {
-                console.log('sdfsdfsdfsdfsdfsdef')
-                // delete localStorage["userToken"];
-                // console.log(localStorage.userToken);
-            }
-            
-            
-            
-            
-            
         </script>
     </head>
     <body>
@@ -96,15 +51,16 @@
             </header>
             <main>
                 <router-view></router-view>
+
             </main>
-            <footer>
-                <footer-part></footer-part>
-            </footer>
+            
+
             
 
             
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
+        
         
 
         

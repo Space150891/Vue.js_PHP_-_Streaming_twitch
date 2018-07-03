@@ -7,18 +7,20 @@
         </button>
         
         <div v-bind:class="['collapse navbar-collapse', (clicked) ? 'toggle-block' : '']" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 menu-right-part">
                 <li class="nav-item" v-for="(item, index) in menuItems">
                     <router-link
                         class="nav-link"
                         v-bind:to="item.link" 
                         v-bind:key="index"
+                        v-on:click.native="menuLink()"
                     > 
                         {{ item.name }}
                     </router-link>
                 </li>
             </ul>
-            <a href="twitch/redirect"  class="sing-up">Sign up</a>
+            <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
+            <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -54,7 +56,6 @@
         data(){
             return {
                 clicked: false,
-                selected: 0,
                 bagPage: "/bag",
                 menuItems: [
                     {
@@ -75,15 +76,25 @@
                 ]
             }
         },
+        computed: {
+            checkToken: function () {
+              return this.$store.getters.checkToken;
+            }
+        },
+        mounted: function () {
+            this.$store.commit('signUp')
+        },
         methods: {
-            setSelected(index) {
-                this.selected = index;
-            },
             menuBurger() {
                 this.clicked = !this.clicked
-           }
-        },
-        
+            },
+            menuLink() {
+                (this.clicked) ? this.clicked = !this.clicked : this.clicked = this.clicked ;
+            },
+            signOut() {
+                this.$store.commit('signOut')
+            }
+        }
     }
 </script>
 <style lang="scss">
@@ -91,6 +102,7 @@
         height: 100vh;
         max-height: 100vh;
     }
+    
     .main-menu {
         position: fixed;
         top: 22px;
@@ -105,10 +117,13 @@
     .left {
         margin-right: 20px;
     }
+    .menu-right-part {
+        margin-bottom: 4px;
+    }
     .nav-logo {
         width: 4vw;
     }
-    .sing-up {
+    .sign {
         margin-bottom: 19px;
         padding: 6px 12px;
         background: #6441a4;
@@ -126,6 +141,9 @@
             border-radius: 10px;
             transition: 0.2s;
         }
+    }
+    .sign-none {
+        display: none;
     }
     .social {
         display: none;
@@ -322,7 +340,8 @@
         .navbar-nav {
             margin: 0;
         }
-        .sing-up {
+        .sign {
+            display: block;
             font-size: 14px;
         }
     }

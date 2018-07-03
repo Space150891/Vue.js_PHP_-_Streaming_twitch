@@ -8,7 +8,13 @@
 require('./bootstrap');
 require('hideshowpassword');
 var password = require('password-strength-meter');
-import VueRouter from 'vue-router'
+
+import VueRouter from 'vue-router';
+import UserSignStore from './components/store/UserSignStore.js';
+
+import VuePaginate from 'vue-paginate';
+Vue.use(VuePaginate);
+
 window.Vue = require('vue');
 var Home = require('./components/Home.vue');
 var Directory = require('./components/Directory.vue');
@@ -50,5 +56,6 @@ Vue.component('footer-part', require('./components/FooretPart.vue'));
 
 const app = new Vue({
     el: '#app',
-    router: router
+    router: router,
+    store: UserSignStore
 });
