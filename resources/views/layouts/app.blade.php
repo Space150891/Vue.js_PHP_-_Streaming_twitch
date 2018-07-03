@@ -38,7 +38,7 @@
                     window.access_token = "{{($access_token)}}";
                 @endif
                 localStorage.setItem('userToken', window.access_token);
-                window.location.replace("http://localhost:8000/");
+                window.location.replace("http://localhost:8081/");
             }
 
         </script>

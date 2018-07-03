@@ -154,9 +154,9 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
-        // if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
-        //     exit("wrong request!");
-        // }
+        if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
+            exit("wrong request!");
+        }
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 
 class ServerEventsController extends Controller
 {
