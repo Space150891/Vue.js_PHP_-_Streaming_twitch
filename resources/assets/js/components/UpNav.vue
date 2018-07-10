@@ -8,9 +8,9 @@
         <li class="up-nav-active"><a href="#" >BUTTON</a></li>
     </ul>
     <ul class="up-nav-social">
-        <li><a href="#"><img class="up-nav-social-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a></li>
-        <li><a href="#"><img class="up-nav-social-icon" src="../../../../public/images/twitter.svg" alt="twitter"></a></li>
-        <li><a href="#"><img class="up-nav-social-icon" src="../../../../public/images/facebook.svg" alt="facebook"></a></li>
+        <li><a v-bind:href="'https://plus.google.com/share?url=' + url"><img class="up-nav-social-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a></li>
+        <li><a v-bind:href="'https://twitter.com/share?url=' + url"><img class="up-nav-social-icon" src="../../../../public/images/twitter.svg" alt="twitter"></a></li>
+        <li><a v-bind:href="'http://www.facebook.com/sharer.php?u=' + url"><img class="up-nav-social-icon" src="../../../../public/images/facebook.svg" alt="facebook"></a></li>
     </ul>
 </div>
 </template>
@@ -100,8 +100,33 @@
             }
         }
     }
-    
-    
-
 </style>
+
+<script>
+    export default {
+        props: {
+          
+        },
+        data() {
+            return {
+                
+            }
+        },
+        mounted() {
+            
+        },
+        methods: {
+           
+        },
+        computed: {
+            checkToken: function () {
+              return this.$store.getters.checkToken;
+            },
+            url: function () {
+                console.log('url=', window.location.href);
+                return window.location.href;
+            }
+        },
+    }
+</script>
 
