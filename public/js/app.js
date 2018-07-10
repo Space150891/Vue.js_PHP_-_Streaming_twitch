@@ -1789,6 +1789,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         scrollUp: function scrollUp() {
             var elemLeftPart = document.getElementsByClassName('leftPart')[0];
             var elemLeftPartH = elemLeftPart.offsetHeight;
+            console.log(elemLeftPartH);
             var elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
             var sum = -this.num;
             if (sum < elemLeftPartH) {
@@ -21591,7 +21592,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.paginate-list {\n  width: 100%;\n  list-style-type: none;\n  padding: 0;\n}\n.paginate-list li {\n    display: inline-block;\n}\n.paginate-links.pricesItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n}\n.paginate-links.pricesItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.pricesItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.pricesItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.pricesItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n.price-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  padding: 0px 15px;\n  border-bottom: 1px solid black;\n}\n.price-up-item {\n  font-size: 16px;\n  padding: 3.5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.price-up-item:hover {\n    background: #e2e2e2;\n}\n.price-up-item:active {\n    background: #c3c3c3;\n}\n.prices-items {\n  height: 180px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 3px solid black;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n  position: relative;\n}\n.prices-items h2 {\n    font-size: 20px;\n}\n.prices-items span {\n    padding: 0px 14px 3px 14px;\n    border: 3px solid black;\n    border-radius: 10px;\n    position: absolute;\n    bottom: 10px;\n}\n.price-image {\n  width: 80px;\n  height: 80px;\n}\n@media (max-width: 991px) {\n.midle-price {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 100%;\n            flex: 0 0 100%;\n}\n.prices-items {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 60%;\n            flex: 0 0 60%;\n    min-width: 160px;\n}\n}\n@media (max-width: 600px) {\n.price-up-item {\n    padding: 5px;\n    font-size: 15px;\n}\n}\n@media (max-width: 600px) and (max-height: 321px) {\n.price-items-pagination {\n    height: 50px;\n}\n.price-image {\n    width: 35%;\n}\n.prices-items span {\n    font-size: 13px;\n}\n.prices-items {\n    padding: 2px;\n}\n.prices-items h2 {\n    font-size: 17px;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.paginate-list {\n  width: 100%;\n  list-style-type: none;\n  padding: 0;\n}\n.paginate-list li {\n    display: inline-block;\n}\n.paginate-links.pricesItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n}\n.paginate-links.pricesItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.pricesItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.pricesItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.pricesItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n.price-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  padding: 0px 15px;\n  border-bottom: 1px solid black;\n}\n.price-up-item {\n  font-size: 16px;\n  padding: 3.5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.price-up-item:hover {\n    background: #e2e2e2;\n}\n.price-up-item:active {\n    background: #c3c3c3;\n}\n.prices-items {\n  height: 180px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 3px solid black;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n  position: relative;\n}\n.prices-items h2 {\n    font-size: 20px;\n}\n.prices-items span {\n    padding: 0px 14px 3px 14px;\n    border: 3px solid black;\n    border-radius: 10px;\n    position: absolute;\n    bottom: 10px;\n}\n.price-image {\n  width: 80px;\n  height: 80px;\n}\n@media (min-width: 1201px) and (max-width: 1350px) {\n.prc-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 23%;\n            flex: 0 0 23%;\n    max-width: 23%;\n}\n}\n@media (max-width: 991px) {\n.midle-price {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 100%;\n            flex: 0 0 100%;\n}\n.prices-items {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 60%;\n            flex: 0 0 60%;\n    min-width: 160px;\n}\n}\n@media (max-width: 600px) {\n.price-up-item {\n    padding: 5px;\n    font-size: 15px;\n}\n}\n@media (max-width: 600px) and (max-height: 321px) {\n.price-items-pagination {\n    height: 50px;\n}\n.price-image {\n    width: 35%;\n}\n.prices-items span {\n    font-size: 13px;\n}\n.prices-items {\n    padding: 2px;\n}\n.prices-items h2 {\n    font-size: 17px;\n}\n}\n", ""]);
 
 // exports
 
@@ -21636,7 +21637,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -21756,7 +21757,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-bag {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.bag-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  margin-bottom: 20px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.bag-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.bag-up-item:hover {\n    background: #e2e2e2;\n}\n.bag-up-item:active {\n    background: #c3c3c3;\n}\n.bag-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.bag-items h2 {\n    font-size: 20px;\n}\n.bag-items p {\n    margin-top: 5px;\n}\n.bag-image {\n  width: 100%;\n  height: auto;\n}\n.paginate-links.bagItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n  list-style-type: none;\n}\n.paginate-links.bagItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.bagItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.bagItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.bagItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n@media screen and (max-width: 991px) {\n.midle-bag {\n    margin-top: 69px;\n}\n}\n@media screen and (max-width: 758px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media screen and (max-width: 740px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media (max-width: 576px) {\n.bag-image {\n    width: 75%;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-bag {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.bag-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  margin-bottom: 20px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.bag-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.bag-up-item:hover {\n    background: #e2e2e2;\n}\n.bag-up-item:active {\n    background: #c3c3c3;\n}\n.bag-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.bag-items h2 {\n    font-size: 20px;\n}\n.bag-items p {\n    margin-top: 5px;\n}\n.bag-image {\n  width: 100%;\n  height: auto;\n}\n.paginate-links.bagItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n  list-style-type: none;\n}\n.paginate-links.bagItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.bagItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.bagItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.bagItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n@media (min-width: 1142px) and (max-width: 1341px) {\n.bad-lgg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media screen and (max-width: 991px) {\n.midle-bag {\n    margin-top: 69px;\n}\n}\n@media screen and (max-width: 758px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media screen and (max-width: 740px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media (max-width: 576px) {\n.bag-image {\n    width: 75%;\n}\n.all-items {\n    margin-top: 10px;\n}\n}\n", ""]);
 
 // exports
 
@@ -74919,7 +74920,7 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items"
+                    "col-xl-2 col-lg-3 prc-mdd col-md-4 col-sm-12 prices-items"
                 },
                 [
                   _c("h2", [_vm._v(_vm._s(item.mainText))]),
@@ -75094,7 +75095,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12 directory-items"
+                  "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
               },
               [
                 _c("img", {
@@ -75589,13 +75590,16 @@ var render = function() {
           _c(
             "paginate",
             {
-              staticClass: "row flex-pos",
-              attrs: { name: "bagItems", per: 10, list: _vm.bagItems }
+              staticClass: "row all-items",
+              attrs: { name: "bagItems", per: 12, list: _vm.bagItems }
             },
             _vm._l(_vm.paginated("bagItems"), function(item) {
               return _c(
                 "div",
-                { staticClass: "col-lg-2 col-md-3 col-sm-4 col-12 bag-items" },
+                {
+                  staticClass:
+                    "col-xl-2 bad-lgg col-lg-3 col-md-4 col-sm-6 col-12"
+                },
                 [
                   _c("img", {
                     staticClass: "bag-image",
@@ -91813,7 +91817,7 @@ window.Pusher = __webpack_require__("./node_modules/pusher-js/dist/web/pusher.js
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   broadcaster: 'pusher',
   key: "",
-  cluster: "",
+  cluster: "eu",
   encrypted: true
 });
 

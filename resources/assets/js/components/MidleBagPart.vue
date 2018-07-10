@@ -10,8 +10,8 @@
             </div>
             <div class="container-fluid ">
                 <!-- paginate -->
-                <paginate name="bagItems" :per="10" :list="bagItems" class="row flex-pos">
-                    <div v-for="(item) in paginated('bagItems')" class="col-lg-2 col-md-3 col-sm-4 col-12 bag-items" >
+                <paginate name="bagItems" :per="12" :list="bagItems" class="row all-items">
+                    <div v-for="(item) in paginated('bagItems')" class="col-xl-2 bad-lgg col-lg-3 col-md-4 col-sm-6 col-12" >
                         <img class="bag-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                         <h2>{{ item.mainText }}</h2>
                         <p> {{ item.downText }} </p>
@@ -319,9 +319,7 @@
         margin-top: 109px;
         overflow-y: scroll;
     }
-    .flex-pos {
-        justify-content: center;
-    }
+    
     .bag-up-items {
         display: flex;
         justify-content: flex-start;
@@ -388,6 +386,13 @@
             cursor: no-drop;
         }
     }
+    
+    @media (min-width: 1142px) and (max-width: 1341px)  {
+        .bad-lgg {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
 
     @media screen and (max-width: 991px)  {
         .midle-bag {
@@ -425,6 +430,9 @@
     @media (max-width: 576px) {
         .bag-image {
             width: 75%;
+        }
+        .all-items {
+            margin-top: 10px;
         }
     }
     

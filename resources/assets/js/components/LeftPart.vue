@@ -133,6 +133,7 @@
             scrollUp() {
                 const elemLeftPart = document.getElementsByClassName('leftPart')[0];
                 const elemLeftPartH = elemLeftPart.offsetHeight;
+                console.log(elemLeftPartH);
                 const elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
                 let sum = -this.num;
                 if(sum<elemLeftPartH){

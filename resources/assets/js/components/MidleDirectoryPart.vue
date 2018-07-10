@@ -3,7 +3,7 @@
         <div class="scroll">
             <div class="container-fluid ">
                 <div class="row flex-pos">
-                    <div v-for="(item) in directoryItems" class="col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12 directory-items" >
+                    <div v-for="(item) in directoryItems" class="dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items" >
                         <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                         <h2>{{ item.mainText }}</h2>
                         <p> {{ item.downText }} </p>
@@ -234,6 +234,21 @@
         img {
             width: 100%;
             height: auto;
+        }
+    }
+
+    @media screen and (min-width: 1200px)  {
+        .dir-bg {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
+
+   
+    @media (min-width: 760px) and (max-width: 1029px)  {
+        .dir-mdd {
+            flex: 0 0 33%;
+            max-width: 33%;
         }
     }
 

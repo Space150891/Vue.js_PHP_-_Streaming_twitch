@@ -11,7 +11,7 @@
             <div class="container-fluid ">
                 <!-- paginate -->
                 <paginate name="pricesItems" :per="15" :list="pricesItems" class="row flex-pos">
-                    <div v-for="(item) in paginated('pricesItems')" class="col-xl-2 col-lg-3 col-md-4 col-sm-12 prices-items" >
+                    <div v-for="(item) in paginated('pricesItems')" class="col-xl-2 col-lg-3 prc-mdd col-md-4 col-sm-12 prices-items" >
                         <h2>{{ item.mainText }}</h2>
                         <img class="price-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                         <span> $ {{ price }}</span>
@@ -423,6 +423,13 @@
     .price-image {
         width: 80px;
         height: 80px;
+    }
+
+    @media (min-width: 1201px) and (max-width: 1350px)  {
+        .prc-mdd {
+            flex: 0 0 23%;
+            max-width: 23%;
+        }
     }
     
     @media (max-width: 991px) {
