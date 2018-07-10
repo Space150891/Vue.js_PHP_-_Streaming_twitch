@@ -36,7 +36,6 @@ const UserSignStore = new Vuex.Store({
             .then(function(jsonResp){
                 delete localStorage["userToken"];
                 state.token = false;
-                console.log(jsonResp.message);
                 state.message = jsonResp.message;
             });
         },
@@ -60,7 +59,6 @@ const UserSignStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log(jsonResp.data);
                 state.profileData = jsonResp.data;
             });
         }

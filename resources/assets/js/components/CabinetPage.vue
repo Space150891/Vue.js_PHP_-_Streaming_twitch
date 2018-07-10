@@ -52,7 +52,6 @@
               return this.$store.getters.checkToken;
             },
             profileData: function () {
-                console.log('from getter=', this.$store.getters.profileData);
                 return this.$store.getters.profileData;
             }
         },
