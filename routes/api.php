@@ -69,6 +69,8 @@ Route::group([
     Route::post('card/items/add', 'Api\CardsController@itemAdd');
     Route::post('card/items/delete', 'Api\CardsController@itemDestroy');
 
+    Route::post('profile/get', 'Api\ProfileController@get');
+    Route::post('profile/current', 'Api\ProfileController@getCurrent');
 });
 
 

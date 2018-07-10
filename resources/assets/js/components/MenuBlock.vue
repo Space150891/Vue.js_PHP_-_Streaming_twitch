@@ -21,6 +21,8 @@
             </ul>
             <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
             <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
+
+            <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
             <ul class="navbar-nav my-2 my-lg-0 left">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
@@ -125,6 +127,25 @@
     }
     .sign {
         margin-bottom: 19px;
+        padding: 6px 12px;
+        background: #6441a4;
+        font-size: 18px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        &:hover {
+            background: #3f148c;
+            text-decoration: none;
+            color: white;
+        }
+        &:active {
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+    }
+    .cabinet-but {
+        margin: 0 0 19px 10px;
         padding: 6px 12px;
         background: #6441a4;
         font-size: 18px;

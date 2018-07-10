@@ -6,8 +6,14 @@ Vue.use(Vuex);
 const UserSignStore = new Vuex.Store({
     state: {
         token: false,
-        message: ""
-        
+        message: "",
+        profileData: {
+            avatar : null,
+            username: null,
+            nickname: null,
+            email: null,
+            bio: null,
+        },
     },
     mutations: {
         signUp(state) {
@@ -33,10 +39,31 @@ const UserSignStore = new Vuex.Store({
                 console.log(jsonResp.message);
                 state.message = jsonResp.message;
             });
-
-            
-            
         },
+        loadProfile(state, id) {
+            var formData = new FormData();
+            var url = 'api/profile/current';
+            if (id > 0) {
+                formData.append('id', id);
+                url = 'api/profile/get';
+            } else {
+                formData.append('token', state.token);
+            }
+            fetch(url,
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                console.log(jsonResp.data);
+                state.profileData = jsonResp.data;
+            });
+        }
     },
     actions: {
         
@@ -45,7 +72,11 @@ const UserSignStore = new Vuex.Store({
         checkToken: state => {
             return state.token ? true : false;
         },
-    }
+        profileData: state => {
+            return state.profileData;
+        },
+    },
+
 });
 
 export default UserSignStore;

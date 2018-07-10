@@ -20,7 +20,7 @@ var Home = require('./components/Home.vue');
 var Directory = require('./components/Directory.vue');
 var Price = require('./components/Price.vue');
 var Bag = require('./components/Bag.vue');
-
+var Cabinet = require('./components/CabinetPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -28,6 +28,7 @@ var router = new VueRouter({
         { path: '/directory', component: Directory },
         { path: '/prices', component: Price },
         { path: '/bag', component: Bag },
+        { path: '/cabinet', component: Cabinet}
     ]
 });
 Vue.use(VueRouter);
