@@ -1,5 +1,5 @@
 <template>
-    <div class="cabinet-page">
+    <div v-if="userId > 0 || checkToken" class="cabinet-page" >
         <h1 class="text-center">Profile</h1>
         <div class="row">
             <div class="col-md-3">
@@ -22,6 +22,9 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div v-else class="cabinet-page">
+        Please login
     </div>
 </template>
 <script>

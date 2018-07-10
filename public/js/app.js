@@ -1664,6 +1664,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -75035,61 +75038,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "cabinet-page" }, [
-    _c("h1", { staticClass: "text-center" }, [_vm._v("Profile")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-3" }, [
-        _vm.profileData.avatar
-          ? _c("img", {
-              staticClass: "img-thumbnail avatar-img",
-              attrs: { src: _vm.profileData.avatar, alt: "avatar" }
-            })
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-9" }, [
-        _vm._v(
-          "\n            " +
-            _vm._s(_vm.profileData.bio ? _vm.profileData.bio : "") +
-            "\n        "
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-3" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-9" }, [
-        _c("h5", [_vm._v("Twitch details")]),
+  return _vm.userId > 0 || _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("Profile")]),
         _vm._v(" "),
-        _c("ul", { staticClass: "list-group" }, [
-          _c("li", { staticClass: "list-group-item" }, [
-            _vm._v("username "),
-            _c("span", { staticClass: "badge" }, [
-              _vm._v(_vm._s(_vm.profileData.username))
-            ])
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-3" }, [
+            _vm.profileData.avatar
+              ? _c("img", {
+                  staticClass: "img-thumbnail avatar-img",
+                  attrs: { src: _vm.profileData.avatar, alt: "avatar" }
+                })
+              : _vm._e()
           ]),
           _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _vm._v("nikname "),
-            _c("span", { staticClass: "badge" }, [
-              _vm._v(_vm._s(_vm.profileData.nikname))
-            ])
-          ]),
+          _c("div", { staticClass: "col-md-9" }, [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.profileData.bio ? _vm.profileData.bio : "") +
+                "\n        "
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-3" }),
           _vm._v(" "),
-          _vm.profileData.email
-            ? _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("email "),
+          _c("div", { staticClass: "col-md-9" }, [
+            _c("h5", [_vm._v("Twitch details")]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "list-group" }, [
+              _c("li", { staticClass: "list-group-item" }, [
+                _vm._v("username "),
                 _c("span", { staticClass: "badge" }, [
-                  _vm._v(_vm._s(_vm.profileData.email))
+                  _vm._v(_vm._s(_vm.profileData.username))
                 ])
-              ])
-            : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "list-group-item" }, [
+                _vm._v("nikname "),
+                _c("span", { staticClass: "badge" }, [
+                  _vm._v(_vm._s(_vm.profileData.nikname))
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.profileData.email
+                ? _c("li", { staticClass: "list-group-item" }, [
+                    _vm._v("email "),
+                    _c("span", { staticClass: "badge" }, [
+                      _vm._v(_vm._s(_vm.profileData.email))
+                    ])
+                  ])
+                : _vm._e()
+            ])
+          ])
         ])
       ])
-    ])
-  ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
