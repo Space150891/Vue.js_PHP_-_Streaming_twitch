@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -175,6 +175,7 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
+        \Log::info($body);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $user = new User();
@@ -182,16 +183,62 @@ class SocialController extends Controller
             $user->activated = 1;
             $user->password = '123';
             $user->last_name = '';
+            $user->name = $body['name'];
+            $user->save();
+            $streamer = new Streamer();
+            $streamer->user_id = $user->id;
+            $streamer->name = $user->name;
+            $viewer = new Viewer();
+            $viewer->user_id = $user->id;
+            $viewer->name = $user->name;
+            $viewer->save();
+        } else {
+            $streamer = $user->streamer()->first();
+            $viewer = $user->viewer()->first();
         }
+        
         $user->name = $body['name'];
         $user->first_name = $body['display_name'];
         $user->email = $body['email'];
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
         $user->save();
+        $twitchUserId = $body['_id'];
+        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId . '?stream_type=all');
+        $body = json_decode((string) $result->getBody(), true);
+        $streamer->twitch_id = isset($body['stream']['_id']) ? $body['stream']['_id'] : null;
+        $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
         $user->addProgress(new Login10daysAchievement(), 1);
         $user->addProgress(new Login20daysAchievement(), 1);
+        //
+        // $twitchUserId = $body['_id'];
+        // $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId . '?stream_type=all');
+        // $channels = json_decode((string) $result->getBody(), true);
+        // \Log::info('TWITCH STREAMS for ' . $twitchUserId);
+        // \Log::info($channels);
+        // $twitchChannels = array_map(function($value){
+        //     return isset($value['stream']['_id']) ? $value['stream']['_id'] : false;
+        // }, $channels);
+        // \Log::info('TWITCH CHANNELS ');
+        // \Log::info($twitchChannels);
+        // $userChannels = Channel::where('streamer_id', $streamer->id)->get();
+        // foreach ($userChannels as $userChannel) {
+        //     if (!in_array($userChannel->twitch_id, $twitchChannels)) {
+        //         $userChannel->delete();
+        //     }
+        // }
+        // $userChannelsIds = array_map(function($value){
+        //     return $value->twitch_id;
+        // }, $channels);
+        // foreach ($twitchChannels as $twitchChannel) {
+        //     if (!in_array($twitchChannel, $userChannelsIds) && $twitchChannel) {
+        //         $channel = new Channel();
+        //         $channel->streamer_id= $streamer_id;
+        //         $channel->twitch_id = $twitchChannel;
+        //         $channel->save();
+        //     }
+        // }
         $token = auth()->login($user);
 
         $data = [
