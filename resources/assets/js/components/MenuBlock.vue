@@ -23,15 +23,15 @@
             <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
 
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
-            <ul class="navbar-nav my-2 my-lg-0 left">
+            <ul class="navbar-nav my-2 my-lg-0 left" v-if="checkToken">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> 5,000</a>
+                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> {{currentViewer.points}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/diamond.svg" alt="diamond"> 100</a>
+                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/diamond.svg" alt="diamond"> {{currentViewer.diamonds}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">0</a>
+                    <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">{{currentViewer.level}}</a>
                 </li>
                 <li class="nav-item tagging">
                     <router-link 
@@ -79,12 +79,16 @@
             }
         },
         computed: {
-            checkToken: function () {
+            checkToken: function() {
               return this.$store.getters.checkToken;
+            },
+            currentViewer: function() {
+                return this.$store.getters.currentViewer;
             }
         },
         mounted: function () {
-            this.$store.commit('signUp')
+            this.$store.commit('signUp');
+            this.$store.commit('loadCurrentViewer');
         },
         methods: {
             menuBurger() {

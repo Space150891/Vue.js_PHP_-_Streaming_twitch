@@ -52,5 +52,18 @@ class ViewersController extends Controller
             'data' => $viewer,
         ]);
     }
+
+    public function current(Request $request)
+    {
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        return response()->json([
+            'data' => [
+                'points'    => $viewer->current_points,
+                'diamonds'  => $viewer->diamonds,
+                'level'     => $viewer->getLevel(),
+            ],
+        ]);
+    }
  
 }

@@ -36,6 +36,7 @@ Route::group([
     Route::post('channels/delete', 'Api\ChannelsController@destroy');
 
     Route::post('viewers/get', 'Api\ViewersController@show');
+    Route::post('viewers/current', 'Api\ViewersController@current');
 
     Route::post('streamers/get', 'Api\StreamersController@show');
     Route::post('streamers/list', 'Api\StreamersController@list');

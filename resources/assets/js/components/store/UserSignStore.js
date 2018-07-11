@@ -6,6 +6,11 @@ Vue.use(Vuex);
 const UserSignStore = new Vuex.Store({
     state: {
         token: false,
+        currentViewer: {
+            diamonds: 0,
+            points: 0,
+            level: 0,
+        },
         message: "",
         profileData: {
             avatar : null,
@@ -22,6 +27,30 @@ const UserSignStore = new Vuex.Store({
     mutations: {
         signUp(state) {
             state.token = localStorage.getItem("userToken");
+        },
+        loadCurrentViewer(state) {
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/viewers/current',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                        console.log('load viewer ERROR');
+                    } else {
+                        state.currentViewer = jsonResp.data;
+                    }
+                });
+            }
         },
         signOut(state) {
             var formData = new FormData();
@@ -40,6 +69,7 @@ const UserSignStore = new Vuex.Store({
             .then(function(jsonResp){
                 delete localStorage["userToken"];
                 state.token = false;
+                console.log('SIGN OUT DONE');
                 state.message = jsonResp.message;
             });
         },
@@ -65,6 +95,7 @@ const UserSignStore = new Vuex.Store({
             .then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
+                    console.log('LOAD PROFILE ERROR');
                 } else {
                     state.profileData = jsonResp.data;
                 }
@@ -85,12 +116,8 @@ const UserSignStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                } else {
-                    state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
-                    state.promotedStreamers.loaded = true;
-                }
+                state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+                state.promotedStreamers.loaded = true;
             });
         },
     },
@@ -110,6 +137,9 @@ const UserSignStore = new Vuex.Store({
         promotedLoaded: state => {
             return state.promotedStreamers.loaded;
         },
+        currentViewer: state => {
+            return state.currentViewer;
+        }
     },
 
 });
