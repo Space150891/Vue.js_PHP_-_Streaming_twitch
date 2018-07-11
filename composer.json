@@ -35,6 +35,7 @@
         "socialiteproviders/instagram": "^3.0",
         "socialiteproviders/twitch": "^3.0",
         "socialiteproviders/youtube": "^3.0",
+        "srmklive/paypal": "~1.0",
         "stripe/stripe-php": "~5.9.2",
         "tymon/jwt-auth": "^1.0.0-rc.2"
     },

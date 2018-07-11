@@ -154,3 +154,7 @@ Route::post('front/gettoken', 'Auth\SocialController@getToken');
 
 // admin routes
 Route::get('admin', 'AdminController@adminPage');
+
+Route::get('paypal/pay', 'PayPalController@getExpressCheckout');
+Route::get('paypal/success', 'PayPalController@getExpressCheckoutSuccess');
+Route::post('paypal/notify', 'PayPalController@notify');
