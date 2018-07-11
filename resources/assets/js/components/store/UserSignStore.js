@@ -14,6 +14,10 @@ const UserSignStore = new Vuex.Store({
             email: null,
             bio: null,
         },
+        promotedStreamers: {
+            list: [],
+            loaded: false,
+        }
     },
     mutations: {
         signUp(state) {
@@ -65,7 +69,30 @@ const UserSignStore = new Vuex.Store({
                     state.profileData = jsonResp.data;
                 }
             });
-        }
+        },
+        getPromotedList(state) {
+            var formData = new FormData();
+            state.promotedStreamers.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/streamers/promoted/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+                    state.promotedStreamers.loaded = true;
+                }
+            });
+        },
     },
     actions: {
         
@@ -76,6 +103,12 @@ const UserSignStore = new Vuex.Store({
         },
         profileData: state => {
             return state.profileData;
+        },
+        promotedStreamers: state => {
+            return state.promotedStreamers.list;
+        },
+        promotedLoaded: state => {
+            return state.promotedStreamers.loaded;
         },
     },
 

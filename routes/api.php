@@ -39,6 +39,7 @@ Route::group([
 
     Route::post('streamers/get', 'Api\StreamersController@show');
     Route::post('streamers/list', 'Api\StreamersController@list');
+    Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
 
     Route::post('contacts/list', 'Api\ContactsController@index');
     Route::post('contacts/store', 'Api\ContactsController@store');
@@ -127,7 +128,7 @@ Route::group([
     Route::post('contact/types/delete', 'Api\ContactTypesManagementController@destroy');
 
     Route::post('streamers/promoted/get', 'Api\PromotedStreamersManagementController@show');
-    Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
+    
     Route::post('streamers/promoted/add', 'Api\PromotedStreamersManagementController@store');
     Route::post('streamers/promoted/delete', 'Api\PromotedStreamersManagementController@delete');
 });

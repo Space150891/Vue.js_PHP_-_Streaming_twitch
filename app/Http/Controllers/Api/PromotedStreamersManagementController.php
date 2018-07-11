@@ -88,7 +88,11 @@ class PromotedStreamersManagementController extends Controller
         $promoted = PromoutedStreamer::all();
         for ($i = 0; $i < count($promoted); $i++) {
             $streamer = $promoted[$i]->streamer()->first();
+            $user= $streamer->user()->first();
+            $promoted[$i]->avatar = $user->avatar;
+            $promoted[$i]->user_id = $user->id;
             $promoted[$i]->name = $streamer->name;
+            $promoted[$i]->nikname = $user->first_name;
             $promoted[$i]->streamer_id = $streamer->id;
             $promoted[$i]->twitch_id = $streamer->twitch_id;
         }
