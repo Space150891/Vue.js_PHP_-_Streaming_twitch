@@ -25,13 +25,15 @@
     </div>
     <div v-else class="cabinet-page">
         Please login
+        {{userId}}
+        {{$route.params.userId}}
     </div>
 </template>
 <script>
     export default {
         props: {
           userId: {
-            type: Number,
+            type: String,
             default: 0,
             required: false
           },
@@ -53,7 +55,7 @@
             },
             profileData: function () {
                 return this.$store.getters.profileData;
-            }
+            },
         },
     }
 </script>

@@ -1667,6 +1667,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1754,97 +1756,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            num: 10,
-            leftItems: [{
-                mainText: "lorem",
-                image: __webpack_require__("./public/images/BF2EF.png"),
-                imageName: "alt",
-                downText: "text",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "ipsum",
-                image: __webpack_require__("./public/images/cs.png"),
-                imageName: "alt",
-                downText: "text",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "scroll",
-                image: __webpack_require__("./public/images/ufc.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "Text",
-                image: __webpack_require__("./public/images/Illuminati.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "public text",
-                image: __webpack_require__("./public/images/SH2.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-
-            }, {
-                mainText: "Resident evil",
-                image: __webpack_require__("./public/images/Residentevil.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "PUBG",
-                image: __webpack_require__("./public/images/PUBG.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "superman",
-                image: __webpack_require__("./public/images/superman.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "lastSurvivalist",
-                image: __webpack_require__("./public/images/lastSurvivalist.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "Liverpool",
-                image: __webpack_require__("./public/images/Liverpool.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "Colgate",
-                image: __webpack_require__("./public/images/Colgate.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "Illuminati",
-                image: __webpack_require__("./public/images/Illuminati.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "pxEA",
-                image: __webpack_require__("./public/images/pxEA.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }, {
-                mainText: "thelastofus",
-                image: __webpack_require__("./public/images/thelastofus.png"),
-                downText: "text",
-                imageName: "alt",
-                rightText: "Lorem, ipsum dolor."
-            }]
+            num: 10
         };
     },
 
@@ -1869,6 +1787,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 elemLeftPart.style.transform = "translate(0px," + (this.num + 20) + "px)";
                 elemLeftPart.style.transition = "transform 1s";
             }
+        }
+    },
+    mounted: function mounted() {
+        this.$store.commit('getPromotedList');
+    },
+
+    computed: {
+        promotedStreamers: function promotedStreamers() {
+            return this.$store.getters.promotedStreamers;
         }
     }
 });
@@ -21970,7 +21897,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.leftPart-main {\n  width: 15%;\n  height: 100vh;\n  position: fixed;\n  margin-top: 8%;\n  overflow: hidden;\n}\n.leftPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  margin-top: 10px;\n  position: relative;\n  z-index: -20;\n  padding-left: 2px;\n}\n.scroll-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  position: absolute;\n  width: 100%;\n  height: 35px;\n  z-index: 100;\n  background-color: white;\n}\n.scroll-item:hover {\n    background-color: #e4e4e4;\n}\n.scroll-item:active {\n    background-color: #b9b9b9;\n    border-radius: 2px;\n}\n.btn-up {\n  border-bottom: 1px solid black;\n  margin-bottom: 10px;\n  position: fixed;\n  top: 107px;\n  width: 15%;\n}\n.btn-down {\n  border-top: 1px solid black;\n  position: fixed;\n  bottom: 0px;\n  width: 15%;\n}\n.leftPart-scroll {\n  width: 10px;\n  -webkit-transform: rotate(-90deg);\n          transform: rotate(-90deg);\n  font-size: 20px;\n}\n.leftPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  width: 100%;\n  height: auto;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.leftPart-item:hover {\n    background-color: #e6e6e6;\n    text-decoration: none;\n    color: black;\n}\n.leftPart-img {\n  width: 33%;\n}\n.leftPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.leftPart-mainText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.leftPart-mainText h1 {\n    font-size: 17px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.leftPart-mainText p {\n    font-size: 15px;\n}\n.leftPart-rightText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  word-wrap: break-word;\n}\n.leftPart-rightText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.leftPart-mainText {\n    text-align: center;\n}\n.leftPart-mainText h1 {\n      font-size: 13px;\n}\n.leftPart-mainText p {\n      font-size: 13px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 1085px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.leftPart-mainText h1 {\n    font-size: 13px;\n}\n.leftPart-mainText p {\n    font-size: 12px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.btn-up {\n    top: 69px;\n}\n}\n@media screen and (max-width: 775px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n@media screen and (max-width: 767px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h1 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.leftPart-main {\n  width: 15%;\n  height: 100vh;\n  position: fixed;\n  margin-top: 8%;\n  overflow: hidden;\n}\n.leftPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  margin-top: 10px;\n  position: relative;\n  z-index: -20;\n  padding-left: 2px;\n}\n.scroll-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  position: absolute;\n  width: 100%;\n  height: 35px;\n  z-index: 100;\n  background-color: white;\n}\n.scroll-item:hover {\n    background-color: #e4e4e4;\n}\n.scroll-item:active {\n    background-color: #b9b9b9;\n    border-radius: 2px;\n}\n.btn-up {\n  border-bottom: 1px solid black;\n  margin-bottom: 10px;\n  position: fixed;\n  top: 107px;\n  width: 15%;\n}\n.btn-down {\n  border-top: 1px solid black;\n  position: fixed;\n  bottom: 0px;\n  width: 15%;\n}\n.leftPart-scroll {\n  width: 10px;\n  -webkit-transform: rotate(-90deg);\n          transform: rotate(-90deg);\n  font-size: 20px;\n}\n.leftPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  width: 100%;\n  height: auto;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.leftPart-item:hover {\n    background-color: #e6e6e6;\n    text-decoration: none;\n    color: black;\n}\n.leftPart-img {\n  width: 33%;\n}\n.leftPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.leftPart-mainText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.leftPart-mainText h2 {\n    font-size: 17px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.leftPart-mainText p {\n    font-size: 15px;\n}\n.leftPart-rightText {\n  width: 33%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  word-wrap: break-word;\n}\n.leftPart-rightText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.leftPart-mainText {\n    text-align: center;\n}\n.leftPart-mainText h2 {\n      font-size: 13px;\n}\n.leftPart-mainText p {\n      font-size: 13px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 1085px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.leftPart-mainText h2 {\n    font-size: 13px;\n}\n.leftPart-mainText p {\n    font-size: 12px;\n}\n.leftPart-rightText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.btn-up {\n    top: 69px;\n}\n}\n@media screen and (max-width: 775px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h2 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n@media screen and (max-width: 767px) {\n.leftPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.leftPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.leftPart-mainText h2 {\n    font-size: 12px;\n}\n.leftPart-mainText p {\n    font-size: 11px;\n}\n.leftPart-rightText p {\n    font-size: 11px;\n}\n}\n", ""]);
 
 // exports
 
@@ -75225,7 +75152,13 @@ var render = function() {
         ])
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
-        _vm._v("\n    Please login\n")
+        _vm._v(
+          "\n    Please login\n    " +
+            _vm._s(_vm.userId) +
+            "\n    " +
+            _vm._s(_vm.$route.params.userId) +
+            "\n"
+        )
       ])
 }
 var staticRenderFns = []
@@ -75719,9 +75652,7 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          {
-            attrs: { href: "https://twitter.com/share?url='" + _vm.url + "'" }
-          },
+          { attrs: { href: "https://twitter.com/share?url=" + _vm.url } },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -76266,20 +76197,22 @@ var render = function() {
     _c(
       "div",
       { staticClass: "leftPart" },
-      _vm._l(_vm.leftItems, function(item) {
-        return _c("div", { staticClass: "leftPart-item" }, [
-          _c("div", { staticClass: "leftPart-img" }, [
-            _c("img", { attrs: { src: item.image, alt: item.imageName } })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "leftPart-mainText" }, [
-            _c("h1", [_vm._v(_vm._s(item.mainText))]),
+      _vm._l(_vm.promotedStreamers, function(item) {
+        return _c("a", { attrs: { href: "#/profile/" + item.user_id } }, [
+          _c("div", { staticClass: "leftPart-item" }, [
+            _c("div", { staticClass: "leftPart-img" }, [
+              _c("img", { attrs: { src: item.avatar, alt: item.name } })
+            ]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.downText))])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "leftPart-rightText" }, [
-            _c("p", [_vm._v(_vm._s(item.rightText))])
+            _c("div", { staticClass: "leftPart-mainText" }, [
+              _c("h2", [_vm._v(_vm._s(item.name))]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(item.nikname))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "leftPart-rightText" }, [
+              _c("p", [_vm._v(_vm._s(item.bio))])
+            ])
           ])
         ])
       })
@@ -92462,7 +92395,7 @@ var Bag = __webpack_require__("./resources/assets/js/components/Bag.vue");
 var Cabinet = __webpack_require__("./resources/assets/js/components/CabinetPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93514,6 +93447,10 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             nickname: null,
             email: null,
             bio: null
+        },
+        promotedStreamers: {
+            list: [],
+            loaded: false
         }
     },
     mutations: {
@@ -93554,7 +93491,31 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                state.profileData = jsonResp.data;
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.profileData = jsonResp.data;
+                }
+            });
+        },
+        getPromotedList: function getPromotedList(state) {
+            var formData = new FormData();
+            state.promotedStreamers.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/streamers/promoted/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+                    state.promotedStreamers.loaded = true;
+                }
             });
         }
     },
@@ -93565,6 +93526,12 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         profileData: function profileData(state) {
             return state.profileData;
+        },
+        promotedStreamers: function promotedStreamers(state) {
+            return state.promotedStreamers.list;
+        },
+        promotedLoaded: function promotedLoaded(state) {
+            return state.promotedStreamers.loaded;
         }
     }
 

@@ -28,7 +28,8 @@ var router = new VueRouter({
         { path: '/directory', component: Directory },
         { path: '/prices', component: Price },
         { path: '/bag', component: Bag },
-        { path: '/cabinet', component: Cabinet}
+        { path: '/cabinet', component: Cabinet},
+        { path: '/profile/:userId', component: Cabinet,  props: true },
     ]
 });
 Vue.use(VueRouter);
