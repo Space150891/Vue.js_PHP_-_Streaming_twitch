@@ -1673,7 +1673,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         userId: {
-            type: Number,
+            type: String,
             default: 0,
             required: false
         }
@@ -1887,10 +1887,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
+        },
+        currentViewer: function currentViewer() {
+            return this.$store.getters.currentViewer;
         }
     },
     mounted: function mounted() {
         this.$store.commit('signUp');
+        this.$store.commit('loadCurrentViewer');
     },
     methods: {
         menuBurger: function menuBurger() {
@@ -75331,41 +75335,76 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c("ul", { staticClass: "navbar-nav my-2 my-lg-0 left" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._m(3),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item tagging" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link bag-span",
-                      attrs: { to: _vm.bagPage }
-                    },
-                    [
+            _vm.checkToken
+              ? _c("ul", { staticClass: "navbar-nav my-2 my-lg-0 left" }, [
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
                       _c("img", {
                         staticClass: "nav-icon",
                         attrs: {
-                          src: __webpack_require__("./public/images/bag.svg"),
-                          alt: "bag"
+                          src: __webpack_require__("./public/images/cash.svg"),
+                          alt: "cash"
                         }
-                      })
-                    ]
+                      }),
+                      _vm._v(" " + _vm._s(_vm.currentViewer.points))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+                      _c("img", {
+                        staticClass: "nav-icon",
+                        attrs: {
+                          src: __webpack_require__("./public/images/diamond.svg"),
+                          alt: "diamond"
+                        }
+                      }),
+                      _vm._v(" " + _vm._s(_vm.currentViewer.diamonds))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+                      _c("img", {
+                        staticClass: "nav-icon",
+                        attrs: {
+                          src: __webpack_require__("./public/images/arrows.svg"),
+                          alt: "arrows"
+                        }
+                      }),
+                      _vm._v(_vm._s(_vm.currentViewer.level))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item tagging" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link bag-span",
+                          attrs: { to: _vm.bagPage }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "nav-icon",
+                            attrs: {
+                              src: __webpack_require__("./public/images/bag.svg"),
+                              alt: "bag"
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tagging-item" }, [_vm._v("2")])
+                    ],
+                    1
                   ),
                   _vm._v(" "),
-                  _c("span", { staticClass: "tagging-item" }, [_vm._v("2")])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _vm._m(4)
-            ])
+                  _vm._m(1)
+                ])
+              : _vm._e()
           ]
         )
       ]
@@ -75385,57 +75424,6 @@ var staticRenderFns = [
           alt: "logo"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/cash.svg"),
-            alt: "cash"
-          }
-        }),
-        _vm._v(" 5,000")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/diamond.svg"),
-            alt: "diamond"
-          }
-        }),
-        _vm._v(" 100")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/arrows.svg"),
-            alt: "arrows"
-          }
-        }),
-        _vm._v("0")
-      ])
     ])
   },
   function() {
@@ -93440,6 +93428,11 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
         token: false,
+        currentViewer: {
+            diamonds: 0,
+            points: 0,
+            level: 0
+        },
         message: "",
         profileData: {
             avatar: null,
@@ -93457,6 +93450,27 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         signUp: function signUp(state) {
             state.token = localStorage.getItem("userToken");
         },
+        loadCurrentViewer: function loadCurrentViewer(state) {
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/viewers/current', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                        console.log('load viewer ERROR');
+                    } else {
+                        state.currentViewer = jsonResp.data;
+                    }
+                });
+            }
+        },
         signOut: function signOut(state) {
             var formData = new FormData();
             formData.append('token', state.token);
@@ -93471,6 +93485,7 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (jsonResp) {
                 delete localStorage["userToken"];
                 state.token = false;
+                console.log('SIGN OUT DONE');
                 state.message = jsonResp.message;
             });
         },
@@ -93493,6 +93508,7 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (jsonResp) {
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
+                    console.log('LOAD PROFILE ERROR');
                 } else {
                     state.profileData = jsonResp.data;
                 }
@@ -93510,12 +93526,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                } else {
-                    state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
-                    state.promotedStreamers.loaded = true;
-                }
+                state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+                state.promotedStreamers.loaded = true;
             });
         }
     },
@@ -93532,6 +93544,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         promotedLoaded: function promotedLoaded(state) {
             return state.promotedStreamers.loaded;
+        },
+        currentViewer: function currentViewer(state) {
+            return state.currentViewer;
         }
     }
 

@@ -63,25 +63,5 @@ class Profile extends Model
         return $this->hasOne('App\Models\Theme');
     }
 
-    public function increaseLevel($points)
-    {
-        $this->experience += $points;
-    }
-
-    public function getLevel($points)
-    {
-        $str = (string) $points;
-        $first = (int) substr($str, 0, 1);
-        $length = strlen($str);
-        if ($length < 3) {
-            return 0;
-        }
-        $level = ($length * 3) - 8;
-        if ($first > 4) {
-            return $level + 2;
-        } elseif ($first > 1) {
-            return $level + 1;
-        }
-        return $level;
-    }
+    
 }
