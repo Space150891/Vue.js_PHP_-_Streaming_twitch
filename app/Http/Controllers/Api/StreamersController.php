@@ -58,5 +58,15 @@ class StreamersController extends Controller
             'data' => $streamer,
         ]);
     }
+
+    public function list(Request $request)
+    {
+        $streamers = Streamer::all();
+        return response()->json([
+            'data' => [
+                'streamers' => $streamers,
+            ],
+        ]);
+    }
  
 }

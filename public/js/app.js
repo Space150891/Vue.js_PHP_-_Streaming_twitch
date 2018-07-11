@@ -75719,9 +75719,7 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          {
-            attrs: { href: "https://twitter.com/share?url='" + _vm.url + "'" }
-          },
+          { attrs: { href: "https://twitter.com/share?url=" + _vm.url } },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -93554,7 +93552,11 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                state.profileData = jsonResp.data;
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.profileData = jsonResp.data;
+                }
             });
         }
     },

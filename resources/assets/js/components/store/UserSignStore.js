@@ -59,7 +59,11 @@ const UserSignStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                state.profileData = jsonResp.data;
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.profileData = jsonResp.data;
+                }
             });
         }
     },

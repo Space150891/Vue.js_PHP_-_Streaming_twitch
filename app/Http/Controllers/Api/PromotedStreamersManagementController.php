@@ -19,7 +19,7 @@ class PromotedStreamersManagementController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['list']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -80,6 +80,22 @@ class PromotedStreamersManagementController extends Controller
         $promotedStreamer->delete();
         return response()->json([
             'message' => ['successful deleted streamer from promoted streamers'],
+        ]);
+    }
+
+    public function list(Request $request)
+    {
+        $promoted = PromoutedStreamer::all();
+        for ($i = 0; $i < count($promoted); $i++) {
+            $streamer = $promoted[$i]->streamer()->first();
+            $promoted[$i]->name = $streamer->name;
+            $promoted[$i]->streamer_id = $streamer->id;
+            $promoted[$i]->twitch_id = $streamer->twitch_id;
+        }
+        return response()->json([
+            'data' => [
+                'promoted' => $promoted,
+            ],
         ]);
     }
  
