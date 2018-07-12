@@ -21,6 +21,6 @@ class SubscribedStreamers extends Model
 
     public function subscriptionPlan()
     {
-        return $this->hasOne('App\Models\SubscriptionPlan');
+        return $this->belongsTo('App\Models\SubscriptionPlan');
     }
 }
