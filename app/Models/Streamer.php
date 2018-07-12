@@ -25,17 +25,7 @@ class Streamer extends Model
 
     public function subscription()
     {
-        $subscription = SubscribedStreamers::where('streamer_id', $this->id)->first();
-        if (!$subscription) {
-            return false;
-        }
-        $validDate = new Carbon($subscription->valid_until);
-        $currentDate = Carbon::now();
-        if ($validDate->timestamp < $currentDate->timestamp) {
-            return false;
-        }
-        $subscriptionPlan = $subscription->subscriptionPlan()->first();
-        return $subscriptionPlan->name;
+        return $subscription = SubscribedStreamers::where('streamer_id', $this->id)->whereDate('valid_until', '>', Carbon::today()->toDateString());
     }
 
 }

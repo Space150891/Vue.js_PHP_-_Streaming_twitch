@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Stripe\Stripe;
+use App\Models\Streamer;
 
 class TestCommand extends Command
 {
@@ -38,10 +39,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-       echo config('database.connections.mysql.host') . "\n";
-       echo config('database.connections.mysql.port') . "\n";
-       echo config('database.connections.mysql.username') . "\n";
-       echo config('database.connections.mysql.password') . "\n";
-       echo env('DB_CONNECTION') . "\n";
+        $streamer = Streamer::find(1);
+        var_dump($streamer->subscription()->first());
     }
 }
