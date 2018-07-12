@@ -123,7 +123,6 @@
               return this.$store.getters.checkToken;
             },
             url: function () {
-                console.log('url=', window.location.href);
                 return window.location.href;
             }
         },

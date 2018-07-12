@@ -20,6 +20,7 @@ class CreateStreamersTable extends Migration
             $table->integer('referal')->default(0);
             $table->string('name')->default('');
             $table->integer('user_id');
+            $table->string('paypal')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

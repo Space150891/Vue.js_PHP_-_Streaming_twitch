@@ -1667,11 +1667,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         userId: {
-            type: String,
             default: 0,
             required: false
         }
@@ -75222,7 +75226,23 @@ var render = function() {
                     ])
                   ])
                 : _vm._e()
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.profileData.paypal
+              ? _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" +
+                        _vm.profileData.paypal +
+                        "&item_name=Donate+to+streamer+" +
+                        _vm.profileData.nikname
+                    }
+                  },
+                  [_vm._v("\n                Donate\n            ")]
+                )
+              : _vm._e()
           ])
         ])
       ])
@@ -75792,13 +75812,13 @@ var render = function() {
                 },
                 [
                   _c("option", { attrs: { value: "0" } }, [
-                    _vm._v("Select monthes")
+                    _vm._v("Select months")
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.monthPlans, function(monthPlan) {
                     return _c("option", { domProps: { value: monthPlan.id } }, [
                       _vm._v(
-                        "\n                        monthes " +
+                        "\n                        months " +
                           _vm._s(monthPlan.monthes) +
                           " discount " +
                           _vm._s(monthPlan.percent) +
@@ -93725,7 +93745,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             username: null,
             nickname: null,
             email: null,
-            bio: null
+            bio: null,
+            paypal: null
         },
         promotedStreamers: {
             list: [],
