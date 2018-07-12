@@ -16,9 +16,9 @@ class MounthPlanes extends Seeder
         // 2018-07-10 14:38:38
         \DB::table('mounth_plans')->insert([
             ['monthes' => 1,   'percent' =>  0, 'created_at' => $now, 'updated_at' => $now],
-            ['monthes' => 3,   'percent' =>  5, 'created_at' => $now, 'updated_at' => $now],
-            ['monthes' => 6,   'percent' =>  10, 'created_at' => $now, 'updated_at' => $now],
-            ['monthes' => 12,  'percent' =>  20, 'created_at' => $now, 'updated_at' => $now],
+            ['monthes' => 3,   'percent' =>  10, 'created_at' => $now, 'updated_at' => $now],
+            ['monthes' => 6,   'percent' =>  20, 'created_at' => $now, 'updated_at' => $now],
+            ['monthes' => 12,  'percent' =>  50, 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }
