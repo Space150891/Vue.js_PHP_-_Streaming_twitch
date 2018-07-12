@@ -1667,8 +1667,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1807,6 +1805,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -2840,6 +2839,78 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         console.log('Tabs mounted', this.chats);
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: {
+                subscriptionPlan: 0,
+                monthPlan: 0
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.$store.dispatch('getSubscribeData');
+    },
+
+    methods: {
+        submitAction: function submitAction(event) {
+            if (this.form.subscriptionPlan == 0 || this.form.monthPlan == 0) {
+                event.preventDefault();
+            }
+        }
+    },
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        currentStreamer: function currentStreamer() {
+            return this.$store.getters.currentStreamer;
+        },
+        subscriptionPlans: function subscriptionPlans() {
+            return this.$store.getters.subscriptionPlans;
+        },
+        monthPlans: function monthPlans() {
+            return this.$store.getters.monthPlans;
+        }
     }
 });
 
@@ -75156,13 +75227,7 @@ var render = function() {
         ])
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
-        _vm._v(
-          "\n    Please login\n    " +
-            _vm._s(_vm.userId) +
-            "\n    " +
-            _vm._s(_vm.$route.params.userId) +
-            "\n"
-        )
+        _vm._v("\n    Please login\n")
       ])
 }
 var staticRenderFns = []
@@ -75332,6 +75397,17 @@ var render = function() {
                   "a",
                   { staticClass: "cabinet-but", attrs: { href: "#/cabinet" } },
                   [_vm._v("Cabinet")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.checkToken
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "cabinet-but",
+                    attrs: { href: "#/subscribe" }
+                  },
+                  [_vm._v("Subscribe")]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -75605,6 +75681,164 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3d0acfd2", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [_vm._v("Subscription")]),
+            _vm._v(" "),
+            _c("form", { attrs: { action: "paypal/pay", method: "POST" } }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.subscriptionPlan,
+                      expression: "form.subscriptionPlan"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "subscription_plan_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form,
+                        "subscriptionPlan",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("Select subscription plan")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
+                    return _c(
+                      "option",
+                      { domProps: { value: subscriptionPlan.id } },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(subscriptionPlan.name) +
+                            " cost " +
+                            _vm._s(subscriptionPlan.price) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.monthPlan,
+                      expression: "form.monthPlan"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "month_plan_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form,
+                        "monthPlan",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("Select monthes")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.monthPlans, function(monthPlan) {
+                    return _c("option", { domProps: { value: monthPlan.id } }, [
+                      _vm._v(
+                        "\n                        monthes " +
+                          _vm._s(monthPlan.monthes) +
+                          " discount " +
+                          _vm._s(monthPlan.percent) +
+                          " %\n                    "
+                      )
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "hidden", name: "streamer_id" },
+                domProps: { value: _vm.currentStreamer.id }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success form-control",
+                  attrs: { type: "submit" },
+                  on: { click: _vm.submitAction }
+                },
+                [_vm._v(" SUBSCRIBE ")]
+              )
+            ])
+          ])
+        ])
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3e91dc5c", module.exports)
   }
 }
 
@@ -92381,9 +92615,10 @@ var Directory = __webpack_require__("./resources/assets/js/components/Directory.
 var Price = __webpack_require__("./resources/assets/js/components/Price.vue");
 var Bag = __webpack_require__("./resources/assets/js/components/Bag.vue");
 var Cabinet = __webpack_require__("./resources/assets/js/components/CabinetPage.vue");
+var Subscribe = __webpack_require__("./resources/assets/js/components/SubscribePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93261,6 +93496,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/SubscribePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubscribePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SubscribePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3e91dc5c", Component.options)
+  } else {
+    hotAPI.reload("data-v-3e91dc5c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/UpNav.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93433,6 +93716,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             points: 0,
             level: 0
         },
+        currentStreamer: {
+            id: 0
+        },
         message: "",
         profileData: {
             avatar: null,
@@ -93442,6 +93728,14 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             bio: null
         },
         promotedStreamers: {
+            list: [],
+            loaded: false
+        },
+        subscriptionPlans: {
+            list: [],
+            loaded: false
+        },
+        monthPlans: {
             list: [],
             loaded: false
         }
@@ -93464,7 +93758,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 }).then(function (jsonResp) {
                     if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                         state.token = false;
-                        console.log('load viewer ERROR');
                     } else {
                         state.currentViewer = jsonResp.data;
                     }
@@ -93485,7 +93778,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (jsonResp) {
                 delete localStorage["userToken"];
                 state.token = false;
-                console.log('SIGN OUT DONE');
                 state.message = jsonResp.message;
             });
         },
@@ -93508,7 +93800,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (jsonResp) {
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
-                    console.log('LOAD PROFILE ERROR');
                 } else {
                     state.profileData = jsonResp.data;
                 }
@@ -93529,9 +93820,67 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
                 state.promotedStreamers.loaded = true;
             });
+        },
+        getSubscriptionPlansList: function getSubscriptionPlansList(state) {
+            var formData = new FormData();
+            state.subscriptionPlans.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/subscriptionplans/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                state.subscriptionPlans.list = jsonResp.data ? jsonResp.data.subscription_plans : [];
+                state.subscriptionPlans.loaded = true;
+            });
+        },
+        getMonthPlansList: function getMonthPlansList(state) {
+            var formData = new FormData();
+            state.monthPlans.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/monthplans/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                state.monthPlans.list = jsonResp.data ? jsonResp.data.month_plans : [];
+                state.monthPlans.loaded = true;
+            });
+        },
+        loadCurrentStreamer: function loadCurrentStreamer(state) {
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/streamers/current', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.currentStreamer = jsonResp.data;
+                    }
+                });
+            }
         }
     },
-    actions: {},
+    actions: {
+        getSubscribeData: function getSubscribeData(context) {
+            context.commit('loadCurrentStreamer');
+            context.commit('getSubscriptionPlansList');
+            context.commit('getMonthPlansList');
+        }
+    },
     getters: {
         checkToken: function checkToken(state) {
             return state.token ? true : false;
@@ -93547,6 +93896,15 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         currentViewer: function currentViewer(state) {
             return state.currentViewer;
+        },
+        subscriptionPlans: function subscriptionPlans(state) {
+            return state.subscriptionPlans.list;
+        },
+        monthPlans: function monthPlans(state) {
+            return state.monthPlans.list;
+        },
+        currentStreamer: function currentStreamer(state) {
+            return state.currentStreamer;
         }
     }
 

@@ -11,6 +11,9 @@ const UserSignStore = new Vuex.Store({
             points: 0,
             level: 0,
         },
+        currentStreamer: {
+            id: 0,
+        },
         message: "",
         profileData: {
             avatar : null,
@@ -22,7 +25,15 @@ const UserSignStore = new Vuex.Store({
         promotedStreamers: {
             list: [],
             loaded: false,
-        }
+        },
+        subscriptionPlans: {
+            list: [],
+            loaded: false,
+        },
+        monthPlans: {
+            list: [],
+            loaded: false,
+        },
     },
     mutations: {
         signUp(state) {
@@ -45,7 +56,6 @@ const UserSignStore = new Vuex.Store({
                 .then(function(jsonResp){
                     if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                         state.token = false;
-                        console.log('load viewer ERROR');
                     } else {
                         state.currentViewer = jsonResp.data;
                     }
@@ -69,7 +79,6 @@ const UserSignStore = new Vuex.Store({
             .then(function(jsonResp){
                 delete localStorage["userToken"];
                 state.token = false;
-                console.log('SIGN OUT DONE');
                 state.message = jsonResp.message;
             });
         },
@@ -95,7 +104,6 @@ const UserSignStore = new Vuex.Store({
             .then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
-                    console.log('LOAD PROFILE ERROR');
                 } else {
                     state.profileData = jsonResp.data;
                 }
@@ -120,9 +128,74 @@ const UserSignStore = new Vuex.Store({
                 state.promotedStreamers.loaded = true;
             });
         },
+        getSubscriptionPlansList(state) {
+            var formData = new FormData();
+            state.subscriptionPlans.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/subscriptionplans/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                state.subscriptionPlans.list = jsonResp.data ? jsonResp.data.subscription_plans : [];
+                state.subscriptionPlans.loaded = true;
+            });
+        },
+        getMonthPlansList(state) {
+            var formData = new FormData();
+            state.monthPlans.loaded = false;
+            formData.append('token', state.token);
+            fetch('api/monthplans/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                state.monthPlans.list = jsonResp.data ? jsonResp.data.month_plans : [];
+                state.monthPlans.loaded = true;
+            });
+        },
+        loadCurrentStreamer(state) {
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/streamers/current',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.currentStreamer = jsonResp.data;
+                    }
+                });
+            }
+        },
     },
     actions: {
-        
+        getSubscribeData(context) {
+            context.commit('loadCurrentStreamer');
+            context.commit('getSubscriptionPlansList');
+            context.commit('getMonthPlansList');
+        },
     },
     getters : {
         checkToken: state => {
@@ -139,7 +212,16 @@ const UserSignStore = new Vuex.Store({
         },
         currentViewer: state => {
             return state.currentViewer;
-        }
+        },
+        subscriptionPlans: state => {
+            return state.subscriptionPlans.list;
+        },
+        monthPlans: state => {
+            return state.monthPlans.list;
+        },
+        currentStreamer: state => {
+            return state.currentStreamer;
+        },
     },
 
 });

@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ThemesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(AlertTypesTableSeeder::class);
+        $this->call(SubscriptionPackages::class);
+        $this->call(MounthPlanes::class);
         Model::reguard();
     }
 }

@@ -25,8 +25,6 @@
     </div>
     <div v-else class="cabinet-page">
         Please login
-        {{userId}}
-        {{$route.params.userId}}
     </div>
 </template>
 <script>
