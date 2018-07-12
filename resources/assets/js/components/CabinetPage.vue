@@ -20,6 +20,11 @@
                     <li class="list-group-item">nikname <span class="badge">{{profileData.nikname}}</span></li>
                     <li class="list-group-item" v-if="profileData.email">email <span class="badge">{{profileData.email}}</span></li>
                 </ul>
+                <a 
+                v-if="profileData.paypal"
+                v-bind:href="'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=' + profileData.paypal + '&item_name=Donate+to+streamer+' + profileData.nikname">
+                    Donate
+                </a>
             </div>
         </div>
     </div>
@@ -31,7 +36,6 @@
     export default {
         props: {
           userId: {
-            type: String,
             default: 0,
             required: false
           },

@@ -21,6 +21,7 @@ const UserSignStore = new Vuex.Store({
             nickname: null,
             email: null,
             bio: null,
+            paypal: null,
         },
         promotedStreamers: {
             list: [],

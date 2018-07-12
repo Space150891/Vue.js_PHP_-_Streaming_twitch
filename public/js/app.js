@@ -1667,11 +1667,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         userId: {
-            type: String,
             default: 0,
             required: false
         }
@@ -3040,7 +3044,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.checkToken;
         },
         url: function url() {
-            console.log('url=', window.location.href);
             return window.location.href;
         }
     }
@@ -75223,7 +75226,23 @@ var render = function() {
                     ])
                   ])
                 : _vm._e()
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.profileData.paypal
+              ? _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" +
+                        _vm.profileData.paypal +
+                        "&item_name=Donate+to+streamer+" +
+                        _vm.profileData.nikname
+                    }
+                  },
+                  [_vm._v("\n                Donate\n            ")]
+                )
+              : _vm._e()
           ])
         ])
       ])
@@ -93729,7 +93748,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             username: null,
             nickname: null,
             email: null,
-            bio: null
+            bio: null,
+            paypal: null
         },
         promotedStreamers: {
             list: [],

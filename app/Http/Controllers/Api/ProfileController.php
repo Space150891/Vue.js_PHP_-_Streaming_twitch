@@ -40,7 +40,7 @@ class ProfileController extends Controller
         }
         $id = $request->id;
         $user = User::find($id);
-
+        $streamer = $user->streamer->first();
         if (!$user) {
             return response()->json([
                 'errors' => ['user id not found'],
@@ -52,7 +52,8 @@ class ProfileController extends Controller
                 'username'  =>  $user->first_name,
                 'nikname'   => $user->name,
                 'bio'       => $user->bio,
-                'email'     => ''
+                'email'     => '',
+                'paypal'    => $streamer->paypal,
             ],
         ]);
     }
@@ -60,6 +61,7 @@ class ProfileController extends Controller
     public function getCurrent(Request $request) //// 
     {
         $user = auth()->user();
+        
         return response()->json([
             'data' => [
                 'avatar'    =>  $user->avatar,
@@ -67,6 +69,7 @@ class ProfileController extends Controller
                 'nikname'   => $user->name,
                 'bio'       => $user->bio,
                 'email'     => $user->email,
+                'paypal'    => '',
             ],
         ]);
     }
