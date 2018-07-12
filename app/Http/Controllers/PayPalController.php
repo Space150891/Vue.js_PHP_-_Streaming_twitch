@@ -171,14 +171,14 @@ class PayPalController extends Controller
         $data = [];
         $data['items'] = [
             [
-                'name'  => 'Subscription ' . $subscriptionPlan->name . ' monthes ' . $monthPlan->monthes,
+                'name'  => 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes,
                 'price' => round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2),
                 'qty'   => 1,
             ],
         ];
         $data['return_url'] = 'http://localhost:8081/paypal/success';
         $data['invoice_id'] = $form['id'];
-        $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' monthes ' . $monthPlan->monthes;
+        $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
         $data['cancel_url'] = url('/');
         $total = 0;
         foreach ($data['items'] as $item) {

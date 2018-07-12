@@ -11,9 +11,9 @@
                         </option>
                     </select>
                     <select  v-model="form.monthPlan" class="form-control" name="month_plan_id">
-                        <option value=0>Select monthes</option>
+                        <option value=0>Select months</option>
                         <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id">
-                            monthes {{monthPlan.monthes}} discount {{monthPlan.percent}} %
+                            months {{monthPlan.monthes}} discount {{monthPlan.percent}} %
                         </option>
                     </select>
                     <input type="hidden" v-bind:value="currentStreamer.id" name="streamer_id">
