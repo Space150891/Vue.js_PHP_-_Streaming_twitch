@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment};
 
 class PayPalController extends Controller
 {
@@ -17,7 +18,6 @@ class PayPalController extends Controller
     public function __construct()
     {
         $this->provider = new ExpressCheckout();
-        $this->provider->setCurrency('RUB');
     }
 
     /**
@@ -27,10 +27,35 @@ class PayPalController extends Controller
      */
     public function getExpressCheckout(Request $request)
     {
+        if (!$request->has('subscription_plan_id') || !$request->has('month_plan_id') || !$request->has('streamer_id')) {
+            return redirect('/#/subscribe');
+        }
+        if ($request->subscription_plan_id == 0 || $request->month_plan_id == 0 || $request->streamer_id == 0) {
+            return redirect('/#/subscribe');
+        }
         $recurring = false;
-        $cart = $this->getCheckoutData(false);
+        $payment = new Payment();
+        $payment->subscription_plan_id = $request->subscription_plan_id;
+        $payment->month_plan_id = $request->month_plan_id;
+        $payment->streamer_id = $request->streamer_id;
+        $payment->type = "paypal";
+        $payment->status = "draft";
+        $payment->save();
+        $form = [
+            'subscription_plan_id'  => $request->subscription_plan_id,
+            'month_plan_id'         =>  $request->month_plan_id,
+            'streamer_id'           =>  $request->streamer_id,
+            'id'                    =>  $payment->id,
+        ];
+        $cart = $this->getCheckoutData($form, $recurring);
         try {
             $response = $this->provider->setExpressCheckout($cart, $recurring);
+            if (!isset($response['paypal_link'])) {
+                dd($response);
+            }
+            $payment->token = $response['TOKEN'];
+            $payment->status = "ready";
+            $payment->save();
             return redirect($response['paypal_link']);
         } catch (\Exception $e) {
             // error in payments
@@ -49,9 +74,16 @@ class PayPalController extends Controller
     {
         $recurring = ($request->get('mode') === 'recurring') ? true : false;
         $token = $request->get('token');
+        $payment = Payment::where('token', $token)->first();
+        $form = [
+            'subscription_plan_id'  => $payment->subscription_plan_id,
+            'month_plan_id'         =>  $payment->month_plan_id,
+            'streamer_id'           =>  $payment->streamer_id,
+            'id'                    =>  $payment->id,
+        ];
         $PayerID = $request->get('PayerID');
 
-        $cart = $this->getCheckoutData($recurring);
+        $cart = $this->getCheckoutData($form, $recurring);
 
         // Verify Express Checkout Token
         $response = $this->provider->getExpressCheckoutDetails($token);
@@ -67,17 +99,25 @@ class PayPalController extends Controller
             } else {
                 // Perform transaction on PayPal
                 $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
+                if (!isset($payment_status['PAYMENTINFO_0_PAYMENTSTATUS'])) {
+                    dd($payment_status);
+                }
                 $status = $payment_status['PAYMENTINFO_0_PAYMENTSTATUS'];
             }
-            \Log::info('PAY PAL PAYMENT STATUS ' . $status);
 
-            // $invoice = $this->createInvoice($cart, $status);
-
-            // if ($invoice->paid) {
-            //     session()->put(['code' => 'success', 'message' => "Order $invoice->id has been paid successfully!"]);
-            // } else {
-            //     session()->put(['code' => 'danger', 'message' => "Error processing PayPal payment for Order $invoice->id!"]);
-            // }
+            if (trim($status) === 'Completed') {
+                $payment->status = "Done";
+                $payment->save();
+                $subscribed = new SubscribedStreamers();
+                $subscribed->streamer_id = $payment->streamer_id;
+                $subscribed->subscription_plan_id = $payment->subscription_plan_id;
+                $subscribed->month_plan_id = $payment->month_plan_id;
+                $monthPlan = MonthPlan::find($payment->month_plan_id);
+                $now = new Carbon();
+                $now->addMonths($monthPlan->monthes);
+                $subscribed->valid_until = $now->toDateTimeString();
+                $subscribed->save();
+            }
 
             return redirect('/');
         }
@@ -112,24 +152,21 @@ class PayPalController extends Controller
      *
      * @return array
      */
-    protected function getCheckoutData($recurring = false)
+    protected function getCheckoutData($form, $recurring = false)
     {
+        $subscriptionPlan = SubscriptionPlan::find($form['subscription_plan_id']);
+        $monthPlan = MonthPlan::find($form['month_plan_id']);
         $data = [];
         $data['items'] = [
             [
-                'name'  => 'Product 1',
-                'price' => 9.99,
+                'name'  => 'Subscription ' . $subscriptionPlan->name . ' monthes ' . $monthPlan->monthes,
+                'price' => round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2),
                 'qty'   => 1,
-            ],
-            [
-                'name'  => 'Product 2',
-                'price' => 4.99,
-                'qty'   => 2,
             ],
         ];
         $data['return_url'] = 'http://localhost:8081/paypal/success';
-        $data['invoice_id'] = '777';
-        $data['invoice_description'] = "test invoice";
+        $data['invoice_id'] = $form['id'];
+        $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' monthes ' . $monthPlan->monthes;
         $data['cancel_url'] = url('/');
         $total = 0;
         foreach ($data['items'] as $item) {

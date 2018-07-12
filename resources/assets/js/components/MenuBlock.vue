@@ -23,6 +23,7 @@
             <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
 
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
+            <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Subscribe</a>
             <ul class="navbar-nav my-2 my-lg-0 left" v-if="checkToken">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> {{currentViewer.points}}</a>

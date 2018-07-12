@@ -41,6 +41,7 @@ Route::group([
     Route::post('streamers/get', 'Api\StreamersController@show');
     Route::post('streamers/list', 'Api\StreamersController@list');
     Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
+    Route::post('streamers/current', 'Api\StreamersController@current');
 
     Route::post('contacts/list', 'Api\ContactsController@index');
     Route::post('contacts/store', 'Api\ContactsController@store');
@@ -74,6 +75,9 @@ Route::group([
 
     Route::post('profile/get', 'Api\ProfileController@get');
     Route::post('profile/current', 'Api\ProfileController@getCurrent');
+
+    Route::post('subscriptionplans/list', 'Api\SubscribeController@listSubscriptionPlans');
+    Route::post('monthplans/list', 'Api\SubscribeController@listMonthPlans');
 });
 
 

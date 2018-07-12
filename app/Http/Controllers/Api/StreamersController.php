@@ -68,5 +68,16 @@ class StreamersController extends Controller
             ],
         ]);
     }
+
+    public function current(Request $request)
+    {
+        $user = auth()->user();
+        $streamer = $user->streamer()->first();
+        return response()->json([
+            'data' => [
+                'id'    => $streamer->id,
+            ],
+        ]);
+    }
  
 }
