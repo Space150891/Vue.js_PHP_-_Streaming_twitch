@@ -20,7 +20,8 @@ var Home = require('./components/Home.vue');
 var Directory = require('./components/Directory.vue');
 var Price = require('./components/Price.vue');
 var Bag = require('./components/Bag.vue');
-
+var Cabinet = require('./components/CabinetPage.vue');
+var Subscribe = require('./components/SubscribePage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -28,6 +29,9 @@ var router = new VueRouter({
         { path: '/directory', component: Directory },
         { path: '/prices', component: Price },
         { path: '/bag', component: Bag },
+        { path: '/cabinet', component: Cabinet},
+        { path: '/profile/:userId', component: Cabinet,  props: true },
+        { path: '/subscribe', component: Subscribe},
     ]
 });
 Vue.use(VueRouter);

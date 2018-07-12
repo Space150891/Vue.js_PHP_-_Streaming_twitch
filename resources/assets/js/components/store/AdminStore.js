@@ -35,6 +35,16 @@ const AdminStore = new Vuex.Store({
             loaded: false,
         },
         sseMessages : [],
+        streamers: {
+            list: [],
+            loaded: false,
+            saved : true,
+        },
+        promotedStreamers: {
+            list: [],
+            loaded: false,
+            saved : true,
+        },
     },
     mutations: {
         authWithToken(state, data) {
@@ -611,7 +621,89 @@ const AdminStore = new Vuex.Store({
         deleteMessage(state, index) {
             state.sseMessages.splice(index, 1);
         },
-
+        // streamers
+        getStreamersList(state) {
+            var formData = new FormData();
+            state.streamers.loaded = false;
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'streamers/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
+                state.streamers.loaded = true;
+            });
+        },
+        getPromotedList(state) {
+            var formData = new FormData();
+            state.promotedStreamers.loaded = false;
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'streamers/promoted/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+                state.promotedStreamers.loaded = true;
+            });
+        },
+        addPromoted(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/add',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        deletePromoted(state, id) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -713,7 +805,20 @@ const AdminStore = new Vuex.Store({
         },
         CaseItemClear(context) {
             context.commit('clearCaseItems');
-        }
+        },
+        // promoted streamers
+        getPromotedListAction(context) {
+            context.commit('getPromotedList');
+            context.commit('getStreamersList');
+        },
+        addPromotedAction(context, id) {
+            context.commit('addPromoted', id);
+            context.commit('getPromotedList');
+        },
+        deletePromotedAction(context, id) {
+            context.commit('deletePromoted', id);
+            context.commit('getPromotedList');
+        },
     },
     getters : {
         checkToken: state => {
@@ -763,6 +868,15 @@ const AdminStore = new Vuex.Store({
         },
         sseMessages: state => {
             return state.sseMessages;
+        },
+        streamers: state => {
+            return state.streamers.list;
+        },
+        promotedStreamers: state => {
+            return state.promotedStreamers.list;
+        },
+        promotedLoaded: state => {
+            return state.promotedStreamers.loaded;
         },
     }
 });

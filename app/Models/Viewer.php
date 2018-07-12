@@ -31,4 +31,27 @@ class Viewer extends Model
     {
         return $this->hasMany('App\Models\Card');
     }
+
+    public function increaseLevel($points)
+    {
+        $this->level_points += $points;
+        $this->current_points += $points;
+    }
+
+    public function getLevel()
+    {
+        $str = (string) $this->level_points;
+        $first = (int) substr($str, 0, 1);
+        $length = strlen($str);
+        if ($length < 3) {
+            return 0;
+        }
+        $level = ($length * 3) - 8;
+        if ($first > 4) {
+            return $level + 2;
+        } elseif ($first > 1) {
+            return $level + 1;
+        }
+        return $level;
+    }
 }

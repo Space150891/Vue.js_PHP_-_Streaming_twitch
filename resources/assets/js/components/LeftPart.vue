@@ -2,18 +2,20 @@
 <div class="leftPart-main">
     <div class="scroll-item btn-up" @click.prevent="scrollUp()"><span class="leftPart-scroll"> > </span></div>
     <div class="leftPart">
-        <div v-for="(item) in leftItems" class="leftPart-item" >
-            <div class="leftPart-img">
-                <img v-bind:src="item.image" v-bind:alt="item.imageName">
+        <a v-for="(item) in promotedStreamers" v-bind:href="'#/profile/' + item.user_id">
+            <div  class="leftPart-item" >
+                <div class="leftPart-img">
+                    <img v-bind:src="item.avatar" v-bind:alt="item.name">
+                </div>
+                <div class="leftPart-mainText">
+                    <h2>{{ item.name }}</h2>
+                    <p>{{ item.nikname }}</p>
+                </div>
+                <div class="leftPart-rightText">
+                    <p>{{ item.bio }}</p>
+                </div>
             </div>
-            <div class="leftPart-mainText">
-                <h1>{{ item.mainText }}</h1>
-                <p>{{ item.downText }}</p>
-            </div>
-            <div class="leftPart-rightText">
-                <p>{{ item.rightText }}</p>
-            </div>
-        </div>
+        </a>
         
     </div>
     
@@ -26,107 +28,6 @@
         data(){
             return {
                 num : 10,
-                leftItems: [
-                    {
-                        mainText: "lorem",
-                        image:require('../../../../public/images/BF2EF.png'),
-                        imageName: "alt",
-                        downText: "text",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "ipsum",
-                        image:require('../../../../public/images/cs.png'),
-                        imageName: "alt",
-                        downText: "text",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "scroll",
-                        image:require('../../../../public/images/ufc.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "Text",
-                        image:require('../../../../public/images/Illuminati.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "public text",
-                        image:require('../../../../public/images/SH2.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                        
-                    },
-                    {
-                        mainText: "Resident evil",
-                        image:require('../../../../public/images/Residentevil.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "PUBG",
-                        image:require('../../../../public/images/PUBG.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "superman",
-                        image:require('../../../../public/images/superman.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "lastSurvivalist",
-                        image:require('../../../../public/images/lastSurvivalist.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "Liverpool",
-                        image:require('../../../../public/images/Liverpool.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "Colgate",
-                        image:require('../../../../public/images/Colgate.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "Illuminati",
-                        image:require('../../../../public/images/Illuminati.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "pxEA",
-                        image:require('../../../../public/images/pxEA.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    },
-                    {
-                        mainText: "thelastofus",
-                        image:require('../../../../public/images/thelastofus.png'),
-                        downText: "text",
-                        imageName: "alt",
-                        rightText: "Lorem, ipsum dolor."
-                    }
-                ]
             }
         },
         methods: {
@@ -151,6 +52,14 @@
                     elemLeftPart.style.transform = "translate(0px,"+(this.num+20)+"px)";
                     elemLeftPart.style.transition = "transform 1s";
                 }
+            },
+        },
+        mounted() {
+			this.$store.commit('getPromotedList');
+		},
+        computed: {
+            promotedStreamers: function () {
+              return this.$store.getters.promotedStreamers;
             },
         },
     }
@@ -242,7 +151,7 @@
         text-align: center;
         word-wrap:break-word;
         
-        h1 {
+        h2 {
             font-size: 17px;
             font-weight: 800;
             margin: 0;
@@ -278,7 +187,7 @@
         }
         .leftPart-mainText {
             text-align: center;
-            h1 {
+            h2 {
                 font-size: 13px;
             }
             p {
@@ -303,7 +212,7 @@
             }
         }
         .leftPart-mainText {
-            h1 {
+            h2 {
                 font-size: 13px;
             }
             p {
@@ -335,7 +244,7 @@
             }
         }
         .leftPart-mainText {
-            h1 {
+            h2 {
                 font-size: 12px;
             }
             p {
@@ -360,7 +269,7 @@
             }
         }
         .leftPart-mainText {
-            h1 {
+            h2 {
                 font-size: 12px;
             }
             p {

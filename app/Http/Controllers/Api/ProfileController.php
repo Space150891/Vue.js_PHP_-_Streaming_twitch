@@ -8,10 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Streamer;
 use App\Models\User;
 
-class StreamersController extends Controller
+class ProfileController extends Controller
 {
         /**
      * Create a new controller instance.
@@ -20,7 +19,7 @@ class StreamersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['get']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -31,7 +30,7 @@ class StreamersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request) //// 
+    public function get(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id'       => 'required|numeric',
@@ -40,42 +39,34 @@ class StreamersController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $id = $request->id;
-        $streamer = Streamer::find($id);
+        $user = User::find($id);
 
-        if (!$streamer) {
+        if (!$user) {
             return response()->json([
-                'errors' => ['streamer id not found'],
+                'errors' => ['user id not found'],
             ]);
         }
-        $streamer->user = $streamer->user()->first();
-        $contacts = $streamer->contacts()->get();
-        for ($i = 0; $i < count($contacts); $i++) {
-            $type = $contacts[$i]->type()->first();
-            $contacts[$i]->type = $type['name'];
-        }
-        $streamer->contacts = $contacts;
-        return response()->json([
-            'data' => $streamer,
-        ]);
-    }
-
-    public function list(Request $request)
-    {
-        $streamers = Streamer::all();
         return response()->json([
             'data' => [
-                'streamers' => $streamers,
+                'avatar'    =>  $user->avatar,
+                'username'  =>  $user->first_name,
+                'nikname'   => $user->name,
+                'bio'       => $user->bio,
+                'email'     => ''
             ],
         ]);
     }
 
-    public function current(Request $request)
+    public function getCurrent(Request $request) //// 
     {
         $user = auth()->user();
-        $streamer = $user->streamer()->first();
         return response()->json([
             'data' => [
-                'id'    => $streamer->id,
+                'avatar'    =>  $user->avatar,
+                'username'  =>  $user->first_name,
+                'nikname'   => $user->name,
+                'bio'       => $user->bio,
+                'email'     => $user->email,
             ],
         ]);
     }

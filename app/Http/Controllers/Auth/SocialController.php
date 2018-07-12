@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -182,13 +182,31 @@ class SocialController extends Controller
             $user->activated = 1;
             $user->password = '123';
             $user->last_name = '';
+            $user->name = $body['name'];
+            $user->save();
+            $streamer = new Streamer();
+            $streamer->user_id = $user->id;
+            $streamer->name = $user->name;
+            $viewer = new Viewer();
+            $viewer->user_id = $user->id;
+            $viewer->name = $user->name;
+            $viewer->save();
+        } else {
+            $streamer = $user->streamer()->first();
+            $viewer = $user->viewer()->first();
         }
+        
         $user->name = $body['name'];
         $user->first_name = $body['display_name'];
         $user->email = $body['email'];
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
         $user->save();
+        $twitchUserId = $body['_id'];
+        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId . '?stream_type=all');
+        $body = json_decode((string) $result->getBody(), true);
+        $streamer->twitch_id = isset($body['stream']['_id']) ? $body['stream']['_id'] : null;
+        $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
         $user->addProgress(new Login10daysAchievement(), 1);
         $user->addProgress(new Login20daysAchievement(), 1);

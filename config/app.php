@@ -174,7 +174,8 @@ return [
         Laravel\Cashier\CashierServiceProvider::class, 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Gstt\Achievements\AchievementsServiceProvider::class,
-
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+        Softon\Sms\SmsServiceProvider::class,
     ],
 
     /*
@@ -230,6 +231,8 @@ return [
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image'        => Intervention\Image\Facades\Image::class,
         'Uuid'         => Webpatser\Uuid\Uuid::class,
+        'PayPal'       => Srmklive\PayPal\Facades\PayPal::class,
+        'Sms'          => Softon\Sms\Facades\Sms::class,
     ],
 
 ];

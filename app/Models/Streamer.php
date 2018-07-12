@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SubscribedStreamers;
+use Illuminate\Support\Carbon;
 
 class Streamer extends Model
 {
@@ -20,4 +22,10 @@ class Streamer extends Model
     {
         return $this->hasMany('App\Models\ReferalStreamer');
     }
+
+    public function subscription()
+    {
+        return $subscription = SubscribedStreamers::where('streamer_id', $this->id)->whereDate('valid_until', '>', Carbon::today()->toDateString());
+    }
+
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStreamersTable extends Migration
+class CreateTableMounthPlanes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateStreamersTable extends Migration
      */
     public function up()
     {
-        Schema::create('streamers', function (Blueprint $table) {
+        Schema::create('month_plans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('alert_type_id')->nullable();
-            $table->integer('twitch_id')->nullable();
-            $table->integer('referal')->default(0);
-            $table->string('name')->default('');
-            $table->integer('user_id');
+            $table->tinyInteger('monthes');
+            $table->tinyInteger('percent');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +28,6 @@ class CreateStreamersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('streamers');
+        Schema::dropIfExists('month_plans');
     }
 }
