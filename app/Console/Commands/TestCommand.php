@@ -39,7 +39,14 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $streamer = Streamer::find(1);
-        var_dump($streamer->subscription()->first());
+        
+        $password = \Hash::make('123');
+        echo $password;
+        $user = \App\Models\User::find(3);
+        $user->password = $password;
+        $user->save();
+        $user = \App\Models\User::find(4);
+        $user->password = $password;
+        $user->save();
     }
 }

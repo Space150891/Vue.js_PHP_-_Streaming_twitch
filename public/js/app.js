@@ -1633,11 +1633,61 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AfiliatePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            baseLink: config.baseUrl + '/api/afiliate/'
+        };
+    },
+    mounted: function mounted() {
+        this.$store.dispatch('loadAfiliated');
+    },
+
+    methods: {},
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        afiliates: function afiliates() {
+            return this.$store.getters.afiliates;
+        },
+        currentUser: function currentUser() {
+            return this.$store.getters.profileData;
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CabinetPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -1810,6 +1860,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -2729,6 +2780,88 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         setPrise: function setPrise(index) {
             this.price = this.priceDefault * index;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyStreamersPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        this.$store.commit('loadMyStreamers');
+    },
+
+    methods: {
+        removeAction: function removeAction(id) {
+            this.$store.dispatch('removeMyStreamer', id);
+        }
+    },
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        myStreamers: function myStreamers() {
+            return this.$store.getters.myStreamers;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyViewersPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$store.commit('loadMyViewers');
+    },
+
+    methods: {},
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        myViewers: function myViewers() {
+            return this.$store.getters.myViewers;
         }
     }
 });
@@ -75242,6 +75375,28 @@ var render = function() {
                   },
                   [_vm._v("\n                Donate\n            ")]
                 )
+              : _vm._e(),
+            _vm._v(" "),
+            parseInt(_vm.userId) == 0
+              ? _c("div", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info pull-left",
+                      attrs: { href: "#/myviewers" }
+                    },
+                    [_vm._v("My viewers")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info pull-right",
+                      attrs: { href: "#/mystreamers" }
+                    },
+                    [_vm._v("My streamers")]
+                  )
+                ])
               : _vm._e()
           ])
         ])
@@ -75428,6 +75583,14 @@ var render = function() {
                     attrs: { href: "#/subscribe" }
                   },
                   [_vm._v("Subscribe")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.checkToken
+              ? _c(
+                  "a",
+                  { staticClass: "cabinet-but", attrs: { href: "#/afiliate" } },
+                  [_vm._v("Afiliate")]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -76414,6 +76577,67 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8d97143c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyStreamersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("My streamers")]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group" },
+          _vm._l(_vm.myStreamers, function(streamer) {
+            return _c("li", { staticClass: "list-group-item" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: "#/profile/" + streamer.user_id,
+                    target: "_blank"
+                  }
+                },
+                [_vm._v(_vm._s(streamer.name))]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger pull-right",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.removeAction(streamer.streamer_id)
+                    }
+                  }
+                },
+                [_vm._v("remove")]
+              )
+            ])
+          })
+        )
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8d97143c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-94b88e5e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/LeftPart.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76570,6 +76794,80 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-97e7e05e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb5dca46\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyViewersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("My viewers")]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "list-group" },
+          _vm._l(_vm.myViewers, function(viewer) {
+            return _c("li", { staticClass: "list-group-item" }, [
+              _vm._v("\n            " + _vm._s(viewer.name) + "\n        ")
+            ])
+          })
+        )
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-eb5dca46", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ee7b2512\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AfiliatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("Afiliate")]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-center" }, [
+          _vm._v("Link: " + _vm._s(_vm.baseLink + _vm.currentUser.id))
+        ]),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Visited: " + _vm._s(_vm.afiliates.visited))]),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Registered: " + _vm._s(_vm.afiliates.registered))]),
+        _vm._v(" "),
+        _c("h4", [_vm._v("Total: " + _vm._s(_vm.afiliates.total))])
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ee7b2512", module.exports)
   }
 }
 
@@ -92639,9 +92937,12 @@ var Price = __webpack_require__("./resources/assets/js/components/Price.vue");
 var Bag = __webpack_require__("./resources/assets/js/components/Bag.vue");
 var Cabinet = __webpack_require__("./resources/assets/js/components/CabinetPage.vue");
 var Subscribe = __webpack_require__("./resources/assets/js/components/SubscribePage.vue");
+var MyStreamers = __webpack_require__("./resources/assets/js/components/MyStreamersPage.vue");
+var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersPage.vue");
+var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -92744,6 +93045,54 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   cluster: "eu",
   encrypted: true
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/AfiliatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AfiliatePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ee7b2512\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AfiliatePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AfiliatePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ee7b2512", Component.options)
+  } else {
+    hotAPI.reload("data-v-ee7b2512", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -93363,6 +93712,102 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/MyStreamersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyStreamersPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8d97143c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyStreamersPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/MyStreamersPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8d97143c", Component.options)
+  } else {
+    hotAPI.reload("data-v-8d97143c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/MyViewersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyViewersPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb5dca46\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyViewersPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/MyViewersPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-eb5dca46", Component.options)
+  } else {
+    hotAPI.reload("data-v-eb5dca46", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Price.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93719,6 +94164,13 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/config/config.json":
+/***/ (function(module, exports) {
+
+module.exports = {"baseUrl":"http://localhost:8081","timeOut":3000}
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/store/UserSignStore.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -93762,7 +94214,21 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         monthPlans: {
             list: [],
             loaded: false
-        }
+        },
+        myStreamers: {
+            list: [],
+            loaded: false
+        },
+        myViewers: {
+            list: [],
+            loaded: false
+        },
+        afiliates: {
+            visited: 0,
+            registered: 0,
+            total: 0
+        },
+        afiliateLink: ''
     },
     mutations: {
         signUp: function signUp(state) {
@@ -93805,7 +94271,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 state.message = jsonResp.message;
             });
         },
-        loadProfile: function loadProfile(state, id) {
+        loadProfile: function loadProfile(state) {
+            var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
             var formData = new FormData();
             var url = 'api/profile/current';
             if (id > 0) {
@@ -93896,6 +94364,114 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                     }
                 });
             }
+        },
+        loadMyStreamers: function loadMyStreamers(state) {
+            state.myStreamers.list = [];
+            state.myStreamers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/signedviewers/mystreamers/list', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.myStreamers.list = jsonResp.data.streamers;
+                        state.myStreamers.loaded = true;
+                    }
+                });
+            }
+        },
+        loadMyViewers: function loadMyViewers(state) {
+            state.myViewers.list = [];
+            state.myViewers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/signedviewers/myviewers/list', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.myViewers.list = jsonResp.data.viewers;
+                        state.myViewers.loaded = true;
+                    }
+                });
+            }
+        },
+        removeMyStreamer: function removeMyStreamer(state, id) {
+            state.myStreamers.list = [];
+            state.myStreamers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                formData.append('id', id);
+                fetch('api/signedviewers/delete', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    }
+                });
+            }
+        },
+        getAfiliatedList: function getAfiliatedList(state) {
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/afiliates/mylist', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.afiliates = jsonResp.data;
+                    }
+                });
+            }
+        },
+        getAfiliatedLink: function getAfiliatedLink(state) {
+            state.afiliateLink = '';
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/afiliates/mylink', {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (jsonResp) {
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.afiliateLink = jsonResp.data;
+                    }
+                });
+            }
         }
     },
     actions: {
@@ -93903,6 +94479,16 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             context.commit('loadCurrentStreamer');
             context.commit('getSubscriptionPlansList');
             context.commit('getMonthPlansList');
+        },
+        removeMyStreamer: function removeMyStreamer(context, id) {
+            context.commit('removeMyStreamer', id);
+            setTimeout(function () {
+                context.commit('loadMyStreamers');
+            }, 2000);
+        },
+        loadAfiliated: function loadAfiliated(context) {
+            context.commit('getAfiliatedList');
+            context.commit('loadProfile');
         }
     },
     getters: {
@@ -93929,6 +94515,18 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         currentStreamer: function currentStreamer(state) {
             return state.currentStreamer;
+        },
+        myStreamers: function myStreamers(state) {
+            return state.myStreamers.list;
+        },
+        myViewers: function myViewers(state) {
+            return state.myViewers.list;
+        },
+        afiliates: function afiliates(state) {
+            return state.afiliates;
+        },
+        afiliateLink: function afiliateLink(state) {
+            return state.afiliateLink;
         }
     }
 

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer, Channel};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -177,10 +178,16 @@ class SocialController extends Controller
         $body = json_decode((string) $result->getBody(), true);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
+            $ip = $request->ip();
+            $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
+            if ($afiliate) {
+                $afiliate->register_at = Carbon::now()->toDateString();
+                $afiliate->save();
+            }
             $user = new User();
             $user->token = '';
             $user->activated = 1;
-            $user->password = '123';
+            $user->password = \Hash::make('123');
             $user->last_name = '';
             $user->name = $body['name'];
             $user->save();

@@ -40,7 +40,7 @@ class ProfileController extends Controller
         }
         $id = $request->id;
         $user = User::find($id);
-        $streamer = $user->streamer->first();
+        $streamer = $user->streamer()->first();
         if (!$user) {
             return response()->json([
                 'errors' => ['user id not found'],
@@ -64,6 +64,7 @@ class ProfileController extends Controller
         
         return response()->json([
             'data' => [
+                'id'        => $user->id,
                 'avatar'    =>  $user->avatar,
                 'username'  =>  $user->first_name,
                 'nikname'   => $user->name,

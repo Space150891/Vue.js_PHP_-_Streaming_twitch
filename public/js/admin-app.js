@@ -1869,7 +1869,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 
 
-var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2038,7 +2038,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 
 
-var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ['LootCase'],
@@ -2188,7 +2188,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 
 
-var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -2588,7 +2588,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 
 
-var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -60607,7 +60607,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/admin/config.json":
+/***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
 module.exports = {"baseUrl":"http://localhost:8081","timeOut":3000}
@@ -60623,7 +60623,7 @@ module.exports = {"baseUrl":"http://localhost:8081","timeOut":3000}
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 
 
-var config = __webpack_require__("./resources/assets/js/components/admin/config.json");
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 

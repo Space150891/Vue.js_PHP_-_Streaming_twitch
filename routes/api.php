@@ -78,6 +78,14 @@ Route::group([
 
     Route::post('subscriptionplans/list', 'Api\SubscribeController@listSubscriptionPlans');
     Route::post('monthplans/list', 'Api\SubscribeController@listMonthPlans');
+
+    Route::post('signedviewers/myviewers/list', 'Api\SignedViewersController@myViewersList');
+    Route::post('signedviewers/mystreamers/list', 'Api\SignedViewersController@myStreamersList');
+    Route::post('signedviewers/add', 'Api\SignedViewersController@store');
+    Route::post('signedviewers/delete', 'Api\SignedViewersController@destroy');
+
+    Route::post('afiliates/mylist', 'Api\AfiliateController@mylist');
+    Route::get('afiliate/{id}', 'Api\AfiliateController@visiter');
 });
 
 
