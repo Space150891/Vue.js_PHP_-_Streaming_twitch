@@ -64,6 +64,7 @@ class ProfileController extends Controller
         
         return response()->json([
             'data' => [
+                'id'        => $user->id,
                 'avatar'    =>  $user->avatar,
                 'username'  =>  $user->first_name,
                 'nikname'   => $user->name,

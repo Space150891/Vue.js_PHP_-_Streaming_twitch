@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-var config = require('../admin/config.json');
+var config = require('../config/config.json');
 
 Vue.use(Vuex);
 

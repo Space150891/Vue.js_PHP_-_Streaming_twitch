@@ -24,6 +24,7 @@
 
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
             <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Subscribe</a>
+            <a href="#/afiliate" class="cabinet-but" v-if="checkToken">Afiliate</a>
             <ul class="navbar-nav my-2 my-lg-0 left" v-if="checkToken">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/cash.svg" alt="cash"> {{currentViewer.points}}</a>

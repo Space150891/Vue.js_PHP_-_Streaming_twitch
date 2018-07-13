@@ -24,6 +24,7 @@ var Cabinet = require('./components/CabinetPage.vue');
 var Subscribe = require('./components/SubscribePage.vue');
 var MyStreamers = require('./components/MyStreamersPage.vue');
 var MyViewers = require('./components/MyViewersPage.vue');
+var Afiliate = require('./components/AfiliatePage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -36,6 +37,7 @@ var router = new VueRouter({
         { path: '/subscribe', component: Subscribe},
         { path: '/mystreamers', component: MyStreamers},
         { path: '/myviewers', component: MyViewers},
+        { path: '/afiliate', component: Afiliate},
     ]
 });
 Vue.use(VueRouter);

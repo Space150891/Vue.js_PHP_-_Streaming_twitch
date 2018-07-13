@@ -83,6 +83,9 @@ Route::group([
     Route::post('signedviewers/mystreamers/list', 'Api\SignedViewersController@myStreamersList');
     Route::post('signedviewers/add', 'Api\SignedViewersController@store');
     Route::post('signedviewers/delete', 'Api\SignedViewersController@destroy');
+
+    Route::post('afiliates/mylist', 'Api\AfiliateController@mylist');
+    Route::get('afiliate/{id}', 'Api\AfiliateController@visiter');
 });
 
 

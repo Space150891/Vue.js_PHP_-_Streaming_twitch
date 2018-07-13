@@ -43,6 +43,12 @@ const UserSignStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        afiliates: {
+            visited: 0,
+            registered: 0,
+            total: 0,
+        },
+        afiliateLink: '',
     },
     mutations: {
         signUp(state) {
@@ -91,7 +97,7 @@ const UserSignStore = new Vuex.Store({
                 state.message = jsonResp.message;
             });
         },
-        loadProfile(state, id) {
+        loadProfile(state, id = 0) {
             var formData = new FormData();
             var url = 'api/profile/current';
             if (id > 0) {
@@ -274,6 +280,53 @@ const UserSignStore = new Vuex.Store({
                 });
             }
         },
+        getAfiliatedList(state){
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/afiliates/mylist',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.afiliates = jsonResp.data;
+                    }
+                });
+            }
+        },
+        getAfiliatedLink(state){
+            state.afiliateLink = '';
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/afiliates/mylink',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.afiliateLink = jsonResp.data;
+                    }
+                });
+            }
+        },
     },
     actions: {
         getSubscribeData(context) {
@@ -286,6 +339,10 @@ const UserSignStore = new Vuex.Store({
             setTimeout(() => {
                 context.commit('loadMyStreamers');
             }, 2000);
+        },
+        loadAfiliated(context) {
+            context.commit('getAfiliatedList');
+            context.commit('loadProfile');
         }
     },
     getters : {
@@ -318,6 +375,12 @@ const UserSignStore = new Vuex.Store({
         },
         myViewers: state => {
             return state.myViewers.list;
+        },
+        afiliates: state => {
+            return state.afiliates;
+        },
+        afiliateLink: state => {
+            return state.afiliateLink;
         },
     },
 

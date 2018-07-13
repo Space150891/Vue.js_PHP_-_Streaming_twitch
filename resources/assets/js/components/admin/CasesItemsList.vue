@@ -67,7 +67,7 @@
 </template>
 <script>
   import { mapGetters} from 'vuex';
-  var config = require('../admin/config.json');
+  var config = require('../config/config.json');
 	
   export default {
     // props: ['LootCase'],
