@@ -35,6 +35,14 @@ const UserSignStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        myStreamers: {
+            list: [],
+            loaded: false,
+        },
+        myViewers: {
+            list: [],
+            loaded: false,
+        },
     },
     mutations: {
         signUp(state) {
@@ -190,6 +198,82 @@ const UserSignStore = new Vuex.Store({
                 });
             }
         },
+        loadMyStreamers(state){
+            state.myStreamers.list = [];
+            state.myStreamers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/signedviewers/mystreamers/list',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.myStreamers.list = jsonResp.data.streamers;
+                        state.myStreamers.loaded = true;
+                    }
+                });
+            }
+        },
+        loadMyViewers(state){
+            state.myViewers.list = [];
+            state.myViewers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                fetch('api/signedviewers/myviewers/list',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    } else {
+                        state.myViewers.list = jsonResp.data.viewers;
+                        state.myViewers.loaded = true;
+                    }
+                });
+            }
+        },
+        removeMyStreamer(state, id){
+            state.myStreamers.list = [];
+            state.myStreamers.loaded = false;
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                formData.append('id', id);
+                fetch('api/signedviewers/delete',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    }
+                });
+            }
+        },
     },
     actions: {
         getSubscribeData(context) {
@@ -197,6 +281,12 @@ const UserSignStore = new Vuex.Store({
             context.commit('getSubscriptionPlansList');
             context.commit('getMonthPlansList');
         },
+        removeMyStreamer(context, id) {
+            context.commit('removeMyStreamer', id);
+            setTimeout(() => {
+                context.commit('loadMyStreamers');
+            }, 2000);
+        }
     },
     getters : {
         checkToken: state => {
@@ -222,6 +312,12 @@ const UserSignStore = new Vuex.Store({
         },
         currentStreamer: state => {
             return state.currentStreamer;
+        },
+        myStreamers: state => {
+            return state.myStreamers.list;
+        },
+        myViewers: state => {
+            return state.myViewers.list;
         },
     },
 

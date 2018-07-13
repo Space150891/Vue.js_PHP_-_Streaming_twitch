@@ -180,7 +180,7 @@ class SocialController extends Controller
             $user = new User();
             $user->token = '';
             $user->activated = 1;
-            $user->password = '123';
+            $user->password = \Hash::make('123');
             $user->last_name = '';
             $user->name = $body['name'];
             $user->save();
