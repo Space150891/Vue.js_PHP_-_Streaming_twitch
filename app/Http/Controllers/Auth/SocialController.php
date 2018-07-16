@@ -176,6 +176,8 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
+        \Log::info('USER');
+        \Log::info($body);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $ip = $request->ip();
@@ -210,9 +212,12 @@ class SocialController extends Controller
         $user->avatar = $body['logo'];
         $user->save();
         $twitchUserId = $body['_id'];
-        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId . '?stream_type=all');
+        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId);
         $body = json_decode((string) $result->getBody(), true);
-        $streamer->twitch_id = isset($body['stream']['_id']) ? $body['stream']['_id'] : null;
+        \Log::info('STREAMS');
+        \Log::info($body);
+        $streamer->twitch_id = $twitchUserId;
+        $streamer->game = isset($body['stream']['channel']['game']) ? $body['stream']['channel']['game'] : null;
         $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
         $user->addProgress(new Login10daysAchievement(), 1);
