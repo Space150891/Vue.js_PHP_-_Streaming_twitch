@@ -86,6 +86,8 @@ Route::group([
 
     Route::post('afiliates/mylist', 'Api\AfiliateController@mylist');
     Route::get('afiliate/{id}', 'Api\AfiliateController@visiter');
+
+    Route::post('games/list', 'Api\GamesController@list');
 });
 
 
