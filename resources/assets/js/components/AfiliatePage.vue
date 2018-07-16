@@ -1,7 +1,8 @@
 <template>
     <div v-if="checkToken" class="cabinet-page" >
         <h1 class="text-center">Afiliate</h1>
-        <h3 class="text-center">Link: {{baseLink + currentUser.id}}</h3>
+        <h2 class="">To participate in our affiliate system, just shared your account URL:</h2>
+        <h3 class="text-center">{{baseLink + currentUser.id}}</h3>
         
         <h4>Visited: {{afiliates.visited}}</h4>
         <h4>Registered: {{afiliates.registered}}</h4>
