@@ -217,7 +217,7 @@ class SocialController extends Controller
         \Log::info('STREAMS');
         \Log::info($body);
         $streamer->twitch_id = $twitchUserId;
-        $streamer->game = isset($body['stream']['channel']['game']) ? $body['stream']['channel']['game'] : null;
+        $streamer->game = isset($body['stream']['channel']['game']) ? strtolower($body['stream']['channel']['game']) : null;
         $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
         $user->addProgress(new Login10daysAchievement(), 1);

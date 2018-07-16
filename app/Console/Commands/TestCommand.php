@@ -40,8 +40,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $this->games();
-        // $this->fakeUsers(1);
+        $this->fakeUsers(100);
     }
 
     private function fakeUsers($num = 10)
@@ -56,7 +55,6 @@ class TestCommand extends Command
         foreach ($allStreams['data'] as $stream) {
             $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $stream['user_id']);
             $data = json_decode((string) $result->getBody(), true);
-            var_dump($data['stream']['channel']['name']);
             $name = $data['stream']['channel']['name'];
             $game = $data['stream']['channel']['game'];
             echo "GAME = {$game}";
@@ -72,17 +70,17 @@ class TestCommand extends Command
             $user->password = \Hash::make('123');
             $user->last_name = '';
             $user->name = $name;
-            // $user->save();
+            $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
             $streamer->twitch_id = $stream['user_id'];
             $streamer->name = $user->name;
-            $streamer->game = $game;
-            // $streamer->save();
+            $streamer->game = strtolower($game);
+            $streamer->save();
             $viewer = new Viewer();
             $viewer->user_id = $user->id;
             $viewer->name = $user->name;
-            // $viewer->save();
+            $viewer->save();
         }
     }
 

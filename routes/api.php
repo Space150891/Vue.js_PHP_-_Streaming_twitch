@@ -42,6 +42,7 @@ Route::group([
     Route::post('streamers/list', 'Api\StreamersController@list');
     Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
     Route::post('streamers/current', 'Api\StreamersController@current');
+    Route::post('streamers/bygamename', 'Api\StreamersController@getListByGame');
 
     Route::post('contacts/list', 'Api\ContactsController@index');
     Route::post('contacts/store', 'Api\ContactsController@store');

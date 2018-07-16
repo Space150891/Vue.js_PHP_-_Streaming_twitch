@@ -2269,162 +2269,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            directoryItems: [{
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }, {
-                mainText: "Text",
-                downText: "Text",
-                image: __webpack_require__("./public/images/tvitch-question.png"),
-                imageName: "alt"
-            }]
+            currentGame: false
         };
+    },
+    mounted: function mounted() {
+        this.$store.commit('loadGames');
+    },
+
+    methods: {
+        setCurrent: function setCurrent(gameName) {
+            this.$store.commit('loadStreamersByGame', gameName);
+            this.currentGame = gameName;
+        },
+        showAll: function showAll() {
+            this.$store.commit('flashStreamers');
+            this.currentGame = false;
+        }
+    },
+    computed: {
+        games: function games() {
+            return this.$store.getters.games;
+        },
+        streams: function streams() {
+            return this.$store.getters.streamers;
+        },
+        streamsLoaded: function streamsLoaded() {
+            return this.$store.getters.streamersLoaded;
+        }
     }
 });
 
@@ -22005,7 +21903,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  cursor: pointer;\n}\n.flex-pos a, .flex-pos a:hover {\n    text-decoration: none;\n    color: #333;\n}\n.flex-pos h2 {\n    height: 67px;\n    word-wrap: break-word;\n    overflow-y: hidden;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -76167,25 +76065,104 @@ var render = function() {
         _c(
           "div",
           { staticClass: "row flex-pos" },
-          _vm._l(_vm.directoryItems, function(item) {
-            return _c(
-              "div",
-              {
-                staticClass:
-                  "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
-              },
-              [
-                _c("img", {
-                  staticClass: "price-image",
-                  attrs: { src: item.image, alt: item.imageName }
-                }),
-                _vm._v(" "),
-                _c("h2", [_vm._v(_vm._s(item.mainText))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(" " + _vm._s(item.downText) + " ")])
-              ]
-            )
-          })
+          [
+            _vm.currentGame
+              ? _c("div", [
+                  _c("h1", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.currentGame) +
+                        " \n                        "
+                    ),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.showAll()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            change game\n                        "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "row" },
+                    _vm._l(_vm.streams, function(stream) {
+                      return _vm.streamsLoaded
+                        ? _c(
+                            "div",
+                            { staticClass: "directory-streamers col-md-4" },
+                            [
+                              _c("iframe", {
+                                attrs: {
+                                  src:
+                                    "https://player.twitch.tv/?channel=" +
+                                    stream.name,
+                                  height: "300px",
+                                  width: "100%",
+                                  frameborder: "0",
+                                  scrolling: "no",
+                                  allowfullscreen: "false"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("h5", [_vm._v(_vm._s(stream.name))])
+                            ]
+                          )
+                        : _vm._e()
+                    })
+                  ),
+                  _vm._v(" "),
+                  !_vm.streamsLoaded
+                    ? _c("div", { staticClass: "v-loading" })
+                    : _vm._e()
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.games, function(item) {
+              return !_vm.currentGame
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.setCurrent(item.name)
+                            }
+                          }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "price-image",
+                            attrs: { src: item.avatar, alt: item.name }
+                          }),
+                          _vm._v(" "),
+                          _c("h2", [_vm._v(_vm._s(item.name))])
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            })
+          ],
+          2
         )
       ]),
       _vm._v(" "),
@@ -76731,7 +76708,7 @@ var render = function() {
             "paginate",
             {
               staticClass: "row all-items",
-              attrs: { name: "bagItems", per: 12, list: _vm.bagItems }
+              attrs: { name: "bagItems", per: 3, list: _vm.bagItems }
             },
             _vm._l(_vm.paginated("bagItems"), function(item) {
               return _c(
@@ -76755,7 +76732,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("paginate-links", {
-            attrs: { for: "bagItems", limit: 0, "show-step-links": true }
+            attrs: { for: "bagItems", limit: 5, "show-step-links": true }
           })
         ],
         1
@@ -94235,6 +94212,14 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             registered: 0,
             total: 0
         },
+        games: {
+            list: [],
+            loaded: false
+        },
+        streamers: {
+            list: [],
+            loaded: false
+        },
         afiliateLink: ''
     },
     mutations: {
@@ -94479,6 +94464,43 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                     }
                 });
             }
+        },
+        loadGames: function loadGames(state) {
+            state.games.loaded = false;
+            fetch('api/games/list', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (!jsonResp.errors) {
+                    state.games.loaded = true;
+                    state.games.list = jsonResp.data.games;
+                }
+            });
+        },
+        loadStreamersByGame: function loadStreamersByGame(state, gameGame) {
+            state.streamers.loaded = false;
+            var formData = new FormData();
+            formData.append('game_name', gameGame);
+            fetch('api/streamers/bygamename', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (!jsonResp.errors) {
+                    state.streamers.loaded = true;
+                    state.streamers.list = jsonResp.data.streamers;
+                }
+            });
+        },
+        flashStreamers: function flashStreamers(state) {
+            state.streamers.loaded = false;
+            state.streamers.list = [];
         }
     },
     actions: {
@@ -94534,6 +94556,15 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         afiliateLink: function afiliateLink(state) {
             return state.afiliateLink;
+        },
+        games: function games(state) {
+            return state.games.list;
+        },
+        streamers: function streamers(state) {
+            return state.streamers.list;
+        },
+        streamersLoaded: function streamersLoaded(state) {
+            return state.streamers.loaded;
         }
     }
 
