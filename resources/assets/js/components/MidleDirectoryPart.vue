@@ -4,7 +4,7 @@
             <div class="container-fluid ">
                 <div class="row flex-pos">
                     <div v-if="currentGame">
-                        <h1>
+                        <h1 class="directory-game-header">
                             {{currentGame}} 
                             <button @click.prevent="showAll()" class="btn btn-default">
                                 change game
@@ -112,8 +112,8 @@
         }
     }
 
-    .directory-streamers {
-
+    .directory-game-header {
+        text-align: center;
     }
 
     @media screen and (min-width: 1200px)  {

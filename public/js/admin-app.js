@@ -61220,6 +61220,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             });
         },
         addPromoted: function addPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
             var formData = new FormData();
             formData.append('token', state.token);
             formData.append('id', id);
@@ -61237,6 +61238,7 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             });
         },
         deletePromoted: function deletePromoted(state, id) {
+            state.promotedStreamers.loaded = false;
             var formData = new FormData();
             formData.append('token', state.token);
             formData.append('id', id);
@@ -61368,11 +61370,15 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         addPromotedAction: function addPromotedAction(context, id) {
             context.commit('addPromoted', id);
-            context.commit('getPromotedList');
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
         },
         deletePromotedAction: function deletePromotedAction(context, id) {
             context.commit('deletePromoted', id);
-            context.commit('getPromotedList');
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
         }
     },
     getters: {

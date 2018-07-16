@@ -71,10 +71,10 @@ class PromotedStreamersManagementController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-        $promotedStreamer = PromoutedStreamer::where('streamer_id', $request->id)->first();
+        $promotedStreamer = PromoutedStreamer::find($request->id);
         if (!$promotedStreamer) {
             return response()->json([
-                'errors' => ['this streamer not promoted'],
+                'errors' => ['this streamer not promoted' . $request->id],
             ]);
         }
         $promotedStreamer->delete();
