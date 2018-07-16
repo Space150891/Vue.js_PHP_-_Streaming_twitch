@@ -48,6 +48,14 @@ const UserSignStore = new Vuex.Store({
             registered: 0,
             total: 0,
         },
+        games: {
+            list: [],
+            loaded: false,
+        },
+        streamers: {
+            list: [],
+            loaded: false,
+        },
         afiliateLink: '',
     },
     mutations: {
@@ -327,6 +335,49 @@ const UserSignStore = new Vuex.Store({
                 });
             }
         },
+        loadGames(state){
+            state.games.loaded = false;
+            fetch('api/games/list',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (!jsonResp.errors) {
+                    state.games.loaded = true;
+                    state.games.list = jsonResp.data.games;
+                }
+            });
+        },
+        loadStreamersByGame(state, gameGame) {
+            state.streamers.loaded = false;
+            var formData = new FormData();
+            formData.append('game_name', gameGame);
+            fetch('api/streamers/bygamename',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (!jsonResp.errors) {
+                    state.streamers.loaded = true;
+                    state.streamers.list = jsonResp.data.streamers;
+                }
+            });
+        },
+        flashStreamers(state) {
+            state.streamers.loaded = false;
+            state.streamers.list = [];
+        }
     },
     actions: {
         getSubscribeData(context) {
@@ -343,7 +394,7 @@ const UserSignStore = new Vuex.Store({
         loadAfiliated(context) {
             context.commit('getAfiliatedList');
             context.commit('loadProfile');
-        }
+        },
     },
     getters : {
         checkToken: state => {
@@ -381,6 +432,15 @@ const UserSignStore = new Vuex.Store({
         },
         afiliateLink: state => {
             return state.afiliateLink;
+        },
+        games: state => {
+            return state.games.list;
+        },
+        streamers: state => {
+            return state.streamers.list;
+        },
+        streamersLoaded: state => {
+            return state.streamers.loaded;
         },
     },
 

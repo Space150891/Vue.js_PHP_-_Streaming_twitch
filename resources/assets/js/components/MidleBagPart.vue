@@ -10,14 +10,14 @@
             </div>
             <div class="container-fluid ">
                 <!-- paginate -->
-                <paginate name="bagItems" :per="12" :list="bagItems" class="row all-items">
+                <paginate name="bagItems" :per="3" :list="bagItems" class="row all-items">
                     <div v-for="(item) in paginated('bagItems')" class="col-xl-2 bad-lgg col-lg-3 col-md-4 col-sm-6 col-12" >
                         <img class="bag-image" v-bind:src="item.image" v-bind:alt="item.imageName" >
                         <h2>{{ item.mainText }}</h2>
                         <p> {{ item.downText }} </p>
                     </div>
                 </paginate>
-                <paginate-links for="bagItems" :limit="0" :show-step-links="true"></paginate-links>
+                <paginate-links for="bagItems" :limit="5" :show-step-links="true"></paginate-links>
             </div>
             <div class="container-fluid">
                 <div class="row">

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AlertTypesTableSeeder::class);
         $this->call(SubscriptionPackages::class);
         $this->call(MounthPlanes::class);
+        $this->call(GamesSeeder::class);
         Model::reguard();
     }
 }

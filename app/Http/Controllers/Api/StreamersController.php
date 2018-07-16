@@ -20,7 +20,7 @@ class StreamersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['getListByGame']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -78,6 +78,23 @@ class StreamersController extends Controller
                 'id'    => $streamer->id,
             ],
         ]);
+    }
+
+    public function getListByGame(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'game_name'       => 'required|min:1',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $streamers = Streamer::where('game', strtolower($request->game_name))->get();
+        return response()->json([
+            'data' => [
+                'streamers' => $streamers,
+            ],
+        ]);
+
     }
  
 }
