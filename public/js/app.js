@@ -1651,6 +1651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76847,8 +76848,14 @@ var render = function() {
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("h1", { staticClass: "text-center" }, [_vm._v("Afiliate")]),
         _vm._v(" "),
+        _c("h2", {}, [
+          _vm._v(
+            "To participate in our affiliate system, just shared your account URL:"
+          )
+        ]),
+        _vm._v(" "),
         _c("h3", { staticClass: "text-center" }, [
-          _vm._v("Link: " + _vm._s(_vm.baseLink + _vm.currentUser.id))
+          _vm._v(_vm._s(_vm.baseLink + _vm.currentUser.id))
         ]),
         _vm._v(" "),
         _c("h4", [_vm._v("Visited: " + _vm._s(_vm.afiliates.visited))]),
