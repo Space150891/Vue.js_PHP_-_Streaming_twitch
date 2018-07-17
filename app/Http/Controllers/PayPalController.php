@@ -115,13 +115,13 @@ class PayPalController extends Controller
                 $monthPlan = MonthPlan::find($payment->month_plan_id);
                 $old = SubscribedStreamers::where([
                     ['streamer_id', '=', $payment->streamer_id],
-                    ['valid_until', '>', Carbon::today()->toDateString()]
+                    ['valid_until', '>', Carbon::today()->toDateTimeString()]
                 ])->orderBy('valid_until', 'desc')->first();
                 if ($old) {
                     $subscribed->valid_from = $old->valid_until;
                     \Log::info('find old ' . $old->valid_until);
                 } else {
-                    $subscribed->valid_from = Carbon::today()->toDateString();
+                    $subscribed->valid_from = Carbon::today()->toDateTimeString();
                 }
 
                 $toDate = new Carbon($subscribed->valid_from);

@@ -1918,6 +1918,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1936,7 +1943,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: "Prices",
                 activ: false,
                 link: "/prices"
-            }]
+            }],
+            messagesVisible: false
         };
     },
 
@@ -1946,6 +1954,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         currentViewer: function currentViewer() {
             return this.$store.getters.currentViewer;
+        },
+        menuEvents: function menuEvents() {
+            var allEvents = this.$store.getters.sseMenuEvents.reverse();
+            var sortedEvents = [];
+            var total = 0;
+            for (var i = 0; i < allEvents.length; i++) {
+                if (allEvents[i].event_type === 'user_message') {
+                    total++;
+                    if (sortedEvents.length < 3) {
+                        sortedEvents.push(allEvents[i]);
+                    }
+                }
+            }
+            return {
+                list: sortedEvents,
+                total: total
+            };
         }
     },
     mounted: function mounted() {
@@ -1961,6 +1986,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         signOut: function signOut() {
             this.$store.commit('signOut');
+        },
+        showMessages: function showMessages() {
+            var _this = this;
+
+            this.messagesVisible = true;
+            setTimeout(function () {
+                _this.$store.commit('clearMenuEvents');
+                _this.messagesVisible = false;
+            }, 2000);
         }
     }
 });
@@ -2761,6 +2795,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         myViewers: function myViewers() {
             return this.$store.getters.myViewers;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/NotificationsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        this.$store.commit('loadNotifications', this.userId);
+    },
+
+    methods: {},
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        notifications: function notifications() {
+            return this.$store.getters.notifications;
         }
     }
 });
@@ -21843,7 +21930,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.menu-right-part {\n  margin-bottom: 4px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sign {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sign:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sign:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.cabinet-but {\n  margin: 0 0 19px 10px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.cabinet-but:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.cabinet-but:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.sign-none {\n  display: none;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sign {\n    display: block;\n    font-size: 14px;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  height: 100vh;\n  max-height: 100vh;\n}\n.main-menu {\n  position: fixed;\n  top: 22px;\n  width: 100vw;\n  height: auto;\n  z-index: 10000;\n}\n.navbar {\n  padding-top: 5px;\n  height: 88px;\n}\n.left {\n  margin-right: 20px;\n}\n.menu-right-part {\n  margin-bottom: 4px;\n}\n.nav-logo {\n  width: 4vw;\n}\n.sign {\n  margin-bottom: 19px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.sign:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.sign:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.cabinet-but {\n  margin: 0 0 19px 10px;\n  padding: 6px 12px;\n  background: #6441a4;\n  font-size: 18px;\n  color: white;\n  font-weight: 600;\n  cursor: pointer;\n  -webkit-transition: all 0.2s;\n  transition: all 0.2s;\n}\n.cabinet-but:hover {\n    background: #3f148c;\n    text-decoration: none;\n    color: white;\n}\n.cabinet-but:active {\n    border-radius: 10px;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.sign-none {\n  display: none;\n}\n.social {\n  display: none;\n}\n.nav-icon {\n  width: 1vw;\n  min-width: 20px;\n  margin: 0 10px 0 20px;\n}\n.tagging-item {\n  background-color: red;\n  padding: 0 8px 2px 8px;\n  border-radius: 7px;\n  color: #f7f7f7;\n  font-weight: 600;\n  position: relative;\n  top: -51px;\n  right: -39px;\n}\n.router-link-exact-active {\n  background-color: #d2d2d2ed;\n}\n.tagging {\n  position: relative;\n}\n.toggle-block {\n  display: block !important;\n  position: absolute;\n  width: 250px;\n  height: 100vh;\n  top: 50px;\n  right: -15px;\n  background: #f1f1f1;\n  text-align: center;\n  font-size: 18px;\n  z-index: 10;\n  animation-name: slideLeft;\n  -webkit-animation-name: slideLeft;\n  animation-duration: 0.5s;\n  -webkit-animation-duration: 0.5s;\n  animation-timing-function: ease-in-out;\n  -webkit-animation-timing-function: ease-in-out;\n}\n.toggle-block .left {\n    text-align: left;\n    margin-left: 30%;\n}\n.toggle-block .tagging-item {\n    position: absolute;\n    top: 275px;\n    right: 115px;\n    font-size: 13px;\n    padding: 1px 8px 1px 8px;\n}\n.toggle-block .social {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    margin-left: -40%;\n    margin-top: 20%;\n}\n.toggle-block .social img {\n      width: 50%;\n}\n.navbar-toggler {\n  height: 30px;\n  width: 38px;\n  position: relative;\n}\n.navbar-toggler .navbar-toggler-icon {\n    background-size: 90% 90%;\n    position: absolute;\n    top: 1px;\n    right: 5px;\n}\n.bag-span {\n  width: 78px;\n}\n.bag-span:hover {\n    background-color: #eaeaea;\n}\n.menu-message-list {\n  position: absolute;\n  padding: 0 5px;\n  top: 45px;\n  right: 5px;\n}\n.menu-message-list > li {\n    list-style: none;\n    width: 250px;\n    border: 1px #333 solid;\n    border-top: none;\n    background: #fff;\n    color: #aaa;\n}\n.menu-message-list > li:first-of-type {\n      border-top: 1px #333 solid;\n}\n@keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n            transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n            transform: translateX(0%);\n}\n}\n@-webkit-keyframes slideLeft {\n0% {\n    -webkit-transform: translateX(150%);\n}\n100% {\n    -webkit-transform: translateX(0%);\n}\n}\n@media screen and (max-width: 991px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -6px;\n      right: 99px;\n      font-size: 11px;\n}\n.navbar {\n    height: 50px;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n.toggle-block .social {\n    margin-top: 20%;\n    position: relative;\n    right: 11px;\n}\n.toggle-block .social img {\n      width: 35%;\n}\n}\n@media screen and (max-width: 969px) {\n.toggle-block {\n    font-size: 16px;\n}\n.toggle-block .tagging-item {\n      top: -5px;\n      right: 98px;\n      font-size: 11px;\n}\n}\n@media screen and (max-width: 750px) {\n.toggle-block {\n    font-size: 14px;\n}\n.toggle-block .tagging-item {\n      top: -8px;\n      right: 98px;\n      font-size: 11px;\n}\n.navbar-nav {\n    margin-bottom: 27px;\n}\n.nav-logo {\n    width: 45px;\n}\n.social img {\n    width: 40%;\n}\n}\n@media (max-height: 520px) {\n.toggle-block {\n    width: 200px;\n}\n.toggle-block .left {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      text-align: center;\n      margin-left: 7px;\n      margin-top: 9% !important;\n}\n.toggle-block .left li a {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        margin-right: 10px;\n        font-size: 15px;\n}\n.toggle-block .left li a .nav-icon {\n          margin: 0px 5px 0 5px;\n}\n.toggle-block .tagging-item {\n      top: -11px;\n      right: 74px;\n}\n.toggle-block .social {\n      bottom: -12px;\n      right: 125px;\n}\n.toggle-block .social .social-link {\n        width: 35px;\n}\n.toggle-block .social .nav-icon {\n        width: 30px;\n}\n.navbar-nav {\n    margin: 0;\n}\n.sign {\n    display: block;\n    font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -75454,15 +75541,7 @@ var render = function() {
                 )
               : _c(
                   "a",
-                  {
-                    staticClass: "sign",
-                    attrs: { href: "twitch/redirect" },
-                    on: {
-                      click: function($event) {
-                        _vm.signUp()
-                      }
-                    }
-                  },
+                  { staticClass: "sign", attrs: { href: "twitch/redirect" } },
                   [_vm._v("Sign up")]
                 ),
             _vm._v(" "),
@@ -75534,31 +75613,69 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item tagging" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link bag-span",
-                          attrs: { to: _vm.bagPage }
-                        },
-                        [
-                          _c("img", {
-                            staticClass: "nav-icon",
-                            attrs: {
-                              src: __webpack_require__("./public/images/bag.svg"),
-                              alt: "bag"
-                            }
-                          })
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tagging-item" }, [_vm._v("2")])
-                    ],
-                    1
-                  ),
+                  _c("li", { staticClass: "nav-item tagging" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link bag-span",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.showMessages()
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "nav-icon",
+                          attrs: {
+                            src: __webpack_require__("./public/images/bag.svg"),
+                            alt: "bag"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.menuEvents.total > 0
+                      ? _c("span", { staticClass: "tagging-item" }, [
+                          _vm._v(_vm._s(_vm.menuEvents.total))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.messagesVisible
+                      ? _c(
+                          "ul",
+                          { staticClass: "menu-message-list" },
+                          [
+                            _vm._l(_vm.menuEvents.list, function(menuEvent) {
+                              return _c("li", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(menuEvent.message) +
+                                    "\n                        "
+                                )
+                              ])
+                            }),
+                            _vm._v(" "),
+                            _vm.menuEvents.total > 3
+                              ? _c("li", { staticClass: "text-center" }, [
+                                  _c(
+                                    "a",
+                                    { attrs: { href: "#/notifications" } },
+                                    [
+                                      _vm._v(
+                                        "\n                                View all\n                            "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      : _vm._e()
+                  ]),
                   _vm._v(" "),
                   _vm._m(1)
                 ])
@@ -76047,6 +76164,73 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-4ba586be", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5f9dfa20\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/NotificationsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.userId > 0 || _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("Notifications")]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-sm" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.notifications, function(notification) {
+              return _c("tr", [
+                _c("td", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(notification.message) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(notification.created_at) +
+                      "\n                "
+                  )
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Message")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date / Time")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5f9dfa20", module.exports)
   }
 }
 
@@ -92924,9 +93108,10 @@ var Subscribe = __webpack_require__("./resources/assets/js/components/SubscribeP
 var MyStreamers = __webpack_require__("./resources/assets/js/components/MyStreamersPage.vue");
 var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersPage.vue");
 var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
+var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93792,6 +93977,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/NotificationsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/NotificationsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5f9dfa20\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/NotificationsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/NotificationsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5f9dfa20", Component.options)
+  } else {
+    hotAPI.reload("data-v-5f9dfa20", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Price.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94164,6 +94397,7 @@ module.exports = {"baseUrl":"http://localhost:8081","timeOut":3000}
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 
 
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
@@ -94220,11 +94454,31 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             list: [],
             loaded: false
         },
-        afiliateLink: ''
+        notifications: {
+            list: [],
+            loaded: false
+        },
+        afiliateLink: '',
+        sseMenuEvents: []
     },
     mutations: {
         signUp: function signUp(state) {
             state.token = localStorage.getItem("userToken");
+            document.cookie = "token=" + state.token;
+            var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
+            source.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.error) {
+                    // state.token = false;
+                    source.close();
+                } else {
+                    switch (data.event_type) {
+                        case 'user_message':
+                            state.sseMenuEvents.push(data);
+                            break;
+                    }
+                }
+            };
         },
         loadCurrentViewer: function loadCurrentViewer(state) {
             if (state.token) {
@@ -94480,6 +94734,24 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 }
             });
         },
+        loadNotifications: function loadNotifications(state) {
+            state.notifications.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/notifications/list', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (!jsonResp.errors) {
+                    state.notifications.loaded = true;
+                    state.notifications.list = jsonResp.data.notifications;
+                }
+            });
+        },
         loadStreamersByGame: function loadStreamersByGame(state, gameGame) {
             state.streamers.loaded = false;
             var formData = new FormData();
@@ -94501,6 +94773,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         flashStreamers: function flashStreamers(state) {
             state.streamers.loaded = false;
             state.streamers.list = [];
+        },
+        clearMenuEvents: function clearMenuEvents(state) {
+            state.sseMenuEvents = [];
         }
     },
     actions: {
@@ -94565,6 +94840,12 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         streamersLoaded: function streamersLoaded(state) {
             return state.streamers.loaded;
+        },
+        sseMenuEvents: function sseMenuEvents(state) {
+            return state.sseMenuEvents;
+        },
+        notifications: function notifications(state) {
+            return state.notifications.list;
         }
     }
 

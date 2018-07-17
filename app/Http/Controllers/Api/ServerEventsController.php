@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
 use Softon\Sms\Facades\Sms;
+use App\Models\{User, Notification};
 
 class ServerEventsController extends Controller
 {
@@ -19,14 +20,33 @@ class ServerEventsController extends Controller
         $response->headers->set('Cache-Control', 'public');
         $response->setCallback(
             function() use ($request){
-                if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined') {
+                if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined' && $_COOKIE['token'] != 'null') {
                     $user = auth()->setToken($_COOKIE['token'])->user();
+                    // \Log::info('check user ' . $user->name);
                     if ($user) {
-                        $data = Redis::command('LPOP', ['messages:' . $user->name]);
-                        if ($data) {
-                            $message = json_decode($data, true);
-                            echo "data: " . json_encode(['message' => $message['event_type']]) . PHP_EOL . PHP_EOL;
-                        }
+                        $count = 0;
+                        do {
+                            $data = Redis::command('LPOP', ['messages:' . $user->name]);
+                            if ($data) {
+                                \Log::info('data ' . $data);
+                                \Log::info('count ' . $count);
+                                $count++;
+                                $total = Notification::where('user_id', $user->id)->count();
+                                if ($total > 99) {
+                                    $older = Notification::where('user_id', $user->id)->orderBy('created_at', 'asc')->first();
+                                    $older->delete();
+                                }
+                                $notifyData = json_decode($data, true);
+                                Notification::create([
+                                    'user_id'       => $user->id,
+                                    'event_type'    => $notifyData['event_type'],
+                                    'message'    => $notifyData['message'],
+                                    'created_at'    => Carbon::now()->toDateTimeString(),
+                                    'updated_at'    => Carbon::now()->toDateTimeString(),
+                                ]);
+                                echo "data: " . $data . PHP_EOL . PHP_EOL;
+                            }
+                        } while($data && $count < 100);
                     } else {
                         echo "data: " . json_encode(['error' => 1, 'error_message' => 'User Authentication Failed']) . PHP_EOL . PHP_EOL;
                     }

@@ -89,6 +89,7 @@ Route::group([
     Route::get('afiliate/{id}', 'Api\AfiliateController@visiter');
 
     Route::post('games/list', 'Api\GamesController@list');
+    Route::post('notifications/list', 'Api\NotificationsController@list');
 });
 
 
