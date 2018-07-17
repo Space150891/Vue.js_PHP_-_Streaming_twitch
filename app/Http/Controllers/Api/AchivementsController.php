@@ -37,5 +37,10 @@ class AchivementsController extends Controller
             'achivements' => $list,
         ]]);
     }
+
+    public function addProgress(Request $request)
+    {
+
+    }
  
 }

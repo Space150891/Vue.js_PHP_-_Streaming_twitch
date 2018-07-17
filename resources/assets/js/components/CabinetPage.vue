@@ -26,23 +26,11 @@
                     Donate
                 </a>
                 <div v-if="parseInt(userId) == 0">
-                    <a class="btn btn-info pull-left" href="#/myviewers">My viewers</a>
-                    <a  class="btn btn-info pull-right" href="#/mystreamers">My streamers</a>
+                    <a class="btn btn-info" href="#/myviewers">My viewers</a>
+                    <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
+                    <a class="btn btn-info" href="#/notifications">Notifications</a>
+                    <a class="btn btn-info" href="#/achivements">Achivements</a>
                 </div>
-            </div>
-        </div>
-        <div class="row" v-if="parseInt(userId) == 0">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-6">
-                <h3>Achivements:</h3>
-                <ul class="list-group">
-                    <li class="list-group-item" v-for="achivement in achivements">
-                        <strong>{{achivement.description}}</strong>  unlocked  {{achivement.unlocked_at.date.substr(0, 19)}}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3">
             </div>
         </div>
     </div>
@@ -65,9 +53,6 @@
         },
         mounted() {
             this.$store.commit('loadProfile', this.userId);
-            if (this.userId == 0) {
-                this.$store.commit('loadAchivements');
-            }
         },
         methods: {
            
@@ -78,9 +63,6 @@
             },
             profileData: function () {
                 return this.$store.getters.profileData;
-            },
-            achivements: function () {
-                return this.$store.getters.achivements;
             },
         },
     }

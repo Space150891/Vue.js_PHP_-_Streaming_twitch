@@ -41,13 +41,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $user = User::find(4);
-        $achievements   = $user->unlockedAchievements();
-        foreach ($achievements as $achievement) {
-            $details = \DB::table('achievement_details')->find($achievement->achievement_id);
-            var_dump($achievement);
-            // var_dump($details->description);
-        }
+        $this->emitEvent();
     }
 
     private function emitEvent()
@@ -59,5 +53,12 @@ class TestCommand extends Command
             'timestamp'       => time(),
         ];
         Redis::command('RPUSH', ['messages:' . $data['user_name'], json_encode($data)]);
+    }
+
+    private function increaseAchivements($name, $points)
+    {
+        $class = "\App\Achievements\\" . $name;
+        $a = new $class;
+        var_dump($a);
     }
 }
