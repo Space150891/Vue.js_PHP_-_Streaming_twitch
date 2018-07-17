@@ -1633,6 +1633,50 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AchivementsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        this.$store.commit('loadAchivements');
+    },
+
+    methods: {},
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        achivements: function achivements() {
+            return this.$store.getters.achivements;
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AfiliatePage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1685,6 +1729,8 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -75368,7 +75414,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-info pull-left",
+                      staticClass: "btn btn-info",
                       attrs: { href: "#/myviewers" }
                     },
                     [_vm._v("My viewers")]
@@ -75377,10 +75423,28 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-info pull-right",
+                      staticClass: "btn btn-info",
                       attrs: { href: "#/mystreamers" }
                     },
                     [_vm._v("My streamers")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info",
+                      attrs: { href: "#/notifications" }
+                    },
+                    [_vm._v("Notifications")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info",
+                      attrs: { href: "#/achivements" }
+                    },
+                    [_vm._v("Achivements")]
                   )
                 ])
               : _vm._e()
@@ -76956,6 +77020,54 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-97e7e05e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-cc09d26a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AchivementsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("Achivements")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-4 achivement-block" },
+            _vm._l(_vm.achivements, function(achivement) {
+              return _c("div", { staticClass: "achivement-panel" }, [
+                _c("div", { staticClass: "avatar" }),
+                _vm._v(" "),
+                _c("h4", [_vm._v(_vm._s(achivement.description))]),
+                _vm._v(" "),
+                _c("h5", [
+                  _vm._v(
+                    "unlocked " +
+                      _vm._s(achivement.unlocked_at.date.substr(0, 10))
+                  )
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-cc09d26a", module.exports)
   }
 }
 
@@ -93109,9 +93221,10 @@ var MyStreamers = __webpack_require__("./resources/assets/js/components/MyStream
 var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersPage.vue");
 var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
 var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
+var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93214,6 +93327,54 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   cluster: "eu",
   encrypted: true
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/AchivementsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AchivementsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-cc09d26a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AchivementsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AchivementsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cc09d26a", Component.options)
+  } else {
+    hotAPI.reload("data-v-cc09d26a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -94459,7 +94620,11 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             loaded: false
         },
         afiliateLink: '',
-        sseMenuEvents: []
+        sseMenuEvents: [],
+        achivements: {
+            list: [],
+            loaded: false
+        }
     },
     mutations: {
         signUp: function signUp(state) {
@@ -94770,6 +94935,24 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 }
             });
         },
+        loadAchivements: function loadAchivements(state) {
+            state.achivements.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/achivements/list', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (!jsonResp.errors) {
+                    state.achivements.loaded = true;
+                    state.achivements.list = jsonResp.data.achivements;
+                }
+            });
+        },
         flashStreamers: function flashStreamers(state) {
             state.streamers.loaded = false;
             state.streamers.list = [];
@@ -94846,6 +95029,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         notifications: function notifications(state) {
             return state.notifications.list;
+        },
+        achivements: function achivements(state) {
+            return state.achivements.list;
         }
     }
 

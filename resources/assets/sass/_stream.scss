@@ -25,3 +25,20 @@
     width: 100%;
     display: flex;
 }
+
+.achivement-panel {
+    border: 1px #777 solid;
+    border-radius: 2px;
+    h4, h5 {
+        text-align: center;
+    }
+    .avatar {
+        width: 100%;
+        height: 300px;
+        background: url('../../../public/images/Achievement_Hunter_icon.png') no-repeat center center;
+    }
+}
+
+.achivement-block {
+    padding: 15px;
+}

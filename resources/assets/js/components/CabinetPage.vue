@@ -26,8 +26,10 @@
                     Donate
                 </a>
                 <div v-if="parseInt(userId) == 0">
-                    <a class="btn btn-info pull-left" href="#/myviewers">My viewers</a>
-                    <a  class="btn btn-info pull-right" href="#/mystreamers">My streamers</a>
+                    <a class="btn btn-info" href="#/myviewers">My viewers</a>
+                    <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
+                    <a class="btn btn-info" href="#/notifications">Notifications</a>
+                    <a class="btn btn-info" href="#/achivements">Achivements</a>
                 </div>
             </div>
         </div>

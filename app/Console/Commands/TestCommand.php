@@ -41,17 +41,24 @@ class TestCommand extends Command
      */
     public function handle()
     {
+        $this->emitEvent();
+    }
+
+    private function emitEvent()
+    {
         $data = [
             'event_type'      => 'user_message',
             'message'         => 'test ' . time(),
             'user_name'       => 'alex_k2017',
             'timestamp'       => time(),
         ];
-        $this->emitEvent($data);
+        Redis::command('RPUSH', ['messages:' . $data['user_name'], json_encode($data)]);
     }
 
-    private function emitEvent($data)
+    private function increaseAchivements($name, $points)
     {
-        Redis::command('RPUSH', ['messages:' . $data['user_name'], json_encode($data)]);
+        $class = "\App\Achievements\\" . $name;
+        $a = new $class;
+        var_dump($a);
     }
 }
