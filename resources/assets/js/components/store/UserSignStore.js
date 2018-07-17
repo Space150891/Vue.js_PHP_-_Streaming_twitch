@@ -63,6 +63,10 @@ const UserSignStore = new Vuex.Store({
         },
         afiliateLink: '',
         sseMenuEvents : [],
+        achivements: {
+            list: [],
+            loaded: false,
+        },
     },
     mutations: {
         signUp(state) {
@@ -416,6 +420,27 @@ const UserSignStore = new Vuex.Store({
                 }
             });
         },
+        loadAchivements(state){
+            state.achivements.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/achivements/list',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (!jsonResp.errors) {
+                    state.achivements.loaded = true;
+                    state.achivements.list = jsonResp.data.achivements;
+                }
+            });
+        },
         flashStreamers(state) {
             state.streamers.loaded = false;
             state.streamers.list = [];
@@ -492,6 +517,9 @@ const UserSignStore = new Vuex.Store({
         },
         notifications: state => {
             return state.notifications.list;
+        },
+        achivements: state => {
+            return state.achivements.list;
         },
     },
 

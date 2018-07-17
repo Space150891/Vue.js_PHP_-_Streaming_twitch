@@ -1723,6 +1723,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1736,6 +1750,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.$store.commit('loadProfile', this.userId);
+        if (this.userId == 0) {
+            this.$store.commit('loadAchivements');
+        }
     },
 
     methods: {},
@@ -1745,6 +1762,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         profileData: function profileData() {
             return this.$store.getters.profileData;
+        },
+        achivements: function achivements() {
+            return this.$store.getters.achivements;
         }
     }
 });
@@ -75385,7 +75405,35 @@ var render = function() {
                 ])
               : _vm._e()
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        parseInt(_vm.userId) == 0
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-3" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("h3", [_vm._v("Achivements:")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "list-group" },
+                  _vm._l(_vm.achivements, function(achivement) {
+                    return _c("li", { staticClass: "list-group-item" }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(achivement.description) +
+                          "  unlocked  " +
+                          _vm._s(achivement.unlocked_at.date.substr(0, 19)) +
+                          "\n                "
+                      )
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3" })
+            ])
+          : _vm._e()
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
         _vm._v("\n    Please login\n")
@@ -94459,7 +94507,11 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             loaded: false
         },
         afiliateLink: '',
-        sseMenuEvents: []
+        sseMenuEvents: [],
+        achivements: {
+            list: [],
+            loaded: false
+        }
     },
     mutations: {
         signUp: function signUp(state) {
@@ -94770,6 +94822,24 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 }
             });
         },
+        loadAchivements: function loadAchivements(state) {
+            state.achivements.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/achivements/list', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (!jsonResp.errors) {
+                    state.achivements.loaded = true;
+                    state.achivements.list = jsonResp.data.achivements;
+                }
+            });
+        },
         flashStreamers: function flashStreamers(state) {
             state.streamers.loaded = false;
             state.streamers.list = [];
@@ -94846,6 +94916,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         notifications: function notifications(state) {
             return state.notifications.list;
+        },
+        achivements: function achivements(state) {
+            return state.achivements.list;
         }
     }
 
