@@ -183,7 +183,7 @@ class SocialController extends Controller
             $ip = $request->ip();
             $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
             if ($afiliate) {
-                $afiliate->register_at = Carbon::now()->toDateString();
+                $afiliate->register_at = Carbon::now()->toDateTimeString();
                 $afiliate->save();
             }
             $user = new User();

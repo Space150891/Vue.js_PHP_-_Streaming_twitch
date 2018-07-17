@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+var config = require('../config/config.json');
 
 Vue.use(Vuex);
 
@@ -56,11 +57,31 @@ const UserSignStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        notifications: {
+            list: [],
+            loaded: false,
+        },
         afiliateLink: '',
+        sseMenuEvents : [],
     },
     mutations: {
         signUp(state) {
             state.token = localStorage.getItem("userToken");
+            document.cookie = "token=" + state.token;
+            var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
+            source.onmessage = function(event) {
+                var data = JSON.parse(event.data);
+                if (data.error) {
+                    // state.token = false;
+                    source.close();
+                } else {
+                    switch (data.event_type) {
+                        case 'user_message':
+                        state.sseMenuEvents.push(data);
+                            break;
+                    }
+                }
+            };
         },
         loadCurrentViewer(state) {
             if (state.token) {
@@ -353,6 +374,27 @@ const UserSignStore = new Vuex.Store({
                 }
             });
         },
+        loadNotifications(state){
+            state.notifications.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/notifications/list',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (!jsonResp.errors) {
+                    state.notifications.loaded = true;
+                    state.notifications.list = jsonResp.data.notifications;
+                }
+            });
+        },
         loadStreamersByGame(state, gameGame) {
             state.streamers.loaded = false;
             var formData = new FormData();
@@ -377,6 +419,9 @@ const UserSignStore = new Vuex.Store({
         flashStreamers(state) {
             state.streamers.loaded = false;
             state.streamers.list = [];
+        },
+        clearMenuEvents(state) {
+            state.sseMenuEvents = [];
         }
     },
     actions: {
@@ -441,6 +486,12 @@ const UserSignStore = new Vuex.Store({
         },
         streamersLoaded: state => {
             return state.streamers.loaded;
+        },
+        sseMenuEvents: state => {
+            return state.sseMenuEvents;
+        },
+        notifications: state => {
+            return state.notifications.list;
         },
     },
 

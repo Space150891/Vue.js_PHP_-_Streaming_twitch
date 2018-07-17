@@ -20,7 +20,7 @@
                 </li>
             </ul>
             <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
-            <a href="twitch/redirect" class="sign" v-else @click="signUp()" >Sign up</a>
+            <a href="twitch/redirect" class="sign" v-else >Sign up</a>
 
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
             <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Subscribe</a>
@@ -36,13 +36,20 @@
                     <a class="nav-link" href="#"><img class="nav-icon" src="../../../../public/images/arrows.svg" alt="arrows">{{currentViewer.level}}</a>
                 </li>
                 <li class="nav-item tagging">
-                    <router-link 
-                        class="nav-link bag-span"
-                        v-bind:to="bagPage"
-                        >
+                    <a @click.prevent="showMessages()" href="#" class="nav-link bag-span">
                             <img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag">
-                    </router-link>
-                    <span class="tagging-item">2</span>
+                    </a>
+                    <span class="tagging-item" v-if="menuEvents.total > 0">{{menuEvents.total}}</span>
+                    <ul v-if="messagesVisible" class="menu-message-list">
+                        <li v-for="menuEvent in menuEvents.list">
+                            {{menuEvent.message}}
+                        </li>
+                        <li v-if="menuEvents.total > 3" class="text-center">
+                            <a href="#/notifications">
+                                View all
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item tagging social">
                     <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
@@ -77,7 +84,8 @@
                         activ: false,
                         link: "/prices",
                     },
-                ]
+                ],
+                messagesVisible : false,
             }
         },
         computed: {
@@ -86,6 +94,23 @@
             },
             currentViewer: function() {
                 return this.$store.getters.currentViewer;
+            },
+            menuEvents: function() {
+                const allEvents = this.$store.getters.sseMenuEvents.reverse();
+                let sortedEvents = [];
+                let total = 0;
+                for (let i=0; i<allEvents.length; i++) {
+                    if (allEvents[i].event_type === 'user_message') {
+                        total++;
+                        if (sortedEvents.length < 3) {
+                            sortedEvents.push(allEvents[i]);
+                        }
+                    }
+                }
+                return {
+                    list : sortedEvents,
+                    total : total
+                    };
             }
         },
         mounted: function () {
@@ -100,7 +125,14 @@
                 (this.clicked) ? this.clicked = !this.clicked : this.clicked = this.clicked ;
             },
             signOut() {
-                this.$store.commit('signOut')
+                this.$store.commit('signOut');
+            },
+            showMessages() {
+                this.messagesVisible = true;
+                setTimeout(() => {
+                    this.$store.commit('clearMenuEvents');
+                    this.messagesVisible = false;
+                }, 2000);
             }
         }
     }
@@ -249,6 +281,24 @@
         width: 78px;
         &:hover {
             background-color: #eaeaea;
+        }
+    }
+
+    .menu-message-list {
+        position: absolute;
+        padding: 0 5px;
+        top: 45px;
+        right: 5px;
+        >li {
+            list-style: none;
+            width : 250px;
+            border: 1px #333 solid;
+            border-top: none;
+            background: #fff;
+            color: #aaa;
+            &:first-of-type {
+                border-top: 1px #333 solid;
+            }
         }
     }
          
