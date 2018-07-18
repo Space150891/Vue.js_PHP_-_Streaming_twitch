@@ -54,6 +54,7 @@ class AchivementsController extends Controller
         \Log::info('try add achivement ' . $request->achivement_name);
         $user = auth()->user();
         $points = $request->has('points') ? $request->points : 1;
+        \Log::info('points ' . $points);
         $achivementName = trim($request->achivement_name);
         $error = false;
         switch ($achivementName) {

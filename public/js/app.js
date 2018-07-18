@@ -1865,6 +1865,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         dotate: function dotate() {
             var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" + this.streamer.paypal + "&item_name=Donate+to+streamer+" + this.streamer.name + "&amount=" + this.sum;
+            this.$store.commit('pushAchivement', { name: 'Donate100Achievement', points: this.sum });
+            this.$store.commit('pushAchivement', { name: 'FirstDonateAchievement' });
             window.location = link;
         }
     },
