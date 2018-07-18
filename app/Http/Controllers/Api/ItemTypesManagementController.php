@@ -109,7 +109,9 @@ class ItemTypesManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $itemType = ItemType::find($request->id);
@@ -142,7 +144,9 @@ class ItemTypesManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $itemType = ItemType::find($request->id);

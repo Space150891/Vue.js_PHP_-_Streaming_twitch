@@ -112,7 +112,9 @@ class RaritiesManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $raritie = Raritie::find($request->id);
@@ -145,7 +147,9 @@ class RaritiesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $raritie = Raritie::find($request->id);
         if (!$raritie) {

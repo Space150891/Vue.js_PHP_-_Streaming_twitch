@@ -1769,6 +1769,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1791,6 +1796,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         profileData: function profileData() {
             return this.$store.getters.profileData;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        userId: {
+            default: false,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            sum: 100,
+            donater: ''
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        this.$store.commit('loadStreamerFullData', this.userId);
+        if (this.checkToken) {
+            this.$store.commit('loadCurrentViewer');
+            setTimeout(function () {
+                _this.donater = _this.getDonater;
+            }, 2000);
+        }
+    },
+
+    methods: {
+        dotate: function dotate() {
+            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" + this.streamer.paypal + "&item_name=Donate+to+streamer+" + this.streamer.name + "&amount=" + this.sum;
+            this.$store.commit('pushAchivement', { name: 'Donate100Achievement', points: this.sum });
+            this.$store.commit('pushAchivement', { name: 'FirstDonateAchievement' });
+            window.location = link;
+        }
+    },
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        streamer: function streamer() {
+            return this.$store.getters.streamerFullData;
+        },
+        getDonater: function getDonater() {
+            if (this.checkToken) {
+                var viewer = this.$store.getters.currentViewer;
+                return viewer.name;
+            }
+            return '';
         }
     }
 });
@@ -2041,6 +2133,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.$store.commit('clearMenuEvents');
                 _this.messagesVisible = false;
             }, 2000);
+        },
+        sendFBAchivement: function sendFBAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+        },
+        sendTWAchivement: function sendTWAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
         }
     }
 });
@@ -2884,7 +2988,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {};
     },
     mounted: function mounted() {
-        this.$store.commit('loadNotifications', this.userId);
+        this.$store.commit('loadNotifications');
     },
 
     methods: {},
@@ -2893,7 +2997,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.checkToken;
         },
         notifications: function notifications() {
-            return this.$store.getters.notifications;
+            return this.$store.getters.notifications.reverse();
         }
     }
 });
@@ -3195,6 +3299,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {},
@@ -3203,7 +3319,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {},
 
-    methods: {},
+    methods: {
+        sendFBAchivement: function sendFBAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+        },
+        sendTWAchivement: function sendTWAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
+        }
+    },
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
@@ -75409,6 +75538,16 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
+            _vm.profileData.paypal
+              ? _c(
+                  "a",
+                  {
+                    attrs: { href: "#/donate/" + _vm.profileData.streamer_id }
+                  },
+                  [_vm._v("\n                Donate Page\n            ")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             parseInt(_vm.userId) == 0
               ? _c("div", [
                   _c(
@@ -75741,7 +75880,55 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _c("li", { staticClass: "nav-item tagging social" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link social-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            _vm.sendTWAchivement()
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "nav-icon",
+                          attrs: {
+                            src: __webpack_require__("./public/images/twitter.svg"),
+                            alt: "twitter",
+                            target: "_blank"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link social-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            _vm.sendFBAchivement()
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "nav-icon",
+                          attrs: {
+                            src: __webpack_require__("./public/images/facebook.svg"),
+                            alt: "facebook",
+                            target: "_blank"
+                          }
+                        })
+                      ]
+                    )
+                  ])
                 ])
               : _vm._e()
           ]
@@ -75769,37 +75956,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item tagging social" }, [
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
+    return _c(
+      "a",
+      { staticClass: "nav-link social-link", attrs: { href: "#" } },
+      [
         _c("img", {
           staticClass: "nav-icon",
           attrs: {
             src: __webpack_require__("./public/images/google-plus.svg"),
-            alt: "google-plus"
+            alt: "google-plus",
+            target: "_blank"
           }
         })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/twitter.svg"),
-            alt: "twitter"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/facebook.svg"),
-            alt: "facebook"
-          }
-        })
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -76121,7 +76291,12 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          { attrs: { href: "https://plus.google.com/share?url=" + _vm.url } },
+          {
+            attrs: {
+              href: "https://plus.google.com/share?url=" + _vm.url,
+              target: "_blank"
+            }
+          },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -76137,7 +76312,17 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          { attrs: { href: "https://twitter.com/share?url=" + _vm.url } },
+          {
+            attrs: {
+              href: "https://twitter.com/share?url=" + _vm.url,
+              target: "_blank"
+            },
+            on: {
+              click: function($event) {
+                _vm.sendTWAchivement()
+              }
+            }
+          },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -76154,7 +76339,15 @@ var render = function() {
         _c(
           "a",
           {
-            attrs: { href: "http://www.facebook.com/sharer.php?u=" + _vm.url }
+            attrs: {
+              href: "http://www.facebook.com/sharer.php?u=" + _vm.url,
+              target: "_blank"
+            },
+            on: {
+              click: function($event) {
+                _vm.sendFBAchivement()
+              }
+            }
           },
           [
             _c("img", {
@@ -76240,7 +76433,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.userId > 0 || _vm.checkToken
+  return _vm.checkToken
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("h1", { staticClass: "text-center" }, [_vm._v("Notifications")]),
         _vm._v(" "),
@@ -76627,7 +76820,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "video-part" }, [
             _c("iframe", {
               attrs: {
-                src: "https://player.twitch.tv/?channel=ubah",
+                src: "https://player.twitch.tv/?channel=twitchpresents",
                 width: "100%",
                 height: "100%",
                 frameborder: "0",
@@ -76644,7 +76837,7 @@ var staticRenderFns = [
               attrs: {
                 frameborder: "1",
                 scrolling: "true",
-                src: "https://www.twitch.tv/embed/ubah/chat",
+                src: "https://www.twitch.tv/embed/twitchpresents/chat",
                 height: "100%",
                 width: "100%"
               }
@@ -77025,6 +77218,116 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-be0ebfd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.userId > 0 && _vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _c("h1", { staticClass: "text-center" }, [_vm._v("Donate")]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _c("h2", { staticClass: "text-center" }, [
+              _vm._v("\n                    to streamer\n                    "),
+              _c("strong", [_vm._v(_vm._s(_vm.streamer.name))])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _vm._v("\n                donater name\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.donater,
+                  expression: "donater"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.donater },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.donater = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _vm._v("\n                sum USD\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sum,
+                  expression: "sum"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number" },
+              domProps: { value: _vm.sum },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.sum = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success form-control",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.dotate()
+                }
+              }
+            },
+            [_vm._v("DONATE")]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.userId && _vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _c("h2", [_vm._v("click button Donate from Stream or Profile page")])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _vm._v("\n        Please login\n    ")
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-be0ebfd6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-cc09d26a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AchivementsPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77036,12 +77339,12 @@ var render = function() {
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("h1", { staticClass: "text-center" }, [_vm._v("Achivements")]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-4 achivement-block" },
-            _vm._l(_vm.achivements, function(achivement) {
-              return _c("div", { staticClass: "achivement-panel" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          _vm._l(_vm.achivements, function(achivement) {
+            return _c("div", { staticClass: "col-md-4 achivement-block" }, [
+              _c("div", { staticClass: "achivement-panel" }, [
                 _c("div", { staticClass: "avatar" }),
                 _vm._v(" "),
                 _c("h4", [_vm._v(_vm._s(achivement.description))]),
@@ -77053,9 +77356,9 @@ var render = function() {
                   )
                 ])
               ])
-            })
-          )
-        ])
+            ])
+          })
+        )
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
         _vm._v("\n    Please login\n")
@@ -93222,9 +93525,10 @@ var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersP
 var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
 var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
 var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
+var Donate = __webpack_require__("./resources/assets/js/components/DonatePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93567,6 +93871,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6c9adfc6", Component.options)
   } else {
     hotAPI.reload("data-v-6c9adfc6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/DonatePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-be0ebfd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/DonatePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/DonatePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-be0ebfd6", Component.options)
+  } else {
+    hotAPI.reload("data-v-be0ebfd6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -94568,7 +94920,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         currentViewer: {
             diamonds: 0,
             points: 0,
-            level: 0
+            level: 0,
+            name: ''
         },
         currentStreamer: {
             id: 0
@@ -94624,7 +94977,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         achivements: {
             list: [],
             loaded: false
-        }
+        },
+        streamerFullData: {}
     },
     mutations: {
         signUp: function signUp(state) {
@@ -94705,6 +95059,25 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                     state.token = false;
                 } else {
                     state.profileData = jsonResp.data;
+                }
+            });
+        },
+        loadStreamerFullData: function loadStreamerFullData(state, id) {
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('token', state.token);
+            fetch('api/streamers/get', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.streamerFullData = jsonResp.data;
                 }
             });
         },
@@ -94959,6 +95332,23 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         clearMenuEvents: function clearMenuEvents(state) {
             state.sseMenuEvents = [];
+        },
+        pushAchivement: function pushAchivement(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('achivement_name', data.name);
+            var points = data.points ? data.points : 1;
+            formData.append('points', points);
+            fetch('api/achivements/add', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log(jsonResp);
+            });
         }
     },
     actions: {
@@ -95032,6 +95422,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         achivements: function achivements(state) {
             return state.achivements.list;
+        },
+        streamerFullData: function streamerFullData(state) {
+            return state.streamerFullData;
         }
     }
 

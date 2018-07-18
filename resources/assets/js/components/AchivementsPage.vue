@@ -2,8 +2,8 @@
     <div v-if="checkToken" class="cabinet-page" >
         <h1 class="text-center">Achivements</h1>
         <div class="row">
-            <div class="col-md-4 achivement-block">
-                <div v-for="achivement in achivements" class="achivement-panel">
+            <div class="col-md-4 achivement-block" v-for="achivement in achivements" >
+                <div class="achivement-panel">
                     <div class="avatar"></div>
                     <h4>{{achivement.description}}</h4>
                     <h5>unlocked {{achivement.unlocked_at.date.substr(0, 10)}}</h5>

@@ -36,7 +36,9 @@ class ProfileController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $id = $request->id;
         $user = User::find($id);
@@ -48,6 +50,7 @@ class ProfileController extends Controller
         }
         return response()->json([
             'data' => [
+                'streamer_id' => $streamer->id,
                 'avatar'    =>  $user->avatar,
                 'username'  =>  $user->first_name,
                 'nikname'   => $user->name,

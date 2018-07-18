@@ -225,7 +225,9 @@ class CasesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $case = LootCase::find($request->id);
         if (!$case) {
@@ -246,7 +248,9 @@ class CasesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $case = LootCase::find($request->id);
         if (!$case) {
@@ -274,7 +278,9 @@ class CasesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         // $item = $case->items()->where('item_id', $request->item_id)->first();
         $item = ItemCase::find($request->id);
@@ -297,7 +303,9 @@ class CasesManagementController extends Controller
             'rarity_id'     => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $case = LootCase::find($request->case_id);
         if (!$case) {

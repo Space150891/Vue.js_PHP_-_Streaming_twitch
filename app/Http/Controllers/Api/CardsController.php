@@ -83,7 +83,9 @@ class CardsController extends Controller
             'card_id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
@@ -138,7 +140,9 @@ class CardsController extends Controller
             'card_id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
@@ -159,7 +163,9 @@ class CardsController extends Controller
             'card_id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
@@ -184,7 +190,9 @@ class CardsController extends Controller
             'card_id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
@@ -217,7 +225,9 @@ class CardsController extends Controller
             'card_id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();

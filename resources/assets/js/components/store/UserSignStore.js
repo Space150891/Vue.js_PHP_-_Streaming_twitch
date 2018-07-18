@@ -11,6 +11,7 @@ const UserSignStore = new Vuex.Store({
             diamonds: 0,
             points: 0,
             level: 0,
+            name: '',
         },
         currentStreamer: {
             id: 0,
@@ -67,6 +68,7 @@ const UserSignStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        streamerFullData : {},
     },
     mutations: {
         signUp(state) {
@@ -154,6 +156,28 @@ const UserSignStore = new Vuex.Store({
                     state.token = false;
                 } else {
                     state.profileData = jsonResp.data;
+                }
+            });
+        },
+        loadStreamerFullData(state, id) {
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('token', state.token);
+            fetch('api/streamers/get',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.streamerFullData = jsonResp.data;
                 }
             });
         },
@@ -447,7 +471,27 @@ const UserSignStore = new Vuex.Store({
         },
         clearMenuEvents(state) {
             state.sseMenuEvents = [];
-        }
+        },
+        pushAchivement(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('achivement_name', data.name);
+            var points = data.points ? data.points : 1;
+            formData.append('points', points);
+            fetch('api/achivements/add',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                console.log(jsonResp);
+            });
+        },
     },
     actions: {
         getSubscribeData(context) {
@@ -520,6 +564,9 @@ const UserSignStore = new Vuex.Store({
         },
         achivements: state => {
             return state.achivements.list;
+        },
+        streamerFullData: state => {
+            return state.streamerFullData;
         },
     },
 

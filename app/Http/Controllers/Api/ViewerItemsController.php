@@ -128,7 +128,9 @@ class ViewerItemsController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
