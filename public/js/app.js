@@ -2896,7 +2896,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {};
     },
     mounted: function mounted() {
-        this.$store.commit('loadNotifications', this.userId);
+        this.$store.commit('loadNotifications');
     },
 
     methods: {},
@@ -2905,7 +2905,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.checkToken;
         },
         notifications: function notifications() {
-            return this.$store.getters.notifications;
+            return this.$store.getters.notifications.reverse();
         }
     }
 });
@@ -76331,7 +76331,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.userId > 0 || _vm.checkToken
+  return _vm.checkToken
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("h1", { staticClass: "text-center" }, [_vm._v("Notifications")]),
         _vm._v(" "),
@@ -77127,12 +77127,12 @@ var render = function() {
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("h1", { staticClass: "text-center" }, [_vm._v("Achivements")]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-4 achivement-block" },
-            _vm._l(_vm.achivements, function(achivement) {
-              return _c("div", { staticClass: "achivement-panel" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          _vm._l(_vm.achivements, function(achivement) {
+            return _c("div", { staticClass: "col-md-4 achivement-block" }, [
+              _c("div", { staticClass: "achivement-panel" }, [
                 _c("div", { staticClass: "avatar" }),
                 _vm._v(" "),
                 _c("h4", [_vm._v(_vm._s(achivement.description))]),
@@ -77144,9 +77144,9 @@ var render = function() {
                   )
                 ])
               ])
-            })
-          )
-        ])
+            ])
+          })
+        )
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
         _vm._v("\n    Please login\n")

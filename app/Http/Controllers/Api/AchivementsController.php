@@ -65,6 +65,46 @@ class AchivementsController extends Controller
                     $error = 'you already twitch today';
                 }
                 break;
+            case 'Tweet20Achievement':
+                $achivement = $this->getClass($achivementName);
+                if (!$this->alreadyToday($achivementName)) {
+                    $user->addProgress($achivement, 1);
+                } else {
+                    $error = 'you already twitch today';
+                }
+            break;
+                case 'Tweet50Achievement':
+                $achivement = $this->getClass($achivementName);
+                if (!$this->alreadyToday($achivementName)) {
+                    $user->addProgress($achivement, 1);
+                } else {
+                    $error = 'you already twitch today';
+                }
+                break;
+            case 'FB10likeAchievement':
+                $achivement = $this->getClass($achivementName);
+                if (!$this->alreadyToday($achivementName)) {
+                    $user->addProgress($achivement, 1);
+                } else {
+                    $error = 'you already twitch today';
+                }
+                break;
+            case 'FB20likeAchievement':
+                $achivement = $this->getClass($achivementName);
+                if (!$this->alreadyToday($achivementName)) {
+                    $user->addProgress($achivement, 1);
+                } else {
+                    $error = 'you already twitch today';
+                }
+            break;
+                case 'FB50likeAchievement':
+                $achivement = $this->getClass($achivementName);
+                if (!$this->alreadyToday($achivementName)) {
+                    $user->addProgress($achivement, 1);
+                } else {
+                    $error = 'you already twitch today';
+                }
+                break;
             default:
                 $achivement = $this->getClass($achivementName);
                 $user->addProgress($achivement, $points);
