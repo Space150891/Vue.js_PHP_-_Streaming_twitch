@@ -1769,6 +1769,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1791,6 +1796,91 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         profileData: function profileData() {
             return this.$store.getters.profileData;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        userId: {
+            default: false,
+            required: false
+        }
+    },
+    data: function data() {
+        return {
+            sum: 100,
+            donater: ''
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        this.$store.commit('loadStreamerFullData', this.userId);
+        if (this.checkToken) {
+            this.$store.commit('loadCurrentViewer');
+            setTimeout(function () {
+                _this.donater = _this.getDonater;
+            }, 2000);
+        }
+    },
+
+    methods: {
+        dotate: function dotate() {
+            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" + this.streamer.paypal + "&item_name=Donate+to+streamer+" + this.streamer.name + "&amount=" + this.sum;
+            window.location = link;
+        }
+    },
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        streamer: function streamer() {
+            return this.$store.getters.streamerFullData;
+        },
+        getDonater: function getDonater() {
+            if (this.checkToken) {
+                var viewer = this.$store.getters.currentViewer;
+                return viewer.name;
+            }
+            return '';
         }
     }
 });
@@ -75446,6 +75536,16 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
+            _vm.profileData.paypal
+              ? _c(
+                  "a",
+                  {
+                    attrs: { href: "#/donate/" + _vm.profileData.streamer_id }
+                  },
+                  [_vm._v("\n                Donate Page\n            ")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             parseInt(_vm.userId) == 0
               ? _c("div", [
                   _c(
@@ -77111,6 +77211,116 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-97e7e05e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-be0ebfd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.userId > 0 && _vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _c("h1", { staticClass: "text-center" }, [_vm._v("Donate")]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _c("h2", { staticClass: "text-center" }, [
+              _vm._v("\n                    to streamer\n                    "),
+              _c("strong", [_vm._v(_vm._s(_vm.streamer.name))])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _vm._v("\n                donater name\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.donater,
+                  expression: "donater"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.donater },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.donater = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "form-control" }, [
+            _vm._v("\n                sum USD\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sum,
+                  expression: "sum"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number" },
+              domProps: { value: _vm.sum },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.sum = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success form-control",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.dotate()
+                }
+              }
+            },
+            [_vm._v("DONATE")]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.userId && _vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _c("h2", [_vm._v("click button Donate from Stream or Profile page")])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _vm._v("\n        Please login\n    ")
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-be0ebfd6", module.exports)
   }
 }
 
@@ -93313,10 +93523,10 @@ var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersP
 var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
 var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
 var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
-// var Donate = require('./components/DonatePage.vue')
+var Donate = __webpack_require__("./resources/assets/js/components/DonatePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93659,6 +93869,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6c9adfc6", Component.options)
   } else {
     hotAPI.reload("data-v-6c9adfc6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/DonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/DonatePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-be0ebfd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/DonatePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/DonatePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-be0ebfd6", Component.options)
+  } else {
+    hotAPI.reload("data-v-be0ebfd6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -94660,7 +94918,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         currentViewer: {
             diamonds: 0,
             points: 0,
-            level: 0
+            level: 0,
+            name: ''
         },
         currentStreamer: {
             id: 0
@@ -94716,7 +94975,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         achivements: {
             list: [],
             loaded: false
-        }
+        },
+        streamerFullData: {}
     },
     mutations: {
         signUp: function signUp(state) {
@@ -94797,6 +95057,25 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                     state.token = false;
                 } else {
                     state.profileData = jsonResp.data;
+                }
+            });
+        },
+        loadStreamerFullData: function loadStreamerFullData(state, id) {
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('token', state.token);
+            fetch('api/streamers/get', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.streamerFullData = jsonResp.data;
                 }
             });
         },
@@ -95141,6 +95420,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         achivements: function achivements(state) {
             return state.achivements.list;
+        },
+        streamerFullData: function streamerFullData(state) {
+            return state.streamerFullData;
         }
     }
 

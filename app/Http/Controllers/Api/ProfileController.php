@@ -50,6 +50,7 @@ class ProfileController extends Controller
         }
         return response()->json([
             'data' => [
+                'streamer_id' => $streamer->id,
                 'avatar'    =>  $user->avatar,
                 'username'  =>  $user->first_name,
                 'nikname'   => $user->name,

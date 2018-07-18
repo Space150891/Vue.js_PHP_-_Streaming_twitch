@@ -25,6 +25,11 @@
                 v-bind:href="'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=' + profileData.paypal + '&item_name=Donate+to+streamer+' + profileData.nikname">
                     Donate
                 </a>
+                <a
+                    v-if="profileData.paypal"
+                    v-bind:href="'#/donate/' + profileData.streamer_id">
+                    Donate Page
+                </a>
                 <div v-if="parseInt(userId) == 0">
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>

@@ -61,6 +61,7 @@ class ViewersController extends Controller
         $viewer = $user->viewer()->first();
         return response()->json([
             'data' => [
+                'name'      => $viewer->name,
                 'points'    => $viewer->current_points,
                 'diamonds'  => $viewer->diamonds,
                 'level'     => $viewer->getLevel(),
