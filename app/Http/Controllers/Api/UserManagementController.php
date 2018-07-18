@@ -187,7 +187,9 @@ class UserManagementController extends Controller
         }
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $user->name = $request->input('name');

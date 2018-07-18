@@ -447,7 +447,27 @@ const UserSignStore = new Vuex.Store({
         },
         clearMenuEvents(state) {
             state.sseMenuEvents = [];
-        }
+        },
+        pushAchivement(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('achivement_name', data.name);
+            var points = data.points ? data.points : 1;
+            formData.append('points', points);
+            fetch('api/achivements/add',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                console.log(jsonResp);
+            });
+        },
     },
     actions: {
         getSubscribeData(context) {

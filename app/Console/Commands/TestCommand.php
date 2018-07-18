@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Stripe\Stripe;
 use App\Models\{Profile, User, Viewer, Streamer, Game};
@@ -41,7 +42,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $this->emitEvent();
+       $this->emitEvent();
     }
 
     private function emitEvent()
@@ -59,6 +60,5 @@ class TestCommand extends Command
     {
         $class = "\App\Achievements\\" . $name;
         $a = new $class;
-        var_dump($a);
     }
 }

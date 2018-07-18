@@ -52,9 +52,9 @@
                     </ul>
                 </li>
                 <li class="nav-item tagging social">
-                    <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a>
-                    <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/twitter.svg" alt="twitter"></a>
-                    <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/facebook.svg" alt="facebook"></a>
+                    <a class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/google-plus.svg" alt="google-plus" target="_blank"></a>
+                    <a @click="sendTWAchivement()" class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/twitter.svg" alt="twitter" target="_blank"></a>
+                    <a @click="sendFBAchivement()" class="nav-link social-link" href="#"><img class="nav-icon" src="../../../../public/images/facebook.svg" alt="facebook" target="_blank"></a>
                 </li>
             </ul>
         </div>
@@ -133,6 +133,18 @@
                     this.$store.commit('clearMenuEvents');
                     this.messagesVisible = false;
                 }, 2000);
+            },
+            sendFBAchivement() {
+                this.$store.commit('pushAchivement', {name: 'FirstFBlikeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB10likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB20likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB50likeAchievement'});
+            },
+            sendTWAchivement() {
+                this.$store.commit('pushAchivement', {name: 'FirstTweetAchievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet10Achievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet20Achievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet50Achievement'});
             }
         }
     }

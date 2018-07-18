@@ -2041,6 +2041,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.$store.commit('clearMenuEvents');
                 _this.messagesVisible = false;
             }, 2000);
+        },
+        sendFBAchivement: function sendFBAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+        },
+        sendTWAchivement: function sendTWAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
         }
     }
 });
@@ -3195,6 +3207,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {},
@@ -3203,7 +3227,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {},
 
-    methods: {},
+    methods: {
+        sendFBAchivement: function sendFBAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+        },
+        sendTWAchivement: function sendTWAchivement() {
+            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
+        }
+    },
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
@@ -75741,7 +75778,55 @@ var render = function() {
                       : _vm._e()
                   ]),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _c("li", { staticClass: "nav-item tagging social" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link social-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            _vm.sendTWAchivement()
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "nav-icon",
+                          attrs: {
+                            src: __webpack_require__("./public/images/twitter.svg"),
+                            alt: "twitter",
+                            target: "_blank"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link social-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            _vm.sendFBAchivement()
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "nav-icon",
+                          attrs: {
+                            src: __webpack_require__("./public/images/facebook.svg"),
+                            alt: "facebook",
+                            target: "_blank"
+                          }
+                        })
+                      ]
+                    )
+                  ])
                 ])
               : _vm._e()
           ]
@@ -75769,37 +75854,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item tagging social" }, [
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
+    return _c(
+      "a",
+      { staticClass: "nav-link social-link", attrs: { href: "#" } },
+      [
         _c("img", {
           staticClass: "nav-icon",
           attrs: {
             src: __webpack_require__("./public/images/google-plus.svg"),
-            alt: "google-plus"
+            alt: "google-plus",
+            target: "_blank"
           }
         })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/twitter.svg"),
-            alt: "twitter"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "nav-link social-link", attrs: { href: "#" } }, [
-        _c("img", {
-          staticClass: "nav-icon",
-          attrs: {
-            src: __webpack_require__("./public/images/facebook.svg"),
-            alt: "facebook"
-          }
-        })
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -76121,7 +76189,12 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          { attrs: { href: "https://plus.google.com/share?url=" + _vm.url } },
+          {
+            attrs: {
+              href: "https://plus.google.com/share?url=" + _vm.url,
+              target: "_blank"
+            }
+          },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -76137,7 +76210,17 @@ var render = function() {
       _c("li", [
         _c(
           "a",
-          { attrs: { href: "https://twitter.com/share?url=" + _vm.url } },
+          {
+            attrs: {
+              href: "https://twitter.com/share?url=" + _vm.url,
+              target: "_blank"
+            },
+            on: {
+              click: function($event) {
+                _vm.sendTWAchivement()
+              }
+            }
+          },
           [
             _c("img", {
               staticClass: "up-nav-social-icon",
@@ -76154,7 +76237,15 @@ var render = function() {
         _c(
           "a",
           {
-            attrs: { href: "http://www.facebook.com/sharer.php?u=" + _vm.url }
+            attrs: {
+              href: "http://www.facebook.com/sharer.php?u=" + _vm.url,
+              target: "_blank"
+            },
+            on: {
+              click: function($event) {
+                _vm.sendFBAchivement()
+              }
+            }
           },
           [
             _c("img", {
@@ -76627,7 +76718,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "video-part" }, [
             _c("iframe", {
               attrs: {
-                src: "https://player.twitch.tv/?channel=ubah",
+                src: "https://player.twitch.tv/?channel=twitchpresents",
                 width: "100%",
                 height: "100%",
                 frameborder: "0",
@@ -76644,7 +76735,7 @@ var staticRenderFns = [
               attrs: {
                 frameborder: "1",
                 scrolling: "true",
-                src: "https://www.twitch.tv/embed/ubah/chat",
+                src: "https://www.twitch.tv/embed/twitchpresents/chat",
                 height: "100%",
                 width: "100%"
               }
@@ -93222,6 +93313,7 @@ var MyViewers = __webpack_require__("./resources/assets/js/components/MyViewersP
 var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePage.vue");
 var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
 var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
+// var Donate = require('./components/DonatePage.vue')
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }]
@@ -94959,6 +95051,23 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         clearMenuEvents: function clearMenuEvents(state) {
             state.sseMenuEvents = [];
+        },
+        pushAchivement: function pushAchivement(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('achivement_name', data.name);
+            var points = data.points ? data.points : 1;
+            formData.append('points', points);
+            fetch('api/achivements/add', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log(jsonResp);
+            });
         }
     },
     actions: {

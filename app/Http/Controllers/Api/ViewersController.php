@@ -37,7 +37,9 @@ class ViewersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $id = $request->id;
         $viewer = Viewer::find($id);

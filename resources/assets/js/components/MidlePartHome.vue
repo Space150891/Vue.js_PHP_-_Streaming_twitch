@@ -16,7 +16,7 @@
                     <div class="col-sm-12 col-lg-8">
                         <div class="video-part">
                             <iframe
-                                src="https://player.twitch.tv/?channel=ubah"
+                                src="https://player.twitch.tv/?channel=twitchpresents"
                                 width=100%
                                 height="100%"
                                 frameborder="0"
@@ -29,7 +29,7 @@
                         <div class="chat-part">
                             <iframe frameborder="1"
                                 scrolling="true"
-                                src="https://www.twitch.tv/embed/ubah/chat"
+                                src="https://www.twitch.tv/embed/twitchpresents/chat"
                                 height="100%"
                                 width="100%">
                             </iframe>

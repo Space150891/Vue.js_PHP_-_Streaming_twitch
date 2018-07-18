@@ -8,9 +8,21 @@
         <li class="up-nav-active"><a href="#" >BUTTON</a></li>
     </ul>
     <ul class="up-nav-social">
-        <li><a v-bind:href="'https://plus.google.com/share?url=' + url"><img class="up-nav-social-icon" src="../../../../public/images/google-plus.svg" alt="google-plus"></a></li>
-        <li><a v-bind:href="'https://twitter.com/share?url=' + url"><img class="up-nav-social-icon" src="../../../../public/images/twitter.svg" alt="twitter"></a></li>
-        <li><a v-bind:href="'http://www.facebook.com/sharer.php?u=' + url"><img class="up-nav-social-icon" src="../../../../public/images/facebook.svg" alt="facebook"></a></li>
+        <li>
+            <a v-bind:href="'https://plus.google.com/share?url=' + url"  target="_blank">
+                <img class="up-nav-social-icon" src="../../../../public/images/google-plus.svg" alt="google-plus">
+            </a>
+        </li>
+        <li>
+            <a @click="sendTWAchivement()" v-bind:href="'https://twitter.com/share?url=' + url"  target="_blank">
+                <img class="up-nav-social-icon" src="../../../../public/images/twitter.svg" alt="twitter">
+            </a>
+        </li>
+        <li>
+            <a @click="sendFBAchivement()" v-bind:href="'http://www.facebook.com/sharer.php?u=' + url"  target="_blank">
+                <img class="up-nav-social-icon" src="../../../../public/images/facebook.svg" alt="facebook">
+            </a>
+        </li>
     </ul>
 </div>
 </template>
@@ -116,7 +128,18 @@
             
         },
         methods: {
-           
+           sendFBAchivement() {
+                this.$store.commit('pushAchivement', {name: 'FirstFBlikeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB10likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB20likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'FB50likeAchievement'});
+            },
+            sendTWAchivement() {
+                this.$store.commit('pushAchivement', {name: 'FirstTweetAchievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet10Achievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet20Achievement'});
+                this.$store.commit('pushAchivement', {name: 'Tweet50Achievement'});
+            }
         },
         computed: {
             checkToken: function () {

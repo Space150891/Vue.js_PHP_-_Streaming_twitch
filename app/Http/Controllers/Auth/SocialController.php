@@ -220,10 +220,13 @@ class SocialController extends Controller
         $streamer->game = isset($body['stream']['channel']['game']) ? strtolower($body['stream']['channel']['game']) : null;
         $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
-        $user->addProgress(new Login10daysAchievement(), 1);
-        $user->addProgress(new Login20daysAchievement(), 1);
+        if (!$this->alreadyToday('Login10daysAchievement')) {
+            $user->addProgress(new Login10daysAchievement(), 1);
+        }
+        if (!$this->alreadyToday('Login20daysAchievement')) {
+            $user->addProgress(new Login20daysAchievement(), 1);
+        }
         $token = auth()->login($user);
-
         $data = [
             'access_token'  => $token,
             'token_type' => 'bearer',
@@ -249,5 +252,31 @@ class SocialController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
         return view('pages.getjwt', $data);
+    }
+
+    private function alreadyToday($achivementName)
+    {
+        if ($this->isFirst($achivementName)) {
+            return false;
+        }
+        $user = auth()->user();
+        $class = $this->getClass($achivementName);
+        $updated   = $user->achievements($class)->first()->updated_at->toDateString();
+        $now = new Carbon;
+        $today = $now->toDateString();
+        return ($today === $updated);
+    }
+
+    private function getClass($achivementName)
+    {
+        $class = "\App\Achievements\\" . $achivementName;
+        return new $class;
+    }
+
+    private function isFirst($achivementName)
+    {
+        $class = "App\Achievements\\" . $achivementName;
+        $count = \DB::table('achievement_details')->where('class_name', $class)->count();
+        return ($count === 0);
     }
 }

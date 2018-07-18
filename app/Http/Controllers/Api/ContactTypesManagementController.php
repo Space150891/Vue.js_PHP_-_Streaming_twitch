@@ -108,7 +108,9 @@ class ContactTypesManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $contactType = ContactType::find($request->id);
@@ -140,7 +142,9 @@ class ContactTypesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $contactType = ContactType::find($request->id);
 

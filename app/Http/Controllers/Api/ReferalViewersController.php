@@ -59,7 +59,9 @@ class ReferalViewersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $viewer = Viewer::find($request->id);
         if (!$viewer) {
@@ -92,7 +94,9 @@ class ReferalViewersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $viewer = Viewer::find($request->id);
         if (!$viewer) {

@@ -27,6 +27,7 @@ var MyViewers = require('./components/MyViewersPage.vue');
 var Afiliate = require('./components/AfiliatePage.vue');
 var Notifications = require('./components/NotificationsPage.vue');
 var Achivements = require('./components/AchivementsPage.vue')
+// var Donate = require('./components/DonatePage.vue')
 
 var router = new VueRouter({
     routes: [
@@ -42,6 +43,7 @@ var router = new VueRouter({
         { path: '/afiliate', component: Afiliate},
         { path: '/notifications', component: Notifications},
         { path: '/achivements', component: Achivements},
+        // { path: '/donate/:userId', component: Donate,  props: true },
     ]
 });
 Vue.use(VueRouter);

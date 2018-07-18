@@ -59,7 +59,9 @@ class ReferalStreamersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $streamer = Streamer::find($request->id);
         if (!$streamer) {
@@ -92,7 +94,9 @@ class ReferalStreamersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $viewer = Streamer::find($request->id);
         if (!$viewer) {

@@ -121,7 +121,9 @@ class CaseTypesManagementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
 
         $caseType = CaseType::find($request->id);
@@ -164,7 +166,9 @@ class CaseTypesManagementController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $caseType = CaseType::find($request->id);
         if (!$caseType) {

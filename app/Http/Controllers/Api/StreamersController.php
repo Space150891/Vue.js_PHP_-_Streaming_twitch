@@ -37,7 +37,9 @@ class StreamersController extends Controller
             'id'       => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $id = $request->id;
         $streamer = Streamer::find($id);
@@ -86,7 +88,9 @@ class StreamersController extends Controller
             'game_name'       => 'required|min:1',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         $streamers = Streamer::where('game', strtolower($request->game_name))->get();
         return response()->json([

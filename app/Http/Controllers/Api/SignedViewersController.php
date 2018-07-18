@@ -134,7 +134,9 @@ class SignedViewersController extends Controller
             'id'       => 'required',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
         }
         \Log::info('delete id=' . $request->id);
         $user = auth()->user();
