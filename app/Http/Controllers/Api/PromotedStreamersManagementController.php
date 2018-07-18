@@ -89,8 +89,8 @@ class PromotedStreamersManagementController extends Controller
         for ($i = 0; $i < count($promoted); $i++) {
             $streamer = $promoted[$i]->streamer()->first();
             $user= $streamer->user()->first();
-            // $promoted[$i]->avatar = $user->avatar;
-            $promoted[$i]->avatar = $streamer->avatar;
+            $promoted[$i]->avatar = $user->avatar;
+            // $promoted[$i]->avatar = $streamer->avatar;
             $promoted[$i]->user_id = $user->id;
             $promoted[$i]->name = $streamer->name;
             $promoted[$i]->nikname = $user->first_name;
