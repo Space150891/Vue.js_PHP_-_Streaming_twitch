@@ -261,7 +261,11 @@ class SocialController extends Controller
         }
         $user = auth()->user();
         $class = $this->getClass($achivementName);
-        $updated   = $user->achievements($class)->first()->updated_at->toDateString();
+        $achivement = $user->achievements($class)->first();
+        if  (!$achivement) {
+            return false;
+        }
+        $updated   = $achivement->updated_at->toDateString();
         $now = new Carbon;
         $today = $now->toDateString();
         return ($today === $updated);

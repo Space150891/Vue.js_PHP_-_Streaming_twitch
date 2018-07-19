@@ -176,7 +176,8 @@ class PayPalController extends Controller
                 'qty'   => 1,
             ],
         ];
-        $data['return_url'] = 'http://localhost:8081/paypal/success';
+        // $data['return_url'] = 'http://localhost:8081/paypal/success';
+        $data['return_url'] =config('paypal.redirect_url');
         $data['invoice_id'] = $form['id'];
         $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
         $data['cancel_url'] = url('/');
