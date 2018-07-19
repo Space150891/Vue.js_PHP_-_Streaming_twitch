@@ -42,7 +42,11 @@ class TestCommand extends Command
      */
     public function handle()
     {
-       $this->emitEvent();
+    //    $this->emitEvent();
+        $streamers = Streamer::all();
+        foreach ($streamers as $streamer) {
+            echo $streamer->name ."\n";
+        }
     }
 
     private function emitEvent()

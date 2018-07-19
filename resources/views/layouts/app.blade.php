@@ -38,7 +38,8 @@
                     window.access_token = "{{($access_token)}}";
                 @endif
                 localStorage.setItem('userToken', window.access_token);
-                window.location.replace("http://localhost:8081/");
+                // window.location.replace("http://localhost:8081/");
+                window.location.replace("<?php echo env('APP_URL'); ?>");
             }
 
         </script>
