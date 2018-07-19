@@ -1,4 +1,4 @@
 {
-    "baseUrl" : "http://localhost:8081",
+    "baseUrl" : "http://199.188.203.163:8081",
     "timeOut" : 3000
 }

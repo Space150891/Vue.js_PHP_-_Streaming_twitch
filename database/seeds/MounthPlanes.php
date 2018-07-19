@@ -11,10 +11,10 @@ class MounthPlanes extends Seeder
      */
     public function run()
     {
-        \DB::table('mounth_plans')->delete();
+        \DB::table('month_plans')->delete();
         $now = date('Y-m-d H:i:s', time());
         // 2018-07-10 14:38:38
-        \DB::table('mounth_plans')->insert([
+        \DB::table('month_plans')->insert([
             ['monthes' => 1,   'percent' =>  0, 'created_at' => $now, 'updated_at' => $now],
             ['monthes' => 3,   'percent' =>  10, 'created_at' => $now, 'updated_at' => $now],
             ['monthes' => 6,   'percent' =>  20, 'created_at' => $now, 'updated_at' => $now],
