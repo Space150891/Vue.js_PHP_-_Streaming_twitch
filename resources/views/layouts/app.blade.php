@@ -35,11 +35,12 @@
             var pageUrl = window.location.pathname;
             if(pageUrl == "/twitch/callback") {
                 @if (isset($access_token))
+                    <?php \Log::info('in view '. $access_token); ?>
                     window.access_token = "{{($access_token)}}";
                 @endif
                 localStorage.setItem('userToken', window.access_token);
                 // window.location.replace("http://localhost:8081/");
-                window.location.replace("<?php echo env('APP_URL'); ?>");
+                window.location = '/';
             }
 
         </script>

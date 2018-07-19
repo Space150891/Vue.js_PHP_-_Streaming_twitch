@@ -155,9 +155,6 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
-        if (!$request->has('state') || $request->state !== $request->session()->get('twitch_state')) {
-            exit("wrong request!");
-        }
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -220,10 +217,10 @@ class SocialController extends Controller
         $streamer->game = isset($body['stream']['channel']['game']) ? strtolower($body['stream']['channel']['game']) : null;
         $streamer->save();
         $user->addProgress(new FirstLoginAchievement(), 1);
-        if (!$this->alreadyToday('Login10daysAchievement')) {
+        if (!$this->alreadyToday('Login10daysAchievement', $user)) {
             $user->addProgress(new Login10daysAchievement(), 1);
         }
-        if (!$this->alreadyToday('Login20daysAchievement')) {
+        if (!$this->alreadyToday('Login20daysAchievement', $user)) {
             $user->addProgress(new Login20daysAchievement(), 1);
         }
         $token = auth()->login($user);
@@ -232,6 +229,7 @@ class SocialController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
+        \Log::info('token='.$token);
         return view('layouts.app', $data);
     }
 
@@ -254,12 +252,11 @@ class SocialController extends Controller
         return view('pages.getjwt', $data);
     }
 
-    private function alreadyToday($achivementName)
+    private function alreadyToday($achivementName, $user)
     {
         if ($this->isFirst($achivementName)) {
             return false;
         }
-        $user = auth()->user();
         $class = $this->getClass($achivementName);
         $achivement = $user->achievements($class)->first();
         if  (!$achivement) {
