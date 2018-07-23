@@ -92,6 +92,7 @@ class PromotedStreamersManagementController extends Controller
             $promoted[$i]->avatar = $user->avatar;
             $promoted[$i]->user_id = $user->id;
             $promoted[$i]->name = $streamer->name;
+            $promoted[$i]->game = $streamer->game;
             $promoted[$i]->nikname = $user->first_name;
             $promoted[$i]->streamer_id = $streamer->id;
             $promoted[$i]->twitch_id = $streamer->twitch_id;

@@ -2,6 +2,7 @@
 <div class="leftPart-main">
     <div class="scroll-item btn-up" @click.prevent="scrollUp()"><span class="leftPart-scroll"> > </span></div>
     <div class="leftPart">
+        <h2>Promoted Streamers</h2>
         <a v-for="(item) in promotedStreamers" v-bind:href="'#/profile/' + item.user_id">
             <div  class="leftPart-item" >
                 <div class="leftPart-img">
@@ -9,7 +10,7 @@
                 </div>
                 <div class="leftPart-mainText">
                     <h2>{{ item.name }}</h2>
-                    <p>{{ item.nikname }}</p>
+                    <p>{{ item.game }}</p>
                 </div>
                 <div class="leftPart-rightText">
                     <p>{{ item.bio }}</p>
@@ -34,7 +35,6 @@
             scrollUp() {
                 const elemLeftPart = document.getElementsByClassName('leftPart')[0];
                 const elemLeftPartH = elemLeftPart.offsetHeight;
-                console.log(elemLeftPartH);
                 const elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
                 let sum = -this.num;
                 if(sum<elemLeftPartH){
@@ -59,6 +59,7 @@
 		},
         computed: {
             promotedStreamers: function () {
+            console.log(this.$store.getters.promotedStreamers);
               return this.$store.getters.promotedStreamers;
             },
         },

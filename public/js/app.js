@@ -1949,6 +1949,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1961,7 +1962,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         scrollUp: function scrollUp() {
             var elemLeftPart = document.getElementsByClassName('leftPart')[0];
             var elemLeftPartH = elemLeftPart.offsetHeight;
-            console.log(elemLeftPartH);
             var elemItemH = document.getElementsByClassName('leftPart-item')[0].offsetHeight;
             var sum = -this.num;
             if (sum < elemLeftPartH) {
@@ -1987,6 +1987,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         promotedStreamers: function promotedStreamers() {
+            console.log(this.$store.getters.promotedStreamers);
             return this.$store.getters.promotedStreamers;
         }
     }
@@ -77082,25 +77083,30 @@ var render = function() {
     _c(
       "div",
       { staticClass: "leftPart" },
-      _vm._l(_vm.promotedStreamers, function(item) {
-        return _c("a", { attrs: { href: "#/profile/" + item.user_id } }, [
-          _c("div", { staticClass: "leftPart-item" }, [
-            _c("div", { staticClass: "leftPart-img" }, [
-              _c("img", { attrs: { src: item.avatar, alt: item.name } })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "leftPart-mainText" }, [
-              _c("h2", [_vm._v(_vm._s(item.name))]),
+      [
+        _c("h2", [_vm._v("Promoted Streamers")]),
+        _vm._v(" "),
+        _vm._l(_vm.promotedStreamers, function(item) {
+          return _c("a", { attrs: { href: "#/profile/" + item.user_id } }, [
+            _c("div", { staticClass: "leftPart-item" }, [
+              _c("div", { staticClass: "leftPart-img" }, [
+                _c("img", { attrs: { src: item.avatar, alt: item.name } })
+              ]),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(item.nikname))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "leftPart-rightText" }, [
-              _c("p", [_vm._v(_vm._s(item.bio))])
+              _c("div", { staticClass: "leftPart-mainText" }, [
+                _c("h2", [_vm._v(_vm._s(item.name))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(item.game))])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "leftPart-rightText" }, [
+                _c("p", [_vm._v(_vm._s(item.bio))])
+              ])
             ])
           ])
-        ])
-      })
+        })
+      ],
+      2
     ),
     _vm._v(" "),
     _c(
