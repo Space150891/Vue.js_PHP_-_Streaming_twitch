@@ -94903,7 +94903,7 @@ module.exports = Component.exports
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
-module.exports = {"baseUrl":"http://199.188.203.163","timeOut":3000}
+module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50}
 
 /***/ }),
 

@@ -10,6 +10,7 @@ var RaritiesPage = require('./components/admin/RaritiesPage.vue');
 var CaseTypesPage = require('./components/admin/CaseTypesPage.vue');
 var CasesPage = require('./components/admin/CasesPage.vue');
 var LogoutPage = require('./components/admin/LogoutPage.vue');
+var StreamersPage = require('./components/admin/StreamersPage.vue');
 var PromotedPage = require('./components/admin/PromotedPage.vue');
 
 var router = new VueRouter({
@@ -22,6 +23,7 @@ var router = new VueRouter({
         { path: '/case-types', component: CaseTypesPage },
         { path: '/cases', component: CasesPage },
         { path: '/logout', component: LogoutPage },
+        { path: '/streamers', component: StreamersPage },
         { path: '/promoted', component: PromotedPage }
     ]
 });
@@ -33,6 +35,7 @@ Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('upload-image', require('./components/admin/UploadImage.vue'));
 Vue.component('case-items', require('./components/admin/CasesItemsList.vue'));
 Vue.component('sse', require('./components/admin/Sse.vue'));
+Vue.component('pagination', require('./components/admin/pagination.vue'));
 
 const app = new Vue({
     el: '#admin-app',

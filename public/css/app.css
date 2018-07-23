@@ -16078,6 +16078,10 @@ div[data-toggle="buttons"] label.active {
   padding: 15px;
 }
 
+.directory-streamers {
+  min-width: 330px;
+}
+
 .v-loading {
   width: 100%;
   height: 300px;

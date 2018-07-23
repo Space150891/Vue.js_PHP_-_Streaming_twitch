@@ -39,6 +39,7 @@ const AdminStore = new Vuex.Store({
             list: [],
             loaded: false,
             saved : true,
+            pages: 1,
         },
         promotedStreamers: {
             list: [],
@@ -644,6 +645,32 @@ const AdminStore = new Vuex.Store({
                 state.streamers.loaded = true;
             });
         },
+        getPaggStreamersList(state, data) {
+            var formData = new FormData();
+            state.streamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('page', data.page);
+            formData.append('on_page', data.onPage);
+            fetch(state.apiUrl + 'streamers/list/pagg',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                console.log(jsonResp.data);
+                state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
+                state.streamers.pages = jsonResp.data ? jsonResp.data.pages : 1;
+                state.streamers.loaded = true;
+            });
+        },
         getPromotedList(state) {
             var formData = new FormData();
             state.promotedStreamers.loaded = false;
@@ -809,6 +836,9 @@ const AdminStore = new Vuex.Store({
             context.commit('clearCaseItems');
         },
         // promoted streamers
+        getStreamersListAction(context) {
+            context.commit('getStreamersList');
+        },
         getPromotedListAction(context) {
             context.commit('getPromotedList');
             context.commit('getStreamersList');
@@ -877,6 +907,12 @@ const AdminStore = new Vuex.Store({
         },
         streamers: state => {
             return state.streamers.list;
+        },
+        streamersPages: state => {
+            return state.streamers.pages;
+        },
+        streamersLoaded: state => {
+            return state.streamers.loaded;
         },
         promotedStreamers: state => {
             return state.promotedStreamers.list;

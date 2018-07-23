@@ -10,7 +10,6 @@
       <main>
         <router-view></router-view>
       </main>
-      <sse></sse>
     </div>
   </body>
   <script src="{{ mix('/js/admin-app.js') }}"></script>

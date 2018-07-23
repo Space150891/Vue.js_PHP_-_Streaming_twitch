@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Streamer;
-use App\Models\User;
+use App\Models\{Streamer, User, PromoutedStreamer};
 
 class StreamersController extends Controller
 {
@@ -67,6 +66,33 @@ class StreamersController extends Controller
         return response()->json([
             'data' => [
                 'streamers' => $streamers,
+            ],
+        ]);
+    }
+
+    public function pagination(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'       => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $total = Streamer::count();
+        $pages = ceil($total / $request->on_page);
+        // $streamers = Streamer::skip(($request->page - 1) * $request->on_page)->take($request->on_page)->get();
+        $streamers = Streamer::select('streamers.id', 'streamers.name', 'streamers.game', 'streamers.twitch_id', 'promouted_streamers.streamer_id', 'promouted_streamers.id as promoted_id')
+                            ->leftJoin('promouted_streamers', 'promouted_streamers.streamer_id', '=', 'streamers.id')
+                            ->orderBy('streamers.id')
+                            ->skip(($request->page - 1) * $request->on_page)
+                            ->take($request->on_page)->get();
+        return response()->json([
+            'data' => [
+                'streamers' => $streamers,
+                'pages'     => $pages,
             ],
         ]);
     }
