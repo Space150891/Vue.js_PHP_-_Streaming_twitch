@@ -8,14 +8,16 @@
 				<tr>
 					<th>id</th>
 					<th>Name</th>
-                    <th>Stream id</th>
+					<th>Game</th>
+          <th>Stream id</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="item in promotedStreamers">
 					<td>{{item.streamer_id}}</td>
-                    <td>{{item.name}}</td>
+          <td>{{item.name}}</td>
+					<td>{{item.game}}</td>
 					<td>{{item.twitch_id}}</td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>

@@ -22,6 +22,9 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
           </li>
           <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers</a>
+          </li>
+          <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promoted Streamers</a>
           </li>
           <li class="nav-item">
