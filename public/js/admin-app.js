@@ -2872,6 +2872,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2909,6 +2915,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		},
 		getList: function getList() {
 			this.$store.dispatch('getPromotedListAction');
+		},
+		setUp: function setUp(id) {
+			this.$store.dispatch('upPromotedAction', id);
+		},
+		setDown: function setDown(id) {
+			this.$store.dispatch('downPromotedAction', id);
 		}
 	},
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'streamers', 'promotedStreamers', 'promotedLoaded']))
@@ -44176,7 +44188,7 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.promotedStreamers, function(item) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(item.streamer_id))]),
+                      _c("td", [_vm._v(_vm._s(item.position))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
                       _vm._v(" "),
@@ -44197,6 +44209,34 @@ var render = function() {
                             }
                           },
                           [_vm._v("del")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.setUp(item.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-arrow-up" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.setDown(item.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-arrow-down" })]
                         )
                       ])
                     ])
@@ -44299,7 +44339,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("id")]),
+        _c("th", [_vm._v("Position")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
@@ -61852,6 +61892,42 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                     state.token = false;
                 }
             });
+        },
+        upPromoted: function upPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/up', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        downPromoted: function downPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/down', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
         }
     },
     actions: {
@@ -61977,6 +62053,18 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         deletePromotedAction: function deletePromotedAction(context, id) {
             context.commit('deletePromoted', id);
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+        upPromotedAction: function upPromotedAction(context, id) {
+            context.commit('upPromoted', id);
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+        downPromotedAction: function downPromotedAction(context, id) {
+            context.commit('downPromoted', id);
             setTimeout(function () {
                 context.commit('getPromotedList');
             }, config.timeOut);

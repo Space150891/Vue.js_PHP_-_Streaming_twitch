@@ -6,7 +6,7 @@
 		<table class="table table-striped">
 		  <thead>
 				<tr>
-					<th>id</th>
+					<th>Position</th>
 					<th>Name</th>
 					<th>Game</th>
           <th>Stream id</th>
@@ -15,12 +15,18 @@
 			</thead>
 			<tbody>
 				<tr v-for="item in promotedStreamers">
-					<td>{{item.streamer_id}}</td>
+					<td>{{item.position}}</td>
           <td>{{item.name}}</td>
 					<td>{{item.game}}</td>
 					<td>{{item.twitch_id}}</td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
+						<button @click.prevent="setUp(item.id)" class="btn btn-info">
+							<i class="fa fa-arrow-up"></i>
+						</button>
+						<button @click.prevent="setDown(item.id)" class="btn btn-info">
+							<i class="fa fa-arrow-down"></i>
+						</button>
 					</td>
 				</tr>
 			</tbody>
@@ -82,6 +88,12 @@
 			},
 			getList: function () {
 				this.$store.dispatch('getPromotedListAction');
+			},
+			setUp: function (id) {
+				this.$store.dispatch('upPromotedAction', id);
+			},
+			setDown: function (id) {
+				this.$store.dispatch('downPromotedAction', id);
 			},
     },
     computed: {

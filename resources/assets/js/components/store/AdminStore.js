@@ -733,6 +733,46 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
+        upPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/up',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        downPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/down',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            }).then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -851,6 +891,18 @@ const AdminStore = new Vuex.Store({
         },
         deletePromotedAction(context, id) {
             context.commit('deletePromoted', id);
+            setTimeout(() => {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+        upPromotedAction(context, id) {
+            context.commit('upPromoted', id);
+            setTimeout(() => {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+        downPromotedAction(context, id) {
+            context.commit('downPromoted', id);
             setTimeout(() => {
                 context.commit('getPromotedList');
             }, config.timeOut);

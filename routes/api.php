@@ -42,6 +42,8 @@ Route::group([
     Route::post('streamers/list', 'Api\StreamersController@list');
     Route::post('streamers/list/pagg', 'Api\StreamersController@pagination');
     Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
+    Route::post('streamers/promoted/up', 'Api\PromotedStreamersManagementController@up');
+    Route::post('streamers/promoted/down', 'Api\PromotedStreamersManagementController@down');
     Route::post('streamers/current', 'Api\StreamersController@current');
     Route::post('streamers/bygamename', 'Api\StreamersController@getListByGame');
 
