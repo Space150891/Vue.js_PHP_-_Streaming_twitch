@@ -52,8 +52,10 @@ class PromotedStreamersManagementController extends Controller
                 'errors' => ['this streamer already promoted'],
             ]);
         }
+        $maxPosition = PromoutedStreamer::max('position');
         $promotedStreamer = new  PromoutedStreamer();
         $promotedStreamer->streamer_id = $request->id;
+        $promotedStreamer->position = $maxPosition + 1;
         $promotedStreamer->save();
         return response()->json([
             'message' => ['successful added streamer to promoted streamers'],
@@ -77,7 +79,16 @@ class PromotedStreamersManagementController extends Controller
                 'errors' => ['this streamer not promoted' . $request->id],
             ]);
         }
+        $deletingPosition = $promotedStreamer->position;
         $promotedStreamer->delete();
+        $maxPosition = PromoutedStreamer::max('position');
+        if ($deletingPosition < $maxPosition) {
+            $downStreamers = PromoutedStreamer::where('position', '>', $deletingPosition)->get();
+            for ($i = 0; $i < count($downStreamers); $i++) {
+                $downStreamers[$i]->position = $downStreamers[$i]->position - 1;
+                $downStreamers[$i]->save();
+            }
+        }
         return response()->json([
             'message' => ['successful deleted streamer from promoted streamers'],
         ]);
@@ -85,7 +96,7 @@ class PromotedStreamersManagementController extends Controller
 
     public function list(Request $request)
     {
-        $promoted = PromoutedStreamer::all();
+        $promoted = PromoutedStreamer::orderBy('position', 'asc')->get();
         for ($i = 0; $i < count($promoted); $i++) {
             $streamer = $promoted[$i]->streamer()->first();
             $user= $streamer->user()->first();
@@ -101,6 +112,64 @@ class PromotedStreamersManagementController extends Controller
             'data' => [
                 'promoted' => $promoted,
             ],
+        ]);
+    }
+
+    public function up(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+        [
+            'id'   => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $promotedStreamer = PromoutedStreamer::find($request->id);
+        if (!$promotedStreamer) {
+            return response()->json([
+                'errors' => ['this streamer not promoted' . $request->id],
+            ]);
+        }
+        $switchStreamer = PromoutedStreamer::where('position', $promotedStreamer->position - 1)->first();
+        if ($switchStreamer) {
+            $promotedStreamer->position = $promotedStreamer->position - 1;
+            $switchStreamer->position = $switchStreamer->position + 1;
+            $promotedStreamer->save();
+            $switchStreamer->save();
+        }
+        return response()->json([
+            'message' => ['successful up streamer in promoted streamers list'],
+        ]);
+    }
+
+    public function down(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+        [
+            'id'   => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $promotedStreamer = PromoutedStreamer::find($request->id);
+        if (!$promotedStreamer) {
+            return response()->json([
+                'errors' => ['this streamer not promoted' . $request->id],
+            ]);
+        }
+        $switchStreamer = PromoutedStreamer::where('position', $promotedStreamer->position + 1)->first();
+        if ($switchStreamer) {
+            $promotedStreamer->position = $promotedStreamer->position + 1;
+            $switchStreamer->position = $switchStreamer->position - 1;
+            $promotedStreamer->save();
+            $switchStreamer->save();
+        }
+        return response()->json([
+            'message' => ['successful up streamer in promoted streamers list'],
         ]);
     }
  

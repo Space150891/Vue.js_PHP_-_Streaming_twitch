@@ -42,6 +42,8 @@ Route::group([
     Route::post('streamers/list', 'Api\StreamersController@list');
     Route::post('streamers/list/pagg', 'Api\StreamersController@pagination');
     Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
+    Route::post('streamers/promoted/up', 'Api\PromotedStreamersManagementController@up');
+    Route::post('streamers/promoted/down', 'Api\PromotedStreamersManagementController@down');
     Route::post('streamers/current', 'Api\StreamersController@current');
     Route::post('streamers/bygamename', 'Api\StreamersController@getListByGame');
 
@@ -153,6 +155,12 @@ Route::group([
     
     Route::post('streamers/promoted/add', 'Api\PromotedStreamersManagementController@store');
     Route::post('streamers/promoted/delete', 'Api\PromotedStreamersManagementController@delete');
+
+    Route::post('streamers/main/store', 'Api\MainStreamersManagementController@store');
+    Route::post('streamers/main/list', 'Api\MainStreamersManagementController@list');
+    Route::post('streamers/main/delete', 'Api\MainStreamersManagementController@delete');
+    Route::post('streamers/main/update', 'Api\MainStreamersManagementController@update');
+    Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
 });
 
 // bot routes

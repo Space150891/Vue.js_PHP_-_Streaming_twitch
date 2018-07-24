@@ -1633,11 +1633,405 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _keys = __webpack_require__("./node_modules/babel-runtime/core-js/object/keys.js");
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _stringify = __webpack_require__("./node_modules/babel-runtime/core-js/json/stringify.js");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CONFIG = {
+  HOUR_TOKENS: ['HH', 'H', 'hh', 'h', 'kk', 'k'],
+  MINUTE_TOKENS: ['mm', 'm'],
+  SECOND_TOKENS: ['ss', 's'],
+  APM_TOKENS: ['A', 'a']
+};
+
+exports.default = {
+  name: 'VueTimepicker',
+
+  props: {
+    value: { type: Object },
+    hideClearButton: { type: Boolean },
+    format: { type: String },
+    minuteInterval: { type: Number },
+    secondInterval: { type: Number },
+    id: { type: String }
+  },
+
+  data: function data() {
+    return {
+      hours: [],
+      minutes: [],
+      seconds: [],
+      apms: [],
+      showDropdown: false,
+      muteWatch: false,
+      hourType: 'HH',
+      minuteType: 'mm',
+      secondType: '',
+      apmType: '',
+      hour: '',
+      minute: '',
+      second: '',
+      apm: '',
+      fullValues: undefined
+    };
+  },
+
+
+  computed: {
+    displayTime: function displayTime() {
+      var formatString = String(this.format || 'HH:mm');
+      if (this.hour) {
+        formatString = formatString.replace(new RegExp(this.hourType, 'g'), this.hour);
+      }
+      if (this.minute) {
+        formatString = formatString.replace(new RegExp(this.minuteType, 'g'), this.minute);
+      }
+      if (this.second && this.secondType) {
+        formatString = formatString.replace(new RegExp(this.secondType, 'g'), this.second);
+      }
+      if (this.apm && this.apmType) {
+        formatString = formatString.replace(new RegExp(this.apmType, 'g'), this.apm);
+      }
+      return formatString;
+    },
+    showClearBtn: function showClearBtn() {
+      if (this.hour && this.hour !== '' || this.minute && this.minute !== '') {
+        return true;
+      }
+      return false;
+    }
+  },
+
+  watch: {
+    'format': 'renderFormat',
+    minuteInterval: function minuteInterval(newInteval) {
+      this.renderList('minute', newInteval);
+    },
+    secondInterval: function secondInterval(newInteval) {
+      this.renderList('second', newInteval);
+    },
+
+    'value': 'readValues',
+    'displayTime': 'fillValues'
+  },
+
+  methods: {
+    formatValue: function formatValue(type, i) {
+      switch (type) {
+        case 'H':
+        case 'm':
+        case 's':
+          return String(i);
+        case 'HH':
+        case 'mm':
+        case 'ss':
+          return i < 10 ? '0' + i : String(i);
+        case 'h':
+        case 'k':
+          return String(i + 1);
+        case 'hh':
+        case 'kk':
+          return i + 1 < 10 ? '0' + (i + 1) : String(i + 1);
+        default:
+          return '';
+      }
+    },
+    checkAcceptingType: function checkAcceptingType(validValues, formatString, fallbackValue) {
+      if (!validValues || !formatString || !formatString.length) {
+        return '';
+      }
+      for (var i = 0; i < validValues.length; i++) {
+        if (formatString.indexOf(validValues[i]) > -1) {
+          return validValues[i];
+        }
+      }
+      return fallbackValue || '';
+    },
+    renderFormat: function renderFormat(newFormat) {
+      newFormat = newFormat || this.format;
+      if (!newFormat || !newFormat.length) {
+        newFormat = 'HH:mm';
+      }
+
+      this.hourType = this.checkAcceptingType(CONFIG.HOUR_TOKENS, newFormat, 'HH');
+      this.minuteType = this.checkAcceptingType(CONFIG.MINUTE_TOKENS, newFormat, 'mm');
+      this.secondType = this.checkAcceptingType(CONFIG.SECOND_TOKENS, newFormat);
+      this.apmType = this.checkAcceptingType(CONFIG.APM_TOKENS, newFormat);
+
+      this.renderHoursList();
+      this.renderList('minute');
+
+      if (this.secondType) {
+        this.renderList('second');
+      }
+
+      if (this.apmType) {
+        this.renderApmList();
+      }
+
+      var self = this;
+      this.$nextTick(function () {
+        self.readValues();
+      });
+    },
+    renderHoursList: function renderHoursList() {
+      var hoursCount = this.hourType === 'h' || this.hourType === 'hh' ? 12 : 24;
+      this.hours = [];
+      for (var i = 0; i < hoursCount; i++) {
+        this.hours.push(this.formatValue(this.hourType, i));
+      }
+    },
+    renderList: function renderList(listType, interval) {
+      if (listType === 'second') {
+        interval = interval || this.secondInterval;
+      } else if (listType === 'minute') {
+        interval = interval || this.minuteInterval;
+      } else {
+        return;
+      }
+
+      if (interval === 0) {
+        interval = 60;
+      } else if (interval > 60) {
+        window.console.warn('`' + listType + '-interval` should be less than 60. Current value is', interval);
+        interval = 1;
+      } else if (interval < 1) {
+        window.console.warn('`' + listType + '-interval` should be NO less than 1. Current value is', interval);
+        interval = 1;
+      } else if (!interval) {
+        interval = 1;
+      }
+
+      if (listType === 'minute') {
+        this.minutes = [];
+      } else {
+        this.seconds = [];
+      }
+
+      for (var i = 0; i < 60; i += interval) {
+        if (listType === 'minute') {
+          this.minutes.push(this.formatValue(this.minuteType, i));
+        } else {
+          this.seconds.push(this.formatValue(this.secondType, i));
+        }
+      }
+    },
+    renderApmList: function renderApmList() {
+      this.apms = [];
+      if (!this.apmType) {
+        return;
+      }
+      this.apms = this.apmType === 'A' ? ['AM', 'PM'] : ['am', 'pm'];
+    },
+    readValues: function readValues() {
+      if (!this.value || this.muteWatch) {
+        return;
+      }
+
+      var timeValue = JSON.parse((0, _stringify2.default)(this.value || {}));
+
+      var values = (0, _keys2.default)(timeValue);
+      if (values.length === 0) {
+        return;
+      }
+
+      if (values.indexOf(this.hourType) > -1) {
+        this.hour = timeValue[this.hourType];
+      }
+
+      if (values.indexOf(this.minuteType) > -1) {
+        this.minute = timeValue[this.minuteType];
+      }
+
+      if (values.indexOf(this.secondType) > -1) {
+        this.second = timeValue[this.secondType];
+      } else {
+        this.second = 0;
+      }
+
+      if (values.indexOf(this.apmType) > -1) {
+        this.apm = timeValue[this.apmType];
+      }
+
+      this.fillValues();
+    },
+    fillValues: function fillValues() {
+      var fullValues = {};
+
+      var baseHour = this.hour;
+      var baseHourType = this.hourType;
+
+      var hourValue = baseHour || baseHour === 0 ? Number(baseHour) : '';
+      var baseOnTwelveHours = this.isTwelveHours(baseHourType);
+      var apmValue = baseOnTwelveHours && this.apm ? String(this.apm).toLowerCase() : false;
+
+      CONFIG.HOUR_TOKENS.forEach(function (token) {
+        if (token === baseHourType) {
+          fullValues[token] = baseHour;
+          return;
+        }
+
+        var value = void 0;
+        var apm = void 0;
+        switch (token) {
+          case 'H':
+          case 'HH':
+            if (!String(hourValue).length) {
+              fullValues[token] = '';
+              return;
+            } else if (baseOnTwelveHours) {
+              if (apmValue === 'pm') {
+                value = hourValue < 12 ? hourValue + 12 : hourValue;
+              } else {
+                value = hourValue % 12;
+              }
+            } else {
+              value = hourValue % 24;
+            }
+            fullValues[token] = token === 'HH' && value < 10 ? '0' + value : String(value);
+            break;
+          case 'k':
+          case 'kk':
+            if (!String(hourValue).length) {
+              fullValues[token] = '';
+              return;
+            } else if (baseOnTwelveHours) {
+              if (apmValue === 'pm') {
+                value = hourValue < 12 ? hourValue + 12 : hourValue;
+              } else {
+                value = hourValue === 12 ? 24 : hourValue;
+              }
+            } else {
+              value = hourValue === 0 ? 24 : hourValue;
+            }
+            fullValues[token] = token === 'kk' && value < 10 ? '0' + value : String(value);
+            break;
+          case 'h':
+          case 'hh':
+            if (apmValue) {
+              value = hourValue;
+              apm = apmValue || 'am';
+            } else {
+              if (!String(hourValue).length) {
+                fullValues[token] = '';
+                fullValues.a = '';
+                fullValues.A = '';
+                return;
+              } else if (hourValue > 11) {
+                apm = 'pm';
+                value = hourValue === 12 ? 12 : hourValue % 12;
+              } else {
+                if (baseOnTwelveHours) {
+                  apm = '';
+                } else {
+                  apm = 'am';
+                }
+                value = hourValue % 12 === 0 ? 12 : hourValue;
+              }
+            }
+            fullValues[token] = token === 'hh' && value < 10 ? '0' + value : String(value);
+            fullValues.a = apm;
+            fullValues.A = apm.toUpperCase();
+            break;
+        }
+      });
+
+      if (this.minute || this.minute === 0) {
+        var minuteValue = Number(this.minute);
+        fullValues.m = String(minuteValue);
+        fullValues.mm = minuteValue < 10 ? '0' + minuteValue : String(minuteValue);
+      } else {
+        fullValues.m = '';
+        fullValues.mm = '';
+      }
+
+      if (this.second || this.second === 0) {
+        var secondValue = Number(this.second);
+        fullValues.s = String(secondValue);
+        fullValues.ss = secondValue < 10 ? '0' + secondValue : String(secondValue);
+      } else {
+        fullValues.s = '';
+        fullValues.ss = '';
+      }
+
+      this.fullValues = fullValues;
+      this.updateTimeValue(fullValues);
+      this.$emit('change', { data: fullValues });
+    },
+    updateTimeValue: function updateTimeValue(fullValues) {
+      this.muteWatch = true;
+
+      var self = this;
+
+      var baseTimeValue = JSON.parse((0, _stringify2.default)(this.value || {}));
+      var timeValue = {};
+
+      (0, _keys2.default)(baseTimeValue).forEach(function (key) {
+        timeValue[key] = fullValues[key];
+      });
+
+      this.$emit('input', timeValue);
+
+      this.$nextTick(function () {
+        self.muteWatch = false;
+      });
+    },
+    isTwelveHours: function isTwelveHours(token) {
+      return token === 'h' || token === 'hh';
+    },
+    toggleDropdown: function toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
+    select: function select(type, value) {
+      if (type === 'hour') {
+        this.hour = value;
+      } else if (type === 'minute') {
+        this.minute = value;
+      } else if (type === 'second') {
+        this.second = value;
+      } else if (type === 'apm') {
+        this.apm = value;
+      }
+    },
+    clearTime: function clearTime() {
+      this.hour = '';
+      this.minute = '';
+      this.second = '';
+      this.apm = '';
+    }
+  },
+
+  mounted: function mounted() {
+    this.renderFormat();
+  }
+};
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AdminMenu.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -2816,6 +3210,170 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/MainStreamersPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            deletingItem: {
+                name: '',
+                id: 0,
+                openModal: false
+            },
+            errors: [],
+            openAlertModal: false,
+            streamerAddId: 0,
+            addingItem: {
+                promouted_id: 0,
+                promouted_start: { HH: '00', mm: '00' },
+                promouted_end: { HH: '00', mm: '00' }
+            },
+            editMode: false,
+            editItem: {
+                id: 0,
+                name: '',
+                promouted_start: { HH: '00', mm: '00' },
+                promouted_end: { HH: '00', mm: '00' }
+            }
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+        }
+    },
+
+    methods: {
+        confirmDeleteAction: function confirmDeleteAction(item) {
+            this.deletingItem.name = item.name;
+            this.deletingItem.id = item.id;
+            this.deletingItem.openModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.$store.dispatch('deleteMainStreamerAction', this.deletingItem.id);
+            this.deletingItem.openModal = false;
+        },
+        addAction: function addAction() {
+            console.log(this.addingItem);
+            if (this.addingItem.promouted_id > 0 && (this.addingItem.promouted_start.HH === this.addingItem.promouted_start.HH && this.addingItem.promouted_start.mm <= this.addingItem.promouted_start.mm || this.addingItem.promouted_start.HH < this.addingItem.promouted_start.HH)) {
+                this.$store.dispatch('addMainStreamerAction', this.addingItem);
+            }
+        },
+        getList: function getList() {
+            this.$store.dispatch('getMainStreamersListAction');
+        },
+        openEditModel: function openEditModel(item) {
+            this.editItem.id = item.id;
+            this.editItem.name = item.name;
+            this.editItem.promouted_start.HH = item.promouted_start.substr(0, 2);
+            this.editItem.promouted_start.mm = item.promouted_start.substr(3, 2);
+            this.editItem.promouted_end.HH = item.promouted_end.substr(0, 2);
+            this.editItem.promouted_end.mm = item.promouted_end.substr(3, 2);
+            this.editMode = true;
+        },
+        saveAction: function saveAction() {
+            this.editMode = false;
+            console.log('edit item in page', this.editItem);
+            this.$store.dispatch('updateMainStreamerAction', this.editItem);
+            this.editItem.id = 0;
+            this.editItem.name = '';
+            this.editItem.promouted_start = { HH: '00', mm: '00' };
+            this.editItem.promouted_end = { HH: '00', mm: '00' };
+        },
+        cancelAction: function cancelAction() {
+            this.editMode = false;
+            this.editItem.id = 0;
+            this.editItem.name = '';
+            this.editItem.promouted_start = { HH: '00', mm: '00' };
+            this.editItem.promouted_end = { HH: '00', mm: '00' };
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'promotedStreamers', 'mainStreamersLoaded', 'mainStreamers']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/PromotedPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2824,6 +3382,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2909,6 +3473,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		},
 		getList: function getList() {
 			this.$store.dispatch('getPromotedListAction');
+		},
+		setUp: function setUp(id) {
+			this.$store.dispatch('upPromotedAction', id);
+		},
+		setDown: function setDown(id) {
+			this.$store.dispatch('downPromotedAction', id);
 		}
 	},
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'streamers', 'promotedStreamers', 'promotedLoaded']))
@@ -3342,6 +3912,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-runtime/core-js/json/stringify.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__("./node_modules/core-js/library/fn/json/stringify.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "./node_modules/babel-runtime/core-js/object/keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__("./node_modules/core-js/library/fn/object/keys.js"), __esModule: true };
 
 /***/ }),
 
@@ -7275,6 +7859,688 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/json/stringify.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__("./node_modules/core-js/library/modules/_core.js");
+var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
+module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
+  return $JSON.stringify.apply($JSON, arguments);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./node_modules/core-js/library/modules/es6.object.keys.js");
+module.exports = __webpack_require__("./node_modules/core-js/library/modules/_core.js").Object.keys;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_a-function.js":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_an-object.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("./node_modules/core-js/library/modules/_is-object.js");
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_array-includes.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__("./node_modules/core-js/library/modules/_to-iobject.js");
+var toLength = __webpack_require__("./node_modules/core-js/library/modules/_to-length.js");
+var toAbsoluteIndex = __webpack_require__("./node_modules/core-js/library/modules/_to-absolute-index.js");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_cof.js":
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_core.js":
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.7' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_ctx.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__("./node_modules/core-js/library/modules/_a-function.js");
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_defined.js":
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_descriptors.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__("./node_modules/core-js/library/modules/_fails.js")(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_dom-create.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("./node_modules/core-js/library/modules/_is-object.js");
+var document = __webpack_require__("./node_modules/core-js/library/modules/_global.js").document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_enum-bug-keys.js":
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_export.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("./node_modules/core-js/library/modules/_global.js");
+var core = __webpack_require__("./node_modules/core-js/library/modules/_core.js");
+var ctx = __webpack_require__("./node_modules/core-js/library/modules/_ctx.js");
+var hide = __webpack_require__("./node_modules/core-js/library/modules/_hide.js");
+var has = __webpack_require__("./node_modules/core-js/library/modules/_has.js");
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var IS_WRAP = type & $export.W;
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE];
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+  var key, own, out;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if (own && has(exports, key)) continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function (C) {
+      var F = function (a, b, c) {
+        if (this instanceof C) {
+          switch (arguments.length) {
+            case 0: return new C();
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if (IS_PROTO) {
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_fails.js":
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_global.js":
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_has.js":
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_hide.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("./node_modules/core-js/library/modules/_object-dp.js");
+var createDesc = __webpack_require__("./node_modules/core-js/library/modules/_property-desc.js");
+module.exports = __webpack_require__("./node_modules/core-js/library/modules/_descriptors.js") ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_ie8-dom-define.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__("./node_modules/core-js/library/modules/_descriptors.js") && !__webpack_require__("./node_modules/core-js/library/modules/_fails.js")(function () {
+  return Object.defineProperty(__webpack_require__("./node_modules/core-js/library/modules/_dom-create.js")('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_iobject.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__("./node_modules/core-js/library/modules/_cof.js");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_is-object.js":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_library.js":
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-dp.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("./node_modules/core-js/library/modules/_an-object.js");
+var IE8_DOM_DEFINE = __webpack_require__("./node_modules/core-js/library/modules/_ie8-dom-define.js");
+var toPrimitive = __webpack_require__("./node_modules/core-js/library/modules/_to-primitive.js");
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__("./node_modules/core-js/library/modules/_descriptors.js") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-keys-internal.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("./node_modules/core-js/library/modules/_has.js");
+var toIObject = __webpack_require__("./node_modules/core-js/library/modules/_to-iobject.js");
+var arrayIndexOf = __webpack_require__("./node_modules/core-js/library/modules/_array-includes.js")(false);
+var IE_PROTO = __webpack_require__("./node_modules/core-js/library/modules/_shared-key.js")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__("./node_modules/core-js/library/modules/_object-keys-internal.js");
+var enumBugKeys = __webpack_require__("./node_modules/core-js/library/modules/_enum-bug-keys.js");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_object-sap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__("./node_modules/core-js/library/modules/_export.js");
+var core = __webpack_require__("./node_modules/core-js/library/modules/_core.js");
+var fails = __webpack_require__("./node_modules/core-js/library/modules/_fails.js");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_property-desc.js":
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_shared-key.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("./node_modules/core-js/library/modules/_shared.js")('keys');
+var uid = __webpack_require__("./node_modules/core-js/library/modules/_uid.js");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_shared.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__("./node_modules/core-js/library/modules/_core.js");
+var global = __webpack_require__("./node_modules/core-js/library/modules/_global.js");
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__("./node_modules/core-js/library/modules/_library.js") ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-absolute-index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("./node_modules/core-js/library/modules/_to-integer.js");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-integer.js":
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-iobject.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__("./node_modules/core-js/library/modules/_iobject.js");
+var defined = __webpack_require__("./node_modules/core-js/library/modules/_defined.js");
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-length.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.15 ToLength
+var toInteger = __webpack_require__("./node_modules/core-js/library/modules/_to-integer.js");
+var min = Math.min;
+module.exports = function (it) {
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-object.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__("./node_modules/core-js/library/modules/_defined.js");
+module.exports = function (it) {
+  return Object(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_to-primitive.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__("./node_modules/core-js/library/modules/_is-object.js");
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/_uid.js":
+/***/ (function(module, exports) {
+
+var id = 0;
+var px = Math.random();
+module.exports = function (key) {
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__("./node_modules/core-js/library/modules/_to-object.js");
+var $keys = __webpack_require__("./node_modules/core-js/library/modules/_object-keys.js");
+
+__webpack_require__("./node_modules/core-js/library/modules/_object-sap.js")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
+  };
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+exports.i(__webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue2-timepicker/src/style/vue-timepicker.css"), "");
+
+// module
+exports.push([module.i, "\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue2-timepicker/src/style/vue-timepicker.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".time-picker {\n  display: inline-block;\n  position: relative;\n  font-size: 1em;\n  width: 10em;\n  font-family: sans-serif;\n  vertical-align: middle;\n}\n\n.time-picker * {\n  box-sizing: border-box;\n}\n\n.time-picker input.display-time {\n  border: 1px solid #d2d2d2;\n  width: 10em;\n  height: 2.2em;\n  padding: 0.3em 0.5em;\n  font-size: 1em;\n}\n\n.time-picker .clear-btn {\n  position: absolute;\n  display: flex;\n  flex-flow: column nowrap;\n  justify-content: center;\n  align-items: center;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  margin-top: -0.15em;\n  z-index: 3;\n  font-size: 1.1em;\n  line-height: 1em;\n  vertical-align: middle;\n  width: 1.3em;\n  color: #d2d2d2;\n  background: rgba(255,255,255,0);\n  text-align: center;\n  font-style: normal;\n\n  -webkit-transition: color .2s;\n  transition: color .2s;\n}\n\n.time-picker .clear-btn:hover {\n  color: #797979;\n  cursor: pointer;\n}\n\n.time-picker .time-picker-overlay {\n  z-index: 2;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.time-picker .dropdown {\n  position: absolute;\n  z-index: 5;\n  top: calc(2.2em + 2px);\n  left: 0;\n  background: #fff;\n  box-shadow: 0 1px 6px rgba(0,0,0,0.15);\n  width: 10em;\n  height: 10em;\n  font-weight: normal;\n}\n\n.time-picker .dropdown .select-list {\n  width: 10em;\n  height: 10em;\n  overflow: hidden;\n  display: flex;\n  flex-flow: row nowrap;\n  align-items: stretch;\n  justify-content: space-between;\n}\n\n.time-picker .dropdown ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n\n  flex: 1;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n\n.time-picker .dropdown ul.minutes,\n.time-picker .dropdown ul.seconds,\n.time-picker .dropdown ul.apms{\n  border-left: 1px solid #fff;\n}\n\n.time-picker .dropdown ul li {\n  text-align: center;\n  padding: 0.3em 0;\n  color: #161616;\n}\n\n.time-picker .dropdown ul li:not(.hint):hover {\n  background: rgba(0,0,0,.08);\n  color: #161616;\n  cursor: pointer;\n}\n\n.time-picker .dropdown ul li.active,\n.time-picker .dropdown ul li.active:hover {\n  background: #41B883;\n  color: #fff;\n}\n\n.time-picker .dropdown .hint {\n  color: #a5a5a5;\n  cursor: default;\n  font-size: 0.8em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/css-base.js":
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
 
 
 /***/ }),
@@ -43942,7 +45208,21 @@ var render = function() {
                         },
                         attrs: { href: "#/promoted" }
                       },
-                      [_vm._v("Promoted Streamers")]
+                      [_vm._v("Promouted Streamers")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/main-streamers"
+                        },
+                        attrs: { href: "#/main-streamers" }
+                      },
+                      [_vm._v("Main Streamers")]
                     )
                   ]),
                   _vm._v(" "),
@@ -44167,7 +45447,7 @@ var render = function() {
         ? _c(
             "div",
             [
-              _c("h5", [_vm._v("Promoted Streamers")]),
+              _c("h5", [_vm._v("Promouted Streamers")]),
               _vm._v(" "),
               _c("table", { staticClass: "table table-striped" }, [
                 _vm._m(0),
@@ -44176,7 +45456,7 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.promotedStreamers, function(item) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(item.streamer_id))]),
+                      _c("td", [_vm._v(_vm._s(item.position))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
                       _vm._v(" "),
@@ -44197,6 +45477,34 @@ var render = function() {
                             }
                           },
                           [_vm._v("del")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.setUp(item.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-arrow-up" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.setDown(item.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-arrow-down" })]
                         )
                       ])
                     ])
@@ -44299,7 +45607,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("id")]),
+        _c("th", [_vm._v("Position")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
@@ -45358,6 +46666,310 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-95e4bc96\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/MainStreamersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/main-streamers" } }),
+      _vm._v(" "),
+      _vm.checkToken && _vm.mainStreamersLoaded
+        ? _c(
+            "div",
+            [
+              _c("h5", [_vm._v("Main Streamers")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.mainStreamers, function(item) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(item.promouted_start) +
+                            " - " +
+                            _vm._s(item.promouted_end) +
+                            "\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(item.duration) +
+                            "\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-warning",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.openEditModel(item)
+                              }
+                            }
+                          },
+                          [_vm._v("edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-danger",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.confirmDeleteAction(item)
+                              }
+                            }
+                          },
+                          [_vm._v("del")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "form",
+                  { staticClass: "form form-inline" },
+                  [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.addingItem.promouted_id,
+                            expression: "addingItem.promouted_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.addingItem,
+                              "promouted_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Select streamer")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.promotedStreamers, function(streamer) {
+                          return _c(
+                            "option",
+                            { domProps: { value: streamer.id } },
+                            [_vm._v(_vm._s(streamer.name))]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v("\n                From:\n                "),
+                    _c("vue-timepicker", {
+                      model: {
+                        value: _vm.addingItem.promouted_start,
+                        callback: function($$v) {
+                          _vm.$set(_vm.addingItem, "promouted_start", $$v)
+                        },
+                        expression: "addingItem.promouted_start"
+                      }
+                    }),
+                    _vm._v("\n                To:\n                "),
+                    _c("vue-timepicker", {
+                      model: {
+                        value: _vm.addingItem.promouted_end,
+                        callback: function($$v) {
+                          _vm.$set(_vm.addingItem, "promouted_end", $$v)
+                        },
+                        expression: "addingItem.promouted_end"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.addAction()
+                          }
+                        }
+                      },
+                      [_vm._v("Add")]
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _vm.editMode
+                ? _c("div", { staticClass: "edit-modal-back" }, [
+                    _c("div", { staticClass: "edit-modal" }, [
+                      _c("h3", { attrs: { "text-center": "" } }, [
+                        _vm._v(_vm._s(_vm.editItem.name))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("label", { staticClass: "time-label" }, [
+                            _vm._v("From:")
+                          ]),
+                          _vm._v(" "),
+                          _c("vue-timepicker", {
+                            model: {
+                              value: _vm.editItem.promouted_start,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editItem, "promouted_start", $$v)
+                              },
+                              expression: "editItem.promouted_start"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("label", { staticClass: "time-label" }, [
+                            _vm._v("To:")
+                          ]),
+                          _vm._v(" "),
+                          _c("vue-timepicker", {
+                            model: {
+                              value: _vm.editItem.promouted_end,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editItem, "promouted_end", $$v)
+                              },
+                              expression: "editItem.promouted_end"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-center" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            on: {
+                              click: function($event) {
+                                _vm.cancelAction()
+                              }
+                            }
+                          },
+                          [_vm._v("Calcel")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-xs",
+                            on: {
+                              click: function($event) {
+                                _vm.saveAction()
+                              }
+                            }
+                          },
+                          [_vm._v("SAVE")]
+                        )
+                      ])
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("modal-delete", {
+                attrs: {
+                  name: _vm.deletingItem.name,
+                  opened: _vm.deletingItem.openModal
+                },
+                on: {
+                  "close-delete-modal": function($event) {
+                    _vm.deletingItem.openModal = false
+                  },
+                  "confirm-delete": _vm.deleteAction
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.mainStreamersLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Time")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total min")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-95e4bc96", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-98757238\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -45412,6 +47024,211 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-98757238", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c4588f32\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { staticClass: "time-picker" }, [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.displayTime,
+          expression: "displayTime"
+        }
+      ],
+      staticClass: "display-time",
+      attrs: { id: _vm.id, type: "text", readonly: "" },
+      domProps: { value: _vm.displayTime },
+      on: {
+        click: function($event) {
+          $event.stopPropagation()
+          return _vm.toggleDropdown($event)
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.displayTime = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    !_vm.hideClearButton
+      ? _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.showDropdown && _vm.showClearBtn,
+                expression: "!showDropdown && showClearBtn"
+              }
+            ],
+            staticClass: "clear-btn",
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+                return _vm.clearTime($event)
+              }
+            }
+          },
+          [_vm._v("×")]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.showDropdown
+      ? _c("div", {
+          staticClass: "time-picker-overlay",
+          on: {
+            click: function($event) {
+              $event.stopPropagation()
+              return _vm.toggleDropdown($event)
+            }
+          }
+        })
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showDropdown,
+            expression: "showDropdown"
+          }
+        ],
+        staticClass: "dropdown"
+      },
+      [
+        _c("div", { staticClass: "select-list" }, [
+          _c(
+            "ul",
+            { staticClass: "hours" },
+            [
+              _c("li", {
+                staticClass: "hint",
+                domProps: { textContent: _vm._s(_vm.hourType) }
+              }),
+              _vm._v(" "),
+              _vm._l(_vm.hours, function(hr) {
+                return _c("li", {
+                  class: { active: _vm.hour === hr },
+                  domProps: { textContent: _vm._s(hr) },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.select("hour", hr)
+                    }
+                  }
+                })
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "minutes" },
+            [
+              _c("li", {
+                staticClass: "hint",
+                domProps: { textContent: _vm._s(_vm.minuteType) }
+              }),
+              _vm._v(" "),
+              _vm._l(_vm.minutes, function(m) {
+                return _c("li", {
+                  class: { active: _vm.minute === m },
+                  domProps: { textContent: _vm._s(m) },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.select("minute", m)
+                    }
+                  }
+                })
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _vm.secondType
+            ? _c(
+                "ul",
+                { staticClass: "seconds" },
+                [
+                  _c("li", {
+                    staticClass: "hint",
+                    domProps: { textContent: _vm._s(_vm.secondType) }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.seconds, function(s) {
+                    return _c("li", {
+                      class: { active: _vm.second === s },
+                      domProps: { textContent: _vm._s(s) },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.select("second", s)
+                        }
+                      }
+                    })
+                  })
+                ],
+                2
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.apmType
+            ? _c(
+                "ul",
+                { staticClass: "apms" },
+                [
+                  _c("li", {
+                    staticClass: "hint",
+                    domProps: { textContent: _vm._s(_vm.apmType) }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.apms, function(a) {
+                    return _c("li", {
+                      class: { active: _vm.apm === a },
+                      domProps: { textContent: _vm._s(a) },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.select("apm", a)
+                        }
+                      }
+                    })
+                  })
+                ],
+                2
+              )
+            : _vm._e()
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c4588f32", module.exports)
   }
 }
 
@@ -48321,6 +50138,296 @@ if (inBrowser && window.Vue) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (VueRouter);
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("04d296eb", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./vue-timepicker.vue", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./vue-timepicker.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__("./node_modules/vue-style-loader/lib/listToStyles.js")
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/listToStyles.js":
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
 
 
 /***/ }),
@@ -59292,6 +61399,66 @@ module.exports = Vue;
 
 /***/ }),
 
+/***/ "./node_modules/vue2-timepicker/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./node_modules/vue2-timepicker/src/vue-timepicker.vue")
+
+
+/***/ }),
+
+/***/ "./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c4588f32\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c4588f32\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue2-timepicker/src/vue-timepicker.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "node_modules/vue2-timepicker/src/vue-timepicker.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c4588f32", Component.options)
+  } else {
+    hotAPI.reload("data-v-c4588f32", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./node_modules/vuex/dist/vuex.esm.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -60305,6 +62472,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 
+// import VueTimepicker from 'vue2-timepicker';
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 var LoginPage = __webpack_require__("./resources/assets/js/components/admin/LoginPage.vue");
@@ -60316,11 +62484,13 @@ var CasesPage = __webpack_require__("./resources/assets/js/components/admin/Case
 var LogoutPage = __webpack_require__("./resources/assets/js/components/admin/LogoutPage.vue");
 var StreamersPage = __webpack_require__("./resources/assets/js/components/admin/StreamersPage.vue");
 var PromotedPage = __webpack_require__("./resources/assets/js/components/admin/PromotedPage.vue");
+var MainStreamersPage = __webpack_require__("./resources/assets/js/components/admin/MainStreamersPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+// Vue.use(VueTimepicker)
 
 Vue.component('admin-menu', __webpack_require__("./resources/assets/js/components/admin/AdminMenu.vue"));
 Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
@@ -60329,6 +62499,7 @@ Vue.component('upload-image', __webpack_require__("./resources/assets/js/compone
 Vue.component('case-items', __webpack_require__("./resources/assets/js/components/admin/CasesItemsList.vue"));
 Vue.component('sse', __webpack_require__("./resources/assets/js/components/admin/Sse.vue"));
 Vue.component('pagination', __webpack_require__("./resources/assets/js/components/admin/pagination.vue"));
+Vue.component('vue-timepicker', __webpack_require__("./node_modules/vue2-timepicker/index.js"));
 
 var app = new Vue({
     el: '#admin-app',
@@ -60893,6 +63064,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/admin/MainStreamersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/MainStreamersPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-95e4bc96\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/MainStreamersPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/MainStreamersPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-95e4bc96", Component.options)
+  } else {
+    hotAPI.reload("data-v-95e4bc96", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/admin/PromotedPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -61239,6 +63458,11 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             pages: 1
         },
         promotedStreamers: {
+            list: [],
+            loaded: false,
+            saved: true
+        },
+        mainStreamers: {
             list: [],
             loaded: false,
             saved: true
@@ -61852,6 +64076,125 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                     state.token = false;
                 }
             });
+        },
+        upPromoted: function upPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/up', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+        downPromoted: function downPromoted(state, id) {
+            state.promotedStreamers.loaded = false;
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/promoted/down', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        },
+
+        // main streamers
+        getMainStreamersList: function getMainStreamersList(state) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'streamers/main/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.list = jsonResp.data ? jsonResp.data.main_streamers : [];
+                state.mainStreamers.loaded = true;
+            });
+        },
+        addMainStreamer: function addMainStreamer(state, item) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('promouted_id', item.promouted_id);
+            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+            fetch(state.apiUrl + 'streamers/main/store', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
+        },
+        updateMainStreamer: function updateMainStreamer(state, item) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            console.log('edit item in storage', item);
+            formData.append('token', state.token);
+            formData.append('id', item.id);
+            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+            fetch(state.apiUrl + 'streamers/main/update', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
+        },
+        deleteMainStreamer: function deleteMainStreamer(state, id) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/main/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
         }
     },
     actions: {
@@ -61980,6 +64323,42 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             setTimeout(function () {
                 context.commit('getPromotedList');
             }, config.timeOut);
+        },
+        upPromotedAction: function upPromotedAction(context, id) {
+            context.commit('upPromoted', id);
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+        downPromotedAction: function downPromotedAction(context, id) {
+            context.commit('downPromoted', id);
+            setTimeout(function () {
+                context.commit('getPromotedList');
+            }, config.timeOut);
+        },
+
+        // main streamers
+        getMainStreamersListAction: function getMainStreamersListAction(context) {
+            context.commit('getPromotedList');
+            context.commit('getMainStreamersList');
+        },
+        addMainStreamerAction: function addMainStreamerAction(context, item) {
+            context.commit('addMainStreamer', item);
+            setTimeout(function () {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
+        },
+        updateMainStreamerAction: function updateMainStreamerAction(context, item) {
+            context.commit('updateMainStreamer', item);
+            setTimeout(function () {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
+        },
+        deleteMainStreamerAction: function deleteMainStreamerAction(context, id) {
+            context.commit('deleteMainStreamer', id);
+            setTimeout(function () {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
         }
     },
     getters: {
@@ -62045,6 +64424,12 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
         },
         promotedLoaded: function promotedLoaded(state) {
             return state.promotedStreamers.loaded;
+        },
+        mainStreamers: function mainStreamers(state) {
+            return state.mainStreamers.list;
+        },
+        mainStreamersLoaded: function mainStreamersLoaded(state) {
+            return state.mainStreamers.loaded;
         }
     }
 });
