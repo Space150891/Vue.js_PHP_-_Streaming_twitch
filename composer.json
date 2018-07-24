@@ -27,6 +27,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.5",
+        "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.0",
         "rap2hpoutre/laravel-log-viewer": "^0.10.4",
         "socialiteproviders/37signals": "^3.0",
@@ -34,6 +35,8 @@
         "socialiteproviders/instagram": "^3.0",
         "socialiteproviders/twitch": "^3.0",
         "socialiteproviders/youtube": "^3.0",
+        "softon/sms": "dev-master",
+        "srmklive/paypal": "~1.0",
         "stripe/stripe-php": "~5.9.2",
         "tymon/jwt-auth": "^1.0.0-rc.2"
     },

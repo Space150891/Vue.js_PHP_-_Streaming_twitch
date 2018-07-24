@@ -29,33 +29,41 @@
         
         @yield('head')
         @yield('header_scripts')
+        
+        <script>
+            
+            var pageUrl = window.location.pathname;
+            if(pageUrl == "/twitch/callback") {
+                @if (isset($access_token))
+                    <?php \Log::info('in view '. $access_token); ?>
+                    window.access_token = "{{($access_token)}}";
+                @endif
+                localStorage.setItem('userToken', window.access_token);
+                // window.location.replace("http://localhost:8081/");
+                window.location = '/';
+            }
+
+        </script>
     </head>
     <body>
         <div id="app" class="container-fluid">
             <header>
+                <up-nav></up-nav>
                 <menu-block></menu-block>
             </header>
             <main>
-                <left-part></left-part>
-                
-                <midle-part-home></midle-part-home>
-                <!-- <midle-part-price></midle-part-price> -->
-                <!-- <midle-part-directory></midle-part-directory> -->
-                <!-- <midle-part-bag></midle-part-bag> -->
-                <!-- <video-part></video-part> -->
-                
-                <right-part></right-part>
-                
+                <router-view></router-view>
 
             </main>
-            <footer>
-                
-            </footer>
+        </div>
+
             
 
             
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
+        
+        
 
         
         @yield('footer_scripts')

@@ -1,0 +1,5 @@
+{
+    "baseUrl" : "http://localhost:8000",
+    "timeOut" : 3000,
+    "on_page" : 50
+}

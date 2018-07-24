@@ -10,10 +10,10 @@ use App\Models\Streamer;
 
 class JwtAuthController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('auth:api', ['except' => ['login', 'signup']]);
-        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
     /**
@@ -28,6 +28,7 @@ class JwtAuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['errors' => ['Unauthorized login']], 401);
         }
+        
         return $this->respondWithToken($token);
     }
 
@@ -71,6 +72,7 @@ class JwtAuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        session(['access_token' => $token]);
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',

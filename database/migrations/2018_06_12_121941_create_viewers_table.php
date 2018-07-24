@@ -20,12 +20,12 @@ class CreateViewersTable extends Migration
             $table->integer('level_points')->default(0);
             $table->integer('current_points')->default(0);
             $table->integer('diamonds')->default(0);
-            $table->integer('promoted_gamecard_id')->default(null);
-            $table->string('phone')->default(null);
-            $table->string('address')->default(null);
+            $table->integer('promoted_gamecard_id')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->integer('referal')->default(0);
             $table->boolean('Phone_verified')->default(false);
-            $table->integer('alert_type_id')->default(null);
+            $table->integer('alert_type_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

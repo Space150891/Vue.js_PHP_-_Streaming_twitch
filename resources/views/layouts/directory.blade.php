@@ -36,13 +36,9 @@
                 <menu-block></menu-block>
             </header>
             <main>
-                <!-- <left-part></left-part> -->
+                <left-part></left-part>
                 
-                <!-- <midle-part-home></midle-part-home> -->
-                <!-- <midle-part-price></midle-part-price> -->
                 <midle-part-directory></midle-part-directory>
-                <!-- <midle-part-bag></midle-part-bag> -->
-                <!-- <video-part></video-part> -->
                 
                 <right-part></right-part>
                 

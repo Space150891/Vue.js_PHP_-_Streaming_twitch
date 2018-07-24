@@ -45,9 +45,12 @@ composer.lock
 /storage/framework/*
 /storage/logs/*
 /storage/users/*
+/storage/app/public/*
 packages/
+/resources/assets/js/components/config/config.json
 
 # Debug Files
 npm-debug.log
 yarn-error.log
-
+/public/js/*
+/public/mix-manifest.json

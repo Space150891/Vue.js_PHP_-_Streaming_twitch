@@ -17,6 +17,7 @@ class CreateBuyedCaseTypesTable extends Migration
             $table->increments('id');
             $table->integer('viewer_id');
             $table->integer('case_type_id');
+            $table->integer('total')->default(0);
             $table->timestamps();
         });
     }

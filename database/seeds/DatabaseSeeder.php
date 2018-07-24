@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ConnectRelationshipsSeeder::class);
         $this->call(ThemesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
-
+        $this->call(AlertTypesTableSeeder::class);
+        $this->call(SubscriptionPackages::class);
+        $this->call(MounthPlanes::class);
+        $this->call(GamesSeeder::class);
         Model::reguard();
     }
 }

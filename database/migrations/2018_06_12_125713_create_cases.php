@@ -18,7 +18,6 @@ class CreateCases extends Migration
             $table->integer('case_type_id');
             $table->string('name');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
