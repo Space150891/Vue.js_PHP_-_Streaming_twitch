@@ -46,6 +46,11 @@ const AdminStore = new Vuex.Store({
             loaded: false,
             saved : true,
         },
+        mainStreamers: {
+            list: [],
+            loaded: false,
+            saved : true,
+        },
     },
     mutations: {
         authWithToken(state, data) {
@@ -773,6 +778,99 @@ const AdminStore = new Vuex.Store({
                 }
             });
         },
+        // main streamers
+        getMainStreamersList(state) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            fetch(state.apiUrl + 'streamers/main/list',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.list = jsonResp.data ? jsonResp.data.main_streamers : [];
+                state.mainStreamers.loaded = true;
+            });
+        },
+        addMainStreamer(state, item) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('promouted_id', item.promouted_id);
+            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+            fetch(state.apiUrl + 'streamers/main/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
+        },
+        updateMainStreamer(state, item) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('id', item.id);
+            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+            fetch(state.apiUrl + 'streamers/main/update',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
+        },
+        deleteMainStreamer(state, id) {
+            var formData = new FormData();
+            state.mainStreamers.loaded = false;
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch(state.apiUrl + 'streamers/main/delete',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainStreamers.loaded = true;
+            });
+        },
     },
     actions: {
         getItemTypesListAction(context) {
@@ -907,6 +1005,29 @@ const AdminStore = new Vuex.Store({
                 context.commit('getPromotedList');
             }, config.timeOut);
         },
+        // main streamers
+        getMainStreamersListAction(context) {
+            context.commit('getPromotedList');
+            context.commit('getMainStreamersList');
+        },
+        addMainStreamerAction(context, item) {
+            context.commit('addMainStreamer', item);
+            setTimeout(() => {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
+        },
+        updateMainStreamerAction(context, item) {
+            context.commit('updateMainStreamer', item);
+            setTimeout(() => {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
+        },
+        deleteMainStreamerAction(context, id) {
+            context.commit('deleteMainStreamer', id);
+            setTimeout(() => {
+                context.commit('getMainStreamersList');
+            }, config.timeOut);
+        },
     },
     getters : {
         checkToken: state => {
@@ -971,6 +1092,12 @@ const AdminStore = new Vuex.Store({
         },
         promotedLoaded: state => {
             return state.promotedStreamers.loaded;
+        },
+        mainStreamers: state => {
+            return state.mainStreamers.list;
+        },
+        mainStreamersLoaded: state => {
+            return state.mainStreamers.loaded;
         },
     }
 });

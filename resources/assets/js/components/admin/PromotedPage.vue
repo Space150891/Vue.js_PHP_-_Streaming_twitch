@@ -2,7 +2,7 @@
 <div class="container">
   <admin-menu page="/promoted"></admin-menu>
   <div v-if="checkToken && promotedLoaded">
-		<h5>Promoted Streamers</h5>
+		<h5>Promouted Streamers</h5>
 		<table class="table table-striped">
 		  <thead>
 				<tr>

@@ -25,7 +25,10 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promoted Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted Streamers</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main Streamers</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
