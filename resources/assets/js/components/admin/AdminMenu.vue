@@ -31,6 +31,9 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main Streamers</a>
           </li>
           <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-content')}" href="#/main-content" >Main Content</a>
+          </li>
+          <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
           </li>
         </ul>

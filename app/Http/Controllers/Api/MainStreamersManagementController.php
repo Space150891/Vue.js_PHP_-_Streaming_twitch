@@ -27,11 +27,20 @@ class MainStreamersManagementController extends Controller
 
     public function show(Request $request)
     {
-        $now = Carbon::createFromTimestampUTC(0);
-        $mainStreamer = MainStreamer::where([
-            ['promouted_start', '>=', $now],
-            ['promouted_end', '<=', $now],
-        ])->first();
+        $time = new Carbon();
+        $time->setTimezone('UTC');
+        $now = $time->toTimeString();
+        $allMain = MainStreamer::all();
+        $mainStreamer = false;
+        foreach ($allMain as $oneMain) {
+            if (
+                $this->compareTime($now, '>=', $oneMain->promouted_start) &&
+                $this->compareTime($now, '<=', $oneMain->promouted_end)
+            ) {
+                $mainStreamer = $oneMain;
+                break;
+            }
+        }
         if ($mainStreamer) {
             $promouted = $mainStreamer->promouted()->first();
             $streamer = $promouted->streamer()->first();
@@ -40,7 +49,7 @@ class MainStreamersManagementController extends Controller
             ]);
         }
         $allStreamers = Streamer::all();
-        $num = round(rand(count($allStreamers)));
+        $num = round(rand(0, count($allStreamers) - 1));
         return response()->json([
             'data' => $allStreamers[$num]->name,
         ]);
@@ -101,9 +110,6 @@ class MainStreamersManagementController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-        \Log::info("updating ID={$request->id}");
-        \Log::info("updating start={$request->promouted_start}");
-        \Log::info("updating end={$request->promouted_end}");
         $mainStreamer = MainStreamer::find($request->id);
         if (!$mainStreamer) {
             return response()->json([
@@ -190,6 +196,7 @@ class MainStreamersManagementController extends Controller
                 break;
             case '>=':
                 if ($timestampA >= $timestampB) {
+                    
                     return true;
                 }
                 return false;

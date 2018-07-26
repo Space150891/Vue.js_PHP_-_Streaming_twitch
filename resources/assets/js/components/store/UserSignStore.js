@@ -68,7 +68,12 @@ const UserSignStore = new Vuex.Store({
             list: [],
             loaded: false,
         },
+        mainContent: {
+            list: [],
+            loaded: false,
+        },
         streamerFullData : {},
+        mainChannel : 'twitchpresents',
     },
     mutations: {
         signUp(state) {
@@ -492,6 +497,43 @@ const UserSignStore = new Vuex.Store({
                 console.log(jsonResp);
             });
         },
+        // main content
+        getMainContent(state) {
+            var formData = new FormData();
+            state.mainContent.loaded = false;
+            fetch('api/content/show',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+                state.mainContent.loaded = true;
+            });
+        },
+        getMainChannel(state) {
+            fetch('api/streamers/main/show',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                console.log('new channel ', jsonResp.data);
+                state.mainChannel = jsonResp.data;
+            });
+        },
     },
     actions: {
         getSubscribeData(context) {
@@ -567,6 +609,16 @@ const UserSignStore = new Vuex.Store({
         },
         streamerFullData: state => {
             return state.streamerFullData;
+        },
+        mainContent: state => {
+            console.log('in state', state.mainContent.list);
+            return state.mainContent.list;
+        },
+        mainContentLoaded: state => {
+            return state.mainContent.loaded;
+        },
+        mainChannel: state => {
+            return state.mainChannel;
         },
     },
 

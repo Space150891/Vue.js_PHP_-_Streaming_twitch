@@ -97,6 +97,9 @@ Route::group([
 
     Route::post('achivements/list', 'Api\AchivementsController@list');
     Route::post('achivements/add', 'Api\AchivementsController@addProgress');
+
+    Route::post('content/show', 'Api\ContentManagementController@show');
+    Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
 });
 
 
@@ -160,7 +163,10 @@ Route::group([
     Route::post('streamers/main/list', 'Api\MainStreamersManagementController@list');
     Route::post('streamers/main/delete', 'Api\MainStreamersManagementController@delete');
     Route::post('streamers/main/update', 'Api\MainStreamersManagementController@update');
-    Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
+    
+
+    Route::post('content/store', 'Api\ContentManagementController@store');
+    
 });
 
 // bot routes
