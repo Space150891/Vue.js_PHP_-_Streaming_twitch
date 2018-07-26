@@ -51,6 +51,11 @@ const AdminStore = new Vuex.Store({
             loaded: false,
             saved : true,
         },
+        mainContent: {
+            list: [],
+            loaded: false,
+        },
+        alerts: [],
     },
     mutations: {
         authWithToken(state, data) {
@@ -871,7 +876,57 @@ const AdminStore = new Vuex.Store({
                 state.mainStreamers.loaded = true;
             });
         },
+        // main content
+        getMainContent(state) {
+            var formData = new FormData();
+            state.mainContent.loaded = false;
+            fetch(state.apiUrl + 'content/show',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+                state.mainContent.loaded = true;
+            });
+        },
+        storeMainContent(state, data) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('content', JSON.stringify(data));
+            fetch(state.apiUrl + 'content/store',
+            {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors',
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                // alert 'saved'
+                state.alerts.push({
+                    message: 'content saved'
+                });
+            });
+        },
+        clearAlerts(state) {
+            state.alerts = [];
+        },
     },
+    
     actions: {
         getItemTypesListAction(context) {
             context.commit('getItemTypesList');
@@ -1028,6 +1083,11 @@ const AdminStore = new Vuex.Store({
                 context.commit('getMainStreamersList');
             }, config.timeOut);
         },
+        // main content
+        updateMainContentAction(context, data) {
+            context.commit('storeMainContent', data);
+        }
+
     },
     getters : {
         checkToken: state => {
@@ -1099,6 +1159,17 @@ const AdminStore = new Vuex.Store({
         mainStreamersLoaded: state => {
             return state.mainStreamers.loaded;
         },
+        mainContent: state => {
+            console.log('in state', state.mainContent.list);
+            return state.mainContent.list;
+        },
+        mainContentLoaded: state => {
+            return state.mainContent.loaded;
+        },
+        alerts: state => {
+            console.log('alerts in getter', state.alerts);
+            return state.alerts;
+        }
     }
 });
 

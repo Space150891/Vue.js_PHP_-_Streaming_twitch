@@ -2518,6 +2518,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -2571,7 +2574,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // mainChannel = 'twitchpresents',
+        };
+    },
+    mounted: function mounted() {
+        this.getContent();
+        this.channelSwitcher();
+    },
+
+    methods: {
+        getContent: function getContent() {
+            this.$store.commit('getMainContent');
+        },
+        channelSwitcher: function channelSwitcher() {
+            var storage = this.$store;
+            storage.commit('getMainChannel');
+            setInterval(function () {
+                console.log('change channel Switcher');
+                storage.commit('getMainChannel');
+            }, 10 * 1000);
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['mainContent', 'mainContentLoaded', 'mainChannel']))
+});
 
 /***/ }),
 
@@ -76779,9 +76808,53 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "midle-home" }, [
     _c("div", { staticClass: "scroll" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-12" }, [
+            _c("div", { staticClass: "midle-home-content" }, [
+              _c("h2", [_vm._v(_vm._s(_vm.mainContent.mainHeader))]),
+              _vm._v(" "),
+              _c("div", {
+                domProps: { innerHTML: _vm._s(_vm.mainContent.mainText) }
+              })
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", { staticClass: "container-fluid iframe-part" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-12 col-lg-8" }, [
+            _c("div", { staticClass: "video-part" }, [
+              _c("iframe", {
+                attrs: {
+                  src: "https://player.twitch.tv/?channel=" + this.mainChannel,
+                  width: "100%",
+                  height: "100%",
+                  frameborder: "0",
+                  scrolling: "no",
+                  allowfullscreen: "false"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-12 col-lg-4 chat-part-mrt" }, [
+            _c("div", { staticClass: "chat-part" }, [
+              _c("iframe", {
+                attrs: {
+                  frameborder: "1",
+                  scrolling: "true",
+                  src:
+                    "https://www.twitch.tv/embed/" + this.mainChannel + "/chat",
+                  height: "100%",
+                  width: "100%"
+                }
+              })
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row" }, [
@@ -76793,62 +76866,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-12" }, [
-          _c("div", { staticClass: "midle-home-content" }, [
-            _c("h2", [_vm._v("CONTENT")]),
-            _vm._v(
-              "\n                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi sed ratione optio natus, doloribus porro. Officiis pariatur qui repudiandae quidem, quasi non nostrum at molestiae iure perspiciatis odio tempore repellat neque. Dolores dolorum obcaecati debitis alias quibusdam molestiae laboriosam iusto molestias enim, itaque hic minima incidunt nemo voluptatem, laudantium voluptas consectetur animi sint corporis a ex. Vero eum, culpa corporis aliquid quisquam earum rem quaerat nulla sapiente adipisci quibusdam minus mollitia, quas optio illum deserunt voluptates dignissimos accusamus reprehenderit! Dolor praesentium quidem consequuntur hic placeat, corrupti adipisci ex? Praesentium quasi cum dignissimos voluptates aspernatur dicta! Laudantium, id officiis. Libero, error.  \n                    "
-            )
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid iframe-part" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-12 col-lg-8" }, [
-          _c("div", { staticClass: "video-part" }, [
-            _c("iframe", {
-              attrs: {
-                src: "https://player.twitch.tv/?channel=twitchpresents",
-                width: "100%",
-                height: "100%",
-                frameborder: "0",
-                scrolling: "no",
-                allowfullscreen: "false"
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-12 col-lg-4 chat-part-mrt" }, [
-          _c("div", { staticClass: "chat-part" }, [
-            _c("iframe", {
-              attrs: {
-                frameborder: "1",
-                scrolling: "true",
-                src: "https://www.twitch.tv/embed/twitchpresents/chat",
-                height: "100%",
-                width: "100%"
-              }
-            })
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -94984,7 +95002,12 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             list: [],
             loaded: false
         },
-        streamerFullData: {}
+        mainContent: {
+            list: [],
+            loaded: false
+        },
+        streamerFullData: {},
+        mainChannel: 'twitchpresents'
     },
     mutations: {
         signUp: function signUp(state) {
@@ -95355,6 +95378,38 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (jsonResp) {
                 console.log(jsonResp);
             });
+        },
+
+        // main content
+        getMainContent: function getMainContent(state) {
+            var formData = new FormData();
+            state.mainContent.loaded = false;
+            fetch('api/content/show', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+                state.mainContent.loaded = true;
+            });
+        },
+        getMainChannel: function getMainChannel(state) {
+            fetch('api/streamers/main/show', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log('new channel ', jsonResp.data);
+                state.mainChannel = jsonResp.data;
+            });
         }
     },
     actions: {
@@ -95431,6 +95486,16 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         streamerFullData: function streamerFullData(state) {
             return state.streamerFullData;
+        },
+        mainContent: function mainContent(state) {
+            console.log('in state', state.mainContent.list);
+            return state.mainContent.list;
+        },
+        mainContentLoaded: function mainContentLoaded(state) {
+            return state.mainContent.loaded;
+        },
+        mainChannel: function mainChannel(state) {
+            return state.mainChannel;
         }
     }
 
