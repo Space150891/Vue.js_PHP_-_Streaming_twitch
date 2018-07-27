@@ -147,9 +147,6 @@ Route::get('/vue/{vue_capture?}', function () {
 // Route::get('/homepage', 'HomePageController');
 // Route::get('/directory', 'DirectoryPageController');
 
-Route::get('sse', 'Api\ServerEventsController@serverSideEvents');
-Route::get('testpagesse', 'Api\ServerEventsController@testPageSSE');
-
 Route::post('front/gettoken', 'Auth\SocialController@getToken');
 
 // admin routes

@@ -100,6 +100,7 @@ Route::group([
 
     Route::post('content/show', 'Api\ContentManagementController@show');
     Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
+    Route::post('activity/update', 'Api\ActivitiesController@update');
 });
 
 

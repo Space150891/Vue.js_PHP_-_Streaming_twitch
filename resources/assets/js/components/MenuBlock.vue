@@ -96,20 +96,24 @@
                 return this.$store.getters.currentViewer;
             },
             menuEvents: function() {
-                const allEvents = this.$store.getters.sseMenuEvents.reverse();
-                let sortedEvents = [];
-                let total = 0;
-                for (let i=0; i<allEvents.length; i++) {
-                    if (allEvents[i].event_type === 'user_message') {
-                        total++;
-                        if (sortedEvents.length < 3) {
-                            sortedEvents.push(allEvents[i]);
-                        }
-                    }
-                }
+                // const allEvents = this.$store.getters.sseMenuEvents.reverse();
+                // let sortedEvents = [];
+                // let total = 0;
+                // for (let i=0; i<allEvents.length; i++) {
+                //     if (allEvents[i].event_type === 'user_message') {
+                //         total++;
+                //         if (sortedEvents.length < 3) {
+                //             sortedEvents.push(allEvents[i]);
+                //         }
+                //     }
+                // }
+                // return {
+                //     list : sortedEvents,
+                //     total : total
+                //     };
                 return {
-                    list : sortedEvents,
-                    total : total
+                    list : [],
+                    total : 0
                     };
             }
         },

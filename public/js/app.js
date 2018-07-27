@@ -1950,11 +1950,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            num: 10
+            num: 10,
+            backPublic: config.baseUrl
         };
     },
 
@@ -2095,20 +2100,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.currentViewer;
         },
         menuEvents: function menuEvents() {
-            var allEvents = this.$store.getters.sseMenuEvents.reverse();
-            var sortedEvents = [];
-            var total = 0;
-            for (var i = 0; i < allEvents.length; i++) {
-                if (allEvents[i].event_type === 'user_message') {
-                    total++;
-                    if (sortedEvents.length < 3) {
-                        sortedEvents.push(allEvents[i]);
-                    }
-                }
-            }
+            // const allEvents = this.$store.getters.sseMenuEvents.reverse();
+            // let sortedEvents = [];
+            // let total = 0;
+            // for (let i=0; i<allEvents.length; i++) {
+            //     if (allEvents[i].event_type === 'user_message') {
+            //         total++;
+            //         if (sortedEvents.length < 3) {
+            //             sortedEvents.push(allEvents[i]);
+            //         }
+            //     }
+            // }
+            // return {
+            //     list : sortedEvents,
+            //     total : total
+            //     };
             return {
-                list: sortedEvents,
-                total: total
+                list: [],
+                total: 0
             };
         }
     },
@@ -3181,7 +3190,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            selectedIndex: 0
+            selectedIndex: 0,
+            viewing: false
         };
     },
 
@@ -3191,15 +3201,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         twitchChatUrl: function twitchChatUrl(channelName) {
             return "https://www.twitch.tv/embed/" + channelName + "/chat";
+        },
+        startVieweing: function startVieweing() {
+            if (this.checkToken) {
+                var storage = this.$store;
+                var name = this.selectedName;
+                storage.commit('viewingChannel', name);
+                this.viewing = setInterval(function () {
+                    storage.commit('viewingChannel', name);
+                }, 10 * 1000);
+            }
         }
     },
     mounted: function mounted() {
-        console.log('Tabs mounted', this.channels);
+        this.startVieweing();
+    },
+    destroyed: function destroyed() {
+        if (this.viewing) {
+            clearInterval(this.viewing);
+        }
     },
 
     computed: {
         selectedName: function selectedName() {
             return this.channels[this.selectedIndex];
+        },
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
         }
     }
 });
@@ -77458,7 +77486,14 @@ var render = function() {
           return _c("a", { attrs: { href: "#/profile/" + item.user_id } }, [
             _c("div", { staticClass: "leftPart-item" }, [
               _c("div", { staticClass: "leftPart-img" }, [
-                _c("img", { attrs: { src: item.avatar, alt: item.name } })
+                _c("img", {
+                  attrs: {
+                    src: item.avatar
+                      ? _vm.backPublic + "/" + item.avatar
+                      : _vm.backPublic + "/images/tvitch-question.png",
+                    alt: item.name
+                  }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "leftPart-mainText" }, [
@@ -95625,7 +95660,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             loaded: false
         },
         afiliateLink: '',
-        sseMenuEvents: [],
         achivements: {
             list: [],
             loaded: false
@@ -95642,20 +95676,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         signUp: function signUp(state) {
             state.token = localStorage.getItem("userToken");
             document.cookie = "token=" + state.token;
-            var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
-            source.onmessage = function (event) {
-                var data = JSON.parse(event.data);
-                if (data.error) {
-                    // state.token = false;
-                    source.close();
-                } else {
-                    switch (data.event_type) {
-                        case 'user_message':
-                            state.sseMenuEvents.push(data);
-                            break;
-                    }
-                }
-            };
         },
         loadCurrentViewer: function loadCurrentViewer(state) {
             if (state.token) {
@@ -95988,9 +96008,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             state.streamers.loaded = false;
             state.streamers.list = [];
         },
-        clearMenuEvents: function clearMenuEvents(state) {
-            state.sseMenuEvents = [];
-        },
         pushAchivement: function pushAchivement(state, data) {
             var formData = new FormData();
             formData.append('token', state.token);
@@ -96042,6 +96059,23 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         clearWatchingStreams: function clearWatchingStreams(state) {
             state.wachingStreamers = [];
+        },
+        viewingChannel: function viewingChannel(state, channel) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('channel', channel);
+            fetch('api/activity/update', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.data) {
+                    state.currentViewer = jsonResp.data;
+                }
+            });
         }
     },
     actions: {
@@ -96106,9 +96140,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         streamersLoaded: function streamersLoaded(state) {
             return state.streamers.loaded;
-        },
-        sseMenuEvents: function sseMenuEvents(state) {
-            return state.sseMenuEvents;
         },
         notifications: function notifications(state) {
             return state.notifications.list;

@@ -10,5 +10,10 @@ return [
     ],
     'bot'   => [
         'secret_key' => env('OSPP_BOT_SECRET'),
-    ]
+    ],
+    'activity' => [
+        'valid_pause'   => 100,
+        'level_points'  => 10,
+        'dromp_limit'   => 60,
+    ],
 ];

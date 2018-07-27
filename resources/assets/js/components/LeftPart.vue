@@ -6,7 +6,10 @@
         <a v-for="(item) in promotedStreamers" v-bind:href="'#/profile/' + item.user_id">
             <div  class="leftPart-item" >
                 <div class="leftPart-img">
-                    <img v-bind:src="item.avatar" v-bind:alt="item.name">
+                    <img
+                      v-bind:src="item.avatar ? backPublic + '/' + item.avatar : backPublic + '/images/tvitch-question.png'"
+                      v-bind:alt="item.name"
+                    >
                 </div>
                 <div class="leftPart-mainText">
                     <h2>{{ item.name }}</h2>
@@ -25,10 +28,12 @@
 </template>
 
 <script>
+var config = require('./config/config.json');
     export default {
         data(){
             return {
                 num : 10,
+                backPublic : config.baseUrl,
             }
         },
         methods: {

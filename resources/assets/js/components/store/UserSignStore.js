@@ -63,7 +63,6 @@ const UserSignStore = new Vuex.Store({
             loaded: false,
         },
         afiliateLink: '',
-        sseMenuEvents : [],
         achivements: {
             list: [],
             loaded: false,
@@ -80,20 +79,6 @@ const UserSignStore = new Vuex.Store({
         signUp(state) {
             state.token = localStorage.getItem("userToken");
             document.cookie = "token=" + state.token;
-            var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
-            source.onmessage = function(event) {
-                var data = JSON.parse(event.data);
-                if (data.error) {
-                    // state.token = false;
-                    source.close();
-                } else {
-                    switch (data.event_type) {
-                        case 'user_message':
-                        state.sseMenuEvents.push(data);
-                            break;
-                    }
-                }
-            };
         },
         loadCurrentViewer(state) {
             if (state.token) {
@@ -475,9 +460,6 @@ const UserSignStore = new Vuex.Store({
             state.streamers.loaded = false;
             state.streamers.list = [];
         },
-        clearMenuEvents(state) {
-            state.sseMenuEvents = [];
-        },
         pushAchivement(state, data) {
             var formData = new FormData();
             formData.append('token', state.token);
@@ -538,6 +520,26 @@ const UserSignStore = new Vuex.Store({
         },
         clearWatchingStreams(state) {
             state.wachingStreamers = [];
+        },
+        viewingChannel(state, channel) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('channel', channel);
+            fetch('api/activity/update',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(jsonResp){
+                if (jsonResp.data) {
+                    state.currentViewer = jsonResp.data;
+                }
+            });
         },
     },
     actions: {
@@ -602,9 +604,6 @@ const UserSignStore = new Vuex.Store({
         },
         streamersLoaded: state => {
             return state.streamers.loaded;
-        },
-        sseMenuEvents: state => {
-            return state.sseMenuEvents;
         },
         notifications: state => {
             return state.notifications.list;

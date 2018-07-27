@@ -32,6 +32,7 @@
         data() {
             return {
                 selectedIndex: 0,
+                viewing: false,
             }
         },
         methods: {
@@ -41,13 +42,31 @@
             twitchChatUrl(channelName) {
                 return "https://www.twitch.tv/embed/" + channelName + "/chat";
             },
+            startVieweing() {
+                if (this.checkToken){
+                    let storage = this.$store;
+                    let name = this.selectedName;
+                    storage.commit('viewingChannel', name);
+                    this.viewing = setInterval(function() {
+                        storage.commit('viewingChannel', name);
+                    }, 10 * 1000);
+                }
+            }
         },
         mounted() {
-            console.log('Tabs mounted', this.channels);
+            this.startVieweing();
+        },
+        destroyed() {
+            if (this.viewing) {
+                clearInterval(this.viewing);
+            }
         },
         computed: {
             selectedName: function () {
                 return this.channels[this.selectedIndex];
+            },
+            checkToken: function () {
+              return this.$store.getters.checkToken;
             },
         }
     }
