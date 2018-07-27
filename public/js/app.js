@@ -2069,6 +2069,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -2099,26 +2102,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         currentViewer: function currentViewer() {
             return this.$store.getters.currentViewer;
         },
-        menuEvents: function menuEvents() {
-            // const allEvents = this.$store.getters.sseMenuEvents.reverse();
-            // let sortedEvents = [];
-            // let total = 0;
-            // for (let i=0; i<allEvents.length; i++) {
-            //     if (allEvents[i].event_type === 'user_message') {
-            //         total++;
-            //         if (sortedEvents.length < 3) {
-            //             sortedEvents.push(allEvents[i]);
-            //         }
-            //     }
-            // }
-            // return {
-            //     list : sortedEvents,
-            //     total : total
-            //     };
-            return {
-                list: [],
-                total: 0
-            };
+        menuMessages: function menuMessages() {
+            console.log('from getter', this.$store.getters.menuMessages);
+            return this.$store.getters.menuMessages;
         }
     },
     mounted: function mounted() {
@@ -2140,7 +2126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.messagesVisible = true;
             setTimeout(function () {
-                _this.$store.commit('clearMenuEvents');
+                _this.$store.commit('clearMenuMessages');
                 _this.messagesVisible = false;
             }, 2000);
         },
@@ -76141,9 +76127,9 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.menuEvents.total > 0
+                    _vm.menuMessages.length > 0
                       ? _c("span", { staticClass: "tagging-item" }, [
-                          _vm._v(_vm._s(_vm.menuEvents.total))
+                          _vm._v(_vm._s(_vm.menuMessages.length))
                         ])
                       : _vm._e(),
                     _vm._v(" "),
@@ -76152,17 +76138,19 @@ var render = function() {
                           "ul",
                           { staticClass: "menu-message-list" },
                           [
-                            _vm._l(_vm.menuEvents.list, function(menuEvent) {
-                              return _c("li", [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(menuEvent.message) +
-                                    "\n                        "
-                                )
-                              ])
+                            _vm._l(_vm.menuMessages, function(message, index) {
+                              return index < 3
+                                ? _c("li", [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(message) +
+                                        "\n                        "
+                                    )
+                                  ])
+                                : _vm._e()
                             }),
                             _vm._v(" "),
-                            _vm.menuEvents.total > 3
+                            _vm.menuMessages.length > 3
                               ? _c("li", { staticClass: "text-center" }, [
                                   _c(
                                     "a",
@@ -95608,7 +95596,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             diamonds: 0,
             points: 0,
             level: 0,
-            name: ''
+            name: '',
+            messages: []
         },
         currentStreamer: {
             id: 0
@@ -95670,7 +95659,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         streamerFullData: {},
         mainChannel: 'twitchpresents',
-        wachingStreamers: []
+        wachingStreamers: [],
+        menuMessages: []
     },
     mutations: {
         signUp: function signUp(state) {
@@ -95692,7 +95682,11 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                     if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                         state.token = false;
                     } else {
-                        state.currentViewer = jsonResp.data;
+                        state.currentViewer.name = jsonResp.name;
+                        state.currentViewer.points = jsonResp.data.points;
+                        state.currentViewer.diamonds = jsonResp.data.diamonds;
+                        state.currentViewer.level = jsonResp.data.level;
+                        state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                     }
                 });
             }
@@ -96073,9 +96067,15 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 return res.json();
             }).then(function (jsonResp) {
                 if (jsonResp.data) {
-                    state.currentViewer = jsonResp.data;
+                    state.currentViewer.points = jsonResp.data.points;
+                    state.currentViewer.diamonds = jsonResp.data.diamonds;
+                    state.currentViewer.level = jsonResp.data.level;
+                    state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });
+        },
+        clearMenuMessages: function clearMenuMessages(state) {
+            state.menuMessages = [];
         }
     },
     actions: {
@@ -96161,6 +96161,10 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         wachingStreamers: function wachingStreamers(state) {
             return state.wachingStreamers;
+        },
+        menuMessages: function menuMessages(state) {
+            console.log('in getter', state.menuMessages);
+            return state.menuMessages;
         }
     }
 

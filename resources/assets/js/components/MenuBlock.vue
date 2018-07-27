@@ -39,12 +39,15 @@
                     <a @click.prevent="showMessages()" href="#" class="nav-link bag-span">
                             <img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag">
                     </a>
-                    <span class="tagging-item" v-if="menuEvents.total > 0">{{menuEvents.total}}</span>
+                    <span class="tagging-item" v-if="menuMessages.length > 0">{{menuMessages.length}}</span>
                     <ul v-if="messagesVisible" class="menu-message-list">
-                        <li v-for="menuEvent in menuEvents.list">
-                            {{menuEvent.message}}
+                        <li
+                            v-for="(message, index) in menuMessages"
+                            v-if="index < 3"
+                        >
+                            {{message}}
                         </li>
-                        <li v-if="menuEvents.total > 3" class="text-center">
+                        <li v-if="menuMessages.length > 3" class="text-center">
                             <a href="#/notifications">
                                 View all
                             </a>
@@ -95,26 +98,9 @@
             currentViewer: function() {
                 return this.$store.getters.currentViewer;
             },
-            menuEvents: function() {
-                // const allEvents = this.$store.getters.sseMenuEvents.reverse();
-                // let sortedEvents = [];
-                // let total = 0;
-                // for (let i=0; i<allEvents.length; i++) {
-                //     if (allEvents[i].event_type === 'user_message') {
-                //         total++;
-                //         if (sortedEvents.length < 3) {
-                //             sortedEvents.push(allEvents[i]);
-                //         }
-                //     }
-                // }
-                // return {
-                //     list : sortedEvents,
-                //     total : total
-                //     };
-                return {
-                    list : [],
-                    total : 0
-                    };
+            menuMessages: function() {
+                console.log('from getter', this.$store.getters.menuMessages);
+                return this.$store.getters.menuMessages;
             }
         },
         mounted: function () {
@@ -134,7 +120,7 @@
             showMessages() {
                 this.messagesVisible = true;
                 setTimeout(() => {
-                    this.$store.commit('clearMenuEvents');
+                    this.$store.commit('clearMenuMessages');
                     this.messagesVisible = false;
                 }, 2000);
             },

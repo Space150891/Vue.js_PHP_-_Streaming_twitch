@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
+use Carbon\Carbon;
 
-use App\Models\Viewer;
-use App\Models\User;
+use App\Models\{Viewer, User, Notification};
 
 class ViewersController extends Controller
 {
@@ -57,14 +57,27 @@ class ViewersController extends Controller
 
     public function current(Request $request)
     {
+        $now = new Carbon();
+        $time = $now->toDateTimeString();
         $user = auth()->user();
         $viewer = $user->viewer()->first();
+        $notications = Notification::where([
+            ['user_id', '=', $user->id],
+            ['event_type', '=', 'user_message'],
+        ])->whereNull('view_at')->get();
+        $messages = [];
+        foreach ($notications as $notification) {
+            $messages[] = $notification->message;
+            $notification->view_at = $time;
+            $notification->save();
+        }
         return response()->json([
             'data' => [
                 'name'      => $viewer->name,
                 'points'    => $viewer->current_points,
                 'diamonds'  => $viewer->diamonds,
                 'level'     => $viewer->getLevel(),
+                'messages'  => $messages,
             ],
         ]);
     }

@@ -12,6 +12,7 @@ const UserSignStore = new Vuex.Store({
             points: 0,
             level: 0,
             name: '',
+            messages : [],
         },
         currentStreamer: {
             id: 0,
@@ -74,6 +75,7 @@ const UserSignStore = new Vuex.Store({
         streamerFullData : {},
         mainChannel : 'twitchpresents',
         wachingStreamers : [],
+        menuMessages : [],
     },
     mutations: {
         signUp(state) {
@@ -98,7 +100,11 @@ const UserSignStore = new Vuex.Store({
                     if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                         state.token = false;
                     } else {
-                        state.currentViewer = jsonResp.data;
+                        state.currentViewer.name = jsonResp.name;
+                        state.currentViewer.points = jsonResp.data.points;
+                        state.currentViewer.diamonds = jsonResp.data.diamonds;
+                        state.currentViewer.level = jsonResp.data.level;
+                        state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                     }
                 });
             }
@@ -537,9 +543,15 @@ const UserSignStore = new Vuex.Store({
             })
             .then(function(jsonResp){
                 if (jsonResp.data) {
-                    state.currentViewer = jsonResp.data;
+                    state.currentViewer.points = jsonResp.data.points;
+                    state.currentViewer.diamonds = jsonResp.data.diamonds;
+                    state.currentViewer.level = jsonResp.data.level;
+                    state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });
+        },
+        clearMenuMessages(state) {
+            state.menuMessages = [];
         },
     },
     actions: {
@@ -625,6 +637,10 @@ const UserSignStore = new Vuex.Store({
         },
         wachingStreamers: state => {
             return state.wachingStreamers;
+        },
+        menuMessages: state => {
+            console.log('in getter', state.menuMessages);
+            return state.menuMessages;
         },
     },
 

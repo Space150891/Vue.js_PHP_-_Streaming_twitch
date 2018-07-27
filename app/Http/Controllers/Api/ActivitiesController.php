@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
-use App\Models\{Viewer, Streamer, Activity};
+use App\Models\{Viewer, Streamer, Activity, Notification};
 
 use App\Models\Game;
 
@@ -72,13 +72,24 @@ class ActivitiesController extends Controller
             $activity->drops = 0;
         }
         $activity->save();
+        $notications = Notification::where([
+            ['user_id', '=', $user->id],
+            ['event_type', '=', 'user_message'],
+        ])->whereNull('view_at')->get();
+        $messages = [];
+        foreach ($notications as $notification) {
+            $messages[] = $notification->message;
+            $notification->view_at = $time;
+            $notification->save();
+        }
         return response()->json([
             'message' => 'status updated',
             'data'    => [
-                'name'      => $viewer->name,
-                'points'    => $viewer->current_points,
-                'diamonds'  => $viewer->diamonds,
-                'level'     => $viewer->getLevel(),
+                'name'     => $viewer->name,
+                'points'   => $viewer->current_points,
+                'diamonds' => $viewer->diamonds,
+                'level'    => $viewer->getLevel(),
+                'messages' => $messages,
             ],
         ]);
     }
