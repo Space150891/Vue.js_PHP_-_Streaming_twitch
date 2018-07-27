@@ -55,13 +55,18 @@ import { mapGetters} from 'vuex';
 export default {
     data: () => {
         return {
-            // mainChannel = 'twitchpresents',
+            switcher : false,
         }
     },
     mounted() {
 		this.getContent();
         this.channelSwitcher();
 	},
+    destroyed() {
+        if (this.switcher) {
+            clearInterval(this.switcher);
+        }
+    },
     methods: {
 		getContent: function () {
 			this.$store.commit('getMainContent');
@@ -69,8 +74,7 @@ export default {
         channelSwitcher: function () {
             let storage = this.$store;
             storage.commit('getMainChannel');
-            setInterval(function(){
-                console.log('change channel Switcher');
+            this.switcher = setInterval(function(){
                 storage.commit('getMainChannel');
             }, 10 * 1000);
         },
