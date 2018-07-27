@@ -119,6 +119,10 @@ class StreamersController extends Controller
             ]);
         }
         $streamers = Streamer::where('game', strtolower($request->game_name))->get();
+        for ($i = 0; $i < count($streamers); $i++) {
+            $user = $streamers[$i]->user()->first();
+            $streamers[$i]->avatar = $user->avatar;
+        }
         return response()->json([
             'data' => [
                 'streamers' => $streamers,

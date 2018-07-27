@@ -16248,6 +16248,15 @@ div[data-toggle="buttons"] label.active {
   width: 50px;
 }
 
+.streams-block {
+  width: 85%;
+  margin-top: 250px;
+}
+
+.streams-block > h2 {
+  text-align: center;
+}
+
 .v-loading {
   width: 100%;
   height: 300px;

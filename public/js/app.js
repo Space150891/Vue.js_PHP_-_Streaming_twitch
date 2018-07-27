@@ -2477,25 +2477,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            currentGame: false
+            currentGame: false,
+            backPublic: config.baseUrl,
+            selected: []
         };
     },
     mounted: function mounted() {
         this.$store.commit('loadGames');
+        this.clearSelected();
     },
 
     methods: {
         setCurrent: function setCurrent(gameName) {
+            this.clearSelected();
             this.$store.commit('loadStreamersByGame', gameName);
             this.currentGame = gameName;
         },
         showAll: function showAll() {
+            this.clearSelected();
             this.$store.commit('flashStreamers');
             this.currentGame = false;
+        },
+        select: function select(streamerName) {
+            var pos = this.selected.indexOf(streamerName);
+            if (pos > -1) {
+                this.selected.splice(pos, 1);
+            } else {
+                this.selected.push(streamerName);
+            }
+        },
+        watchStreams: function watchStreams() {
+            this.$store.commit('setWatchingStreams', this.selected);
+            window.location.assign('#/watch-streams');
+        },
+        clearSelected: function clearSelected() {
+            this.selected = [];
+            this.$store.commit('clearWatchingStreams');
         }
     },
     computed: {
@@ -2578,12 +2618,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            // mainChannel = 'twitchpresents',
+            switcher: false
         };
     },
     mounted: function mounted() {
         this.getContent();
         this.channelSwitcher();
+    },
+    destroyed: function destroyed() {
+        if (this.switcher) {
+            clearInterval(this.switcher);
+        }
     },
 
     methods: {
@@ -2593,8 +2638,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         channelSwitcher: function channelSwitcher() {
             var storage = this.$store;
             storage.commit('getMainChannel');
-            setInterval(function () {
-                console.log('change channel Switcher');
+            this.switcher = setInterval(function () {
                 storage.commit('getMainChannel');
             }, 10 * 1000);
         }
@@ -3099,6 +3143,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/StreamChatTabs.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        channels: {
+            type: Array,
+            required: true
+        }
+    },
+    data: function data() {
+        return {
+            selectedIndex: 0
+        };
+    },
+
+    methods: {
+        setSelected: function setSelected(index) {
+            this.selectedIndex = index;
+        },
+        twitchChatUrl: function twitchChatUrl(channelName) {
+            return "https://www.twitch.tv/embed/" + channelName + "/chat";
+        }
+    },
+    mounted: function mounted() {
+        console.log('Tabs mounted', this.channels);
+    },
+
+    computed: {
+        selectedName: function selectedName() {
+            return this.channels[this.selectedIndex];
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/StreamChatTabsComponent.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3450,6 +3557,127 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.count--;
                 _this.drawChart();
             });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/WatchStreamPart.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        channel: {
+            type: String,
+            required: true
+        },
+        count: {
+            type: Number,
+            required: true
+        }
+    },
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        console.log('one stream');
+    },
+
+    methods: {
+        twitchVideoUrl: function twitchVideoUrl(channelName) {
+            return "https://player.twitch.tv/?channel=" + channelName;
+        }
+    },
+    computed: {
+        divClass: function divClass() {
+            var cl = 'col-md-12 video-iframe-item';
+            if (this.count == 2) {
+                cl = 'col-md-12 video-iframe-item';
+            }
+            if (this.count == 4) {
+                cl = 'col-md-6 video-iframe-item';
+            }
+            return cl;
+        },
+        height: function height() {
+            var h = "700px";
+            if (this.count == 2) {
+                h = '400px';
+            }
+            if (this.count == 4) {
+                h = '400px';
+            }
+            return h;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/WatchingStreamsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {},
+
+    methods: {},
+    computed: {
+        wachingStreamers: function wachingStreamers() {
+            return this.$store.getters.wachingStreamers;
+        },
+        canWatch: function canWatch() {
+            var totalStreams = this.wachingStreamers.length;
+            var correctSize = [1, 2, 4];
+            return correctSize.indexOf(totalStreams) > -1;
         }
     }
 });
@@ -22195,7 +22423,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  cursor: pointer;\n}\n.flex-pos a, .flex-pos a:hover {\n    text-decoration: none;\n    color: #333;\n}\n.flex-pos h2 {\n    height: 67px;\n    word-wrap: break-word;\n    overflow-y: hidden;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n.directory-game-header {\n  text-align: center;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 250px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  cursor: pointer;\n}\n.flex-pos a, .flex-pos a:hover {\n    text-decoration: none;\n    color: #333;\n}\n.flex-pos h2 {\n    height: 67px;\n    word-wrap: break-word;\n    overflow-y: hidden;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n.directory-game-header {\n  text-align: center;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -22316,6 +22544,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-bag {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.bag-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  margin-bottom: 20px;\n  padding: 5px 15px;\n  border-bottom: 1px solid black;\n}\n.bag-up-item {\n  font-size: 16px;\n  padding: 5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.bag-up-item:hover {\n    background: #e2e2e2;\n}\n.bag-up-item:active {\n    background: #c3c3c3;\n}\n.bag-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n}\n.bag-items h2 {\n    font-size: 20px;\n}\n.bag-items p {\n    margin-top: 5px;\n}\n.bag-image {\n  width: 100%;\n  height: auto;\n}\n.paginate-links.bagItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n  list-style-type: none;\n}\n.paginate-links.bagItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.bagItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.bagItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.bagItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n@media (min-width: 1142px) and (max-width: 1341px) {\n.bad-lgg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media screen and (max-width: 991px) {\n.midle-bag {\n    margin-top: 69px;\n}\n}\n@media screen and (max-width: 758px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media screen and (max-width: 740px) {\n.bag-items-pagination {\n    height: 40px;\n}\n.bag-up-items {\n    margin-bottom: 0;\n    padding: 0;\n}\n.page-link {\n    padding: 0.4rem 0.75rem;\n}\n}\n@media (max-width: 576px) {\n.bag-image {\n    width: 75%;\n}\n.all-items {\n    margin-top: 10px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/StreamChatTabs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media (max-width: 1262px) {\n.nav-chat {\n    margin-bottom: 1%;\n}\n.chat-item a {\n    width: 77%;\n    padding: 2px;\n}\n}\n@media (max-height: 840px) {\n.video-iframe-item iframe {\n    height: 250px;\n}\n}\n@media (max-width: 767px) {\nh3 {\n    margin-top: 20px;\n}\n.toggle-block .social {\n    bottom: 80px;\n    right: 30px;\n}\n.nav-chat {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    text-align: center;\n}\n.video-iframe-chat iframe {\n    height: 450px;\n    margin: 0 2px;\n}\n.rightPart-main {\n    width: 100%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n.rightPart {\n    width: 50%;\n}\n.rightPart-item {\n    width: 100%;\n}\n.rightPart-img {\n    width: 45%;\n}\n.rightPart-img img {\n      width: 100%;\n      height: 100%;\n}\n.rightPart-mainText {\n    width: 55%;\n}\n.rightPart-mainText h1 {\n      font-size: 20px;\n}\n.rightPart-mainText p {\n      font-size: 15px;\n}\n.navbar {\n    position: fixed;\n    width: 100%;\n    z-index: 100;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n}\n", ""]);
 
 // exports
 
@@ -76013,6 +76256,69 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-34a2b688\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/WatchingStreamsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "main-wrap" },
+    [
+      _c("div", { staticClass: "streams-block" }, [
+        _vm.canWatch
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-9" }, [
+                _c(
+                  "div",
+                  { staticClass: "row" },
+                  _vm._l(_vm.wachingStreamers, function(stream, index) {
+                    return _c("stream-frame", {
+                      key: index,
+                      attrs: {
+                        channel: stream,
+                        count: _vm.wachingStreamers.length
+                      }
+                    })
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3" },
+                [
+                  _c("chat-part", { attrs: { channels: _vm.wachingStreamers } })
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.canWatch
+          ? _c("div", [_c("h2", [_vm._v("select streams in Directory Page")])])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("right-part")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-34a2b688", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3d0acfd2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MidlePricesPart.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76561,7 +76867,31 @@ var render = function() {
                           "\n                            change game\n                        "
                         )
                       ]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.selected.length == 1 ||
+                    _vm.selected.length == 2 ||
+                    _vm.selected.length == 4
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.watchStreams()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            watch\n                            " +
+                                _vm._s(_vm.selected.length) +
+                                "\n                            streams\n                        "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c(
@@ -76571,22 +76901,42 @@ var render = function() {
                       return _vm.streamsLoaded
                         ? _c(
                             "div",
-                            { staticClass: "directory-streamers col-md-4" },
+                            {
+                              staticClass:
+                                "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items",
+                              on: {
+                                click: function($event) {
+                                  _vm.select(stream.name)
+                                }
+                              }
+                            },
                             [
-                              _c("iframe", {
+                              _c("img", {
+                                staticClass: "price-image",
                                 attrs: {
-                                  src:
-                                    "https://player.twitch.tv/?channel=" +
-                                    stream.name,
-                                  height: "300px",
-                                  width: "100%",
-                                  frameborder: "0",
-                                  scrolling: "no",
-                                  allowfullscreen: "false"
+                                  src: stream.avatar
+                                    ? _vm.backPublic + "/" + stream.avatar
+                                    : _vm.backPublic +
+                                      "/images/tvitch-question.png",
+                                  alt: stream.name
                                 }
                               }),
                               _vm._v(" "),
-                              _c("h5", [_vm._v(_vm._s(stream.name))])
+                              _c("h2", [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(stream.name) +
+                                    "\n                                "
+                                ),
+                                _vm.selected.indexOf(stream.name) > -1
+                                  ? _c("img", {
+                                      staticStyle: { width: "20px" },
+                                      attrs: {
+                                        src: _vm.backPublic + "/images/logo.png"
+                                      }
+                                    })
+                                  : _vm._e()
+                              ])
                             ]
                           )
                         : _vm._e()
@@ -77400,6 +77750,38 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d2ec284a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/WatchStreamPart.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { class: _vm.divClass }, [
+    _c("iframe", {
+      attrs: {
+        src: _vm.twitchVideoUrl(_vm.channel),
+        height: _vm.height,
+        width: "100%",
+        frameborder: "0",
+        scrolling: "no",
+        allowfullscreen: "false"
+      }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d2ec284a", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb5dca46\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyViewersPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77475,6 +77857,74 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-ee7b2512", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-f6f6e4e6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/StreamChatTabs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.channels.length > 1
+      ? _c(
+          "ul",
+          { staticClass: "nav nav-pills  flex-column flex-sm-row nav-chat" },
+          _vm._l(_vm.channels, function(chat, index) {
+            return _c("li", { staticClass: "nav-item chat-item" }, [
+              _c(
+                "a",
+                {
+                  key: index,
+                  class: [
+                    index == _vm.selectedIndex ? "active" : "",
+                    "flex-sm-fill text-sm-center nav-link"
+                  ],
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.setSelected(index)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    " \n                " +
+                      _vm._s(
+                        chat.lenght > 5 ? chat.substring(0, 4) + "..." : chat
+                      ) +
+                      "\n            "
+                  )
+                ]
+              )
+            ])
+          })
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("iframe", {
+      attrs: {
+        frameborder: "1",
+        scrolling: "true",
+        src: _vm.twitchChatUrl(_vm.channels[_vm.selectedIndex]),
+        height: "730px",
+        width: "100%"
+      }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f6f6e4e6", module.exports)
   }
 }
 
@@ -81107,6 +81557,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-97e7e05e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MidleBagPart.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-97e7e05e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MidleBagPart.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/StreamChatTabs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/StreamChatTabs.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("1315c128", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StreamChatTabs.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StreamChatTabs.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -93550,9 +94027,10 @@ var Afiliate = __webpack_require__("./resources/assets/js/components/AfiliatePag
 var Notifications = __webpack_require__("./resources/assets/js/components/NotificationsPage.vue");
 var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
 var Donate = __webpack_require__("./resources/assets/js/components/DonatePage.vue");
+var WatchingStreamsPage = __webpack_require__("./resources/assets/js/components/WatchingStreamsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -93565,6 +94043,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 Vue.component('example-component', __webpack_require__("./resources/assets/js/components/ExampleComponent.vue"));
 Vue.component('users-count', __webpack_require__("./resources/assets/js/components/UsersCount.vue"));
 Vue.component('chat-tabs', __webpack_require__("./resources/assets/js/components/StreamChatTabsComponent.vue"));
+Vue.component('chat-part', __webpack_require__("./resources/assets/js/components/StreamChatTabs.vue"));
 Vue.component('menu-block', __webpack_require__("./resources/assets/js/components/MenuBlock.vue"));
 Vue.component('left-part', __webpack_require__("./resources/assets/js/components/LeftPart.vue"));
 Vue.component('right-part', __webpack_require__("./resources/assets/js/components/RighrPart.vue"));
@@ -93575,6 +94054,7 @@ Vue.component('midle-part-bag', __webpack_require__("./resources/assets/js/compo
 Vue.component('video-part', __webpack_require__("./resources/assets/js/components/VideoPart.vue"));
 Vue.component('up-nav', __webpack_require__("./resources/assets/js/components/UpNav.vue"));
 Vue.component('footer-part', __webpack_require__("./resources/assets/js/components/FooretPart.vue"));
+Vue.component('stream-frame', __webpack_require__("./resources/assets/js/components/WatchStreamPart.vue"));
 
 var app = new Vue({
     el: '#app',
@@ -94666,6 +95146,58 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/StreamChatTabs.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f6f6e4e6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/StreamChatTabs.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/StreamChatTabs.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-f6f6e4e6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/StreamChatTabs.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StreamChatTabs.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f6f6e4e6", Component.options)
+  } else {
+    hotAPI.reload("data-v-f6f6e4e6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/StreamChatTabsComponent.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94918,6 +95450,102 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/WatchStreamPart.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/WatchStreamPart.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d2ec284a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/WatchStreamPart.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/WatchStreamPart.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d2ec284a", Component.options)
+  } else {
+    hotAPI.reload("data-v-d2ec284a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/WatchingStreamsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/WatchingStreamsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-34a2b688\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/WatchingStreamsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/WatchingStreamsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-34a2b688", Component.options)
+  } else {
+    hotAPI.reload("data-v-34a2b688", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
@@ -95007,7 +95635,8 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             loaded: false
         },
         streamerFullData: {},
-        mainChannel: 'twitchpresents'
+        mainChannel: 'twitchpresents',
+        wachingStreamers: []
     },
     mutations: {
         signUp: function signUp(state) {
@@ -95375,9 +96004,7 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
                 body: formData
             }).then(function (res) {
                 return res.json();
-            }).then(function (jsonResp) {
-                console.log(jsonResp);
-            });
+            }).then(function (jsonResp) {});
         },
 
         // main content
@@ -95407,9 +96034,14 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             }).then(function (res) {
                 return res.json();
             }).then(function (jsonResp) {
-                console.log('new channel ', jsonResp.data);
                 state.mainChannel = jsonResp.data;
             });
+        },
+        setWatchingStreams: function setWatchingStreams(state, data) {
+            state.wachingStreamers = data;
+        },
+        clearWatchingStreams: function clearWatchingStreams(state) {
+            state.wachingStreamers = [];
         }
     },
     actions: {
@@ -95488,7 +96120,6 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
             return state.streamerFullData;
         },
         mainContent: function mainContent(state) {
-            console.log('in state', state.mainContent.list);
             return state.mainContent.list;
         },
         mainContentLoaded: function mainContentLoaded(state) {
@@ -95496,6 +96127,9 @@ var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].St
         },
         mainChannel: function mainChannel(state) {
             return state.mainChannel;
+        },
+        wachingStreamers: function wachingStreamers(state) {
+            return state.wachingStreamers;
         }
     }
 

@@ -28,6 +28,7 @@ var Afiliate = require('./components/AfiliatePage.vue');
 var Notifications = require('./components/NotificationsPage.vue');
 var Achivements = require('./components/AchivementsPage.vue');
 var Donate = require('./components/DonatePage.vue');
+var WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -44,6 +45,7 @@ var router = new VueRouter({
         { path: '/notifications', component: Notifications},
         { path: '/achivements', component: Achivements},
         { path: '/donate/:userId', component: Donate,  props: true },
+        { path: '/watch-streams', component: WatchingStreamsPage},
     ]
 });
 Vue.use(VueRouter);
@@ -58,6 +60,7 @@ Vue.use(VueRouter);
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('users-count', require('./components/UsersCount.vue'));
 Vue.component('chat-tabs', require('./components/StreamChatTabsComponent.vue'));
+Vue.component('chat-part', require('./components/StreamChatTabs.vue'));
 Vue.component('menu-block', require('./components/MenuBlock.vue'));
 Vue.component('left-part', require('./components/LeftPart.vue'));
 Vue.component('right-part', require('./components/RighrPart.vue'));
@@ -68,6 +71,7 @@ Vue.component('midle-part-bag', require('./components/MidleBagPart.vue'));
 Vue.component('video-part', require('./components/VideoPart.vue'));
 Vue.component('up-nav', require('./components/UpNav.vue'));
 Vue.component('footer-part', require('./components/FooretPart.vue'));
+Vue.component('stream-frame', require('./components/WatchStreamPart.vue'))
 
 
 const app = new Vue({

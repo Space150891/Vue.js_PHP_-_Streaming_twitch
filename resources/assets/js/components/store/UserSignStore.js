@@ -74,6 +74,7 @@ const UserSignStore = new Vuex.Store({
         },
         streamerFullData : {},
         mainChannel : 'twitchpresents',
+        wachingStreamers : [],
     },
     mutations: {
         signUp(state) {
@@ -494,7 +495,6 @@ const UserSignStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log(jsonResp);
             });
         },
         // main content
@@ -530,9 +530,14 @@ const UserSignStore = new Vuex.Store({
                 return res.json();
             })
             .then(function(jsonResp){
-                console.log('new channel ', jsonResp.data);
                 state.mainChannel = jsonResp.data;
             });
+        },
+        setWatchingStreams(state, data) {
+            state.wachingStreamers = data;
+        },
+        clearWatchingStreams(state) {
+            state.wachingStreamers = [];
         },
     },
     actions: {
@@ -611,7 +616,6 @@ const UserSignStore = new Vuex.Store({
             return state.streamerFullData;
         },
         mainContent: state => {
-            console.log('in state', state.mainContent.list);
             return state.mainContent.list;
         },
         mainContentLoaded: state => {
@@ -619,6 +623,9 @@ const UserSignStore = new Vuex.Store({
         },
         mainChannel: state => {
             return state.mainChannel;
+        },
+        wachingStreamers: state => {
+            return state.wachingStreamers;
         },
     },
 
