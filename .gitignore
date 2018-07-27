@@ -52,5 +52,5 @@ packages/
 # Debug Files
 npm-debug.log
 yarn-error.log
-/public/js/*
-/public/mix-manifest.json
+public/js/*
+public/mix-manifest.json
