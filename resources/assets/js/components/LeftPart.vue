@@ -7,7 +7,7 @@
             <div  class="leftPart-item" >
                 <div class="leftPart-img">
                     <img
-                      v-bind:src="item.avatar ? backPublic + '/' + item.avatar : backPublic + '/images/tvitch-question.png'"
+                      v-bind:src="item.avatar ? item.avatar : backPublic + '/images/tvitch-question.png'"
                       v-bind:alt="item.name"
                     >
                 </div>

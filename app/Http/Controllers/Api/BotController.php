@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redis;
 use Validator;
 use Carbon\Carbon;
 
@@ -74,7 +73,6 @@ class BotController extends Controller
             'viewers'   => $viewers,
             'channel'   => $request->channel,
         ];
-        Redis::command('RPUSH', ['messages:' . $request->user_name, json_encode($data)]);
         return response()->json([
             'data' => $data,
         ]);

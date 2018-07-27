@@ -128,7 +128,7 @@ var config = require('./config/config.json');
         width: 75%;
         height: 89vh;
         margin-left: 15%;
-        margin-top: 250px;
+        margin-top: 150px;
         overflow-y: scroll;
     }
     .flex-pos {
