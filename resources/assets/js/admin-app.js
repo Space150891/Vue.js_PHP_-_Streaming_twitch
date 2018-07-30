@@ -41,7 +41,6 @@ Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('inline-alert', require('./components/admin/AlertInline.vue'));
 Vue.component('upload-image', require('./components/admin/UploadImage.vue'));
 Vue.component('case-items', require('./components/admin/CasesItemsList.vue'));
-Vue.component('sse', require('./components/admin/Sse.vue'));
 Vue.component('pagination', require('./components/admin/pagination.vue'));
 Vue.component('vue-timepicker', require('vue2-timepicker'));
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
 use Softon\Sms\Facades\Sms;
@@ -26,7 +25,6 @@ class ServerEventsController extends Controller
                     if ($user) {
                         $count = 0;
                         do {
-                            $data = Redis::command('LPOP', ['messages:' . $user->name]);
                             if ($data) {
                                 \Log::info('data ' . $data);
                                 \Log::info('count ' . $count);

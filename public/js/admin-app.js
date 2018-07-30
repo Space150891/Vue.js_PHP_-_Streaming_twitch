@@ -3759,38 +3759,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/Sse.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {
-    deleteMessage: function deleteMessage(index) {
-      this.$store.commit('deleteMessage');
-    }
-  },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'sseMessages']))
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/StreamersPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -46179,44 +46147,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6b5646c4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/Sse.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    { staticClass: "list-group" },
-    _vm._l(_vm.sseMessages, function(message, index) {
-      return _c(
-        "li",
-        {
-          staticClass: "list-group-item",
-          on: {
-            click: function($event) {
-              _vm.deleteMessage(index)
-            }
-          }
-        },
-        [_vm._v("\n    " + _vm._s(message) + "\n  ")]
-      )
-    })
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6b5646c4", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6b6ea8ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AlertInline.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -62788,7 +62718,6 @@ Vue.component('modal-alert', __webpack_require__("./resources/assets/js/componen
 Vue.component('inline-alert', __webpack_require__("./resources/assets/js/components/admin/AlertInline.vue"));
 Vue.component('upload-image', __webpack_require__("./resources/assets/js/components/admin/UploadImage.vue"));
 Vue.component('case-items', __webpack_require__("./resources/assets/js/components/admin/CasesItemsList.vue"));
-Vue.component('sse', __webpack_require__("./resources/assets/js/components/admin/Sse.vue"));
 Vue.component('pagination', __webpack_require__("./resources/assets/js/components/admin/pagination.vue"));
 Vue.component('vue-timepicker', __webpack_require__("./node_modules/vue2-timepicker/index.js"));
 
@@ -63595,54 +63524,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/admin/Sse.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/Sse.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6b5646c4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/Sse.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/admin/Sse.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6b5646c4", Component.options)
-  } else {
-    hotAPI.reload("data-v-6b5646c4", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/admin/StreamersPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -63879,17 +63760,6 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.access_token) {
                     state.token = jsonResp.access_token;
                     document.cookie = "token=" + jsonResp.access_token;
-                    var source = new EventSource(config.baseUrl + "/sse", { withCredentials: true });
-                    source.onmessage = function (event) {
-                        var data = JSON.parse(event.data);
-                        if (data.error) {
-                            state.token = false;
-                            state.sseMessages = [];
-                            source.close();
-                        } else {
-                            state.sseMessages.push(data.message);
-                        }
-                    };
                 } else {
                     state.token = false;
                 }
