@@ -175,7 +175,7 @@ class SocialController extends Controller
         $body = json_decode((string) $result->getBody(), true);
         \Log::info('USER');
         \Log::info($body);
-        $user = User::where('name', $body['name'])->first();
+        $user = User::where('name', strtolower($body['name']))->first();
         if (!$user) {
             $ip = $request->ip();
             $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
@@ -188,7 +188,7 @@ class SocialController extends Controller
             $user->activated = 1;
             $user->password = \Hash::make('123');
             $user->last_name = '';
-            $user->name = $body['name'];
+            $user->name = strtolower($body['name']);
             $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
@@ -202,7 +202,7 @@ class SocialController extends Controller
             $viewer = $user->viewer()->first();
         }
         
-        $user->name = $body['name'];
+        $user->name = strtolower($body['name']);
         $user->first_name = $body['display_name'];
         $user->email = $body['email'];
         $user->bio = $body['bio'];
