@@ -146,6 +146,7 @@ var config = require('./config/config.json');
     }
     .directory-items {
         margin-bottom: 20px;
+        min-width: 200px;
         img {
             width: 100%;
             height: auto;

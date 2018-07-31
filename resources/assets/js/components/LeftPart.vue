@@ -3,7 +3,11 @@
     <div class="scroll-item btn-up" @click.prevent="scrollUp()"><span class="leftPart-scroll"> > </span></div>
     <div class="leftPart">
         <h2>Promoted Streamers</h2>
-        <a v-for="(item) in promotedStreamers" v-bind:href="'#/profile/' + item.user_id">
+        <a 
+          v-for="(item) in promotedStreamers"
+          v-bind:href="'#/profile/' + item.user_id"
+          @click.prevent="watchStream(item.name)"
+        >
             <div  class="leftPart-item" >
                 <div class="leftPart-img">
                     <img
@@ -62,6 +66,12 @@ var config = require('./config/config.json');
         mounted() {
 			this.$store.commit('getPromotedList');
 		},
+        methods: {
+            watchStream(streamerName) {
+               this.$store.commit('setWatchingStreams', [streamerName]);
+               window.location.assign('#/watch-streams');
+           },
+        },
         computed: {
             promotedStreamers: function () {
             console.log(this.$store.getters.promotedStreamers);

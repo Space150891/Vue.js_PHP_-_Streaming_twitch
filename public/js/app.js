@@ -1924,6 +1924,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _data$methods$mounted;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -1955,7 +1963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_data$methods$mounted = {
     data: function data() {
         return {
             num: 10,
@@ -1988,15 +1996,18 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     },
     mounted: function mounted() {
         this.$store.commit('getPromotedList');
-    },
-
-    computed: {
-        promotedStreamers: function promotedStreamers() {
-            console.log(this.$store.getters.promotedStreamers);
-            return this.$store.getters.promotedStreamers;
-        }
     }
-});
+}, _defineProperty(_data$methods$mounted, 'methods', {
+    watchStream: function watchStream(streamerName) {
+        this.$store.commit('setWatchingStreams', [streamerName]);
+        window.location.assign('#/watch-streams');
+    }
+}), _defineProperty(_data$methods$mounted, 'computed', {
+    promotedStreamers: function promotedStreamers() {
+        console.log(this.$store.getters.promotedStreamers);
+        return this.$store.getters.promotedStreamers;
+    }
+}), _data$methods$mounted);
 
 /***/ }),
 
@@ -22437,7 +22448,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 150px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  cursor: pointer;\n}\n.flex-pos a, .flex-pos a:hover {\n    text-decoration: none;\n    color: #333;\n}\n.flex-pos h2 {\n    height: 67px;\n    word-wrap: break-word;\n    overflow-y: hidden;\n}\n.directory-items {\n  margin-bottom: 20px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n.directory-game-header {\n  text-align: center;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-directory {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 150px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  cursor: pointer;\n}\n.flex-pos a, .flex-pos a:hover {\n    text-decoration: none;\n    color: #333;\n}\n.flex-pos h2 {\n    height: 67px;\n    word-wrap: break-word;\n    overflow-y: hidden;\n}\n.directory-items {\n  margin-bottom: 20px;\n  min-width: 200px;\n}\n.directory-items img {\n    width: 100%;\n    height: auto;\n}\n.directory-game-header {\n  text-align: center;\n}\n@media screen and (min-width: 1200px) {\n.dir-bg {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n}\n}\n@media (min-width: 760px) and (max-width: 1029px) {\n.dir-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 33%;\n            flex: 0 0 33%;\n    max-width: 33%;\n}\n}\n@media (max-width: 991px) {\n.midle-directory {\n    margin-top: 69px;\n}\n}\n@media (max-width: 575px) {\n.directory-items {\n    text-align: center;\n}\n.directory-items img {\n      width: 60%;\n      height: auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -77471,30 +77482,42 @@ var render = function() {
         _c("h2", [_vm._v("Promoted Streamers")]),
         _vm._v(" "),
         _vm._l(_vm.promotedStreamers, function(item) {
-          return _c("a", { attrs: { href: "#/profile/" + item.user_id } }, [
-            _c("div", { staticClass: "leftPart-item" }, [
-              _c("div", { staticClass: "leftPart-img" }, [
-                _c("img", {
-                  attrs: {
-                    src: item.avatar
-                      ? item.avatar
-                      : _vm.backPublic + "/images/tvitch-question.png",
-                    alt: item.name
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "leftPart-mainText" }, [
-                _c("h2", [_vm._v(_vm._s(item.name))]),
+          return _c(
+            "a",
+            {
+              attrs: { href: "#/profile/" + item.user_id },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.watchStream(item.name)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "leftPart-item" }, [
+                _c("div", { staticClass: "leftPart-img" }, [
+                  _c("img", {
+                    attrs: {
+                      src: item.avatar
+                        ? item.avatar
+                        : _vm.backPublic + "/images/tvitch-question.png",
+                      alt: item.name
+                    }
+                  })
+                ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(item.game))])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "leftPart-rightText" }, [
-                _c("p", [_vm._v(_vm._s(item.bio))])
+                _c("div", { staticClass: "leftPart-mainText" }, [
+                  _c("h2", [_vm._v(_vm._s(item.name))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(item.game))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "leftPart-rightText" }, [
+                  _c("p", [_vm._v(_vm._s(item.bio))])
+                ])
               ])
-            ])
-          ])
+            ]
+          )
         })
       ],
       2
