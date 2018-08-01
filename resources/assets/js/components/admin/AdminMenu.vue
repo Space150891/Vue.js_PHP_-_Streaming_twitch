@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/item-types')}" href="#/item-types" >Item-types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/item-types')}" href="#/item-types" >Item types</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/rarities')}" href="#/rarities" >Rarities</a>
@@ -22,7 +22,7 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers Management</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted Streamers</a>

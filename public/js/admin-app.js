@@ -2171,6 +2171,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -3290,6 +3292,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3321,6 +3330,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             data.push({
                 name: 'mainHeader',
                 content: this.mainContent.mainHeader
+            });
+            data.push({
+                name: 'welcomeEmail',
+                content: this.mainContent.welcomeEmail
             });
             this.$store.dispatch('updateMainContentAction', data);
         }
@@ -45211,7 +45224,7 @@ var render = function() {
                         },
                         attrs: { href: "#/item-types" }
                       },
-                      [_vm._v("Item-types")]
+                      [_vm._v("Item types")]
                     )
                   ]),
                   _vm._v(" "),
@@ -45281,7 +45294,7 @@ var render = function() {
                         },
                         attrs: { href: "#/streamers" }
                       },
-                      [_vm._v("Streamers")]
+                      [_vm._v("Streamers Management")]
                     )
                   ]),
                   _vm._v(" "),
@@ -46204,58 +46217,53 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.opened
-    ? _c(
-        "div",
-        { style: _vm.styleBack },
-        [
-          _c("admin-menu", { attrs: { page: "/cases" } }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { style: _vm.styleDiv },
-            [
-              _c("h5", { staticClass: "text-center" }, [
-                _vm.AlertType == "warning"
-                  ? _c("span", { style: _vm.alertWarning }, [
-                      _vm._v("\n          WARNING\n      ")
-                    ])
-                  : _vm.AlertType == "notify"
-                    ? _c("span", [_vm._v("\n          Notify\n      ")])
-                    : _c("span", [_vm._v("\n          Alert\n      ")])
-              ]),
-              _vm._v(" "),
-              _vm.message.length > 0
-                ? _c("p", { style: _vm.styleMessage }, [
-                    _vm._v(_vm._s(_vm.message))
+    ? _c("div", { style: _vm.styleBack }, [
+        _c(
+          "div",
+          { style: _vm.styleDiv },
+          [
+            _c("h5", { staticClass: "text-center" }, [
+              _vm.AlertType == "warning"
+                ? _c("span", { style: _vm.alertWarning }, [
+                    _vm._v("\n          WARNING\n      ")
                   ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.messages, function(mes) {
-                return _vm.messages
-                  ? _c("p", { style: _vm.styleMessage }, [_vm._v(_vm._s(mes))])
-                  : _vm._e()
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-center" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-xs",
-                    on: {
-                      click: function($event) {
-                        _vm.$emit("close-alert-modal")
-                      }
+                : _vm.AlertType == "notify"
+                  ? _c("span", [_vm._v("\n          Notify\n      ")])
+                  : _vm.AlertType == "success"
+                    ? _c("span", [_vm._v("\n          Success\n      ")])
+                    : _c("span", [_vm._v("\n          Alert\n      ")])
+            ]),
+            _vm._v(" "),
+            _vm.message.length > 0
+              ? _c("p", { style: _vm.styleMessage }, [
+                  _vm._v(_vm._s(_vm.message))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.messages, function(mes) {
+              return _vm.messages
+                ? _c("p", { style: _vm.styleMessage }, [_vm._v(_vm._s(mes))])
+                : _vm._e()
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-xs",
+                  on: {
+                    click: function($event) {
+                      _vm.$emit("close-alert-modal")
                     }
-                  },
-                  [_vm._v("OK")]
-                )
-              ])
-            ],
-            2
-          )
-        ],
-        1
-      )
+                  }
+                },
+                [_vm._v("OK")]
+              )
+            ])
+          ],
+          2
+        )
+      ])
     : _vm._e()
 }
 var staticRenderFns = []
@@ -47695,6 +47703,28 @@ var render = function() {
                     _vm.$set(_vm.mainContent, "mainText", $$v)
                   },
                   expression: "mainContent.mainText"
+                }
+              }),
+              _vm._v(" "),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _vm._v(" "),
+              _c("h5", [_vm._v("Welcome e-mail")]),
+              _vm._v(" "),
+              _c("vue-editor", {
+                staticStyle: { height: "400px" },
+                attrs: { editorToolbar: _vm.customToolbar },
+                model: {
+                  value: _vm.mainContent.welcomeEmail,
+                  callback: function($$v) {
+                    _vm.$set(_vm.mainContent, "welcomeEmail", $$v)
+                  },
+                  expression: "mainContent.welcomeEmail"
                 }
               })
             ],
@@ -62705,12 +62735,12 @@ var StreamersPage = __webpack_require__("./resources/assets/js/components/admin/
 var PromotedPage = __webpack_require__("./resources/assets/js/components/admin/PromotedPage.vue");
 var MainStreamersPage = __webpack_require__("./resources/assets/js/components/admin/MainStreamersPage.vue");
 var MainContentPage = __webpack_require__("./resources/assets/js/components/admin/MainContentPage.vue");
+// var EmailPage = require('./components/admin/EmailPage.vue');
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
-// Vue.use(VueTimepicker)
 
 Vue.component('admin-menu', __webpack_require__("./resources/assets/js/components/admin/AdminMenu.vue"));
 Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
@@ -63739,7 +63769,11 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             list: [],
             loaded: false
         },
-        alerts: []
+        alerts: [],
+        mailWellcome: {
+            text: '',
+            loaded: false
+        }
     },
     mutations: {
         authWithToken: function authWithToken(state, data) {
@@ -64278,7 +64312,6 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                console.log(jsonResp.data);
                 state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
                 state.streamers.pages = jsonResp.data ? jsonResp.data.pages : 1;
                 state.streamers.loaded = true;
@@ -64743,14 +64776,12 @@ var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store
             return state.mainStreamers.loaded;
         },
         mainContent: function mainContent(state) {
-            console.log('in state', state.mainContent.list);
             return state.mainContent.list;
         },
         mainContentLoaded: function mainContentLoaded(state) {
             return state.mainContent.loaded;
         },
         alerts: function alerts(state) {
-            console.log('alerts in getter', state.alerts);
             return state.alerts;
         }
     }

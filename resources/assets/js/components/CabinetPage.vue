@@ -1,5 +1,5 @@
 <template>
-    <div v-if="userId > 0 || checkToken" class="cabinet-page" >
+    <div v-if="userId == '' || checkToken" class="cabinet-page" >
         <h1 class="text-center">Profile</h1>
         <div class="row">
             <div class="col-md-3">
@@ -30,7 +30,7 @@
                     v-bind:href="'#/donate/' + profileData.streamer_id">
                     Donate Page
                 </a>
-                <div v-if="parseInt(userId) == 0">
+                <div v-if="userId == ''">
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
                     <a class="btn btn-info" href="#/notifications">Notifications</a>
@@ -47,7 +47,7 @@
     export default {
         props: {
           userId: {
-            default: 0,
+            default: '',
             required: false
           },
         },

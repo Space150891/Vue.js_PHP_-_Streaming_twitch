@@ -33,15 +33,14 @@ class StreamersController extends Controller
     public function show(Request $request) //// 
     {
         $validator = Validator::make($request->all(), [
-            'id'       => 'required|numeric',
+            'name'       => 'required|min:1',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ]);
         }
-        $id = $request->id;
-        $streamer = Streamer::find($id);
+        $streamer = Streamer::where('name', $request->name)->first();
 
         if (!$streamer) {
             return response()->json([

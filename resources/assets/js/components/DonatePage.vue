@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="userId > 0 && checkToken" class="cabinet-page" >
+        <div v-if="userId.length > 0  && checkToken && streamer.paypal" class="cabinet-page" >
             <h1 class="text-center">Donate</h1>
                 <label class="form-control">
                     <h2 class="text-center">
@@ -19,8 +19,11 @@
                 </label>
                 <button @click.prevent="dotate()" class="btn btn-success form-control">DONATE</button>
         </div>
-        <div v-if="!userId && checkToken" class="cabinet-page" >
+        <div v-if="userId.length == 0 && checkToken" class="cabinet-page" >
             <h2>click button Donate from Stream or Profile page</h2>
+        </div>
+        <div v-if="streamer && streamer.paypal == null" class="cabinet-page">
+            <h2 class="text-danger text-center">This streamer did not have paypal accaunt</h2>
         </div>
         <div v-if="!checkToken" class="cabinet-page">
             Please login
@@ -64,6 +67,7 @@
               return this.$store.getters.checkToken;
             },
             streamer: function () {
+                console.log('streamer', this.$store.getters.streamerFullData);
                 return this.$store.getters.streamerFullData;
             },
             getDonater: function () {

@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Facades\Auth;
 use App\Achievements\{FirstLoginAchievement, Login10daysAchievement, Login20daysAchievement};
+use App\Mail\WellcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class SocialController extends Controller
 {
@@ -189,6 +191,9 @@ class SocialController extends Controller
             $user->password = \Hash::make('123');
             $user->last_name = '';
             $user->name = strtolower($body['name']);
+            $user->email = strtolower($body['email']);
+            $mail = new WellcomeMail();
+            Mail::to($user->email)->send($mail);
             $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;

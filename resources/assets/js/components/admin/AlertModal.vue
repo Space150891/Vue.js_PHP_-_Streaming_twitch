@@ -1,6 +1,5 @@
 <template>
   <div v-if="opened" v-bind:style="styleBack">
-    <admin-menu page="/cases"></admin-menu>
     <div v-bind:style="styleDiv">
       <h5 class="text-center">
         <span v-if="AlertType=='warning'" v-bind:style="alertWarning">
@@ -8,6 +7,9 @@
         </span>
         <span v-else-if="AlertType=='notify'">
             Notify
+        </span>
+        <span v-else-if="AlertType=='success'">
+            Success
         </span>
         <span v-else>
             Alert

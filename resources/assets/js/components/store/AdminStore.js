@@ -56,6 +56,10 @@ const AdminStore = new Vuex.Store({
             loaded: false,
         },
         alerts: [],
+        mailWellcome: {
+            text: '',
+            loaded: false,
+        },
     },
     mutations: {
         authWithToken(state, data) {
@@ -664,7 +668,6 @@ const AdminStore = new Vuex.Store({
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;
                 }
-                console.log(jsonResp.data);
                 state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
                 state.streamers.pages = jsonResp.data ? jsonResp.data.pages : 1;
                 state.streamers.loaded = true;
@@ -1075,8 +1078,7 @@ const AdminStore = new Vuex.Store({
         // main content
         updateMainContentAction(context, data) {
             context.commit('storeMainContent', data);
-        }
-
+        },
     },
     getters : {
         checkToken: state => {
@@ -1149,16 +1151,14 @@ const AdminStore = new Vuex.Store({
             return state.mainStreamers.loaded;
         },
         mainContent: state => {
-            console.log('in state', state.mainContent.list);
             return state.mainContent.list;
         },
         mainContentLoaded: state => {
             return state.mainContent.loaded;
         },
         alerts: state => {
-            console.log('alerts in getter', state.alerts);
             return state.alerts;
-        }
+        },
     }
 });
 

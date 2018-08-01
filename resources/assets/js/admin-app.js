@@ -15,6 +15,7 @@ var StreamersPage = require('./components/admin/StreamersPage.vue');
 var PromotedPage = require('./components/admin/PromotedPage.vue');
 var MainStreamersPage = require('./components/admin/MainStreamersPage.vue');
 var MainContentPage = require('./components/admin/MainContentPage.vue');
+// var EmailPage = require('./components/admin/EmailPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -29,11 +30,11 @@ var router = new VueRouter({
         { path: '/streamers', component: StreamersPage },
         { path: '/promoted', component: PromotedPage },
         { path: '/main-streamers', component: MainStreamersPage },
-        { path: '/main-content', component: MainContentPage }
+        { path: '/main-content', component: MainContentPage },
+        // { path: '/email', component: EmailPage },
     ]
 });
 Vue.use(VueRouter);
-// Vue.use(VueTimepicker)
 
 Vue.component('admin-menu', require('./components/admin/AdminMenu.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));

@@ -100,7 +100,7 @@ const UserSignStore = new Vuex.Store({
                     if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                         state.token = false;
                     } else {
-                        state.currentViewer.name = jsonResp.name;
+                        state.currentViewer.name = jsonResp.data.name;
                         state.currentViewer.points = jsonResp.data.points;
                         state.currentViewer.diamonds = jsonResp.data.diamonds;
                         state.currentViewer.level = jsonResp.data.level;
@@ -129,11 +129,11 @@ const UserSignStore = new Vuex.Store({
                 state.message = jsonResp.message;
             });
         },
-        loadProfile(state, id = 0) {
+        loadProfile(state, name = '') {
             var formData = new FormData();
             var url = 'api/profile/current';
-            if (id > 0) {
-                formData.append('id', id);
+            if (name != '') {
+                formData.append('name', name);
                 url = 'api/profile/get';
             } else {
                 formData.append('token', state.token);
@@ -156,9 +156,9 @@ const UserSignStore = new Vuex.Store({
                 }
             });
         },
-        loadStreamerFullData(state, id) {
+        loadStreamerFullData(state, name) {
             var formData = new FormData();
-            formData.append('id', id);
+            formData.append('name', name);
             formData.append('token', state.token);
             fetch('api/streamers/get',
             {
@@ -553,6 +553,28 @@ const UserSignStore = new Vuex.Store({
         clearMenuMessages(state) {
             state.menuMessages = [];
         },
+        addFollow(state, streamName){
+            if (state.token) {
+                var formData = new FormData();
+                formData.append('token', state.token);
+                formData.append('name', streamName);
+                fetch('api/signedviewers/add',
+                {
+                    method: "POST",
+                    body: formData,
+                    credentials: 'omit',
+                    mode: 'cors',
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                        state.token = false;
+                    }
+                });
+            }
+        },
     },
     actions: {
         getSubscribeData(context) {
@@ -639,7 +661,6 @@ const UserSignStore = new Vuex.Store({
             return state.wachingStreamers;
         },
         menuMessages: state => {
-            console.log('in getter', state.menuMessages);
             return state.menuMessages;
         },
     },

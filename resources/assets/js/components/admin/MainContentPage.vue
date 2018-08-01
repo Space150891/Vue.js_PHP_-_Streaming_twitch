@@ -20,6 +20,13 @@
           :editorToolbar="customToolbar"
         >
         </vue-editor>
+        <br><br><br><br><br><br><br>
+        <h5>Welcome e-mail</h5>
+        <vue-editor
+          v-model="mainContent.welcomeEmail"
+          style="height:400px;"
+          :editorToolbar="customToolbar"
+        ></vue-editor>
 	</div>
   <div v-if="checkToken && !mainContentLoaded" class="v-loading"></div>
   <h5 v-if="!checkToken">login first</h5>
@@ -62,6 +69,10 @@
                 data.push({
                     name: 'mainHeader',
                     content: this.mainContent.mainHeader
+                });
+                data.push({
+                    name: 'welcomeEmail',
+                    content: this.mainContent.welcomeEmail
                 });
                 this.$store.dispatch('updateMainContentAction', data);
             },

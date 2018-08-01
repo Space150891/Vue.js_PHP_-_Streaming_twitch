@@ -3,7 +3,7 @@
         <h1 class="text-center">My streamers</h1>
         <ul class="list-group">
             <li v-for="streamer in myStreamers" class="list-group-item">
-                <a v-bind:href="'#/profile/' + streamer.user_id" target="_blank">{{streamer.name}}</a>
+                <a v-bind:href="'#/profile/' + streamer.name" target="_blank">{{streamer.name}}</a>
                 <a @click.prevent="removeAction(streamer.streamer_id)" href="#" class="btn btn-danger pull-right">remove</a>
             </li>
         </ul>

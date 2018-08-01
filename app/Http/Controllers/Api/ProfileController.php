@@ -33,26 +33,25 @@ class ProfileController extends Controller
     public function get(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id'       => 'required|numeric',
+            'name'       => 'required|min:1',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ]);
         }
-        $id = $request->id;
-        $user = User::find($id);
-        $streamer = $user->streamer()->first();
+        $user = User::where('name', $request->name)->first();
         if (!$user) {
             return response()->json([
                 'errors' => ['user id not found'],
             ]);
         }
+        $streamer = $user->streamer()->first();
         return response()->json([
             'data' => [
                 'streamer_id' => $streamer->id,
                 'avatar'    =>  $user->avatar,
-                'username'  =>  $user->first_name,
+                'username'  => $user->first_name ? $user->first_name :  $user->name,
                 'nikname'   => $user->name,
                 'bio'       => $user->bio,
                 'email'     => '',

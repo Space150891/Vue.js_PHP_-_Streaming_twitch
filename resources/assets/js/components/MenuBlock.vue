@@ -19,11 +19,24 @@
                     </router-link>
                 </li>
             </ul>
+            <follow-drop-down
+              v-bind:links="wachingStreamers"
+            >
+            </follow-drop-down>
+            <drop-down
+              mainLabel="Streamer Profile"
+              baseUrl="profile"
+              v-bind:links="wachingStreamers"
+            ></drop-down>
+            <drop-down
+              mainLabel="Donate Streamer"
+              baseUrl="donate"
+              v-bind:links="wachingStreamers"
+            ></drop-down>
             <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
             <a href="twitch/redirect" class="sign" v-else >Sign up</a>
-
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
-            <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Subscribe</a>
+            <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Promote your channel</a>
             <a href="#/afiliate" class="cabinet-but" v-if="checkToken">Afiliate</a>
             <ul class="navbar-nav my-2 my-lg-0 left" v-if="checkToken">
                 <li class="nav-item">
@@ -99,9 +112,11 @@
                 return this.$store.getters.currentViewer;
             },
             menuMessages: function() {
-                console.log('from getter', this.$store.getters.menuMessages);
                 return this.$store.getters.menuMessages;
-            }
+            },
+            wachingStreamers: function () {
+                return this.$store.getters.wachingStreamers;
+            },
         },
         mounted: function () {
             this.$store.commit('signUp');

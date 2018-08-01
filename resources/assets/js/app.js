@@ -29,6 +29,7 @@ var Notifications = require('./components/NotificationsPage.vue');
 var Achivements = require('./components/AchivementsPage.vue');
 var Donate = require('./components/DonatePage.vue');
 var WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
+// var AllUsersPage = require('./components/AllUsersPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -46,6 +47,7 @@ var router = new VueRouter({
         { path: '/achivements', component: Achivements},
         { path: '/donate/:userId', component: Donate,  props: true },
         { path: '/watch-streams', component: WatchingStreamsPage},
+        // { path: '/users', component: AllUsersPage},
     ]
 });
 Vue.use(VueRouter);
@@ -72,6 +74,9 @@ Vue.component('video-part', require('./components/VideoPart.vue'));
 Vue.component('up-nav', require('./components/UpNav.vue'));
 Vue.component('footer-part', require('./components/FooretPart.vue'));
 Vue.component('stream-frame', require('./components/WatchStreamPart.vue'))
+Vue.component('drop-down', require('./components/DropDown.vue'))
+Vue.component('follow-drop-down', require('./components/FollowDropDown.vue'))
+Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 
 
 const app = new Vue({
