@@ -2075,6 +2075,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2227,6 +2230,168 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AllUsersPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            errors: [],
+            page: 1,
+            onPage: config.on_page,
+            modalView: false,
+            openAlertModal: false,
+            form: {
+                subscriptionPlan: 0,
+                monthPlan: 0,
+                userId: 0
+            }
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+            this.$store.dispatch('getSubscribeData');
+        }
+    },
+
+    methods: {
+        getList: function getList() {
+            this.$store.commit('getPaggUsersList', {
+                page: this.page,
+                onPage: this.onPage
+            });
+        },
+        viewMore: function viewMore(id) {
+            this.modalView = true;
+            console.log('viewing user ', id);
+            this.$store.commit('getEditUser', id);
+        },
+        loadPage: function loadPage(pageNumber) {
+            this.page = pageNumber;
+            this.getList();
+        },
+        submitSubscribe: function submitSubscribe() {
+            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                this.form.userId = this.editUser.id;
+                this.$store.commit('subscribeUser', this.form);
+                this.modalView = false;
+                this.openAlertModal = true;
+                this.form.subscriptionPlan = 0;
+                this.form.monthPlan = 0;
+            }
+        },
+        cancel: function cancel() {
+            this.modalView = false;
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'users', 'usersPages', 'usersLoaded', 'subscriptionPlans', 'monthPlans', 'editUser']))
 });
 
 /***/ }),
@@ -45266,7 +45431,7 @@ var render = function() {
                         },
                         attrs: { href: "#/case-types" }
                       },
-                      [_vm._v("Case Types")]
+                      [_vm._v("Case types")]
                     )
                   ]),
                   _vm._v(" "),
@@ -45294,7 +45459,21 @@ var render = function() {
                         },
                         attrs: { href: "#/streamers" }
                       },
-                      [_vm._v("Streamers Management")]
+                      [_vm._v("Streamers management")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/users"
+                        },
+                        attrs: { href: "#/users" }
+                      },
+                      [_vm._v("All users")]
                     )
                   ]),
                   _vm._v(" "),
@@ -45308,7 +45487,7 @@ var render = function() {
                         },
                         attrs: { href: "#/promoted" }
                       },
-                      [_vm._v("Promouted Streamers")]
+                      [_vm._v("Promouted streamers")]
                     )
                   ]),
                   _vm._v(" "),
@@ -45322,7 +45501,7 @@ var render = function() {
                         },
                         attrs: { href: "#/main-streamers" }
                       },
-                      [_vm._v("Main Streamers")]
+                      [_vm._v("Main streamers")]
                     )
                   ]),
                   _vm._v(" "),
@@ -45336,7 +45515,7 @@ var render = function() {
                         },
                         attrs: { href: "#/main-content" }
                       },
-                      [_vm._v("Main Content")]
+                      [_vm._v("Main content")]
                     )
                   ]),
                   _vm._v(" "),
@@ -46551,6 +46730,344 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-7bd2a6ef", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7c978e4d\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AllUsersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/users" } }),
+      _vm._v(" "),
+      _vm.checkToken && _vm.usersLoaded
+        ? _c(
+            "div",
+            [
+              _c("h5", [_vm._v("All Users")]),
+              _vm._v(" "),
+              _c(
+                "table",
+                { staticClass: "table table-striped table-condenced" },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.users, function(item) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(item.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.twitch_id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.followers))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.level_points))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.diamonds))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.level))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-xs btn-info",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.viewMore(item.id)
+                                }
+                              }
+                            },
+                            [_vm._v("\n\t\t\t\t\t\t  \tmore\n\t\t\t\t\t\t")]
+                          )
+                        ])
+                      ])
+                    })
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("pagination", {
+                attrs: { page: _vm.page, pages: _vm.usersPages, buttons: "5" },
+                on: {
+                  "load-page": function($event) {
+                    _vm.loadPage($event)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.modalView
+                ? _c("div", { staticClass: "edit-modal-back" }, [
+                    _c("div", { staticClass: "edit-modal" }, [
+                      _c("h3", [_vm._v(_vm._s(_vm.editUser.name))]),
+                      _vm._v(" "),
+                      _vm.editUser.subscriptions.length > 0
+                        ? _c("div", [
+                            _c("h5", [_vm._v("existing subscriptions:")]),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              { staticClass: "list-group" },
+                              _vm._l(_vm.editUser.subscriptions, function(s) {
+                                return _c(
+                                  "li",
+                                  { staticClass: "list-group-item disabled" },
+                                  [
+                                    _c("strong", [
+                                      _vm._v(_vm._s(s.subscription))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-secondary" },
+                                      [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(s.month) +
+                                            " monthes\n                            "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(s.valid_from.substring(0, 10)) +
+                                        " - " +
+                                        _vm._s(s.valid_until.substring(0, 10)) +
+                                        "\n                        "
+                                    )
+                                  ]
+                                )
+                              })
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("h5", [_vm._v("create:")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.subscriptionPlan,
+                              expression: "form.subscriptionPlan"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "subscription_plan_id" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "subscriptionPlan",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Select subscription plan")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.subscriptionPlans, function(
+                            subscriptionPlan
+                          ) {
+                            return _c(
+                              "option",
+                              { domProps: { value: subscriptionPlan.id } },
+                              [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(subscriptionPlan.name) +
+                                    " cost " +
+                                    _vm._s(subscriptionPlan.price) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.monthPlan,
+                              expression: "form.monthPlan"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "month_plan_id" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "monthPlan",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Select months")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.monthPlans, function(monthPlan) {
+                            return _c(
+                              "option",
+                              { domProps: { value: monthPlan.id } },
+                              [
+                                _vm._v(
+                                  "\n                        months " +
+                                    _vm._s(monthPlan.monthes) +
+                                    " discount " +
+                                    _vm._s(monthPlan.percent) +
+                                    " %\n                    "
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { type: "hidden", name: "streamer_id" },
+                        domProps: { value: _vm.editUser.id }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success form-control",
+                          attrs: { type: "submit" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.submitSubscribe()
+                            }
+                          }
+                        },
+                        [_vm._v(" SUBSCRIBE ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning form-control",
+                          attrs: { type: "submit" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.cancel()
+                            }
+                          }
+                        },
+                        [_vm._v(" close ")]
+                      )
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("modal-alert", {
+                attrs: {
+                  AlertType: "notify",
+                  messages: ["user subscribed"],
+                  opened: _vm.openAlertModal
+                },
+                on: {
+                  "close-alert-modal": function($event) {
+                    _vm.openAlertModal = false
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.usersLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Twitch id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Followers")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Points")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Diamonds")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Level")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7c978e4d", module.exports)
   }
 }
 
@@ -62717,7 +63234,7 @@ module.exports = function(module) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_store_AdminStore_js__ = __webpack_require__("./resources/assets/js/components/store/AdminStore.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_admin_store_AdminStore_js__ = __webpack_require__("./resources/assets/js/components/admin/store/AdminStore.js");
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 
@@ -62735,10 +63252,10 @@ var StreamersPage = __webpack_require__("./resources/assets/js/components/admin/
 var PromotedPage = __webpack_require__("./resources/assets/js/components/admin/PromotedPage.vue");
 var MainStreamersPage = __webpack_require__("./resources/assets/js/components/admin/MainStreamersPage.vue");
 var MainContentPage = __webpack_require__("./resources/assets/js/components/admin/MainContentPage.vue");
-// var EmailPage = require('./components/admin/EmailPage.vue');
+var AllUsersPage = __webpack_require__("./resources/assets/js/components/admin/AllUsersPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -62754,7 +63271,7 @@ Vue.component('vue-timepicker', __webpack_require__("./node_modules/vue2-timepic
 var app = new Vue({
     el: '#admin-app',
     router: router,
-    store: __WEBPACK_IMPORTED_MODULE_1__components_store_AdminStore_js__["a" /* default */],
+    store: __WEBPACK_IMPORTED_MODULE_1__components_admin_store_AdminStore_js__["a" /* default */],
     mounted: function mounted() {}
 });
 
@@ -62967,6 +63484,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-756659b0", Component.options)
   } else {
     hotAPI.reload("data-v-756659b0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/AllUsersPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AllUsersPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7c978e4d\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AllUsersPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/AllUsersPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c978e4d", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c978e4d", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -63698,1096 +64263,1299 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/config/config.json":
-/***/ (function(module, exports) {
+/***/ "./resources/assets/js/components/admin/store/Actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50}
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return actions; });
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+var actions = {
+    getItemTypesListAction: function getItemTypesListAction(context) {
+        context.commit('getItemTypesList');
+    },
+    createItemTypeAction: function createItemTypeAction(context, data) {
+        context.commit('createItemType', data);
+        context.commit('getItemTypesList');
+    },
+    ItemTypeDeleteAction: function ItemTypeDeleteAction(context, id) {
+        context.commit('deleteItemType', id);
+        context.commit('getItemTypesList');
+    },
+    ItemTypeSaveAction: function ItemTypeSaveAction(context, data) {
+        context.commit('saveItemType', data);
+        context.commit('getItemTypesList');
+    },
+
+    // rarities
+    getRaritiesListAction: function getRaritiesListAction(context) {
+        context.commit('getRaritiesList');
+    },
+    createRarityAction: function createRarityAction(context, data) {
+        context.commit('createRarity', data);
+        context.commit('getRaritiesList');
+    },
+    RarityDeleteAction: function RarityDeleteAction(context, id) {
+        context.commit('deleteRarity', id);
+        context.commit('getRaritiesList');
+    },
+    RaritySaveAction: function RaritySaveAction(context, data) {
+        context.commit('saveRarity', data);
+        context.commit('getRaritiesList');
+    },
+
+    // items
+    getItemsListAction: function getItemsListAction(context) {
+        context.commit('getItemsList');
+        context.commit('getItemTypesList');
+    },
+    createItemAction: function createItemAction(context, data) {
+        context.commit('createItem', data);
+        setTimeout(function () {
+            context.commit('getItemsList');
+        }, config.timeOut);
+    },
+    ItemDeleteAction: function ItemDeleteAction(context, id) {
+        context.commit('deleteItem', id);
+        context.commit('getItemsList');
+    },
+    ItemSaveAction: function ItemSaveAction(context, data) {
+        context.commit('saveItem', data);
+        setTimeout(function () {
+            context.commit('getItemsList');
+        }, config.timeOut);
+    },
+
+    // case types
+    getCaseTypesListAction: function getCaseTypesListAction(context) {
+        context.commit('getCaseTypesList');
+    },
+    createCaseTypeAction: function createCaseTypeAction(context, data) {
+        context.commit('createCaseType', data);
+    },
+    CaseTypeDeleteAction: function CaseTypeDeleteAction(context, id) {
+        context.commit('deleteCaseType', id);
+        context.commit('getCaseTypesList');
+    },
+    CaseTypeSaveAction: function CaseTypeSaveAction(context, data) {
+        context.commit('saveCaseType', data);
+    },
+
+    // cases
+    CasesListAction: function CasesListAction(context) {
+        context.commit('getCases');
+        context.commit('getCaseTypesList');
+    },
+    CaseCreateAction: function CaseCreateAction(context, data) {
+        context.commit('createCase', data);
+        context.commit('getCases');
+    },
+    CaseDeleteAction: function CaseDeleteAction(context, id) {
+        context.commit('deleteCase', id);
+        context.commit('getCases');
+    },
+    CaseSaveAction: function CaseSaveAction(context, data) {
+        context.commit('saveCase', data);
+        context.commit('getCases');
+    },
+
+    // case items
+    CaseItemsListAction: function CaseItemsListAction(context, id) {
+        context.commit('getItemsList');
+        context.commit('getRaritiesList');
+        context.commit('getCaseItems', id); //
+    },
+    CaseItemCreateAction: function CaseItemCreateAction(context, data) {
+        context.commit('createCaseItem', data); //
+        context.commit('getCaseItems', data.case_id); //
+    },
+    CaseItemDeleteAction: function CaseItemDeleteAction(context, id) {
+        context.commit('deleteCaseItem', id);
+        context.commit('getCaseItems', id);
+    },
+    CaseItemClear: function CaseItemClear(context) {
+        context.commit('clearCaseItems');
+    },
+
+    // promoted streamers
+    getStreamersListAction: function getStreamersListAction(context) {
+        context.commit('getStreamersList');
+    },
+    getPromotedListAction: function getPromotedListAction(context) {
+        context.commit('getPromotedList');
+        context.commit('getStreamersList');
+    },
+    addPromotedAction: function addPromotedAction(context, id) {
+        context.commit('addPromoted', id);
+        setTimeout(function () {
+            context.commit('getPromotedList');
+        }, config.timeOut);
+    },
+    deletePromotedAction: function deletePromotedAction(context, id) {
+        context.commit('deletePromoted', id);
+        setTimeout(function () {
+            context.commit('getPromotedList');
+        }, config.timeOut);
+    },
+    upPromotedAction: function upPromotedAction(context, id) {
+        context.commit('upPromoted', id);
+        setTimeout(function () {
+            context.commit('getPromotedList');
+        }, config.timeOut);
+    },
+    downPromotedAction: function downPromotedAction(context, id) {
+        context.commit('downPromoted', id);
+        setTimeout(function () {
+            context.commit('getPromotedList');
+        }, config.timeOut);
+    },
+
+    // main streamers
+    getMainStreamersListAction: function getMainStreamersListAction(context) {
+        context.commit('getPromotedList');
+        context.commit('getMainStreamersList');
+    },
+    addMainStreamerAction: function addMainStreamerAction(context, item) {
+        context.commit('addMainStreamer', item);
+        setTimeout(function () {
+            context.commit('getMainStreamersList');
+        }, config.timeOut);
+    },
+    updateMainStreamerAction: function updateMainStreamerAction(context, item) {
+        context.commit('updateMainStreamer', item);
+        setTimeout(function () {
+            context.commit('getMainStreamersList');
+        }, config.timeOut);
+    },
+    deleteMainStreamerAction: function deleteMainStreamerAction(context, id) {
+        context.commit('deleteMainStreamer', id);
+        setTimeout(function () {
+            context.commit('getMainStreamersList');
+        }, config.timeOut);
+    },
+
+    // main content
+    updateMainContentAction: function updateMainContentAction(context, data) {
+        context.commit('storeMainContent', data);
+    },
+    getSubscribeData: function getSubscribeData(context) {
+        context.commit('getSubscriptionPlansList');
+        context.commit('getMonthPlansList');
+    }
+};
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/store/AdminStore.js":
+/***/ "./resources/assets/js/components/admin/store/AdminStore.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__State_js__ = __webpack_require__("./resources/assets/js/components/admin/store/State.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Mutations_js__ = __webpack_require__("./resources/assets/js/components/admin/store/Mutations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Actions_js__ = __webpack_require__("./resources/assets/js/components/admin/store/Actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Getters_js__ = __webpack_require__("./resources/assets/js/components/admin/store/Getters.js");
 
 
-var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+
+
+
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var AdminStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-    state: {
-        token: false,
-        apiUrl: config.baseUrl + '/api/',
-        itemTypes: {
-            list: [],
-            loaded: false
-        },
-        rarities: {
-            list: [],
-            loaded: false
-        },
-        items: {
-            list: [],
-            loaded: false,
-            saved: true
-        },
-        caseTypes: {
-            list: [],
-            loaded: false,
-            saved: true
-        },
-        cases: {
-            list: [],
-            loaded: false
-        },
-        caseItems: {
-            list: [],
-            loaded: false
-        },
-        sseMessages: [],
-        streamers: {
-            list: [],
-            loaded: false,
-            saved: true,
-            pages: 1
-        },
-        promotedStreamers: {
-            list: [],
-            loaded: false,
-            saved: true
-        },
-        mainStreamers: {
-            list: [],
-            loaded: false,
-            saved: true
-        },
-        mainContent: {
-            list: [],
-            loaded: false
-        },
-        alerts: [],
-        mailWellcome: {
-            text: '',
-            loaded: false
-        }
-    },
-    mutations: {
-        authWithToken: function authWithToken(state, data) {
-            var formData = new FormData();
-
-            formData.append('email', data.email);
-            formData.append('password', data.password);
-
-            fetch(state.apiUrl + 'auth/login', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.token = jsonResp.access_token ? jsonResp.access_token : false;
-                if (jsonResp.access_token) {
-                    state.token = jsonResp.access_token;
-                    document.cookie = "token=" + jsonResp.access_token;
-                } else {
-                    state.token = false;
-                }
-            });
-        },
-        getItemTypesList: function getItemTypesList(state) {
-            var formData = new FormData();
-            state.itemTypes.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'itemtypes/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.itemTypes.list = jsonResp.data ? jsonResp.data.item_types : [];
-                state.itemTypes.loaded = true;
-            });
-        },
-        createItemType: function createItemType(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('name', data.name);
-            fetch(state.apiUrl + 'itemtypes/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        deleteItemType: function deleteItemType(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'itemtypes/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        saveItemType: function saveItemType(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', data.id);
-            formData.append('name', data.name);
-            fetch(state.apiUrl + 'itemtypes/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        getRaritiesList: function getRaritiesList(state) {
-            var formData = new FormData();
-            state.rarities.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'rarities/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.rarities.list = jsonResp.data ? jsonResp.data.rarities : [];
-                state.rarities.loaded = true;
-            });
-        },
-        createRarity: function createRarity(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('name', data.name);
-            formData.append('percent', data.percent);
-            fetch(state.apiUrl + 'rarities/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        deleteRarity: function deleteRarity(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'rarities/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        saveRarity: function saveRarity(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', data.id);
-            formData.append('name', data.name);
-            formData.append('percent', data.percent);
-            fetch(state.apiUrl + 'rarities/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-
-        // items
-        getItemsList: function getItemsList(state) {
-            var formData = new FormData();
-            state.items.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'items/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.items.list = jsonResp.data ? jsonResp.data.items : [];
-                state.items.loaded = true;
-            });
-        },
-        createItem: function createItem(state, data) {
-            var formData = new FormData();
-            state.items.saved = false;
-            state.items.loaded = false;
-            formData.append('token', state.token);
-            formData.append('title', data.title);
-            formData.append('item_type_id', data.item_type_id);
-            formData.append('description', data.description);
-            formData.append('worth', data.worth);
-            if (data.image) {
-                formData.append('image', data.image);
-            }
-            if (data.icon) {
-                formData.append('icon', data.icon);
-            }
-            fetch(state.apiUrl + 'items/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.items.saved = true;
-            });
-        },
-        deleteItem: function deleteItem(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'items/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        saveItem: function saveItem(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', data.id);
-            formData.append('title', data.title);
-            formData.append('item_type_id', data.item_type_id);
-            formData.append('description', data.description);
-            formData.append('worth', data.worth);
-            if (data.image) {
-                formData.append('image', data.image);
-            }
-            if (data.icon) {
-                formData.append('icon', data.icon);
-            }
-            fetch(state.apiUrl + 'items/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-
-        // case types mutation
-        getCaseTypesList: function getCaseTypesList(state) {
-            var formData = new FormData();
-            state.caseTypes.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'cases/types/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
-                state.caseTypes.loaded = true;
-            });
-        },
-        createCaseType: function createCaseType(state, data) {
-            var formData = new FormData();
-            state.caseTypes.saved = false;
-            state.caseTypes.loaded = false;
-            formData.append('token', state.token);
-            formData.append('name', data.name);
-            formData.append('price', data.price);
-            if (data.image) {
-                formData.append('image', data.image);
-            }
-            fetch(state.apiUrl + 'cases/types/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.caseTypes.saved = true;
-            });
-        },
-        deleteCaseType: function deleteCaseType(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'cases/types/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        saveCaseType: function saveCaseType(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', data.id);
-            formData.append('name', data.name);
-            formData.append('price', data.price);
-            if (data.image) {
-                formData.append('image', data.image);
-            }
-            fetch(state.apiUrl + 'cases/types/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-
-        // cases
-        getCases: function getCases(state) {
-            var formData = new FormData();
-            state.cases.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'cases/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.cases.list = jsonResp.data ? jsonResp.data.cases : [];
-                state.cases.loaded = true;
-            });
-        },
-        createCase: function createCase(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('name', data.name);
-            formData.append('case_type_id', data.case_type_id);
-            fetch(state.apiUrl + 'cases/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        deleteCase: function deleteCase(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'cases/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        saveCase: function saveCase(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', data.id);
-            formData.append('name', data.name);
-            formData.append('case_type_id', data.case_type_id);
-            fetch(state.apiUrl + 'cases/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-
-        // case items
-        getCaseItems: function getCaseItems(state, CaseId) {
-            var formData = new FormData();
-            state.caseItems.loaded = false;
-            formData.append('token', state.token);
-            formData.append('id', CaseId);
-            fetch(state.apiUrl + 'cases/item/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.caseItems.list = jsonResp.data ? jsonResp.data.items : [];
-                state.caseItems.loaded = true;
-            });
-        },
-        createCaseItem: function createCaseItem(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('item_id', data.item_id);
-            formData.append('rarity_id', data.rarity_id);
-            formData.append('case_id', data.case_id);
-            fetch(state.apiUrl + 'cases/item/add', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        deleteCaseItem: function deleteCaseItem(state, id) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'cases/item/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        clearCaseItems: function clearCaseItems(state) {
-            state.caseItems.list = [];
-        },
-        logout: function logout(state) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'auth/logout', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.token = false;
-            });
-        },
-        deleteMessage: function deleteMessage(state, index) {
-            state.sseMessages.splice(index, 1);
-        },
-
-        // streamers
-        getStreamersList: function getStreamersList(state) {
-            var formData = new FormData();
-            state.streamers.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'streamers/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
-                state.streamers.loaded = true;
-            });
-        },
-        getPaggStreamersList: function getPaggStreamersList(state, data) {
-            var formData = new FormData();
-            state.streamers.loaded = false;
-            formData.append('token', state.token);
-            formData.append('page', data.page);
-            formData.append('on_page', data.onPage);
-            fetch(state.apiUrl + 'streamers/list/pagg', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
-                state.streamers.pages = jsonResp.data ? jsonResp.data.pages : 1;
-                state.streamers.loaded = true;
-            });
-        },
-        getPromotedList: function getPromotedList(state) {
-            var formData = new FormData();
-            state.promotedStreamers.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'streamers/promoted/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
-                state.promotedStreamers.loaded = true;
-            });
-        },
-        addPromoted: function addPromoted(state, id) {
-            state.promotedStreamers.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'streamers/promoted/add', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        deletePromoted: function deletePromoted(state, id) {
-            state.promotedStreamers.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'streamers/promoted/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        upPromoted: function upPromoted(state, id) {
-            state.promotedStreamers.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'streamers/promoted/up', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-        downPromoted: function downPromoted(state, id) {
-            state.promotedStreamers.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'streamers/promoted/down', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        },
-
-        // main streamers
-        getMainStreamersList: function getMainStreamersList(state) {
-            var formData = new FormData();
-            state.mainStreamers.loaded = false;
-            formData.append('token', state.token);
-            fetch(state.apiUrl + 'streamers/main/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainStreamers.list = jsonResp.data ? jsonResp.data.main_streamers : [];
-                state.mainStreamers.loaded = true;
-            });
-        },
-        addMainStreamer: function addMainStreamer(state, item) {
-            var formData = new FormData();
-            state.mainStreamers.loaded = false;
-            formData.append('token', state.token);
-            formData.append('promouted_id', item.promouted_id);
-            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
-            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
-            fetch(state.apiUrl + 'streamers/main/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainStreamers.loaded = true;
-            });
-        },
-        updateMainStreamer: function updateMainStreamer(state, item) {
-            var formData = new FormData();
-            state.mainStreamers.loaded = false;
-            formData.append('token', state.token);
-            formData.append('id', item.id);
-            formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
-            formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
-            fetch(state.apiUrl + 'streamers/main/update', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainStreamers.loaded = true;
-            });
-        },
-        deleteMainStreamer: function deleteMainStreamer(state, id) {
-            var formData = new FormData();
-            state.mainStreamers.loaded = false;
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch(state.apiUrl + 'streamers/main/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainStreamers.loaded = true;
-            });
-        },
-
-        // main content
-        getMainContent: function getMainContent(state) {
-            var formData = new FormData();
-            state.mainContent.loaded = false;
-            fetch(state.apiUrl + 'content/show', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
-                state.mainContent.loaded = true;
-            });
-        },
-        storeMainContent: function storeMainContent(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('content', JSON.stringify(data));
-            fetch(state.apiUrl + 'content/store', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                // alert 'saved'
-                state.alerts.push({
-                    message: 'content saved'
-                });
-            });
-        },
-        clearAlerts: function clearAlerts(state) {
-            state.alerts = [];
-        }
-    },
-
-    actions: {
-        getItemTypesListAction: function getItemTypesListAction(context) {
-            context.commit('getItemTypesList');
-        },
-        createItemTypeAction: function createItemTypeAction(context, data) {
-            context.commit('createItemType', data);
-            context.commit('getItemTypesList');
-        },
-        ItemTypeDeleteAction: function ItemTypeDeleteAction(context, id) {
-            context.commit('deleteItemType', id);
-            context.commit('getItemTypesList');
-        },
-        ItemTypeSaveAction: function ItemTypeSaveAction(context, data) {
-            context.commit('saveItemType', data);
-            context.commit('getItemTypesList');
-        },
-
-        // rarities
-        getRaritiesListAction: function getRaritiesListAction(context) {
-            context.commit('getRaritiesList');
-        },
-        createRarityAction: function createRarityAction(context, data) {
-            context.commit('createRarity', data);
-            context.commit('getRaritiesList');
-        },
-        RarityDeleteAction: function RarityDeleteAction(context, id) {
-            context.commit('deleteRarity', id);
-            context.commit('getRaritiesList');
-        },
-        RaritySaveAction: function RaritySaveAction(context, data) {
-            context.commit('saveRarity', data);
-            context.commit('getRaritiesList');
-        },
-
-        // items
-        getItemsListAction: function getItemsListAction(context) {
-            context.commit('getItemsList');
-            context.commit('getItemTypesList');
-        },
-        createItemAction: function createItemAction(context, data) {
-            context.commit('createItem', data);
-            setTimeout(function () {
-                context.commit('getItemsList');
-            }, config.timeOut);
-        },
-        ItemDeleteAction: function ItemDeleteAction(context, id) {
-            context.commit('deleteItem', id);
-            context.commit('getItemsList');
-        },
-        ItemSaveAction: function ItemSaveAction(context, data) {
-            context.commit('saveItem', data);
-            setTimeout(function () {
-                context.commit('getItemsList');
-            }, config.timeOut);
-        },
-
-        // case types
-        getCaseTypesListAction: function getCaseTypesListAction(context) {
-            context.commit('getCaseTypesList');
-        },
-        createCaseTypeAction: function createCaseTypeAction(context, data) {
-            context.commit('createCaseType', data);
-        },
-        CaseTypeDeleteAction: function CaseTypeDeleteAction(context, id) {
-            context.commit('deleteCaseType', id);
-            context.commit('getCaseTypesList');
-        },
-        CaseTypeSaveAction: function CaseTypeSaveAction(context, data) {
-            context.commit('saveCaseType', data);
-        },
-
-        // cases
-        CasesListAction: function CasesListAction(context) {
-            context.commit('getCases');
-            context.commit('getCaseTypesList');
-        },
-        CaseCreateAction: function CaseCreateAction(context, data) {
-            context.commit('createCase', data);
-            context.commit('getCases');
-        },
-        CaseDeleteAction: function CaseDeleteAction(context, id) {
-            context.commit('deleteCase', id);
-            context.commit('getCases');
-        },
-        CaseSaveAction: function CaseSaveAction(context, data) {
-            context.commit('saveCase', data);
-            context.commit('getCases');
-        },
-
-        // case items
-        CaseItemsListAction: function CaseItemsListAction(context, id) {
-            context.commit('getItemsList');
-            context.commit('getRaritiesList');
-            context.commit('getCaseItems', id); //
-        },
-        CaseItemCreateAction: function CaseItemCreateAction(context, data) {
-            context.commit('createCaseItem', data); //
-            context.commit('getCaseItems', data.case_id); //
-        },
-        CaseItemDeleteAction: function CaseItemDeleteAction(context, id) {
-            context.commit('deleteCaseItem', id);
-            context.commit('getCaseItems', id);
-        },
-        CaseItemClear: function CaseItemClear(context) {
-            context.commit('clearCaseItems');
-        },
-
-        // promoted streamers
-        getStreamersListAction: function getStreamersListAction(context) {
-            context.commit('getStreamersList');
-        },
-        getPromotedListAction: function getPromotedListAction(context) {
-            context.commit('getPromotedList');
-            context.commit('getStreamersList');
-        },
-        addPromotedAction: function addPromotedAction(context, id) {
-            context.commit('addPromoted', id);
-            setTimeout(function () {
-                context.commit('getPromotedList');
-            }, config.timeOut);
-        },
-        deletePromotedAction: function deletePromotedAction(context, id) {
-            context.commit('deletePromoted', id);
-            setTimeout(function () {
-                context.commit('getPromotedList');
-            }, config.timeOut);
-        },
-        upPromotedAction: function upPromotedAction(context, id) {
-            context.commit('upPromoted', id);
-            setTimeout(function () {
-                context.commit('getPromotedList');
-            }, config.timeOut);
-        },
-        downPromotedAction: function downPromotedAction(context, id) {
-            context.commit('downPromoted', id);
-            setTimeout(function () {
-                context.commit('getPromotedList');
-            }, config.timeOut);
-        },
-
-        // main streamers
-        getMainStreamersListAction: function getMainStreamersListAction(context) {
-            context.commit('getPromotedList');
-            context.commit('getMainStreamersList');
-        },
-        addMainStreamerAction: function addMainStreamerAction(context, item) {
-            context.commit('addMainStreamer', item);
-            setTimeout(function () {
-                context.commit('getMainStreamersList');
-            }, config.timeOut);
-        },
-        updateMainStreamerAction: function updateMainStreamerAction(context, item) {
-            context.commit('updateMainStreamer', item);
-            setTimeout(function () {
-                context.commit('getMainStreamersList');
-            }, config.timeOut);
-        },
-        deleteMainStreamerAction: function deleteMainStreamerAction(context, id) {
-            context.commit('deleteMainStreamer', id);
-            setTimeout(function () {
-                context.commit('getMainStreamersList');
-            }, config.timeOut);
-        },
-
-        // main content
-        updateMainContentAction: function updateMainContentAction(context, data) {
-            context.commit('storeMainContent', data);
-        }
-    },
-    getters: {
-        checkToken: function checkToken(state) {
-            return state.token ? true : false;
-        },
-        itemTypes: function itemTypes(state) {
-            return state.itemTypes.list;
-        },
-        rarities: function rarities(state) {
-            return state.rarities.list;
-        },
-        items: function items(state) {
-            return state.items.list;
-        },
-        caseTypes: function caseTypes(state) {
-            return state.caseTypes.list;
-        },
-        cases: function cases(state) {
-            return state.cases.list;
-        },
-        caseItems: function caseItems(state) {
-            return state.caseItems.list;
-        },
-        itemTypesLoaded: function itemTypesLoaded(state) {
-            return state.itemTypes.loaded;
-        },
-        raritiesLoaded: function raritiesLoaded(state) {
-            return state.rarities.loaded;
-        },
-        itemsLoaded: function itemsLoaded(state) {
-            return state.items.loaded;
-        },
-        caseTypesLoaded: function caseTypesLoaded(state) {
-            return state.caseTypes.loaded;
-        },
-        casesLoaded: function casesLoaded(state) {
-            return state.cases.loaded;
-        },
-        caseItemsLoaded: function caseItemsLoaded(state) {
-            return state.caseItems.loaded;
-        },
-        caseTypesSaved: function caseTypesSaved(state) {
-            return state.caseTypes.saved;
-        },
-        itemsSaved: function itemsSaved(state) {
-            return state.items.saved;
-        },
-        sseMessages: function sseMessages(state) {
-            return state.sseMessages;
-        },
-        streamers: function streamers(state) {
-            return state.streamers.list;
-        },
-        streamersPages: function streamersPages(state) {
-            return state.streamers.pages;
-        },
-        streamersLoaded: function streamersLoaded(state) {
-            return state.streamers.loaded;
-        },
-        promotedStreamers: function promotedStreamers(state) {
-            return state.promotedStreamers.list;
-        },
-        promotedLoaded: function promotedLoaded(state) {
-            return state.promotedStreamers.loaded;
-        },
-        mainStreamers: function mainStreamers(state) {
-            return state.mainStreamers.list;
-        },
-        mainStreamersLoaded: function mainStreamersLoaded(state) {
-            return state.mainStreamers.loaded;
-        },
-        mainContent: function mainContent(state) {
-            return state.mainContent.list;
-        },
-        mainContentLoaded: function mainContentLoaded(state) {
-            return state.mainContent.loaded;
-        },
-        alerts: function alerts(state) {
-            return state.alerts;
-        }
-    }
+    state: __WEBPACK_IMPORTED_MODULE_2__State_js__["a" /* state */],
+    mutations: __WEBPACK_IMPORTED_MODULE_3__Mutations_js__["a" /* mutations */],
+    actions: __WEBPACK_IMPORTED_MODULE_4__Actions_js__["a" /* actions */],
+    getters: __WEBPACK_IMPORTED_MODULE_5__Getters_js__["a" /* getters */]
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (AdminStore);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/store/Getters.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getters; });
+var getters = {
+    checkToken: function checkToken(state) {
+        return state.token ? true : false;
+    },
+    itemTypes: function itemTypes(state) {
+        return state.itemTypes.list;
+    },
+    rarities: function rarities(state) {
+        return state.rarities.list;
+    },
+    items: function items(state) {
+        return state.items.list;
+    },
+    caseTypes: function caseTypes(state) {
+        return state.caseTypes.list;
+    },
+    cases: function cases(state) {
+        return state.cases.list;
+    },
+    caseItems: function caseItems(state) {
+        return state.caseItems.list;
+    },
+    itemTypesLoaded: function itemTypesLoaded(state) {
+        return state.itemTypes.loaded;
+    },
+    raritiesLoaded: function raritiesLoaded(state) {
+        return state.rarities.loaded;
+    },
+    itemsLoaded: function itemsLoaded(state) {
+        return state.items.loaded;
+    },
+    caseTypesLoaded: function caseTypesLoaded(state) {
+        return state.caseTypes.loaded;
+    },
+    casesLoaded: function casesLoaded(state) {
+        return state.cases.loaded;
+    },
+    caseItemsLoaded: function caseItemsLoaded(state) {
+        return state.caseItems.loaded;
+    },
+    caseTypesSaved: function caseTypesSaved(state) {
+        return state.caseTypes.saved;
+    },
+    itemsSaved: function itemsSaved(state) {
+        return state.items.saved;
+    },
+    sseMessages: function sseMessages(state) {
+        return state.sseMessages;
+    },
+    streamers: function streamers(state) {
+        return state.streamers.list;
+    },
+    streamersPages: function streamersPages(state) {
+        return state.streamers.pages;
+    },
+    streamersLoaded: function streamersLoaded(state) {
+        return state.streamers.loaded;
+    },
+    promotedStreamers: function promotedStreamers(state) {
+        return state.promotedStreamers.list;
+    },
+    promotedLoaded: function promotedLoaded(state) {
+        return state.promotedStreamers.loaded;
+    },
+    mainStreamers: function mainStreamers(state) {
+        return state.mainStreamers.list;
+    },
+    mainStreamersLoaded: function mainStreamersLoaded(state) {
+        return state.mainStreamers.loaded;
+    },
+    mainContent: function mainContent(state) {
+        return state.mainContent.list;
+    },
+    mainContentLoaded: function mainContentLoaded(state) {
+        return state.mainContent.loaded;
+    },
+    alerts: function alerts(state) {
+        return state.alerts;
+    },
+    // users
+    users: function users(state) {
+        return state.users.list;
+    },
+    usersPages: function usersPages(state) {
+        return state.users.pages;
+    },
+    usersLoaded: function usersLoaded(state) {
+        return state.users.loaded;
+    },
+    // userInfo
+    userInfo: function userInfo(state) {
+        return state.userInfo.data;
+    },
+    userInfoLoaded: function userInfoLoaded(state) {
+        return state.userInfo.loaded;
+    },
+    editUser: function editUser(state) {
+        return state.editUser;
+    },
+    // subscriptions
+    subscriptionPlans: function subscriptionPlans(state) {
+        return state.subscriptionPlans.list;
+    },
+    monthPlans: function monthPlans(state) {
+        return state.monthPlans.list;
+    }
+
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/store/Mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mutations; });
+var mutations = {
+    authWithToken: function authWithToken(state, data) {
+        var formData = new FormData();
+
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+
+        fetch(state.apiUrl + 'auth/login', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.token = jsonResp.access_token ? jsonResp.access_token : false;
+            if (jsonResp.access_token) {
+                state.token = jsonResp.access_token;
+                document.cookie = "token=" + jsonResp.access_token;
+            } else {
+                state.token = false;
+            }
+        });
+    },
+    getItemTypesList: function getItemTypesList(state) {
+        var formData = new FormData();
+        state.itemTypes.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'itemtypes/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.itemTypes.list = jsonResp.data ? jsonResp.data.item_types : [];
+            state.itemTypes.loaded = true;
+        });
+    },
+    createItemType: function createItemType(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        fetch(state.apiUrl + 'itemtypes/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deleteItemType: function deleteItemType(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'itemtypes/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    saveItemType: function saveItemType(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        fetch(state.apiUrl + 'itemtypes/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    getRaritiesList: function getRaritiesList(state) {
+        var formData = new FormData();
+        state.rarities.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'rarities/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.rarities.list = jsonResp.data ? jsonResp.data.rarities : [];
+            state.rarities.loaded = true;
+        });
+    },
+    createRarity: function createRarity(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('percent', data.percent);
+        fetch(state.apiUrl + 'rarities/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deleteRarity: function deleteRarity(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'rarities/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    saveRarity: function saveRarity(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('percent', data.percent);
+        fetch(state.apiUrl + 'rarities/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+
+    // items
+    getItemsList: function getItemsList(state) {
+        var formData = new FormData();
+        state.items.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'items/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.items.list = jsonResp.data ? jsonResp.data.items : [];
+            state.items.loaded = true;
+        });
+    },
+    createItem: function createItem(state, data) {
+        var formData = new FormData();
+        state.items.saved = false;
+        state.items.loaded = false;
+        formData.append('token', state.token);
+        formData.append('title', data.title);
+        formData.append('item_type_id', data.item_type_id);
+        formData.append('description', data.description);
+        formData.append('worth', data.worth);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        if (data.icon) {
+            formData.append('icon', data.icon);
+        }
+        fetch(state.apiUrl + 'items/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.items.saved = true;
+        });
+    },
+    deleteItem: function deleteItem(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'items/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    saveItem: function saveItem(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('title', data.title);
+        formData.append('item_type_id', data.item_type_id);
+        formData.append('description', data.description);
+        formData.append('worth', data.worth);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        if (data.icon) {
+            formData.append('icon', data.icon);
+        }
+        fetch(state.apiUrl + 'items/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+
+    // case types mutation
+    getCaseTypesList: function getCaseTypesList(state) {
+        var formData = new FormData();
+        state.caseTypes.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'cases/types/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
+            state.caseTypes.loaded = true;
+        });
+    },
+    createCaseType: function createCaseType(state, data) {
+        var formData = new FormData();
+        state.caseTypes.saved = false;
+        state.caseTypes.loaded = false;
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('price', data.price);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'cases/types/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.caseTypes.saved = true;
+        });
+    },
+    deleteCaseType: function deleteCaseType(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/types/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    saveCaseType: function saveCaseType(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('price', data.price);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'cases/types/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+
+    // cases
+    getCases: function getCases(state) {
+        var formData = new FormData();
+        state.cases.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'cases/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.cases.list = jsonResp.data ? jsonResp.data.cases : [];
+            state.cases.loaded = true;
+        });
+    },
+    createCase: function createCase(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('case_type_id', data.case_type_id);
+        fetch(state.apiUrl + 'cases/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deleteCase: function deleteCase(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    saveCase: function saveCase(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('case_type_id', data.case_type_id);
+        fetch(state.apiUrl + 'cases/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+
+    // case items
+    getCaseItems: function getCaseItems(state, CaseId) {
+        var formData = new FormData();
+        state.caseItems.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', CaseId);
+        fetch(state.apiUrl + 'cases/item/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.caseItems.list = jsonResp.data ? jsonResp.data.items : [];
+            state.caseItems.loaded = true;
+        });
+    },
+    createCaseItem: function createCaseItem(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('item_id', data.item_id);
+        formData.append('rarity_id', data.rarity_id);
+        formData.append('case_id', data.case_id);
+        fetch(state.apiUrl + 'cases/item/add', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deleteCaseItem: function deleteCaseItem(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/item/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    clearCaseItems: function clearCaseItems(state) {
+        state.caseItems.list = [];
+    },
+    logout: function logout(state) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'auth/logout', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.token = false;
+        });
+    },
+    deleteMessage: function deleteMessage(state, index) {
+        state.sseMessages.splice(index, 1);
+    },
+
+    // streamers
+    getStreamersList: function getStreamersList(state) {
+        var formData = new FormData();
+        state.streamers.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'streamers/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
+            state.streamers.loaded = true;
+        });
+    },
+    getPaggStreamersList: function getPaggStreamersList(state, data) {
+        var formData = new FormData();
+        state.streamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('page', data.page);
+        formData.append('on_page', data.onPage);
+        fetch(state.apiUrl + 'streamers/list/pagg', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.streamers.list = jsonResp.data ? jsonResp.data.streamers : [];
+            state.streamers.pages = jsonResp.data ? jsonResp.data.pages : 1;
+            state.streamers.loaded = true;
+        });
+    },
+    getPromotedList: function getPromotedList(state) {
+        var formData = new FormData();
+        state.promotedStreamers.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'streamers/promoted/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+            state.promotedStreamers.loaded = true;
+        });
+    },
+    addPromoted: function addPromoted(state, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/add', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deletePromoted: function deletePromoted(state, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    upPromoted: function upPromoted(state, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/up', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    downPromoted: function downPromoted(state, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/down', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+
+    // main streamers
+    getMainStreamersList: function getMainStreamersList(state) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'streamers/main/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.list = jsonResp.data ? jsonResp.data.main_streamers : [];
+            state.mainStreamers.loaded = true;
+        });
+    },
+    addMainStreamer: function addMainStreamer(state, item) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('promouted_id', item.promouted_id);
+        formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+        formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+        fetch(state.apiUrl + 'streamers/main/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+        });
+    },
+    updateMainStreamer: function updateMainStreamer(state, item) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', item.id);
+        formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+        formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+        fetch(state.apiUrl + 'streamers/main/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+        });
+    },
+    deleteMainStreamer: function deleteMainStreamer(state, id) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/main/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+        });
+    },
+
+    // main content
+    getMainContent: function getMainContent(state) {
+        var formData = new FormData();
+        state.mainContent.loaded = false;
+        fetch(state.apiUrl + 'content/show', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+            state.mainContent.loaded = true;
+        });
+    },
+    storeMainContent: function storeMainContent(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('content', JSON.stringify(data));
+        fetch(state.apiUrl + 'content/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            // alert 'saved'
+            state.alerts.push({
+                message: 'content saved'
+            });
+        });
+    },
+    clearAlerts: function clearAlerts(state) {
+        state.alerts = [];
+    },
+
+    // subscription planes
+    getSubscriptionPlansList: function getSubscriptionPlansList(state) {
+        var formData = new FormData();
+        state.subscriptionPlans.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'subscriptionplans/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.subscriptionPlans.list = jsonResp.data ? jsonResp.data.subscription_plans : [];
+            state.subscriptionPlans.loaded = true;
+        });
+    },
+    getMonthPlansList: function getMonthPlansList(state) {
+        var formData = new FormData();
+        state.monthPlans.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'monthplans/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.monthPlans.list = jsonResp.data ? jsonResp.data.month_plans : [];
+            state.monthPlans.loaded = true;
+        });
+    },
+
+    // users
+    getPaggUsersList: function getPaggUsersList(state, data) {
+        var formData = new FormData();
+        state.users.loaded = false;
+        formData.append('token', state.token);
+        formData.append('page', data.page);
+        formData.append('on_page', data.onPage);
+        fetch(state.apiUrl + 'users/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.users.list = jsonResp.data ? jsonResp.data.users : [];
+            state.users.pages = jsonResp.data ? jsonResp.data.pages : 1;
+            state.users.loaded = true;
+        });
+    },
+    getUserInfo: function getUserInfo(state, id) {
+        var formData = new FormData();
+        state.userInfo.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'users/show', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.userInfo.data = jsonResp.data ? jsonResp.data : [];
+            state.userInfo.loaded = true;
+        });
+    },
+    getEditUser: function getEditUser(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'users/get', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.editUser = jsonResp.data ? jsonResp.data : {};
+        });
+    },
+    subscribeUser: function subscribeUser(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', data.subscriptionPlan);
+        formData.append('month_plan_id', data.monthPlan);
+        formData.append('user_id', data.userId);
+        fetch(state.apiUrl + 'streamers/subscribe/admin', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            console.log('from API', jsonResp);
+        });
+    }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/store/State.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return state; });
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+var state = {
+    token: false,
+    apiUrl: config.baseUrl + '/api/',
+    itemTypes: {
+        list: [],
+        loaded: false
+    },
+    rarities: {
+        list: [],
+        loaded: false
+    },
+    items: {
+        list: [],
+        loaded: false,
+        saved: true
+    },
+    caseTypes: {
+        list: [],
+        loaded: false,
+        saved: true
+    },
+    cases: {
+        list: [],
+        loaded: false
+    },
+    caseItems: {
+        list: [],
+        loaded: false
+    },
+    sseMessages: [],
+    streamers: {
+        list: [],
+        loaded: false,
+        saved: true,
+        pages: 1
+    },
+    promotedStreamers: {
+        list: [],
+        loaded: false,
+        saved: true
+    },
+    mainStreamers: {
+        list: [],
+        loaded: false,
+        saved: true
+    },
+    mainContent: {
+        list: [],
+        loaded: false
+    },
+    alerts: [],
+    users: {
+        list: [],
+        loaded: false,
+        saved: true,
+        pages: 1
+    },
+    userInfo: {
+        data: {},
+        loaded: false
+    },
+    subscriptionPlans: {
+        list: [],
+        loaded: false
+    },
+    monthPlans: {
+        list: [],
+        loaded: false
+    },
+    editUser: {}
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/config/config.json":
+/***/ (function(module, exports) {
+
+module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50}
 
 /***/ }),
 

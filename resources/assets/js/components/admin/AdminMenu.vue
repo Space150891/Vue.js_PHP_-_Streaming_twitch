@@ -16,22 +16,25 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/items')}" href="#/items" >Items</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case Types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case types</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers Management</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers management</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/users')}" href="#/users" >All users</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted streamers</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-content')}" href="#/main-content" >Main Content</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main streamers</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-content')}" href="#/main-content" >Main content</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>

@@ -1,6 +1,6 @@
 require('./bootstrap');
 import VueRouter from 'vue-router'
-import AdminStore from './components/store/AdminStore.js';
+import AdminStore from './components/admin/store/AdminStore.js';
 // import VueTimepicker from 'vue2-timepicker';
 window.Vue = require('vue');
 
@@ -15,7 +15,7 @@ var StreamersPage = require('./components/admin/StreamersPage.vue');
 var PromotedPage = require('./components/admin/PromotedPage.vue');
 var MainStreamersPage = require('./components/admin/MainStreamersPage.vue');
 var MainContentPage = require('./components/admin/MainContentPage.vue');
-// var EmailPage = require('./components/admin/EmailPage.vue');
+var AllUsersPage = require('./components/admin/AllUsersPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -31,7 +31,7 @@ var router = new VueRouter({
         { path: '/promoted', component: PromotedPage },
         { path: '/main-streamers', component: MainStreamersPage },
         { path: '/main-content', component: MainContentPage },
-        // { path: '/email', component: EmailPage },
+        { path: '/users', component: AllUsersPage},
     ]
 });
 Vue.use(VueRouter);

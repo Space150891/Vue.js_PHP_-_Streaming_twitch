@@ -82,7 +82,6 @@ class StreamersController extends Controller
         }
         $total = Streamer::count();
         $pages = ceil($total / $request->on_page);
-        // $streamers = Streamer::skip(($request->page - 1) * $request->on_page)->take($request->on_page)->get();
         $streamers = Streamer::select('streamers.id', 'streamers.name', 'streamers.game', 'streamers.twitch_id', 'promouted_streamers.streamer_id', 'promouted_streamers.id as promoted_id')
                             ->leftJoin('promouted_streamers', 'promouted_streamers.streamer_id', '=', 'streamers.id')
                             ->orderBy('streamers.id')

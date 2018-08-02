@@ -96400,6 +96400,633 @@ module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50}
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/store/Actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return actions; });
+var actions = {
+    getSubscribeData: function getSubscribeData(context) {
+        context.commit('loadCurrentStreamer');
+        context.commit('getSubscriptionPlansList');
+        context.commit('getMonthPlansList');
+    },
+    removeMyStreamer: function removeMyStreamer(context, id) {
+        context.commit('removeMyStreamer', id);
+        setTimeout(function () {
+            context.commit('loadMyStreamers');
+        }, 2000);
+    },
+    loadAfiliated: function loadAfiliated(context) {
+        context.commit('getAfiliatedList');
+        context.commit('loadProfile');
+    }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/store/Getters.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getters; });
+var getters = {
+    checkToken: function checkToken(state) {
+        return state.token ? true : false;
+    },
+    profileData: function profileData(state) {
+        return state.profileData;
+    },
+    promotedStreamers: function promotedStreamers(state) {
+        return state.promotedStreamers.list;
+    },
+    promotedLoaded: function promotedLoaded(state) {
+        return state.promotedStreamers.loaded;
+    },
+    currentViewer: function currentViewer(state) {
+        return state.currentViewer;
+    },
+    subscriptionPlans: function subscriptionPlans(state) {
+        return state.subscriptionPlans.list;
+    },
+    monthPlans: function monthPlans(state) {
+        return state.monthPlans.list;
+    },
+    currentStreamer: function currentStreamer(state) {
+        return state.currentStreamer;
+    },
+    myStreamers: function myStreamers(state) {
+        return state.myStreamers.list;
+    },
+    myViewers: function myViewers(state) {
+        return state.myViewers.list;
+    },
+    afiliates: function afiliates(state) {
+        return state.afiliates;
+    },
+    afiliateLink: function afiliateLink(state) {
+        return state.afiliateLink;
+    },
+    games: function games(state) {
+        return state.games.list;
+    },
+    streamers: function streamers(state) {
+        return state.streamers.list;
+    },
+    streamersLoaded: function streamersLoaded(state) {
+        return state.streamers.loaded;
+    },
+    notifications: function notifications(state) {
+        return state.notifications.list;
+    },
+    achivements: function achivements(state) {
+        return state.achivements.list;
+    },
+    streamerFullData: function streamerFullData(state) {
+        return state.streamerFullData;
+    },
+    mainContent: function mainContent(state) {
+        return state.mainContent.list;
+    },
+    mainContentLoaded: function mainContentLoaded(state) {
+        return state.mainContent.loaded;
+    },
+    mainChannel: function mainChannel(state) {
+        return state.mainChannel;
+    },
+    wachingStreamers: function wachingStreamers(state) {
+        return state.wachingStreamers;
+    },
+    menuMessages: function menuMessages(state) {
+        return state.menuMessages;
+    }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/store/Mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mutations; });
+var mutations = {
+    signUp: function signUp(state) {
+        state.token = localStorage.getItem("userToken");
+        document.cookie = "token=" + state.token;
+    },
+    loadCurrentViewer: function loadCurrentViewer(state) {
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/viewers/current', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.currentViewer.name = jsonResp.data.name;
+                    state.currentViewer.points = jsonResp.data.points;
+                    state.currentViewer.diamonds = jsonResp.data.diamonds;
+                    state.currentViewer.level = jsonResp.data.level;
+                    state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
+                }
+            });
+        }
+    },
+    signOut: function signOut(state) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+
+        fetch('api/auth/logout', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            delete localStorage["userToken"];
+            state.token = false;
+            state.message = jsonResp.message;
+        });
+    },
+    loadProfile: function loadProfile(state) {
+        var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+        var formData = new FormData();
+        var url = 'api/profile/current';
+        if (name != '') {
+            formData.append('name', name);
+            url = 'api/profile/get';
+        } else {
+            formData.append('token', state.token);
+        }
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                state.profileData = jsonResp.data;
+            }
+        });
+    },
+    loadStreamerFullData: function loadStreamerFullData(state, name) {
+        var formData = new FormData();
+        formData.append('name', name);
+        formData.append('token', state.token);
+        fetch('api/streamers/get', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                state.streamerFullData = jsonResp.data;
+            }
+        });
+    },
+    getPromotedList: function getPromotedList(state) {
+        var formData = new FormData();
+        state.promotedStreamers.loaded = false;
+        formData.append('token', state.token);
+        fetch('api/streamers/promoted/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
+            state.promotedStreamers.loaded = true;
+        });
+    },
+    getSubscriptionPlansList: function getSubscriptionPlansList(state) {
+        var formData = new FormData();
+        state.subscriptionPlans.loaded = false;
+        formData.append('token', state.token);
+        fetch('api/subscriptionplans/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.subscriptionPlans.list = jsonResp.data ? jsonResp.data.subscription_plans : [];
+            state.subscriptionPlans.loaded = true;
+        });
+    },
+    getMonthPlansList: function getMonthPlansList(state) {
+        var formData = new FormData();
+        state.monthPlans.loaded = false;
+        formData.append('token', state.token);
+        fetch('api/monthplans/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.monthPlans.list = jsonResp.data ? jsonResp.data.month_plans : [];
+            state.monthPlans.loaded = true;
+        });
+    },
+    loadCurrentStreamer: function loadCurrentStreamer(state) {
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/streamers/current', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.currentStreamer = jsonResp.data;
+                }
+            });
+        }
+    },
+    loadMyStreamers: function loadMyStreamers(state) {
+        state.myStreamers.list = [];
+        state.myStreamers.loaded = false;
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/signedviewers/mystreamers/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.myStreamers.list = jsonResp.data.streamers;
+                    state.myStreamers.loaded = true;
+                }
+            });
+        }
+    },
+    loadMyViewers: function loadMyViewers(state) {
+        state.myViewers.list = [];
+        state.myViewers.loaded = false;
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/signedviewers/myviewers/list', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.myViewers.list = jsonResp.data.viewers;
+                    state.myViewers.loaded = true;
+                }
+            });
+        }
+    },
+    removeMyStreamer: function removeMyStreamer(state, id) {
+        state.myStreamers.list = [];
+        state.myStreamers.loaded = false;
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch('api/signedviewers/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        }
+    },
+    getAfiliatedList: function getAfiliatedList(state) {
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/afiliates/mylist', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.afiliates = jsonResp.data;
+                }
+            });
+        }
+    },
+    getAfiliatedLink: function getAfiliatedLink(state) {
+        state.afiliateLink = '';
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            fetch('api/afiliates/mylink', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                } else {
+                    state.afiliateLink = jsonResp.data;
+                }
+            });
+        }
+    },
+    loadGames: function loadGames(state) {
+        state.games.loaded = false;
+        fetch('api/games/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.games.loaded = true;
+                state.games.list = jsonResp.data.games;
+            }
+        });
+    },
+    loadNotifications: function loadNotifications(state) {
+        state.notifications.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/notifications/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.notifications.loaded = true;
+                state.notifications.list = jsonResp.data.notifications;
+            }
+        });
+    },
+    loadStreamersByGame: function loadStreamersByGame(state, gameGame) {
+        state.streamers.loaded = false;
+        var formData = new FormData();
+        formData.append('game_name', gameGame);
+        fetch('api/streamers/bygamename', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.streamers.loaded = true;
+                state.streamers.list = jsonResp.data.streamers;
+            }
+        });
+    },
+    loadAchivements: function loadAchivements(state) {
+        state.achivements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.achivements.loaded = true;
+                state.achivements.list = jsonResp.data.achivements;
+            }
+        });
+    },
+    flashStreamers: function flashStreamers(state) {
+        state.streamers.loaded = false;
+        state.streamers.list = [];
+    },
+    pushAchivement: function pushAchivement(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('achivement_name', data.name);
+        var points = data.points ? data.points : 1;
+        formData.append('points', points);
+        fetch('api/achivements/add', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {});
+    },
+
+    // main content
+    getMainContent: function getMainContent(state) {
+        var formData = new FormData();
+        state.mainContent.loaded = false;
+        fetch('api/content/show', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+            state.mainContent.loaded = true;
+        });
+    },
+    getMainChannel: function getMainChannel(state) {
+        fetch('api/streamers/main/show', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.mainChannel = jsonResp.data;
+        });
+    },
+    setWatchingStreams: function setWatchingStreams(state, data) {
+        state.wachingStreamers = data;
+    },
+    clearWatchingStreams: function clearWatchingStreams(state) {
+        state.wachingStreamers = [];
+    },
+    viewingChannel: function viewingChannel(state, channel) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('channel', channel);
+        fetch('api/activity/update', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.data) {
+                state.currentViewer.points = jsonResp.data.points;
+                state.currentViewer.diamonds = jsonResp.data.diamonds;
+                state.currentViewer.level = jsonResp.data.level;
+                state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
+            }
+        });
+    },
+    clearMenuMessages: function clearMenuMessages(state) {
+        state.menuMessages = [];
+    },
+    addFollow: function addFollow(state, streamName) {
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('name', streamName);
+            fetch('api/signedviewers/add', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+        }
+    }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/store/State.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return state; });
+var state = {
+    token: false,
+    currentViewer: {
+        diamonds: 0,
+        points: 0,
+        level: 0,
+        name: '',
+        messages: []
+    },
+    currentStreamer: {
+        id: 0
+    },
+    message: "",
+    profileData: {
+        avatar: null,
+        username: null,
+        nickname: null,
+        email: null,
+        bio: null,
+        paypal: null
+    },
+    promotedStreamers: {
+        list: [],
+        loaded: false
+    },
+    subscriptionPlans: {
+        list: [],
+        loaded: false
+    },
+    monthPlans: {
+        list: [],
+        loaded: false
+    },
+    myStreamers: {
+        list: [],
+        loaded: false
+    },
+    myViewers: {
+        list: [],
+        loaded: false
+    },
+    afiliates: {
+        visited: 0,
+        registered: 0,
+        total: 0
+    },
+    games: {
+        list: [],
+        loaded: false
+    },
+    streamers: {
+        list: [],
+        loaded: false
+    },
+    notifications: {
+        list: [],
+        loaded: false
+    },
+    afiliateLink: '',
+    achivements: {
+        list: [],
+        loaded: false
+    },
+    mainContent: {
+        list: [],
+        loaded: false
+    },
+    streamerFullData: {},
+    mainChannel: 'twitchpresents',
+    wachingStreamers: [],
+    menuMessages: []
+};
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/store/UserSignStore.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -96407,608 +97034,25 @@ module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50}
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__State_js__ = __webpack_require__("./resources/assets/js/components/store/State.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Mutations_js__ = __webpack_require__("./resources/assets/js/components/store/Mutations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Actions_js__ = __webpack_require__("./resources/assets/js/components/store/Actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Getters_js__ = __webpack_require__("./resources/assets/js/components/store/Getters.js");
 
 
-var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+
+
+
+
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var UserSignStore = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-    state: {
-        token: false,
-        currentViewer: {
-            diamonds: 0,
-            points: 0,
-            level: 0,
-            name: '',
-            messages: []
-        },
-        currentStreamer: {
-            id: 0
-        },
-        message: "",
-        profileData: {
-            avatar: null,
-            username: null,
-            nickname: null,
-            email: null,
-            bio: null,
-            paypal: null
-        },
-        promotedStreamers: {
-            list: [],
-            loaded: false
-        },
-        subscriptionPlans: {
-            list: [],
-            loaded: false
-        },
-        monthPlans: {
-            list: [],
-            loaded: false
-        },
-        myStreamers: {
-            list: [],
-            loaded: false
-        },
-        myViewers: {
-            list: [],
-            loaded: false
-        },
-        afiliates: {
-            visited: 0,
-            registered: 0,
-            total: 0
-        },
-        games: {
-            list: [],
-            loaded: false
-        },
-        streamers: {
-            list: [],
-            loaded: false
-        },
-        notifications: {
-            list: [],
-            loaded: false
-        },
-        afiliateLink: '',
-        achivements: {
-            list: [],
-            loaded: false
-        },
-        mainContent: {
-            list: [],
-            loaded: false
-        },
-        streamerFullData: {},
-        mainChannel: 'twitchpresents',
-        wachingStreamers: [],
-        menuMessages: []
-    },
-    mutations: {
-        signUp: function signUp(state) {
-            state.token = localStorage.getItem("userToken");
-            document.cookie = "token=" + state.token;
-        },
-        loadCurrentViewer: function loadCurrentViewer(state) {
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/viewers/current', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.currentViewer.name = jsonResp.data.name;
-                        state.currentViewer.points = jsonResp.data.points;
-                        state.currentViewer.diamonds = jsonResp.data.diamonds;
-                        state.currentViewer.level = jsonResp.data.level;
-                        state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
-                    }
-                });
-            }
-        },
-        signOut: function signOut(state) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-
-            fetch('api/auth/logout', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                delete localStorage["userToken"];
-                state.token = false;
-                state.message = jsonResp.message;
-            });
-        },
-        loadProfile: function loadProfile(state) {
-            var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-            var formData = new FormData();
-            var url = 'api/profile/current';
-            if (name != '') {
-                formData.append('name', name);
-                url = 'api/profile/get';
-            } else {
-                formData.append('token', state.token);
-            }
-            fetch(url, {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                } else {
-                    state.profileData = jsonResp.data;
-                }
-            });
-        },
-        loadStreamerFullData: function loadStreamerFullData(state, name) {
-            var formData = new FormData();
-            formData.append('name', name);
-            formData.append('token', state.token);
-            fetch('api/streamers/get', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                } else {
-                    state.streamerFullData = jsonResp.data;
-                }
-            });
-        },
-        getPromotedList: function getPromotedList(state) {
-            var formData = new FormData();
-            state.promotedStreamers.loaded = false;
-            formData.append('token', state.token);
-            fetch('api/streamers/promoted/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.promotedStreamers.list = jsonResp.data ? jsonResp.data.promoted : [];
-                state.promotedStreamers.loaded = true;
-            });
-        },
-        getSubscriptionPlansList: function getSubscriptionPlansList(state) {
-            var formData = new FormData();
-            state.subscriptionPlans.loaded = false;
-            formData.append('token', state.token);
-            fetch('api/subscriptionplans/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.subscriptionPlans.list = jsonResp.data ? jsonResp.data.subscription_plans : [];
-                state.subscriptionPlans.loaded = true;
-            });
-        },
-        getMonthPlansList: function getMonthPlansList(state) {
-            var formData = new FormData();
-            state.monthPlans.loaded = false;
-            formData.append('token', state.token);
-            fetch('api/monthplans/list', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.monthPlans.list = jsonResp.data ? jsonResp.data.month_plans : [];
-                state.monthPlans.loaded = true;
-            });
-        },
-        loadCurrentStreamer: function loadCurrentStreamer(state) {
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/streamers/current', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.currentStreamer = jsonResp.data;
-                    }
-                });
-            }
-        },
-        loadMyStreamers: function loadMyStreamers(state) {
-            state.myStreamers.list = [];
-            state.myStreamers.loaded = false;
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/signedviewers/mystreamers/list', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.myStreamers.list = jsonResp.data.streamers;
-                        state.myStreamers.loaded = true;
-                    }
-                });
-            }
-        },
-        loadMyViewers: function loadMyViewers(state) {
-            state.myViewers.list = [];
-            state.myViewers.loaded = false;
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/signedviewers/myviewers/list', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.myViewers.list = jsonResp.data.viewers;
-                        state.myViewers.loaded = true;
-                    }
-                });
-            }
-        },
-        removeMyStreamer: function removeMyStreamer(state, id) {
-            state.myStreamers.list = [];
-            state.myStreamers.loaded = false;
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                formData.append('id', id);
-                fetch('api/signedviewers/delete', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    }
-                });
-            }
-        },
-        getAfiliatedList: function getAfiliatedList(state) {
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/afiliates/mylist', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.afiliates = jsonResp.data;
-                    }
-                });
-            }
-        },
-        getAfiliatedLink: function getAfiliatedLink(state) {
-            state.afiliateLink = '';
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                fetch('api/afiliates/mylink', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    } else {
-                        state.afiliateLink = jsonResp.data;
-                    }
-                });
-            }
-        },
-        loadGames: function loadGames(state) {
-            state.games.loaded = false;
-            fetch('api/games/list', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (!jsonResp.errors) {
-                    state.games.loaded = true;
-                    state.games.list = jsonResp.data.games;
-                }
-            });
-        },
-        loadNotifications: function loadNotifications(state) {
-            state.notifications.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            fetch('api/notifications/list', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors',
-                body: formData
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (!jsonResp.errors) {
-                    state.notifications.loaded = true;
-                    state.notifications.list = jsonResp.data.notifications;
-                }
-            });
-        },
-        loadStreamersByGame: function loadStreamersByGame(state, gameGame) {
-            state.streamers.loaded = false;
-            var formData = new FormData();
-            formData.append('game_name', gameGame);
-            fetch('api/streamers/bygamename', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (!jsonResp.errors) {
-                    state.streamers.loaded = true;
-                    state.streamers.list = jsonResp.data.streamers;
-                }
-            });
-        },
-        loadAchivements: function loadAchivements(state) {
-            state.achivements.loaded = false;
-            var formData = new FormData();
-            formData.append('token', state.token);
-            fetch('api/achivements/list', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors',
-                body: formData
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (!jsonResp.errors) {
-                    state.achivements.loaded = true;
-                    state.achivements.list = jsonResp.data.achivements;
-                }
-            });
-        },
-        flashStreamers: function flashStreamers(state) {
-            state.streamers.loaded = false;
-            state.streamers.list = [];
-        },
-        pushAchivement: function pushAchivement(state, data) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('achivement_name', data.name);
-            var points = data.points ? data.points : 1;
-            formData.append('points', points);
-            fetch('api/achivements/add', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors',
-                body: formData
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {});
-        },
-
-        // main content
-        getMainContent: function getMainContent(state) {
-            var formData = new FormData();
-            state.mainContent.loaded = false;
-            fetch('api/content/show', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
-                state.mainContent.loaded = true;
-            });
-        },
-        getMainChannel: function getMainChannel(state) {
-            fetch('api/streamers/main/show', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                state.mainChannel = jsonResp.data;
-            });
-        },
-        setWatchingStreams: function setWatchingStreams(state, data) {
-            state.wachingStreamers = data;
-        },
-        clearWatchingStreams: function clearWatchingStreams(state) {
-            state.wachingStreamers = [];
-        },
-        viewingChannel: function viewingChannel(state, channel) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('channel', channel);
-            fetch('api/activity/update', {
-                method: "POST",
-                credentials: 'omit',
-                mode: 'cors',
-                body: formData
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.data) {
-                    state.currentViewer.points = jsonResp.data.points;
-                    state.currentViewer.diamonds = jsonResp.data.diamonds;
-                    state.currentViewer.level = jsonResp.data.level;
-                    state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
-                }
-            });
-        },
-        clearMenuMessages: function clearMenuMessages(state) {
-            state.menuMessages = [];
-        },
-        addFollow: function addFollow(state, streamName) {
-            if (state.token) {
-                var formData = new FormData();
-                formData.append('token', state.token);
-                formData.append('name', streamName);
-                fetch('api/signedviewers/add', {
-                    method: "POST",
-                    body: formData,
-                    credentials: 'omit',
-                    mode: 'cors'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (jsonResp) {
-                    if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                        state.token = false;
-                    }
-                });
-            }
-        }
-    },
-    actions: {
-        getSubscribeData: function getSubscribeData(context) {
-            context.commit('loadCurrentStreamer');
-            context.commit('getSubscriptionPlansList');
-            context.commit('getMonthPlansList');
-        },
-        removeMyStreamer: function removeMyStreamer(context, id) {
-            context.commit('removeMyStreamer', id);
-            setTimeout(function () {
-                context.commit('loadMyStreamers');
-            }, 2000);
-        },
-        loadAfiliated: function loadAfiliated(context) {
-            context.commit('getAfiliatedList');
-            context.commit('loadProfile');
-        }
-    },
-    getters: {
-        checkToken: function checkToken(state) {
-            return state.token ? true : false;
-        },
-        profileData: function profileData(state) {
-            return state.profileData;
-        },
-        promotedStreamers: function promotedStreamers(state) {
-            return state.promotedStreamers.list;
-        },
-        promotedLoaded: function promotedLoaded(state) {
-            return state.promotedStreamers.loaded;
-        },
-        currentViewer: function currentViewer(state) {
-            return state.currentViewer;
-        },
-        subscriptionPlans: function subscriptionPlans(state) {
-            return state.subscriptionPlans.list;
-        },
-        monthPlans: function monthPlans(state) {
-            return state.monthPlans.list;
-        },
-        currentStreamer: function currentStreamer(state) {
-            return state.currentStreamer;
-        },
-        myStreamers: function myStreamers(state) {
-            return state.myStreamers.list;
-        },
-        myViewers: function myViewers(state) {
-            return state.myViewers.list;
-        },
-        afiliates: function afiliates(state) {
-            return state.afiliates;
-        },
-        afiliateLink: function afiliateLink(state) {
-            return state.afiliateLink;
-        },
-        games: function games(state) {
-            return state.games.list;
-        },
-        streamers: function streamers(state) {
-            return state.streamers.list;
-        },
-        streamersLoaded: function streamersLoaded(state) {
-            return state.streamers.loaded;
-        },
-        notifications: function notifications(state) {
-            return state.notifications.list;
-        },
-        achivements: function achivements(state) {
-            return state.achivements.list;
-        },
-        streamerFullData: function streamerFullData(state) {
-            return state.streamerFullData;
-        },
-        mainContent: function mainContent(state) {
-            return state.mainContent.list;
-        },
-        mainContentLoaded: function mainContentLoaded(state) {
-            return state.mainContent.loaded;
-        },
-        mainChannel: function mainChannel(state) {
-            return state.mainChannel;
-        },
-        wachingStreamers: function wachingStreamers(state) {
-            return state.wachingStreamers;
-        },
-        menuMessages: function menuMessages(state) {
-            return state.menuMessages;
-        }
-    }
+    state: __WEBPACK_IMPORTED_MODULE_2__State_js__["a" /* state */],
+    mutations: __WEBPACK_IMPORTED_MODULE_3__Mutations_js__["a" /* mutations */],
+    actions: __WEBPACK_IMPORTED_MODULE_4__Actions_js__["a" /* actions */],
+    getters: __WEBPACK_IMPORTED_MODULE_5__Getters_js__["a" /* getters */]
 
 });
 

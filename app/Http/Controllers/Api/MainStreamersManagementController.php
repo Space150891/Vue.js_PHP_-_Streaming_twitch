@@ -79,6 +79,7 @@ class MainStreamersManagementController extends Controller
             ]);
         }
         $allMainStreamers = MainStreamer::all();
+        
         foreach ($allMainStreamers as $allMainStreamer) {
             if ($this->compareTime($request->promouted_end, '>', $allMainStreamer->promouted_start) 
                 && $this->compareTime($request->promouted_start, '<', $allMainStreamer->promouted_end)) {
@@ -121,7 +122,7 @@ class MainStreamersManagementController extends Controller
                 'errors' => ['ending time must be later than starting time '],
             ]);
         }
-        $allMainStreamers = MainStreamer::all();
+        $allMainStreamers = MainStreamer::where('id', '!=', $request->id)->get();
         foreach ($allMainStreamers as $allMainStreamer) {
             if ($this->compareTime($request->promouted_end, '>', $allMainStreamer->promouted_start) 
                 && $this->compareTime($request->promouted_start, '<', $allMainStreamer->promouted_end)) {

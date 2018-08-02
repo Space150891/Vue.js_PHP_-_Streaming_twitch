@@ -29,7 +29,6 @@ var Notifications = require('./components/NotificationsPage.vue');
 var Achivements = require('./components/AchivementsPage.vue');
 var Donate = require('./components/DonatePage.vue');
 var WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
-// var AllUsersPage = require('./components/AllUsersPage.vue');
 
 var router = new VueRouter({
     routes: [
@@ -47,7 +46,7 @@ var router = new VueRouter({
         { path: '/achivements', component: Achivements},
         { path: '/donate/:userId', component: Donate,  props: true },
         { path: '/watch-streams', component: WatchingStreamsPage},
-        // { path: '/users', component: AllUsersPage},
+        
     ]
 });
 Vue.use(VueRouter);

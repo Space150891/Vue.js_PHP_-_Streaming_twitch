@@ -165,8 +165,9 @@ Route::group([
     Route::post('streamers/main/delete', 'Api\MainStreamersManagementController@delete');
     Route::post('streamers/main/update', 'Api\MainStreamersManagementController@update');
     
-
     Route::post('content/store', 'Api\ContentManagementController@store');
+
+    Route::post('streamers/subscribe/admin', 'Api\SubscribeController@adminSubscribe');
     
 });
 
