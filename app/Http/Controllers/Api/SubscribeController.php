@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, AdminAction};
 
 class SubscribeController extends Controller
 {
@@ -82,7 +82,9 @@ class SubscribeController extends Controller
         $toDate->addMonths($monthPlan->monthes);
         $subscribe->valid_until = $toDate->toDateTimeString();
         $subscribe->save();
-        \Log::info('saved subscription ' . $subscribe->id);
+        $action = new AdminAction();
+        $action->action = "add subscription id={$subscribe->id} to streamer id={$streamerId}";
+        $action->save();
         return response()->json([
             'message' => [
                 'subscription created',
