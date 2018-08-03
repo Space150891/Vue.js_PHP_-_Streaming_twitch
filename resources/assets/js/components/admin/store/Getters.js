@@ -104,5 +104,13 @@ export const getters = {
     monthPlans: state => {
         return state.monthPlans.list;
     },
-    
+    stockPrizes: state => {
+        return state.stockPrizes.list;
+    },
+    stockPrizesLoaded: state => {
+        return state.stockPrizes.loaded;
+    },
+    stockPrizesSaved: state => {
+        return state.stockPrizes.saved;
+    },
 }

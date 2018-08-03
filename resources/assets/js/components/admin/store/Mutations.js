@@ -979,5 +979,101 @@ export const mutations = {
         .then(function(jsonResp){
             console.log('from API', jsonResp);
         });
-    }
+    },
+    // Stock Prizes
+    getStockPrizesList(state) {
+        var formData = new FormData();
+        state.stockPrizes.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'store/prizes/list',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.stockPrizes.list = jsonResp.data ? jsonResp.data.prizes : [];
+            state.stockPrizes.loaded = true;
+        });
+    },
+    createStockPrize(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'store/prizes/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    updateStockPrize(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'store/prizes/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    deleteStockPrize(state, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'store/prizes/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
 }

@@ -171,6 +171,10 @@ Route::group([
 
     Route::post('streamers/subscribe/admin', 'Api\SubscribeController@adminSubscribe');
     
+    Route::post('store/prizes/list', 'Api\StockPrizesController@index');
+    Route::post('store/prizes/store', 'Api\StockPrizesController@store');
+    Route::post('store/prizes/update', 'Api\StockPrizesController@update');
+    Route::post('store/prizes/delete', 'Api\StockPrizesController@destroy');
 });
 
 // bot routes

@@ -4,20 +4,21 @@ import AdminStore from './components/admin/store/AdminStore.js';
 // import VueTimepicker from 'vue2-timepicker';
 window.Vue = require('vue');
 
-var LoginPage = require('./components/admin/LoginPage.vue');
-var ItemTypesPage = require('./components/admin/ItemTypesPage.vue');
-var ItemsPage = require('./components/admin/ItemsPage.vue');
-var RaritiesPage = require('./components/admin/RaritiesPage.vue');
-var CaseTypesPage = require('./components/admin/CaseTypesPage.vue');
-var CasesPage = require('./components/admin/CasesPage.vue');
-var LogoutPage = require('./components/admin/LogoutPage.vue');
-var StreamersPage = require('./components/admin/StreamersPage.vue');
-var PromotedPage = require('./components/admin/PromotedPage.vue');
-var MainStreamersPage = require('./components/admin/MainStreamersPage.vue');
-var MainContentPage = require('./components/admin/MainContentPage.vue');
-var AllUsersPage = require('./components/admin/AllUsersPage.vue');
+const LoginPage = require('./components/admin/LoginPage.vue');
+const ItemTypesPage = require('./components/admin/ItemTypesPage.vue');
+const ItemsPage = require('./components/admin/ItemsPage.vue');
+const RaritiesPage = require('./components/admin/RaritiesPage.vue');
+const CaseTypesPage = require('./components/admin/CaseTypesPage.vue');
+const CasesPage = require('./components/admin/CasesPage.vue');
+const LogoutPage = require('./components/admin/LogoutPage.vue');
+const StreamersPage = require('./components/admin/StreamersPage.vue');
+const PromotedPage = require('./components/admin/PromotedPage.vue');
+const MainStreamersPage = require('./components/admin/MainStreamersPage.vue');
+const MainContentPage = require('./components/admin/MainContentPage.vue');
+const AllUsersPage = require('./components/admin/AllUsersPage.vue');
+const StockPrizesPage = require('./components/admin/StockPrizesPage.vue');
 
-var router = new VueRouter({
+const router = new VueRouter({
     routes: [
         { path: '/', component: LoginPage },
         { path: '/login', component: LoginPage },
@@ -32,6 +33,7 @@ var router = new VueRouter({
         { path: '/main-streamers', component: MainStreamersPage },
         { path: '/main-content', component: MainContentPage },
         { path: '/users', component: AllUsersPage},
+        { path: '/stock-prizes', component: StockPrizesPage},
     ]
 });
 Vue.use(VueRouter);

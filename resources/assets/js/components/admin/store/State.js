@@ -70,4 +70,9 @@ export const state = {
         loaded: false,
     },
     editUser :{},
+    stockPrizes: {
+        list: [],
+        loaded: false,
+        saved : true,
+    },
 }

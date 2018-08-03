@@ -164,4 +164,26 @@ export const actions = {
         context.commit('getSubscriptionPlansList');
         context.commit('getMonthPlansList');
     },
+    // Stock Prizes
+    StockPrizeListAction(context) {
+        context.commit('getStockPrizesList');
+    },
+    StockPrizeCreateAction(context, item) {
+        context.commit('createStockPrize', item);
+        setTimeout(() => {
+            context.commit('getStockPrizesList');
+        }, config.timeOut);
+    },
+    StockPrizeUpdateAction(context, item) {
+        context.commit('updateStockPrize', item);
+        setTimeout(() => {
+            context.commit('getStockPrizesList');
+        }, config.timeOut);
+    },
+    StockPrizeDeleteAction(context, id) {
+        context.commit('deleteStockPrize', id);
+        setTimeout(() => {
+            context.commit('getStockPrizesList');
+        }, config.timeOut);
+    },
 }
