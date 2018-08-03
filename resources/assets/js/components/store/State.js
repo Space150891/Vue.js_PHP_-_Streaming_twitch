@@ -69,4 +69,12 @@ export const state = {
     mainChannel : 'twitchpresents',
     wachingStreamers : [],
     menuMessages : [],
+    myItems : {
+        list: [],
+        loaded: false,
+    },
+    myCards : {
+        list: [],
+        loaded: false,
+    },
 }

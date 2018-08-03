@@ -1774,6 +1774,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1797,6 +1802,92 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         profileData: function profileData() {
             return this.$store.getters.profileData;
         }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Card.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        frame: {
+            type: String,
+            required: true
+        },
+        hero: {
+            type: String,
+            required: true
+        },
+        achivement: {
+            type: String,
+            required: true
+        }
+    },
+    mounted: function mounted() {
+        console.log(this.imagesUrl);
+    },
+    data: function data() {
+        return {
+            imagesUrl: config.baseUrl + '/storage/',
+            mainStyle: {
+                width: "217px",
+                height: "312px",
+                border: "none",
+                borderRadius: "5px",
+                position: "relative"
+            },
+            frameImageStyle: {
+                width: "217px",
+                height: "312px",
+                border: "none",
+                borderRadius: "5px",
+                background: 'url(/storage/' + this.frame + ')',
+                position: "absolute",
+                top: "0",
+                left: "0"
+            },
+            heroImageStyle: {
+                width: "132px",
+                height: "170px",
+                borderRadius: "50%",
+                position: "absolute",
+                top: "20px",
+                left: "40px"
+            },
+            achivementStyle: {
+                position: "absolute",
+                top: "205px",
+                width: "217px",
+                margin: "0",
+                padding: "0 40px",
+                color: "#fff"
+            }
+        };
     }
 });
 
@@ -3120,6 +3211,140 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyCardsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            newCard: {
+                frame_id: 0,
+                hero_id: 0,
+                achivement_id: 0
+            },
+            deletingModal: false,
+            deletingId: 0
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.loadAll();
+        }
+    },
+
+    methods: {
+        loadAll: function loadAll() {
+            this.$store.dispatch('loadMyCardsPage');
+        },
+        createCard: function createCard() {
+            if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id > 0) {
+                this.$store.dispatch('createCardAction', this.newCard);
+            }
+        },
+        deleteCard: function deleteCard(cardId) {
+            this.deletingId = cardId;
+            this.deletingModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.deletingModal = false;
+            this.$store.dispatch('deleteCardAction', this.deletingId);
+        },
+        setMain: function setMain(cardId) {
+            this.$store.dispatch('setMainCardAction', cardId);
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'myItems', 'myCards', 'achivements']))
+
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyStreamersPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3962,6 +4187,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       styleMessage: {
         padding: "0",
         margin: "0"
+      }
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['name', 'opened'],
+  data: function data() {
+    return {
+      styleBack: {
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        background: "rgba(0,0,0, .5)",
+        top: "0",
+        left: "0"
+      },
+      styleDiv: {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        marginLeft: "-150px",
+        width: "300px",
+        border: "1px 777 solid",
+        background: "#fff",
+        borderRadius: "10px",
+        padding: "10px"
       }
     };
   }
@@ -76080,7 +76351,20 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-3" }),
+          _c(
+            "div",
+            { staticClass: "col-md-3" },
+            [
+              _c("viewer-card", {
+                attrs: {
+                  frame: _vm.profileData.card.frame,
+                  hero: _vm.profileData.card.hero,
+                  achivement: _vm.profileData.card.achievement
+                }
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
             _c("h5", [_vm._v("Twitch details")]),
@@ -76154,6 +76438,15 @@ var render = function() {
                       attrs: { href: "#/mystreamers" }
                     },
                     [_vm._v("My streamers")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info",
+                      attrs: { href: "#/mycards" }
+                    },
+                    [_vm._v("My cards")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -76587,6 +76880,41 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-2b3a1b47", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2e0dd872\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Card.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { style: _vm.mainStyle }, [
+    _c("img", {
+      style: _vm.heroImageStyle,
+      attrs: { src: _vm.imagesUrl + _vm.hero, alt: "hero" }
+    }),
+    _vm._v(" "),
+    _c("img", {
+      style: _vm.frameImageStyle,
+      attrs: { src: _vm.imagesUrl + _vm.frame, alt: "frame" }
+    }),
+    _vm._v(" "),
+    _c("p", { style: _vm.achivementStyle }, [
+      _vm._v("\n      " + _vm._s(_vm.achivement) + "\n  ")
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2e0dd872", module.exports)
   }
 }
 
@@ -77691,6 +78019,255 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-73b8e8df\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyCardsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "cabinet-page mycards" }, [
+        _c("h1", { staticClass: "text-center" }, [_vm._v("My cards")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cards" },
+          _vm._l(_vm.myCards, function(myCard) {
+            return _c(
+              "div",
+              [
+                _c("viewer-card", {
+                  attrs: {
+                    frame: myCard.frame,
+                    hero: myCard.hero,
+                    achivement: myCard.achievement
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "action-block" }, [
+                  myCard.promoted == false
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.setMain(myCard.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-home" })]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  myCard.promoted ? _c("span", [_vm._v("MAIN")]) : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger pull-right",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteCard(myCard.id)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa fa-times" })]
+                  )
+                ])
+              ],
+              1
+            )
+          })
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c(
+              "div",
+              { staticClass: "col-md-4 frames" },
+              [
+                _c("h3", { staticClass: "text-center" }, [_vm._v("frames")]),
+                _vm._v(" "),
+                _vm._l(_vm.myItems, function(item) {
+                  return item.type == "frame"
+                    ? _c("label", [
+                        _c("img", {
+                          attrs: {
+                            src: "storage/" + item.icon,
+                            alt: item.title
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("p", [_vm._v(_vm._s(item.title))]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newCard.frame_id,
+                              expression: "newCard.frame_id"
+                            }
+                          ],
+                          attrs: { type: "radio", name: "frame" },
+                          domProps: {
+                            value: item.id,
+                            checked: _vm._q(_vm.newCard.frame_id, item.id)
+                          },
+                          on: {
+                            change: function($event) {
+                              _vm.$set(_vm.newCard, "frame_id", item.id)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("i", { staticClass: "fa fa-check" })
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-md-4 heroes" },
+              [
+                _c("h3", { staticClass: "text-center" }, [_vm._v("heroes")]),
+                _vm._v(" "),
+                _vm._l(_vm.myItems, function(item) {
+                  return item.type == "hero"
+                    ? _c("label", [
+                        _c("img", {
+                          attrs: {
+                            src: "storage/" + item.icon,
+                            alt: item.title
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("p", [_vm._v(_vm._s(item.title))]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newCard.hero_id,
+                              expression: "newCard.hero_id"
+                            }
+                          ],
+                          attrs: { type: "radio", name: "hero" },
+                          domProps: {
+                            value: item.id,
+                            checked: _vm._q(_vm.newCard.hero_id, item.id)
+                          },
+                          on: {
+                            change: function($event) {
+                              _vm.$set(_vm.newCard, "hero_id", item.id)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("i", { staticClass: "fa fa-check" })
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-md-4 achivements" },
+              [
+                _c("h3", { staticClass: "text-center" }, [
+                  _vm._v("achivements")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.achivements, function(achivement) {
+                  return _c("label", [
+                    _c("p", [_vm._v(_vm._s(achivement.name))]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newCard.achivement_id,
+                          expression: "newCard.achivement_id"
+                        }
+                      ],
+                      attrs: { type: "radio", name: "achivement" },
+                      domProps: {
+                        value: achivement.id,
+                        checked: _vm._q(
+                          _vm.newCard.achivement_id,
+                          achivement.id
+                        )
+                      },
+                      on: {
+                        change: function($event) {
+                          _vm.$set(_vm.newCard, "achivement_id", achivement.id)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("i", { staticClass: "fa fa-check" })
+                  ])
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success create-card-but",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.createCard()
+                  }
+                }
+              },
+              [_vm._v("\n                CREATE CARD\n            ")]
+            ),
+            _vm._v(" "),
+            _c("modal-delete", {
+              attrs: { name: "Card", opened: _vm.deletingModal },
+              on: {
+                "close-delete-modal": function($event) {
+                  _vm.deletingModal = false
+                },
+                "confirm-delete": _vm.deleteAction
+              }
+            })
+          ],
+          1
+        )
+      ])
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n        Please login\n    ")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-73b8e8df", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-756659b0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AlertModal.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78217,6 +78794,65 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-97e7e05e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-98757238\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.opened
+    ? _c("div", { style: _vm.styleBack }, [
+        _c("div", { style: _vm.styleDiv }, [
+          _c("h5", { staticClass: "text-center" }, [
+            _vm._v("Confirm deleting")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-center" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.name))])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function($event) {
+                  _vm.$emit("confirm-delete")
+                }
+              }
+            },
+            [_vm._v("delete")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default pull-right",
+              on: {
+                click: function($event) {
+                  _vm.$emit("close-delete-modal")
+                }
+              }
+            },
+            [_vm._v("cancel")]
+          )
+        ])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-98757238", module.exports)
   }
 }
 
@@ -94720,9 +95356,10 @@ var Notifications = __webpack_require__("./resources/assets/js/components/Notifi
 var Achivements = __webpack_require__("./resources/assets/js/components/AchivementsPage.vue");
 var Donate = __webpack_require__("./resources/assets/js/components/DonatePage.vue");
 var WatchingStreamsPage = __webpack_require__("./resources/assets/js/components/WatchingStreamsPage.vue");
+var MyCardsPage = __webpack_require__("./resources/assets/js/components/MyCardsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -94750,6 +95387,8 @@ Vue.component('stream-frame', __webpack_require__("./resources/assets/js/compone
 Vue.component('drop-down', __webpack_require__("./resources/assets/js/components/DropDown.vue"));
 Vue.component('follow-drop-down', __webpack_require__("./resources/assets/js/components/FollowDropDown.vue"));
 Vue.component('modal-alert', __webpack_require__("./resources/assets/js/components/admin/AlertModal.vue"));
+Vue.component('viewer-card', __webpack_require__("./resources/assets/js/components/Card.vue"));
+Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
 
 var app = new Vue({
     el: '#app',
@@ -95018,6 +95657,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-18c1e520", Component.options)
   } else {
     hotAPI.reload("data-v-18c1e520", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Card.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Card.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2e0dd872\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Card.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Card.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2e0dd872", Component.options)
+  } else {
+    hotAPI.reload("data-v-2e0dd872", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -95686,6 +96373,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-3d0acfd2", Component.options)
   } else {
     hotAPI.reload("data-v-3d0acfd2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/MyCardsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/MyCardsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-73b8e8df\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/MyCardsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/MyCardsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-73b8e8df", Component.options)
+  } else {
+    hotAPI.reload("data-v-73b8e8df", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -96393,6 +97128,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/admin/ConfirmDelete.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-98757238\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ConfirmDelete.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/ConfirmDelete.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-98757238", Component.options)
+  } else {
+    hotAPI.reload("data-v-98757238", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
@@ -96420,6 +97203,33 @@ var actions = {
     loadAfiliated: function loadAfiliated(context) {
         context.commit('getAfiliatedList');
         context.commit('loadProfile');
+    },
+    loadMyCardsPage: function loadMyCardsPage(context) {
+        context.commit('cardAchivements');
+        context.commit('getMyItems');
+        context.commit('getMyCards');
+    },
+    createCardAction: function createCardAction(context, data) {
+        context.commit('createCard', data);
+        setTimeout(function () {
+            context.commit('cardAchivements');
+            context.commit('getMyItems');
+            context.commit('getMyCards');
+        }, 2000);
+    },
+    deleteCardAction: function deleteCardAction(context, cardId) {
+        context.commit('deleteCard', cardId);
+        setTimeout(function () {
+            context.commit('cardAchivements');
+            context.commit('getMyItems');
+            context.commit('getMyCards');
+        }, 2000);
+    },
+    setMainCardAction: function setMainCardAction(context, cardId) {
+        context.commit('setMainCard', cardId);
+        setTimeout(function () {
+            context.commit('getMyCards');
+        }, 2000);
     }
 };
 
@@ -96499,6 +97309,20 @@ var getters = {
     },
     menuMessages: function menuMessages(state) {
         return state.menuMessages;
+    },
+    myItems: function myItems(state) {
+        console.log('my items in getter', state.myItems);
+        return state.myItems.list;
+    },
+    myItemsLoades: function myItemsLoades(state) {
+        return state.myItems.loaded;
+    },
+    myCards: function myCards(state) {
+        console.log('my cards in getter', state.myCards);
+        return state.myCards.list;
+    },
+    myCardsLoades: function myCardsLoades(state) {
+        return state.myCards.loaded;
     }
 };
 
@@ -96845,6 +97669,24 @@ var mutations = {
             }
         });
     },
+    cardAchivements: function cardAchivements(state) {
+        state.achivements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/card', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.achivements.loaded = true;
+                state.achivements.list = jsonResp.data.achivements;
+            }
+        });
+    },
     flashStreamers: function flashStreamers(state) {
         state.streamers.loaded = false;
         state.streamers.list = [];
@@ -96942,6 +97784,87 @@ var mutations = {
                 }
             });
         }
+    },
+
+    // cards page
+    getMyItems: function getMyItems(state) {
+        state.myItems.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/viewer/items/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.myItems.loaded = true;
+                state.myItems.list = jsonResp.data.items;
+            }
+        });
+    },
+    getMyCards: function getMyCards(state) {
+        state.myCards.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/cards/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (!jsonResp.errors) {
+                state.myCards.loaded = true;
+                state.myCards.list = jsonResp.data.cards;
+            }
+        });
+    },
+    createCard: function createCard(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('frame_id', data.frame_id);
+        formData.append('hero_id', data.hero_id);
+        formData.append('achivement_id', data.achivement_id);
+        fetch('api/cards/add', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {});
+    },
+    deleteCard: function deleteCard(state, cardId) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('card_id', cardId);
+        fetch('api/cards/delete', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {});
+    },
+    setMainCard: function setMainCard(state, cardId) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('card_id', cardId);
+        fetch('api/cards/main', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            console.log(jsonResp);
+        });
     }
 };
 
@@ -97022,7 +97945,15 @@ var state = {
     streamerFullData: {},
     mainChannel: 'twitchpresents',
     wachingStreamers: [],
-    menuMessages: []
+    menuMessages: [],
+    myItems: {
+        list: [],
+        loaded: false
+    },
+    myCards: {
+        list: [],
+        loaded: false
+    }
 };
 
 /***/ }),

@@ -7,7 +7,7 @@
 
 require('./bootstrap');
 require('hideshowpassword');
-var password = require('password-strength-meter');
+const password = require('password-strength-meter');
 
 import VueRouter from 'vue-router';
 import UserSignStore from './components/store/UserSignStore.js';
@@ -16,21 +16,22 @@ import VuePaginate from 'vue-paginate';
 Vue.use(VuePaginate);
 
 window.Vue = require('vue');
-var Home = require('./components/Home.vue');
-var Directory = require('./components/Directory.vue');
-var Price = require('./components/Price.vue');
-var Bag = require('./components/Bag.vue');
-var Cabinet = require('./components/CabinetPage.vue');
-var Subscribe = require('./components/SubscribePage.vue');
-var MyStreamers = require('./components/MyStreamersPage.vue');
-var MyViewers = require('./components/MyViewersPage.vue');
-var Afiliate = require('./components/AfiliatePage.vue');
-var Notifications = require('./components/NotificationsPage.vue');
-var Achivements = require('./components/AchivementsPage.vue');
-var Donate = require('./components/DonatePage.vue');
-var WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
+const Home = require('./components/Home.vue');
+const Directory = require('./components/Directory.vue');
+const Price = require('./components/Price.vue');
+const Bag = require('./components/Bag.vue');
+const Cabinet = require('./components/CabinetPage.vue');
+const Subscribe = require('./components/SubscribePage.vue');
+const MyStreamers = require('./components/MyStreamersPage.vue');
+const MyViewers = require('./components/MyViewersPage.vue');
+const Afiliate = require('./components/AfiliatePage.vue');
+const Notifications = require('./components/NotificationsPage.vue');
+const Achivements = require('./components/AchivementsPage.vue');
+const Donate = require('./components/DonatePage.vue');
+const WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
+const MyCardsPage = require('./components/MyCardsPage.vue');
 
-var router = new VueRouter({
+const router = new VueRouter({
     routes: [
         { path: '/', component: Home },
         { path: '/directory', component: Directory },
@@ -46,7 +47,7 @@ var router = new VueRouter({
         { path: '/achivements', component: Achivements},
         { path: '/donate/:userId', component: Donate,  props: true },
         { path: '/watch-streams', component: WatchingStreamsPage},
-        
+        { path: '/mycards', component: MyCardsPage},
     ]
 });
 Vue.use(VueRouter);
@@ -76,6 +77,8 @@ Vue.component('stream-frame', require('./components/WatchStreamPart.vue'))
 Vue.component('drop-down', require('./components/DropDown.vue'))
 Vue.component('follow-drop-down', require('./components/FollowDropDown.vue'))
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
+Vue.component('viewer-card', require('./components/Card.vue'));
+Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
 
 
 const app = new Vue({

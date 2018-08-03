@@ -71,6 +71,7 @@ Route::group([
     
     Route::post('cards/list', 'Api\CardsController@index');
     Route::post('cards/add', 'Api\CardsController@store');
+    Route::post('cards/main', 'Api\CardsController@main');
     Route::post('cards/get', 'Api\CardsController@show');
     Route::post('cards/delete', 'Api\CardsController@destroy');
     Route::post('card/items/list', 'Api\CardsController@itemsList');
@@ -96,6 +97,7 @@ Route::group([
     Route::post('notifications/list', 'Api\NotificationsController@list');
 
     Route::post('achivements/list', 'Api\AchivementsController@list');
+    Route::post('achivements/card', 'Api\AchivementsController@card');
     Route::post('achivements/add', 'Api\AchivementsController@addProgress');
 
     Route::post('content/show', 'Api\ContentManagementController@show');

@@ -199,3 +199,55 @@
         text-align: center;
     }
 }
+
+.mycards{
+    .cards{
+        display: flex;
+        margin: 10px auto 30px auto;
+        .action-block {
+            margin: 5px auto;
+            width: 100px;
+            >span {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+        }
+    }
+    .frames, .heroes, .achivements {
+        >h3{
+            text-decoration: underline;
+        }
+        >label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            >img{
+                width: 100px;
+                display: block;
+                margin: 10px auto 5px auto;
+            }
+            >p {
+                font-size: 18px;
+                text-align: center;
+                padding: 0;
+            }
+            >input {
+                display: none;
+            }
+            >i {
+                display: none;
+                font-size: 30px;
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                margin-top: -20px;
+            }
+            >input:checked+i{
+                display: inline-block;
+            }
+        }
+    }
+    .create-card-but {
+        margin: 10px auto 0 auto;
+    }
+}

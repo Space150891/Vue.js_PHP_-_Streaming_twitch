@@ -11,7 +11,11 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-            
+                 <viewer-card
+                    v-bind:frame="profileData.card.frame"
+                    v-bind:hero="profileData.card.hero"
+                    v-bind:achivement="profileData.card.achievement"
+                ></viewer-card>
             </div>
             <div class="col-md-9">
                 <h5>Twitch details</h5>
@@ -33,6 +37,7 @@
                 <div v-if="userId == ''">
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
+                    <a  class="btn btn-info" href="#/mycards">My cards</a>
                     <a class="btn btn-info" href="#/notifications">Notifications</a>
                     <a class="btn btn-info" href="#/achivements">Achivements</a>
                 </div>

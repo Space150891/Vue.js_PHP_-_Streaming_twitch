@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\User;
+use App\Models\{User, Card, Item};
 
 class ProfileController extends Controller
 {
@@ -47,6 +47,19 @@ class ProfileController extends Controller
             ]);
         }
         $streamer = $user->streamer()->first();
+        $viewer = $user->viewer()->first();
+        $card = false;
+        if ($viewer->promoted_gamecard_id) {
+            $currentCard = Card::find($viewer->promoted_gamecard_id);
+            $card = new \stdClass();
+            $card->id = $currentCard->id;
+            $frame = Item::find($currentCard->frame_id);
+            $card->frame = $frame->image;
+            $hero = Item::find($currentCard->hero_id);
+            $card->hero = $hero->image;
+            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+            $card->achievement = $achievement->description;
+        }
         return response()->json([
             'data' => [
                 'streamer_id' => $streamer->id,
@@ -56,6 +69,7 @@ class ProfileController extends Controller
                 'bio'       => $user->bio,
                 'email'     => '',
                 'paypal'    => $streamer->paypal,
+                'card'      => $card,
             ],
         ]);
     }
@@ -63,7 +77,19 @@ class ProfileController extends Controller
     public function getCurrent(Request $request) //// 
     {
         $user = auth()->user();
-        
+        $viewer = $user->viewer()->first();
+        $card = false;
+        if ($viewer->promoted_gamecard_id) {
+            $currentCard = Card::find($viewer->promoted_gamecard_id);
+            $card = new \stdClass();
+            $card->id = $currentCard->id;
+            $frame = Item::find($currentCard->frame_id);
+            $card->frame = $frame->image;
+            $hero = Item::find($currentCard->hero_id);
+            $card->hero = $hero->image;
+            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+            $card->achievement = $achievement->description;
+        }
         return response()->json([
             'data' => [
                 'id'        => $user->id,
@@ -73,6 +99,7 @@ class ProfileController extends Controller
                 'bio'       => $user->bio,
                 'email'     => $user->email,
                 'paypal'    => '',
+                'card'      => $card,
             ],
         ]);
     }

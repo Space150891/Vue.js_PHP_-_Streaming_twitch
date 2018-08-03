@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, ViewerItem};
+use App\Models\{Viewer, Item, ViewerItem, Card};
 
 class ViewerItemsController extends Controller
 {
@@ -34,8 +34,18 @@ class ViewerItemsController extends Controller
         $viewer = $user->viewer()->first();
         $viewerItems = $viewer->items()->get();
         $items = [];
-        foreach ($viewerItems as $vieverItem) {
-            $items[] = $vieverItem->item()->first();
+        $cards = Card::where('viewer_id', $viewer->id)->get();
+        $cardItemsIds = [];
+        foreach ($cards as $card) {
+            $cardItemsIds[] = $card->frame_id;
+            $cardItemsIds[] = $card->hero_id;
+        }
+        foreach ($viewerItems as $viewerItem) {
+            if (!in_array($viewerItem->item_id, $cardItemsIds)) {
+                $item = $viewerItem->item()->first();
+                $item->type = $item->type()->first()->name;
+                $items[] = $item;
+            }
         }
         return response()->json(['data' => [
             'items' => $items,

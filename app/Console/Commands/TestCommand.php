@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Stripe\Stripe;
-use App\Models\{Profile, User, Viewer, Streamer, Game};
+use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem};
 use GuzzleHttp\Client as Guzzle;
 
 class TestCommand extends Command
@@ -41,7 +41,13 @@ class TestCommand extends Command
      */
     public function handle()
     {
-             
+        $items = [1, 2, 4, 5];
+        foreach ($items as $itemId) {
+            $vit = new ViewerItem();
+            $vit->viewer_id = 105;
+            $vit->item_id = $itemId;
+            $vit->save();
+        }
     }
 
 }

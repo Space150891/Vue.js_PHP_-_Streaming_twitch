@@ -10,8 +10,7 @@ use Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\Item;
-use App\Models\ItemType;
+use App\Models\{Item, ItemType};
 
 class itemsManagementController extends Controller
 {
@@ -170,8 +169,6 @@ class itemsManagementController extends Controller
         $item->item_type_id = $request->item_type_id;
         $item->description = $request->description;
         $item->worth = $request->worth;
-        $item->image = $request->image;
-        $item->icon = $request->icon;
         $item->save();
 
         if ($request->hasFile('image')) {
@@ -236,4 +233,5 @@ class itemsManagementController extends Controller
             'message' => 'item delete successful',
         ]);
     }
+
 }

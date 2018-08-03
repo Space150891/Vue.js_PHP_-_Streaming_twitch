@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{Viewer, User, Notification};
+use App\Models\{Viewer, User, Notification, Card, Item};
 
 class ViewersController extends Controller
 {
@@ -71,6 +71,18 @@ class ViewersController extends Controller
             $notification->view_at = $time;
             $notification->save();
         }
+        $card = false;
+        if ($viewer->promoted_gamecard_id) {
+            $currentCard = Card::find($viewer->promoted_gamecard_id);
+            $card = new \stdClass();
+            $card->id = $currentCard->id;
+            $frame = Item::find($currentCard->frame_id);
+            $card->frame = $frame->image;
+            $hero = Item::find($currentCard->hero_id);
+            $card->hero = $hero->image;
+            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+            $card->achievement = $achievement->description;
+        }
         return response()->json([
             'data' => [
                 'name'      => $viewer->name,
@@ -78,6 +90,7 @@ class ViewersController extends Controller
                 'diamonds'  => $viewer->diamonds,
                 'level'     => $viewer->getLevel(),
                 'messages'  => $messages,
+                'card'      => $card,
             ],
         ]);
     }

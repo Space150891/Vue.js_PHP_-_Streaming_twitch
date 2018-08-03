@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Notification;
+use App\Models\{Notification, Card};
 
 class AchivementsController extends Controller
 {
@@ -33,6 +33,29 @@ class AchivementsController extends Controller
             $details = \DB::table('achievement_details')->find($achievement->achievement_id);
             $details->unlocked_at = $achievement->unlocked_at;
             $list[] = $details;
+        }
+        return response()->json(['data' => [
+            'achivements' => $list,
+        ]]);
+    }
+
+    public function card()
+    {
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $achievements  = $user->unlockedAchievements();
+        $cards = Card::where('viewer_id', $viewer->id)->get();
+        $cardAchievementsIds = [];
+        foreach ($cards as $card) {
+            $cardAchievementsIds[] = $card->achivement_id;
+        }
+        $list = [];
+        foreach ($achievements as $achievement) {
+            if (!in_array($achievement->achievement_id, $cardAchievementsIds)) {
+                $details = \DB::table('achievement_details')->find($achievement->achievement_id);
+                $details->unlocked_at = $achievement->unlocked_at;
+                $list[] = $details;
+            }
         }
         return response()->json(['data' => [
             'achivements' => $list,

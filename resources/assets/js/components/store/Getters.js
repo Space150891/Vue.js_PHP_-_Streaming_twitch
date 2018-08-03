@@ -68,4 +68,18 @@ export const getters = {
     menuMessages: state => {
         return state.menuMessages;
     },
+    myItems: state => {
+        console.log('my items in getter', state.myItems);
+        return state.myItems.list;
+    },
+    myItemsLoades: state => {
+        return state.myItems.loaded;
+    },
+    myCards: state => {
+        console.log('my cards in getter', state.myCards);
+        return state.myCards.list;
+    },
+    myCardsLoades: state => {
+        return state.myCards.loaded;
+    },
 }

@@ -149,7 +149,7 @@
                 this.editItem.item_type_id = item.item_type_id;
                 this.editItem.image = null;
                 this.editItem.icon = null;
-				this.editItem.id = null;
+				this.editItem.id = item.id;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -184,7 +184,7 @@
                     this.errors.push('select item type id');
                 }
                 if (this.errors.length == 0) {
-                    this.$store.commit('createItem', this.editItem);
+                    this.$store.dispatch('ItemSaveAction', this.editItem);
                     this.editItem.title = '';
                     this.editItem.description = '';
                     this.editItem.worth = 0;
