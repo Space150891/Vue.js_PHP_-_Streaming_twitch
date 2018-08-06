@@ -141,7 +141,8 @@
                     this.$store.dispatch('StockPrizeCreateAction', this.editItem);
                     this.editItem.name = '';
                     this.editItem.description = '';
-                    this.editItem.worth = 0;
+                    this.editItem.cost = 0;
+                    this.editItem.amount = 0;
                     this.editItem.item_type_id = 0;
                     this.editItem.image = null;
                     this.editItem.icon = null;

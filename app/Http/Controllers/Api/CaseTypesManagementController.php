@@ -182,4 +182,11 @@ class CaseTypesManagementController extends Controller
             'message' => 'case type delete successful',
         ]);
     }
+
+    private function generateFileName($ext) {
+        do {
+            $name = 'prize_' . uniqid() . '_' . $ext;
+        } while(Storage::exists('public/stock/' . $name));
+        return $name;
+    }
 }

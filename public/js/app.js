@@ -3445,7 +3445,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         removeAction: function removeAction(id) {
-            this.$store.dispatch('removeMyStreamer', id);
+            this.$store.dispatch('removeMyStreamerAction', id);
         }
     },
     computed: {
@@ -97388,11 +97388,30 @@ var actions = {
         context.commit('getSubscriptionPlansList');
         context.commit('getMonthPlansList');
     },
-    removeMyStreamer: function removeMyStreamer(context, id) {
-        context.commit('removeMyStreamer', id);
-        setTimeout(function () {
-            context.commit('loadMyStreamers');
-        }, 2000);
+    removeMyStreamerAction: function removeMyStreamerAction(_ref, id) {
+        var commit = _ref.commit,
+            state = _ref.state;
+
+        state.myStreamers.list = [];
+        state.myStreamers.loaded = false;
+        if (state.token) {
+            var formData = new FormData();
+            formData.append('token', state.token);
+            formData.append('id', id);
+            fetch('api/signedviewers/delete', {
+                method: "POST",
+                body: formData,
+                credentials: 'omit',
+                mode: 'cors'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+            });
+            commit('loadMyStreamers');
+        }
     },
     loadAfiliated: function loadAfiliated(context) {
         context.commit('getAfiliatedList');
@@ -97403,27 +97422,65 @@ var actions = {
         context.commit('getMyItems');
         context.commit('getMyCards');
     },
-    createCardAction: function createCardAction(context, data) {
-        context.commit('createCard', data);
-        setTimeout(function () {
-            context.commit('cardAchivements');
-            context.commit('getMyItems');
-            context.commit('getMyCards');
-        }, 2000);
+    createCardAction: function createCardAction(_ref2, data) {
+        var commit = _ref2.commit,
+            state = _ref2.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('frame_id', data.frame_id);
+        formData.append('hero_id', data.hero_id);
+        formData.append('achivement_id', data.achivement_id);
+        fetch('api/cards/add', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('cardAchivements');
+            commit('getMyItems');
+            commit('getMyCards');
+        });
     },
-    deleteCardAction: function deleteCardAction(context, cardId) {
-        context.commit('deleteCard', cardId);
-        setTimeout(function () {
-            context.commit('cardAchivements');
-            context.commit('getMyItems');
-            context.commit('getMyCards');
-        }, 2000);
+    deleteCardAction: function deleteCardAction(_ref3, cardId) {
+        var commit = _ref3.commit,
+            state = _ref3.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('card_id', cardId);
+        fetch('api/cards/delete', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('cardAchivements');
+            commit('getMyItems');
+            commit('getMyCards');
+        });
     },
-    setMainCardAction: function setMainCardAction(context, cardId) {
-        context.commit('setMainCard', cardId);
-        setTimeout(function () {
-            context.commit('getMyCards');
-        }, 2000);
+    setMainCardAction: function setMainCardAction(_ref4, cardId) {
+        var commit = _ref4.commit,
+            state = _ref4.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('card_id', cardId);
+        fetch('api/cards/main', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('getMyCards');
+        });
     },
     checkCodeAction: function checkCodeAction(context, code) {
         context.commit('checkCode', code);
@@ -97738,27 +97795,6 @@ var mutations = {
             });
         }
     },
-    removeMyStreamer: function removeMyStreamer(state, id) {
-        state.myStreamers.list = [];
-        state.myStreamers.loaded = false;
-        if (state.token) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch('api/signedviewers/delete', {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors'
-            }).then(function (res) {
-                return res.json();
-            }).then(function (jsonResp) {
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        }
-    },
     getAfiliatedList: function getAfiliatedList(state) {
         if (state.token) {
             var formData = new FormData();
@@ -98021,49 +98057,6 @@ var mutations = {
                 state.myCards.loaded = true;
                 state.myCards.list = jsonResp.data.cards;
             }
-        });
-    },
-    createCard: function createCard(state, data) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('frame_id', data.frame_id);
-        formData.append('hero_id', data.hero_id);
-        formData.append('achivement_id', data.achivement_id);
-        fetch('api/cards/add', {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData
-        }).then(function (res) {
-            return res.json();
-        }).then(function (jsonResp) {});
-    },
-    deleteCard: function deleteCard(state, cardId) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('card_id', cardId);
-        fetch('api/cards/delete', {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData
-        }).then(function (res) {
-            return res.json();
-        }).then(function (jsonResp) {});
-    },
-    setMainCard: function setMainCard(state, cardId) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('card_id', cardId);
-        fetch('api/cards/main', {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData
-        }).then(function (res) {
-            return res.json();
-        }).then(function (jsonResp) {
-            console.log(jsonResp);
         });
     },
 

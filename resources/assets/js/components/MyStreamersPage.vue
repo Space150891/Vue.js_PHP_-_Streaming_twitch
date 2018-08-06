@@ -24,7 +24,7 @@
         },
         methods: {
            removeAction(id) {
-               this.$store.dispatch('removeMyStreamer', id);
+               this.$store.dispatch('removeMyStreamerAction', id);
            },
         },
         computed: {

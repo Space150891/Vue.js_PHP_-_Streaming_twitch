@@ -4,85 +4,374 @@ export const actions = {
     getItemTypesListAction(context) {
         context.commit('getItemTypesList');
     },
-    createItemTypeAction(context, data) {
-        context.commit('createItemType', data);
-        context.commit('getItemTypesList');
+    createItemTypeAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        fetch(state.apiUrl + 'itemtypes/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getItemTypesList');
+        });
     },
-    ItemTypeDeleteAction(context, id) {
-        context.commit('deleteItemType', id);
-        context.commit('getItemTypesList');
+    ItemTypeDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'itemtypes/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getItemTypesList');
+        });
     },
-    ItemTypeSaveAction(context, data) {
-        context.commit('saveItemType', data);
-        context.commit('getItemTypesList');
+    ItemTypeSaveAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        fetch(state.apiUrl + 'itemtypes/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getItemTypesList');
+        });
     },
     // rarities
     getRaritiesListAction(context) {
         context.commit('getRaritiesList');
     },
-    createRarityAction(context, data) {
-        context.commit('createRarity', data);
-        context.commit('getRaritiesList');
+    createRarityAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('percent', data.percent);
+        fetch(state.apiUrl + 'rarities/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getRaritiesList');
+        });
     },
-    RarityDeleteAction(context, id) {
-        context.commit('deleteRarity', id);
-        context.commit('getRaritiesList');
+    RarityDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'rarities/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getRaritiesList');
+        });
     },
-    RaritySaveAction(context, data) {
-        context.commit('saveRarity', data);
-        context.commit('getRaritiesList');
+    RaritySaveAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('percent', data.percent);
+        fetch(state.apiUrl + 'rarities/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getRaritiesList');
+        });
     },
     // items
     getItemsListAction(context) {
         context.commit('getItemsList');
         context.commit('getItemTypesList');
     },
-    createItemAction(context, data) {
-        context.commit('createItem', data);
-        setTimeout(() => {
-            context.commit('getItemsList');
-          }, config.timeOut);
+    createItemAction({commit, state}, data) {
+        var formData = new FormData();
+        state.items.saved = false;
+        state.items.loaded = false;
+        formData.append('token', state.token);
+        formData.append('title', data.title);
+        formData.append('item_type_id', data.item_type_id);
+        formData.append('description', data.description);
+        formData.append('worth', data.worth);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        if (data.icon) {
+            formData.append('icon', data.icon);
+        }
+        fetch(state.apiUrl + 'items/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.items.saved = true;
+            commit('getItemsList');
+        });
     },
-    ItemDeleteAction(context, id) {
-        context.commit('deleteItem', id);
-        context.commit('getItemsList');
+    ItemDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'items/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getItemsList');
+        });
     },
-    ItemSaveAction(context, data) {
-        context.commit('saveItem', data);
-        setTimeout(() => {
-            context.commit('getItemsList');
-          }, config.timeOut);
+    ItemSaveAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('title', data.title);
+        formData.append('item_type_id', data.item_type_id);
+        formData.append('description', data.description);
+        formData.append('worth', data.worth);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        if (data.icon) {
+            formData.append('icon', data.icon);
+        }
+        fetch(state.apiUrl + 'items/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getItemsList');
+        });
     },
     // case types
     getCaseTypesListAction(context) {
         context.commit('getCaseTypesList');
     },
-    createCaseTypeAction(context, data) {
-        context.commit('createCaseType', data);
+    createCaseTypeAction({commit, state}, data) {
+        var formData = new FormData();
+        state.caseTypes.saved = false;
+        state.caseTypes.loaded = false;
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('price', data.price);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'cases/types/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.caseTypes.saved = true;
+            commit('getCaseTypesList');
+        });
     },
-    CaseTypeDeleteAction(context, id) {
-        context.commit('deleteCaseType', id);
-        context.commit('getCaseTypesList');
+    CaseTypeDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/types/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCaseTypesList');
+        });
     },
-    CaseTypeSaveAction(context, data) {
-        context.commit('saveCaseType', data);
+    CaseTypeSaveAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('price', data.price);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'cases/types/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCaseTypesList');
+        });
     },
     // cases
     CasesListAction(context) {
         context.commit('getCases');
         context.commit('getCaseTypesList');
     },
-    CaseCreateAction(context, data) {
-        context.commit('createCase', data);
-        context.commit('getCases');
+    CaseCreateAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('case_type_id', data.case_type_id);
+        fetch(state.apiUrl + 'cases/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCases');
+        });
     },
-    CaseDeleteAction(context, id) {
-        context.commit('deleteCase', id);
-        context.commit('getCases');
+    CaseDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCases');
+        });
     },
-    CaseSaveAction(context, data) {
-        context.commit('saveCase', data);
-        context.commit('getCases');
+    CaseSaveAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('case_type_id', data.case_type_id);
+        fetch(state.apiUrl + 'cases/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCases');
+        });
     },
     // case items
     CaseItemsListAction(context, id) {
@@ -90,13 +379,48 @@ export const actions = {
         context.commit('getRaritiesList');
         context.commit('getCaseItems', id); //
     },
-    CaseItemCreateAction(context, data) {
-        context.commit('createCaseItem', data); //
-        context.commit('getCaseItems', data.case_id); //
+    CaseItemCreateAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('item_id', data.item_id);
+        formData.append('rarity_id', data.rarity_id);
+        formData.append('case_id', data.case_id);
+        fetch(state.apiUrl + 'cases/item/add',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCaseItems', data.case_id);
+        });
     },
-    CaseItemDeleteAction(context, id) {
-        context.commit('deleteCaseItem', id);
-        context.commit('getCaseItems', id);
+    CaseItemDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'cases/item/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getCaseItems', id);
+        });
     },
     CaseItemClear(context) {
         context.commit('clearCaseItems');
@@ -109,52 +433,167 @@ export const actions = {
         context.commit('getPromotedList');
         context.commit('getStreamersList');
     },
-    addPromotedAction(context, id) {
-        context.commit('addPromoted', id);
-        setTimeout(() => {
-            context.commit('getPromotedList');
-        }, config.timeOut);
+    addPromotedAction({commit, state}, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/add',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
     },
-    deletePromotedAction(context, id) {
-        context.commit('deletePromoted', id);
-        setTimeout(() => {
-            context.commit('getPromotedList');
-        }, config.timeOut);
+    deletePromotedAction({commit, state}, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
     },
-    upPromotedAction(context, id) {
-        context.commit('upPromoted', id);
-        setTimeout(() => {
-            context.commit('getPromotedList');
-        }, config.timeOut);
+    upPromotedAction({commit, state}, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/up',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
     },
-    downPromotedAction(context, id) {
-        context.commit('downPromoted', id);
-        setTimeout(() => {
-            context.commit('getPromotedList');
-        }, config.timeOut);
+    downPromotedAction({commit, state}, id) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/promoted/down',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
     },
     // main streamers
     getMainStreamersListAction(context) {
         context.commit('getPromotedList');
         context.commit('getMainStreamersList');
     },
-    addMainStreamerAction(context, item) {
-        context.commit('addMainStreamer', item);
-        setTimeout(() => {
-            context.commit('getMainStreamersList');
-        }, config.timeOut);
+    addMainStreamerAction({commit, state}, item) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('promouted_id', item.promouted_id);
+        formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+        formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+        fetch(state.apiUrl + 'streamers/main/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+            commit('getMainStreamersList');
+        });
     },
-    updateMainStreamerAction(context, item) {
-        context.commit('updateMainStreamer', item);
-        setTimeout(() => {
-            context.commit('getMainStreamersList');
-        }, config.timeOut);
+    updateMainStreamerAction({commit, state}, item) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', item.id);
+        formData.append('promouted_start', item.promouted_start.HH + ':' + item.promouted_start.mm + ':00');
+        formData.append('promouted_end', item.promouted_end.HH + ':' + item.promouted_end.mm + ':00');
+        fetch(state.apiUrl + 'streamers/main/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+            commit('getMainStreamersList');
+        });
     },
-    deleteMainStreamerAction(context, id) {
-        context.commit('deleteMainStreamer', id);
-        setTimeout(() => {
-            context.commit('getMainStreamersList');
-        }, config.timeOut);
+    deleteMainStreamerAction({commit, state}, id) {
+        var formData = new FormData();
+        state.mainStreamers.loaded = false;
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'streamers/main/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainStreamers.loaded = true;
+            commit('getMainStreamersList');
+        });
     },
     // main content
     updateMainContentAction(context, data) {
@@ -168,22 +607,80 @@ export const actions = {
     StockPrizeListAction(context) {
         context.commit('getStockPrizesList');
     },
-    StockPrizeCreateAction(context, item) {
-        context.commit('createStockPrize', item);
-        setTimeout(() => {
-            context.commit('getStockPrizesList');
-        }, config.timeOut);
+    StockPrizeCreateAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'store/prizes/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getStockPrizesList');
+        });
     },
-    StockPrizeUpdateAction(context, item) {
-        context.commit('updateStockPrize', item);
-        setTimeout(() => {
-            context.commit('getStockPrizesList');
-        }, config.timeOut);
+    StockPrizeUpdateAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'store/prizes/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getStockPrizesList');
+        });
     },
-    StockPrizeDeleteAction(context, id) {
-        context.commit('deleteStockPrize', id);
-        setTimeout(() => {
-            context.commit('getStockPrizesList');
-        }, config.timeOut);
+    StockPrizeDeleteAction({commit, state}, id) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'store/prizes/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getStockPrizesList');
+        });
     },
 }

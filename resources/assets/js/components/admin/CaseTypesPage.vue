@@ -129,7 +129,7 @@
                     this.errors.push('set price');
                 }
                 if (this.errors.length == 0) {
-                    this.$store.commit('createCaseType', this.editItem);
+                    this.$store.dispatch('createCaseTypeAction', this.editItem);
                     this.editItem.name = '';
                     this.editItem.price = 0;
                     this.editItem.image = null;

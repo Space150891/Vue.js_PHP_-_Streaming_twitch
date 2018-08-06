@@ -159,12 +159,6 @@ class itemsManagementController extends Controller
                 'errors' => ['item id not found'],
             ]);
         }
-        if ($item->image) {
-            Storage::delete('public/' . $item->image);
-        }
-        if ($item->icon) {
-            Storage::delete('public/' . $item->icon);
-        }
         $item->title = $request->title;
         $item->item_type_id = $request->item_type_id;
         $item->description = $request->description;
@@ -232,6 +226,13 @@ class itemsManagementController extends Controller
         return response()->json([
             'message' => 'item delete successful',
         ]);
+    }
+
+    private function generateFileName($ext) {
+        do {
+            $name = 'prize_' . uniqid() . '_' . $ext;
+        } while(Storage::exists('public/stock/' . $name));
+        return $name;
     }
 
 }

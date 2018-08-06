@@ -231,30 +231,6 @@ export const mutations = {
             });
         }
     },
-    removeMyStreamer(state, id){
-        state.myStreamers.list = [];
-        state.myStreamers.loaded = false;
-        if (state.token) {
-            var formData = new FormData();
-            formData.append('token', state.token);
-            formData.append('id', id);
-            fetch('api/signedviewers/delete',
-            {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors',
-            })
-            .then(function(res){
-                return res.json();
-            })
-            .then(function(jsonResp){
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-            });
-        }
-    },
     getAfiliatedList(state){
         if (state.token) {
             var formData = new FormData();
@@ -558,60 +534,6 @@ export const mutations = {
                 state.myCards.loaded = true;
                 state.myCards.list = jsonResp.data.cards;
             }
-        });
-    },
-    createCard(state, data) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('frame_id', data.frame_id);
-        formData.append('hero_id', data.hero_id);
-        formData.append('achivement_id', data.achivement_id);
-        fetch('api/cards/add',
-        {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData,
-        })
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(jsonResp){
-        });
-    },
-    deleteCard(state, cardId) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('card_id', cardId);
-        fetch('api/cards/delete',
-        {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData,
-        })
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(jsonResp){
-        });
-    },
-    setMainCard(state, cardId) {
-        var formData = new FormData();
-        formData.append('token', state.token);
-        formData.append('card_id', cardId);
-        fetch('api/cards/main',
-        {
-            method: "POST",
-            credentials: 'omit',
-            mode: 'cors',
-            body: formData,
-        })
-        .then(function(res){
-            return res.json();
-        })
-        .then(function(jsonResp){
-            console.log(jsonResp);
         });
     },
     // SMS
