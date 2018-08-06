@@ -24,7 +24,7 @@ class CreateViewersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->integer('referal')->default(0);
-            $table->boolean('Phone_verified')->default(false);
+            $table->boolean('phone_verified')->default(false);
             $table->integer('alert_type_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

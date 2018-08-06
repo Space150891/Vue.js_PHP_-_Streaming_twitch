@@ -41,13 +41,19 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $items = [1, 2, 4, 5];
-        foreach ($items as $itemId) {
-            $vit = new ViewerItem();
-            $vit->viewer_id = 105;
-            $vit->item_id = $itemId;
-            $vit->save();
-        }
+        echo $this->genCode() . "\n";
+    }
+
+    private function genCode()
+    {
+        $length = 5;
+        $symbols = '/\d|\w/';
+        $code = '';
+        do {
+            $char = str_random(1);
+            $code .= preg_match($symbols, $char) === 1 ? $char : '';
+        } while(strlen($code) < $length);
+        return $code;
     }
 
 }

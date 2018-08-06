@@ -100,6 +100,8 @@ class ProfileController extends Controller
                 'email'     => $user->email,
                 'paypal'    => '',
                 'card'      => $card,
+                'verified'  => $viewer->phone_verified ? true : false,
+                'phone'     => $viewer->phone ? $viewer->phone : '',
             ],
         ]);
     }

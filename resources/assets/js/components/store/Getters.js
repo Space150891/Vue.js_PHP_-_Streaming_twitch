@@ -82,4 +82,7 @@ export const getters = {
     myCardsLoades: state => {
         return state.myCards.loaded;
     },
+    checkedCode: state => {
+        return state.checkedCode;
+    }
 }

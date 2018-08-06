@@ -41,4 +41,7 @@ export const actions = {
             context.commit('getMyCards');
         }, 2000);
     },
+    checkCodeAction(context, code) {
+        context.commit('checkCode', code);
+    }
 }

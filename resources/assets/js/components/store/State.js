@@ -77,4 +77,5 @@ export const state = {
         list: [],
         loaded: false,
     },
+    checkedCode : 'none',
 }

@@ -52,7 +52,6 @@ export default {
                 height: "312px",
                 border: "none",
                 borderRadius: "5px",
-                background: 'url(/storage/' + this.frame + ')',
                 position: "absolute",
                 top: "0",
                 left: "0",

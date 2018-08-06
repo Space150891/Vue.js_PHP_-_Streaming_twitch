@@ -1779,6 +1779,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1788,19 +1831,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     data: function data() {
-        return {};
+        return {
+            phone: '',
+            code: '',
+            smsSended: false,
+            openAlertModal: false
+        };
     },
     mounted: function mounted() {
         this.$store.commit('loadProfile', this.userId);
     },
 
-    methods: {},
+    methods: {
+        sendSMS: function sendSMS() {
+            this.$store.commit('sendSMS', this.phone);
+            this.smsSended = true;
+        },
+        checkCode: function checkCode() {
+            this.$store.dispatch('checkCodeAction', this.code);
+        }
+    },
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
         },
         profileData: function profileData() {
-            return this.$store.getters.profileData;
+            var data = this.$store.getters.profileData;
+            if (data.phone && this.phone == '') {
+                this.phone = data.phone;
+            }
+            return data;
+        },
+        checkedCode: function checkedCode() {
+            var result = this.$store.getters.checkedCode;
+            if (result === 'true') {
+                window.location.reload();
+            }
+            if (result === 'false') {
+                this.openAlertModal = true;
+                this.smsSended = false;
+            }
+            return result;
         }
     }
 });
@@ -1866,7 +1937,6 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 height: "312px",
                 border: "none",
                 borderRadius: "5px",
-                background: 'url(/storage/' + this.frame + ')',
                 position: "absolute",
                 top: "0",
                 left: "0"
@@ -76355,13 +76425,15 @@ var render = function() {
             "div",
             { staticClass: "col-md-3" },
             [
-              _c("viewer-card", {
-                attrs: {
-                  frame: _vm.profileData.card.frame,
-                  hero: _vm.profileData.card.hero,
-                  achivement: _vm.profileData.card.achievement
-                }
-              })
+              _vm.profileData.card
+                ? _c("viewer-card", {
+                    attrs: {
+                      frame: _vm.profileData.card.frame,
+                      hero: _vm.profileData.card.hero,
+                      achivement: _vm.profileData.card.achievement
+                    }
+                  })
+                : _vm._e()
             ],
             1
           ),
@@ -76422,6 +76494,128 @@ var render = function() {
             _vm._v(" "),
             _vm.userId == ""
               ? _c("div", [
+                  _vm._v("\n                Phone status:\n                "),
+                  _vm.profileData.verified
+                    ? _c("span", [_vm._v("verified")])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.profileData.verified
+                    ? _c("span", [_vm._v("Unverified")])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.profileData.verified
+                    ? _c(
+                        "div",
+                        [
+                          !_vm.smsSended
+                            ? _c("div", { staticClass: "form-inline" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.phone,
+                                      expression: "phone"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { placeholder: "Phone..." },
+                                  domProps: { value: _vm.phone },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.phone = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    attrs: { placeholder: "Code..." },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.sendSMS()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            send SMS\n                        "
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.smsSended
+                            ? _c("div", { staticClass: "form-inline" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.code,
+                                      expression: "code"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  domProps: { value: _vm.code },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.code = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.checkCode()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            check Code\n                        "
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.checkedCode === "false"
+                            ? _c("modal-alert", {
+                                attrs: {
+                                  AlertType: "warning",
+                                  messages: ["code wrong"],
+                                  opened: _vm.openAlertModal
+                                },
+                                on: {
+                                  "close-alert-modal": function($event) {
+                                    _vm.openAlertModal = false
+                                  }
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
                   _c(
                     "a",
                     {
@@ -97230,6 +97424,9 @@ var actions = {
         setTimeout(function () {
             context.commit('getMyCards');
         }, 2000);
+    },
+    checkCodeAction: function checkCodeAction(context, code) {
+        context.commit('checkCode', code);
     }
 };
 
@@ -97323,6 +97520,9 @@ var getters = {
     },
     myCardsLoades: function myCardsLoades(state) {
         return state.myCards.loaded;
+    },
+    checkedCode: function checkedCode(state) {
+        return state.checkedCode;
     }
 };
 
@@ -97865,6 +98065,50 @@ var mutations = {
         }).then(function (jsonResp) {
             console.log(jsonResp);
         });
+    },
+
+    // SMS
+    sendSMS: function sendSMS(state, phone) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('phone', phone);
+        fetch('api/sms/code/get', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    checkCode: function checkCode(state, code) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('code', code);
+        state.checkedCode = 'waiting';
+        fetch('api/sms/code/check', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                if (jsonResp.message) {
+                    state.checkedCode = 'true';
+                } else {
+                    state.checkedCode = 'false';
+                }
+                console.log('after Api', state.checkedCode);
+            }
+        });
     }
 };
 
@@ -97953,7 +98197,8 @@ var state = {
     myCards: {
         list: [],
         loaded: false
-    }
+    },
+    checkedCode: 'none'
 };
 
 /***/ }),

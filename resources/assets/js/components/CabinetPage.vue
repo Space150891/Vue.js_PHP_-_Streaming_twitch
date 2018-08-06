@@ -12,6 +12,7 @@
         <div class="row">
             <div class="col-md-3">
                  <viewer-card
+                    v-if="profileData.card"
                     v-bind:frame="profileData.card.frame"
                     v-bind:hero="profileData.card.hero"
                     v-bind:achivement="profileData.card.achievement"
@@ -35,6 +36,48 @@
                     Donate Page
                 </a>
                 <div v-if="userId == ''">
+                    Phone status:
+                    <span v-if="profileData.verified">verified</span>
+                    <span v-if="!profileData.verified">Unverified</span>
+                    <div v-if="!profileData.verified">
+                        <div v-if="!smsSended" class="form-inline">
+                            <input
+                                v-model="phone"
+                                placeholder="Phone..."
+                                class="form-control"
+                            >
+                            <button
+                                @click.prevent="sendSMS()"
+                                placeholder="Code..."
+                                class="btn btn-success"
+                            >
+                                send SMS
+                            </button>
+                        </div>
+                        <div
+                            v-if="smsSended"
+                            class="form-inline"
+                        >
+                            <input
+                                v-model="code"
+                                class="form-control"
+                            >
+                            <button
+                                @click.prevent="checkCode()"
+                                class="btn btn-success"
+                            >
+                                check Code
+                            </button>
+                        </div>
+                        <modal-alert
+                            v-if="checkedCode==='false'"
+                            AlertType="warning"
+                            v-bind:messages="['code wrong']"
+                            v-bind:opened="openAlertModal"
+                            v-on:close-alert-modal="openAlertModal=false"
+                        ></modal-alert>
+                    </div>
+                    <br>
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
                     <a  class="btn btn-info" href="#/mycards">My cards</a>
@@ -58,21 +101,45 @@
         },
         data() {
             return {
-                
+                phone: '',
+                code: '',
+                smsSended: false,
+                openAlertModal: false,
             }
         },
         mounted() {
             this.$store.commit('loadProfile', this.userId);
         },
         methods: {
-           
+           sendSMS() {
+               this.$store.commit('sendSMS', this.phone);
+               this.smsSended = true;
+           },
+           checkCode() {
+                this.$store.dispatch('checkCodeAction', this.code);
+           },
         },
         computed: {
             checkToken: function () {
-              return this.$store.getters.checkToken;
+                return this.$store.getters.checkToken;
             },
             profileData: function () {
-                return this.$store.getters.profileData;
+                const data = this.$store.getters.profileData;
+                if (data.phone && this.phone == '') {
+                    this.phone = data.phone;
+                }
+                return data;
+            },
+            checkedCode: function () {
+                const result = this.$store.getters.checkedCode;
+                if (result === 'true') {
+                    window.location.reload();
+                }
+                if (result === 'false') {
+                    this.openAlertModal = true;
+                    this.smsSended = false;
+                }
+                return result;
             },
         },
     }

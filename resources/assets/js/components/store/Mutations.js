@@ -614,4 +614,54 @@ export const mutations = {
             console.log(jsonResp);
         });
     },
+    // SMS
+    sendSMS(state, phone) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('phone', phone);
+        fetch('api/sms/code/get',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+        });
+    },
+    checkCode(state, code) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('code', code);
+        state.checkedCode = 'waiting';
+        fetch('api/sms/code/check',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                if (jsonResp.message) {
+                    state.checkedCode = 'true';
+                } else {
+                    state.checkedCode = 'false';
+                }
+                console.log('after Api', state.checkedCode);
+            }
+        });
+    },
+
 }
