@@ -37,6 +37,7 @@ Route::group([
 
     Route::post('viewers/get', 'Api\ViewersController@show');
     Route::post('viewers/current', 'Api\ViewersController@current');
+    Route::post('viewer/redeem', 'Api\ViewersController@redeem');
 
     Route::post('streamers/get', 'Api\StreamersController@show');
     Route::post('streamers/list', 'Api\StreamersController@list');
@@ -106,6 +107,8 @@ Route::group([
 
     Route::post('sms/code/get', 'Api\SmsController@getSms');
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
+
+    Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
 });
 
 

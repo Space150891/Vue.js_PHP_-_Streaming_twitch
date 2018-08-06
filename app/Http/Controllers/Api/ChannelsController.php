@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Channel;
+use App\Models\{Channel, Streamer};
 
 class ChannelsController extends Controller
 {
@@ -87,7 +87,6 @@ class ChannelsController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -116,7 +115,6 @@ class ChannelsController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
             'id'       => 'required',
             'name'     => 'required|max:255|unique:users',
@@ -128,7 +126,7 @@ class ChannelsController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-
+        $id = $request->id;
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -150,7 +148,6 @@ class ChannelsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
             'id'       => 'required',
         ]);
@@ -159,6 +156,7 @@ class ChannelsController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
+        $id = $request->id;
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -173,5 +171,31 @@ class ChannelsController extends Controller
         
     }
 
+    public function randomChannels(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'total'       => 'required|in:1,2,4',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $channels = [];
+        $numbers = [];
+        $allStreamers = Streamer::all();
+        do {
+            $num = round(rand(0, count($allStreamers) - 1));
+            if (!in_array($num, $numbers)) {
+                $numbers[] = $num;
+                $channels[] = $allStreamers[$num]->name;
+            }
+        } while (count($channels) < $request->total);
+        return response()->json([
+            'data' => [
+                'channels'  => $channels,
+            ],
+        ]);
+    }
  
 }

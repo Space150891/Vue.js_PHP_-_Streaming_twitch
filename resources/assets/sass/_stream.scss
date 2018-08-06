@@ -201,6 +201,7 @@
 }
 
 .mycards{
+    max-width: 1200px;
     .cards{
         display: flex;
         margin: 10px auto 30px auto;
@@ -249,5 +250,37 @@
     }
     .create-card-but {
         margin: 10px auto 0 auto;
+    }
+    .preview {
+        >h3{
+            text-decoration: underline;
+        }
+        >button{ margin-left: 50px;}
+    }
+}
+
+.roulette-welcome {
+    text-align: center;
+    label {
+        display: inline-block;
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        line-height: 40px;
+        margin: 10px 50px;
+        color: #fff;
+        font-size: 23px;
+        border-radius: 10px;
+        background: rgb(44, 139, 146);
+    }
+    input {
+        display: none;
+    }
+    input:checked+label {
+        background: rgb(44, 146, 52);
+    }
+    button {
+        display: block;
+        margin: 0 auto;
     }
 }

@@ -27,7 +27,7 @@
 
         </div>
         <div class="row">
-            <div class="col-md-4 frames">
+            <div class="col-md-3 frames">
                 <h3 class="text-center">frames</h3>
                 <label
                     v-for="item in myItems"
@@ -35,11 +35,11 @@
                 >
                     <img v-bind:src="'storage/' + item.icon" v-bind:alt="item.title">
                     <p>{{item.title}}</p>
-                    <input type="radio" name="frame" v-bind:value="item.id" v-model="newCard.frame_id">
+                    <input type="radio" name="frame" v-bind:value="item.id" v-model="newCard.frame_id"  v-on:change="previewCard.frame=item.image">
                     <i class="fa fa-check"></i>
                 </label>
             </div>
-            <div class="col-md-4 heroes">
+            <div class="col-md-3 heroes">
                 <h3 class="text-center">heroes</h3>
                 <label
                     v-for="item in myItems"
@@ -47,23 +47,32 @@
                 >
                     <img v-bind:src="'storage/' + item.icon" v-bind:alt="item.title">
                     <p>{{item.title}}</p>
-                    <input type="radio" name="hero" v-bind:value="item.id"  v-model="newCard.hero_id">
+                    <input type="radio" name="hero" v-bind:value="item.id"  v-model="newCard.hero_id" v-on:change="previewCard.hero=item.image">
                     <i class="fa fa-check"></i>
                 </label>
             </div>
-            <div class="col-md-4 achivements">
+            <div class="col-md-3 achivements">
                 <h3 class="text-center">achivements</h3>
                 <label
                     v-for="achivement in achivements"
                 >
                     <p>{{achivement.name}}</p>
-                    <input type="radio" name="achivement" v-bind:value="achivement.id"  v-model="newCard.achivement_id">
+                    <input type="radio" name="achivement" v-bind:value="achivement.id"  v-model="newCard.achivement_id" v-on:change="previewCard.achievement=achivement.name">
                     <i class="fa fa-check"></i>
                 </label>
             </div>
-            <button @click.prevent="createCard()" class="btn btn-success create-card-but">
-                CREATE CARD
-            </button>
+            <div  class="col-md-3 preview">
+                <h3 class="text-center">preview</h3>
+                <viewer-card
+                    v-if="canCreate"
+                    v-bind:frame="previewCard.frame"
+                    v-bind:hero="previewCard.hero"
+                    v-bind:achivement="previewCard.achievement"
+                ></viewer-card>
+                <button v-if="canCreate" @click.prevent="createCard()" class="btn btn-success create-card-but">
+                    CREATE CARD
+                </button>
+            </div>
             <modal-delete 
 			    name="Card"
 			    v-bind:opened="deletingModal"
@@ -89,6 +98,11 @@ import { mapGetters } from 'vuex';
                 },
                 deletingModal: false,
                 deletingId: 0,
+                previewCard: {
+                    frame : '',
+                    hero : '',
+                    achievement: '',
+                },
             }
         },
         mounted() {
@@ -115,7 +129,7 @@ import { mapGetters } from 'vuex';
            },
            setMain(cardId) {
                this.$store.dispatch('setMainCardAction', cardId);
-           }
+           },
         },
         computed: {
             ...mapGetters([
@@ -124,6 +138,13 @@ import { mapGetters } from 'vuex';
                 'myCards',
                 'achivements',
 			]),
+            canCreate: function () {
+               if (this.previewCard.frame != '' && this.previewCard.hero != '' && this.previewCard.achivement != '') {
+                   console.log('can preview');
+                   return true;
+               }
+               return false;
+           }
         },
 
     }

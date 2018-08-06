@@ -581,9 +581,32 @@ export const mutations = {
                 } else {
                     state.checkedCode = 'false';
                 }
-                console.log('after Api', state.checkedCode);
             }
         });
     },
-
+    getRandomChannels(state, totalChannels) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('total', totalChannels);
+        fetch('api/roulette/channels/get',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                if (jsonResp.data) {
+                    state.roulette.channels = jsonResp.data.channels;
+                }
+            }
+        });
+    },
+    
 }

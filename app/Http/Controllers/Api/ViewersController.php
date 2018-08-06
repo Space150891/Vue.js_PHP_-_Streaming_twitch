@@ -94,5 +94,25 @@ class ViewersController extends Controller
             ],
         ]);
     }
+
+    public function redeem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'captcha'       => 'required|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        \Log::info('captcha=' . $request->captcha);
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $viewer->current_points = $viewer->current_points >10 ? $viewer->current_points - 10 : 0;
+        $viewer->save();
+        return response()->json([
+            'message' => 'points redeemed',
+        ]);
+    }
  
 }

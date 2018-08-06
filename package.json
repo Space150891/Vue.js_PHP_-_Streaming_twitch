@@ -34,6 +34,7 @@
         "password-strength-meter": "^1.2.1",
         "pusher-js": "^4.2.2",
         "vue-paginate": "^3.6.0",
+        "vue-recaptcha": "^1.1.1",
         "vue-router": "^3.0.1",
         "vue2-editor": "^2.5.0",
         "vue2-timepicker": "^0.1.4",

@@ -2428,6 +2428,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 activ: false,
                 link: "/directory"
             }, {
+                name: "Roulette",
+                activ: false,
+                link: "/roulette"
+            }, {
                 name: "Prices",
                 activ: false,
                 link: "/prices"
@@ -3367,6 +3371,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3379,7 +3392,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 achivement_id: 0
             },
             deletingModal: false,
-            deletingId: 0
+            deletingId: 0,
+            previewCard: {
+                frame: '',
+                hero: '',
+                achievement: ''
+            }
         };
     },
     mounted: function mounted() {
@@ -3409,7 +3427,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('setMainCardAction', cardId);
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'myItems', 'myCards', 'achivements']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'myItems', 'myCards', 'achivements']), {
+        canCreate: function canCreate() {
+            if (this.previewCard.frame != '' && this.previewCard.hero != '' && this.previewCard.achivement != '') {
+                console.log('can preview');
+                return true;
+            }
+            return false;
+        }
+    })
 
 });
 
@@ -3611,6 +3637,154 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }]
         };
     }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/RoulettePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// import VueRecaptcha from 'vue-recaptcha';
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            totalChannels: 0,
+            stage: 'welcome',
+            timeMax: 4,
+            timeNow: 0,
+            captcha: 'z'
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        startViewRoulette: function startViewRoulette() {
+            this.stage = 'watching';
+            this.$store.dispatch('startWatchingRouletteAction', this.totalChannels);
+            this.startTimer();
+        },
+        nextStreams: function nextStreams() {
+            this.$store.dispatch('nextRouletteAction');
+        },
+        redeemNext: function redeemNext() {
+            this.stage = 'watching';
+            this.$store.dispatch('nextRouletteAction');
+            this.$store.dispatch('redeemRouletteAction', this.captcha);
+            this.startTimer();
+        },
+        redeemStay: function redeemStay() {
+            this.stage = 'watching';
+            this.$store.dispatch('redeemRouletteAction', this.captcha);
+            this.startTimer();
+        },
+        startTimer: function startTimer() {
+            var _this = this;
+
+            var timer = setInterval(function () {
+                _this.timeNow++;
+                if (_this.timeNow >= _this.timeMax) {
+                    clearInterval(timer);
+                    // time out
+                    _this.stage = 'stoped';
+                    _this.timeNow = 0;
+                }
+            }, 1000);
+        }
+    },
+    computed: {
+        checkToken: function checkToken() {
+            return this.$store.getters.checkToken;
+        },
+        channelsCount: function channelsCount() {
+            return this.$store.getters.rouletteChannelsCount;
+        },
+        viewChannels: function viewChannels() {
+            return this.$store.getters.rouletteChannels;
+        },
+        currentPoints: function currentPoints() {
+            return this.$store.getters.currentViewer.points;
+        },
+        getMS: function getMS() {
+            var min = Math.floor(this.timeNow / 60);
+            var sec = this.timeNow % 60;
+            return {
+                min: min > 9 ? min + '' : '0' + min,
+                sec: sec > 9 ? sec + '' : '0' + sec
+            };
+        }
+    }
+
 });
 
 /***/ }),
@@ -77114,6 +77288,259 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30c107da\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/RoulettePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "main-wrap" },
+    [
+      _c("div", { staticClass: "streams-block" }, [
+        _vm.stage == "watching" && _vm.checkToken
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-11" }, [
+                _c(
+                  "div",
+                  { staticClass: "row" },
+                  _vm._l(_vm.viewChannels, function(stream, index) {
+                    return _c("stream-frame", {
+                      key: index,
+                      attrs: { channel: stream, count: _vm.viewChannels.length }
+                    })
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-1 roulette-right-nav" }, [
+                _c("div", { staticClass: "timer" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(this.getMS.min) +
+                      " : " +
+                      _vm._s(this.getMS.sec) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-info",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.nextStreams()
+                      }
+                    }
+                  },
+                  [_vm._v("\n                        next\n                ")]
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.stage == "welcome" && _vm.checkToken && _vm.currentPoints > 0
+          ? _c("div", { staticClass: "roulette-welcome" }, [
+              _c("h1", [_vm._v("Roulette")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.totalChannels,
+                    expression: "totalChannels"
+                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  value: "1",
+                  name: "channels",
+                  id: "cr1"
+                },
+                domProps: { checked: _vm._q(_vm.totalChannels, "1") },
+                on: {
+                  change: function($event) {
+                    _vm.totalChannels = "1"
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.totalChannels,
+                    expression: "totalChannels"
+                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  value: "2",
+                  name: "channels",
+                  id: "cr2"
+                },
+                domProps: { checked: _vm._q(_vm.totalChannels, "2") },
+                on: {
+                  change: function($event) {
+                    _vm.totalChannels = "2"
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.totalChannels,
+                    expression: "totalChannels"
+                  }
+                ],
+                attrs: {
+                  type: "radio",
+                  value: "4",
+                  name: "channels",
+                  id: "cr3"
+                },
+                domProps: { checked: _vm._q(_vm.totalChannels, "4") },
+                on: {
+                  change: function($event) {
+                    _vm.totalChannels = "4"
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _vm.totalChannels > 0
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-lg btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.startViewRoulette()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                view\n            ")]
+                  )
+                : _vm._e()
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.stage == "welcome" && _vm.checkToken && _vm.currentPoints < 10
+          ? _c("div", [_c("h2", [_vm._v("You does not have enough points")])])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.stage == "stoped" && _vm.checkToken
+          ? _c(
+              "div",
+              [
+                _c("h2", [_vm._v("Confirm redeem points")]),
+                _vm._v(" "),
+                _c("vue-recaptcha", {
+                  attrs: { sitekey: "6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq" }
+                }),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.redeemNext()
+                        }
+                      }
+                    },
+                    [_vm._v("next random")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.redeemStay()
+                        }
+                      }
+                    },
+                    [_vm._v("stay with this channel(s)")]
+                  )
+                ])
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.checkToken
+          ? _c("div", [_c("h2", [_vm._v("Only users. Please login.")])])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("right-part")
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "cr1" } }, [
+      _vm._v("\n                1 "),
+      _c("br"),
+      _vm._v("channel\n            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "cr2" } }, [
+      _vm._v("\n                2 "),
+      _c("br"),
+      _vm._v("channels\n            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "cr3" } }, [
+      _vm._v("\n                4 "),
+      _c("br"),
+      _vm._v("channels\n            ")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-30c107da", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-34a2b688\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/WatchingStreamsPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78284,7 +78711,7 @@ var render = function() {
           [
             _c(
               "div",
-              { staticClass: "col-md-4 frames" },
+              { staticClass: "col-md-3 frames" },
               [
                 _c("h3", { staticClass: "text-center" }, [_vm._v("frames")]),
                 _vm._v(" "),
@@ -78315,9 +78742,14 @@ var render = function() {
                             checked: _vm._q(_vm.newCard.frame_id, item.id)
                           },
                           on: {
-                            change: function($event) {
-                              _vm.$set(_vm.newCard, "frame_id", item.id)
-                            }
+                            change: [
+                              function($event) {
+                                _vm.$set(_vm.newCard, "frame_id", item.id)
+                              },
+                              function($event) {
+                                _vm.previewCard.frame = item.image
+                              }
+                            ]
                           }
                         }),
                         _vm._v(" "),
@@ -78331,7 +78763,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col-md-4 heroes" },
+              { staticClass: "col-md-3 heroes" },
               [
                 _c("h3", { staticClass: "text-center" }, [_vm._v("heroes")]),
                 _vm._v(" "),
@@ -78362,9 +78794,14 @@ var render = function() {
                             checked: _vm._q(_vm.newCard.hero_id, item.id)
                           },
                           on: {
-                            change: function($event) {
-                              _vm.$set(_vm.newCard, "hero_id", item.id)
-                            }
+                            change: [
+                              function($event) {
+                                _vm.$set(_vm.newCard, "hero_id", item.id)
+                              },
+                              function($event) {
+                                _vm.previewCard.hero = item.image
+                              }
+                            ]
                           }
                         }),
                         _vm._v(" "),
@@ -78378,7 +78815,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col-md-4 achivements" },
+              { staticClass: "col-md-3 achivements" },
               [
                 _c("h3", { staticClass: "text-center" }, [
                   _vm._v("achivements")
@@ -78406,9 +78843,18 @@ var render = function() {
                         )
                       },
                       on: {
-                        change: function($event) {
-                          _vm.$set(_vm.newCard, "achivement_id", achivement.id)
-                        }
+                        change: [
+                          function($event) {
+                            _vm.$set(
+                              _vm.newCard,
+                              "achivement_id",
+                              achivement.id
+                            )
+                          },
+                          function($event) {
+                            _vm.previewCard.achievement = achivement.name
+                          }
+                        ]
                       }
                     }),
                     _vm._v(" "),
@@ -78420,17 +78866,42 @@ var render = function() {
             ),
             _vm._v(" "),
             _c(
-              "button",
-              {
-                staticClass: "btn btn-success create-card-but",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.createCard()
-                  }
-                }
-              },
-              [_vm._v("\n                CREATE CARD\n            ")]
+              "div",
+              { staticClass: "col-md-3 preview" },
+              [
+                _c("h3", { staticClass: "text-center" }, [_vm._v("preview")]),
+                _vm._v(" "),
+                _vm.canCreate
+                  ? _c("viewer-card", {
+                      attrs: {
+                        frame: _vm.previewCard.frame,
+                        hero: _vm.previewCard.hero,
+                        achivement: _vm.previewCard.achievement
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.canCreate
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success create-card-but",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.createCard()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    CREATE CARD\n                "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ],
+              1
             ),
             _vm._v(" "),
             _c("modal-delete", {
@@ -79996,6 +80467,176 @@ if (false) {
   return vuePaginate;
 
 }));
+
+/***/ }),
+
+/***/ "./node_modules/vue-recaptcha/dist/vue-recaptcha.es.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var defer = function defer() {
+  var state = false; // Resolved or not
+  var callbacks = [];
+  var resolve = function resolve(val) {
+    if (state) {
+      return;
+    }
+
+    state = true;
+    for (var i = 0, len = callbacks.length; i < len; i++) {
+      callbacks[i](val);
+    }
+  };
+
+  var then = function then(cb) {
+    if (!state) {
+      callbacks.push(cb);
+      return;
+    }
+    cb();
+  };
+
+  var deferred = {
+    resolved: function resolved() {
+      return state;
+    },
+
+    resolve: resolve,
+    promise: {
+      then: then
+    }
+  };
+  return deferred;
+};
+
+function createRecaptcha() {
+  var deferred = defer();
+
+  return {
+    notify: function notify() {
+      deferred.resolve();
+    },
+    wait: function wait() {
+      return deferred.promise;
+    },
+    render: function render(ele, options, cb) {
+      this.wait().then(function () {
+        cb(window.grecaptcha.render(ele, options));
+      });
+    },
+    reset: function reset(widgetId) {
+      if (typeof widgetId === 'undefined') {
+        return;
+      }
+
+      this.assertLoaded();
+      this.wait().then(function () {
+        return window.grecaptcha.reset(widgetId);
+      });
+    },
+    execute: function execute(widgetId) {
+      if (typeof widgetId === 'undefined') {
+        return;
+      }
+
+      this.assertLoaded();
+      this.wait().then(function () {
+        return window.grecaptcha.execute(widgetId);
+      });
+    },
+    checkRecaptchaLoad: function checkRecaptchaLoad() {
+      if (window.hasOwnProperty('grecaptcha') && window.grecaptcha.hasOwnProperty('render')) {
+        this.notify();
+      }
+    },
+    assertLoaded: function assertLoaded() {
+      if (!deferred.resolved()) {
+        throw new Error('ReCAPTCHA has not been loaded');
+      }
+    }
+  };
+}
+
+var recaptcha = createRecaptcha();
+
+if (typeof window !== 'undefined') {
+  window.vueRecaptchaApiLoaded = recaptcha.notify;
+}
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+var VueRecaptcha = {
+  name: 'VueRecaptcha',
+  props: {
+    sitekey: {
+      type: String,
+      required: true
+    },
+    theme: {
+      type: String
+    },
+    badge: {
+      type: String
+    },
+    type: {
+      type: String
+    },
+    size: {
+      type: String
+    },
+    tabindex: {
+      type: String
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    recaptcha.checkRecaptchaLoad();
+    var opts = _extends({}, this.$props, {
+      callback: this.emitVerify,
+      'expired-callback': this.emitExpired
+    });
+    var container = this.$slots.default ? this.$el.children[0] : this.$el;
+    recaptcha.render(container, opts, function (id) {
+      _this.$widgetId = id;
+      _this.$emit('render', id);
+    });
+  },
+
+  methods: {
+    reset: function reset() {
+      recaptcha.reset(this.$widgetId);
+    },
+    execute: function execute() {
+      recaptcha.execute(this.$widgetId);
+    },
+    emitVerify: function emitVerify(response) {
+      this.$emit('verify', response);
+    },
+    emitExpired: function emitExpired() {
+      this.$emit('expired');
+    }
+  },
+  render: function render(h) {
+    return h('div', {}, this.$slots.default);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (VueRecaptcha);
+
 
 /***/ }),
 
@@ -95551,9 +96192,10 @@ var Achivements = __webpack_require__("./resources/assets/js/components/Achiveme
 var Donate = __webpack_require__("./resources/assets/js/components/DonatePage.vue");
 var WatchingStreamsPage = __webpack_require__("./resources/assets/js/components/WatchingStreamsPage.vue");
 var MyCardsPage = __webpack_require__("./resources/assets/js/components/MyCardsPage.vue");
+var RoulettePage = __webpack_require__("./resources/assets/js/components/RoulettePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }, { path: '/roulette', component: RoulettePage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -95583,6 +96225,7 @@ Vue.component('follow-drop-down', __webpack_require__("./resources/assets/js/com
 Vue.component('modal-alert', __webpack_require__("./resources/assets/js/components/admin/AlertModal.vue"));
 Vue.component('viewer-card', __webpack_require__("./resources/assets/js/components/Card.vue"));
 Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
+Vue.component('vue-recaptcha', __webpack_require__("./node_modules/vue-recaptcha/dist/vue-recaptcha.es.js"));
 
 var app = new Vue({
     el: '#app',
@@ -96874,6 +97517,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/RoulettePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/RoulettePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30c107da\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/RoulettePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/RoulettePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-30c107da", Component.options)
+  } else {
+    hotAPI.reload("data-v-30c107da", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/StreamChatTabs.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -97484,6 +98175,39 @@ var actions = {
     },
     checkCodeAction: function checkCodeAction(context, code) {
         context.commit('checkCode', code);
+    },
+    startWatchingRouletteAction: function startWatchingRouletteAction(_ref5, totalChannels) {
+        var commit = _ref5.commit,
+            state = _ref5.state;
+
+        if (state.currentViewer.points >= 10) {
+            state.roulette.channelsCount = totalChannels;
+            commit('getRandomChannels', totalChannels);
+        }
+    },
+    nextRouletteAction: function nextRouletteAction(_ref6) {
+        var commit = _ref6.commit,
+            state = _ref6.state;
+
+        commit('getRandomChannels', state.roulette.channelsCount);
+    },
+    redeemRouletteAction: function redeemRouletteAction(_ref7, captcha) {
+        var commit = _ref7.commit,
+            state = _ref7.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('captcha', captcha);
+        fetch('api/viewer/redeem', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('loadCurrentViewer');
+        });
     }
 };
 
@@ -97580,6 +98304,12 @@ var getters = {
     },
     checkedCode: function checkedCode(state) {
         return state.checkedCode;
+    },
+    rouletteChannelsCount: function rouletteChannelsCount(state) {
+        return state.roulette.channelsCount;
+    },
+    rouletteChannels: function rouletteChannels(state) {
+        return state.roulette.channels;
     }
 };
 
@@ -98099,7 +98829,27 @@ var mutations = {
                 } else {
                     state.checkedCode = 'false';
                 }
-                console.log('after Api', state.checkedCode);
+            }
+        });
+    },
+    getRandomChannels: function getRandomChannels(state, totalChannels) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('total', totalChannels);
+        fetch('api/roulette/channels/get', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            } else {
+                if (jsonResp.data) {
+                    state.roulette.channels = jsonResp.data.channels;
+                }
             }
         });
     }
@@ -98191,7 +98941,11 @@ var state = {
         list: [],
         loaded: false
     },
-    checkedCode: 'none'
+    checkedCode: 'none',
+    roulette: {
+        channels: [],
+        channelsCount: 0
+    }
 };
 
 /***/ }),

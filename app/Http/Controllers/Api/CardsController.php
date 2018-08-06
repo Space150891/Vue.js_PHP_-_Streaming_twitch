@@ -58,7 +58,7 @@ class CardsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) // tested
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'frame_id'      => 'required|numeric',

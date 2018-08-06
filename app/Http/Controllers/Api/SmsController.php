@@ -78,7 +78,7 @@ class SmsController extends Controller
                 'error' => 'wrong code',
             ]);
         }
-        // $sms->delete();
+        $sms->delete();
         $viewer = $user->viewer()->first();
         $viewer->phone_verified = 1;
         $viewer->save();

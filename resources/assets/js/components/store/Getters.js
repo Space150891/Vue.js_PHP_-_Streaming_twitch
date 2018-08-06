@@ -84,5 +84,11 @@ export const getters = {
     },
     checkedCode: state => {
         return state.checkedCode;
-    }
+    },
+    rouletteChannelsCount: state => {
+        return state.roulette.channelsCount;
+    },
+    rouletteChannels: state => {
+        return state.roulette.channels;
+    },
 }

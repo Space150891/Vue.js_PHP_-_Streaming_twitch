@@ -100,5 +100,32 @@ export const actions = {
     },
     checkCodeAction(context, code) {
         context.commit('checkCode', code);
+    },
+    startWatchingRouletteAction({commit, state}, totalChannels) {
+        if (state.currentViewer.points >= 10) {
+            state.roulette.channelsCount = totalChannels;
+            commit('getRandomChannels', totalChannels);
+        }
+    },
+    nextRouletteAction({commit, state}) {
+        commit('getRandomChannels', state.roulette.channelsCount);
+    },
+    redeemRouletteAction({commit, state}, captcha) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('captcha', captcha);
+        fetch('api/viewer/redeem',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            commit('loadCurrentViewer');
+        });
     }
 }

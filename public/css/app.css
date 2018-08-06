@@ -16257,6 +16257,10 @@ div[data-toggle="buttons"] label.active {
   text-align: center;
 }
 
+.mycards {
+  max-width: 1200px;
+}
+
 .mycards .cards {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -16329,6 +16333,40 @@ div[data-toggle="buttons"] label.active {
 
 .mycards .create-card-but {
   margin: 10px auto 0 auto;
+}
+
+.mycards .preview > button {
+  margin-left: 50px;
+}
+
+.roulette-welcome {
+  text-align: center;
+}
+
+.roulette-welcome label {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  line-height: 40px;
+  margin: 10px 50px;
+  color: #fff;
+  font-size: 23px;
+  border-radius: 10px;
+  background: #2c8b92;
+}
+
+.roulette-welcome input {
+  display: none;
+}
+
+.roulette-welcome input:checked + label {
+  background: #2c9234;
+}
+
+.roulette-welcome button {
+  display: block;
+  margin: 0 auto;
 }
 
 .v-loading {

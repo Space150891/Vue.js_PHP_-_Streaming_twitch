@@ -30,6 +30,7 @@ const Achivements = require('./components/AchivementsPage.vue');
 const Donate = require('./components/DonatePage.vue');
 const WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
 const MyCardsPage = require('./components/MyCardsPage.vue');
+const RoulettePage = require('./components/RoulettePage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -48,6 +49,7 @@ const router = new VueRouter({
         { path: '/donate/:userId', component: Donate,  props: true },
         { path: '/watch-streams', component: WatchingStreamsPage},
         { path: '/mycards', component: MyCardsPage},
+        { path: '/roulette', component: RoulettePage},
     ]
 });
 Vue.use(VueRouter);
@@ -79,7 +81,7 @@ Vue.component('follow-drop-down', require('./components/FollowDropDown.vue'))
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('viewer-card', require('./components/Card.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
-
+Vue.component('vue-recaptcha', require('vue-recaptcha'));
 
 const app = new Vue({
     el: '#app',

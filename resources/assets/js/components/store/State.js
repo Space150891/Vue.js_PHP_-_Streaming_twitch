@@ -78,4 +78,8 @@ export const state = {
         loaded: false,
     },
     checkedCode : 'none',
+    roulette: {
+        channels: [],
+        channelsCount: 0,
+    },
 }
