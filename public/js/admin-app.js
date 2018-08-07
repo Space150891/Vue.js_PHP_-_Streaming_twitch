@@ -2081,6 +2081,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2477,6 +2480,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -2488,6 +2494,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       editItem: {
         name: '',
         price: 0,
+        diamonds: 0,
         image: null,
         id: 0
       },
@@ -2526,6 +2533,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     editAction: function editAction(item) {
       this.editItem.name = item.name;
       this.editItem.price = item.price;
+      this.editItem.diamonds = item.diamonds;
       this.editItem.image = null;
       this.editItem.id = item.id;
       this.editMode = true;
@@ -2538,10 +2546,14 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       if (this.editItem.price == 0) {
         this.errors.push('set price');
       }
+      if (this.editItem.diamonds == 0) {
+        this.errors.push('set diamonds');
+      }
       if (this.errors.length == 0) {
         this.$store.dispatch('createCaseTypeAction', this.editItem);
         this.editItem.name = '';
         this.editItem.price = 0;
+        this.editItem.diamonds = 0;
         this.editItem.image = null;
         this.$store.commit('getCaseTypesList');
       } else {
@@ -2555,6 +2567,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       this.$store.dispatch('CaseTypeSaveAction', this.editItem);
       this.editItem.name = '';
       this.editItem.price = 0;
+      this.editItem.diamonds = 0;
       this.editItem.image = null;
       this.editItem.id = 0;
       this.editMode = false;
@@ -2945,6 +2958,162 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/DiamondsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			editMode: false,
+			newItem: {
+				cost: 0,
+				amount: 0
+			},
+			editItem: {
+				cost: 0,
+				amount: 0
+			},
+			deletingItem: {
+				name: '',
+				id: 0,
+				openModal: false
+			},
+			errors: [],
+			openAlertModal: false
+		};
+	},
+	mounted: function mounted() {
+		if (this.checkToken) {
+			this.getList();
+		}
+	},
+
+	methods: {
+		confirmDeleteAction: function confirmDeleteAction(item) {
+			this.deletingItem.name = "Diamonds set " + item.amount + ':' + item.cost;
+			this.deletingItem.id = item.id;
+			this.deletingItem.openModal = true;
+		},
+		deleteAction: function deleteAction() {
+			this.$store.dispatch('DiamondsDeleteAction', this.deletingItem.id);
+			this.deletingItem.openModal = false;
+		},
+		editAction: function editAction(item) {
+			this.editItem.cost = item.cost;
+			this.editItem.amount = item.amount;
+			this.editItem.id = item.id;
+			this.editMode = true;
+		},
+		createAction: function createAction() {
+			this.errors = [];
+			if (this.newItem.cost <= 0) {
+				this.errors.push('set cost');
+			}
+			if (this.newItem.amount <= 0) {
+				this.errors.push('set amount');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('DiamondsCreateAction', this.newItem);
+				this.newItem.cost = 0;
+				this.newItem.amount = 0;;
+			} else {
+				this.openAlertModal = true;
+			}
+		},
+		getList: function getList() {
+			this.$store.dispatch('getDiamondsListAction');
+		},
+		saveAction: function saveAction() {
+			this.errors = [];
+			if (this.editItem.cost <= 0) {
+				this.errors.push('set cost');
+			}
+			if (this.editItem.amount <= 0) {
+				this.errors.push('set amount');
+			}
+			if (this.errors.length == 0) {
+				this.$store.dispatch('DiamondsSaveAction', this.editItem);
+				this.editItem.cost = 0;
+				this.editItem.diamonds = 0;
+				this.editItem.id = 0;
+				this.editMode = false;
+			} else {
+				this.openAlertModal = true;
+			}
+		},
+		createCancelAction: function createCancelAction() {
+			this.editMode = false;
+		}
+	},
+	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded']))
 });
 
 /***/ }),
@@ -44545,6 +44714,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.price))]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.diamonds))]),
+                      _vm._v(" "),
                       _c("td", [
                         item.image
                           ? _c("img", {
@@ -44633,6 +44804,28 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.editItem, "price", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editItem.diamonds,
+                        expression: "editItem.diamonds"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Diamonds...", type: "number" },
+                    domProps: { value: _vm.editItem.diamonds },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editItem, "diamonds", $event.target.value)
                       }
                     }
                   }),
@@ -44742,7 +44935,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Price")]),
+        _c("th", [_vm._v("Coins")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Diamonds")]),
         _vm._v(" "),
         _c("th", [_vm._v("Image")]),
         _vm._v(" "),
@@ -45754,6 +45949,20 @@ var render = function() {
                         attrs: { href: "#/stock-prizes" }
                       },
                       [_vm._v("Stock prizes")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/diamonds"
+                        },
+                        attrs: { href: "#/diamonds" }
+                      },
+                      [_vm._v("Diamonds")]
                     )
                   ]),
                   _vm._v(" "),
@@ -47306,6 +47515,276 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-7c978e4d", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7cbb5f05\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/DiamondsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/diamonds" } }),
+      _vm._v(" "),
+      _vm.checkToken && _vm.diamondsLoaded
+        ? _c(
+            "div",
+            [
+              _c("h5", [_vm._v("Diamonds")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.diamonds, function(item) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(item.amount))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.cost))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-danger",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.confirmDeleteAction(item)
+                              }
+                            }
+                          },
+                          [_vm._v("del")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-warning",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.editAction(item)
+                              }
+                            }
+                          },
+                          [_vm._v("edit")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _vm.editMode
+                  ? _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.amount,
+                            expression: "editItem.amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Amount...", type: "number" },
+                        domProps: { value: _vm.editItem.amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "amount",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.cost,
+                            expression: "editItem.cost"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Cost...", type: "number" },
+                        domProps: { value: _vm.editItem.cost },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.editItem, "cost", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.saveAction()
+                            }
+                          }
+                        },
+                        [_vm._v("SAVE")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.createCancelAction()
+                            }
+                          }
+                        },
+                        [_vm._v("cancel")]
+                      )
+                    ])
+                  : _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.amount,
+                            expression: "newItem.amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Amount...", type: "number" },
+                        domProps: { value: _vm.newItem.amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.newItem, "amount", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.cost,
+                            expression: "newItem.cost"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Cost...", type: "number" },
+                        domProps: { value: _vm.newItem.cost },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.newItem, "cost", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.createAction()
+                            }
+                          }
+                        },
+                        [_vm._v("Create new")]
+                      )
+                    ])
+              ]),
+              _vm._v(" "),
+              _c("modal-delete", {
+                attrs: {
+                  name: _vm.deletingItem.name,
+                  opened: _vm.deletingItem.openModal
+                },
+                on: {
+                  "close-delete-modal": function($event) {
+                    _vm.deletingItem.openModal = false
+                  },
+                  "confirm-delete": _vm.deleteAction
+                }
+              }),
+              _vm._v(" "),
+              _c("modal-alert", {
+                attrs: {
+                  AlertType: "warning",
+                  messages: _vm.errors,
+                  opened: _vm.openAlertModal
+                },
+                on: {
+                  "close-alert-modal": function($event) {
+                    _vm.openAlertModal = false
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.diamondsLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cost")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7cbb5f05", module.exports)
   }
 }
 
@@ -63485,9 +63964,10 @@ var MainStreamersPage = __webpack_require__("./resources/assets/js/components/ad
 var MainContentPage = __webpack_require__("./resources/assets/js/components/admin/MainContentPage.vue");
 var AllUsersPage = __webpack_require__("./resources/assets/js/components/admin/AllUsersPage.vue");
 var StockPrizesPage = __webpack_require__("./resources/assets/js/components/admin/StockPrizesPage.vue");
+var DiamondsPage = __webpack_require__("./resources/assets/js/components/admin/DiamondsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -63956,6 +64436,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-98757238", Component.options)
   } else {
     hotAPI.reload("data-v-98757238", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/DiamondsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/DiamondsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7cbb5f05\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/DiamondsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/DiamondsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7cbb5f05", Component.options)
+  } else {
+    hotAPI.reload("data-v-7cbb5f05", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -64795,6 +65323,7 @@ var actions = {
         formData.append('token', state.token);
         formData.append('name', data.name);
         formData.append('price', data.price);
+        formData.append('diamonds', data.diamonds);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -64843,6 +65372,7 @@ var actions = {
         formData.append('id', data.id);
         formData.append('name', data.name);
         formData.append('price', data.price);
+        formData.append('diamonds', data.diamonds);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -65251,6 +65781,80 @@ var actions = {
             }
             commit('getStockPrizesList');
         });
+    },
+
+    // Diamonds
+    getDiamondsListAction: function getDiamondsListAction(context) {
+        context.commit('getDiamondsList');
+    },
+    DiamondsCreateAction: function DiamondsCreateAction(_ref28, data) {
+        var commit = _ref28.commit,
+            state = _ref28.state;
+
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        fetch(state.apiUrl + 'diamonds/store', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
+    },
+    DiamondsSaveAction: function DiamondsSaveAction(_ref29, data) {
+        var commit = _ref29.commit,
+            state = _ref29.state;
+
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        fetch(state.apiUrl + 'diamonds/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
+    },
+    DiamondsDeleteAction: function DiamondsDeleteAction(_ref30, id) {
+        var commit = _ref30.commit,
+            state = _ref30.state;
+
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'diamonds/delete', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
     }
 };
 
@@ -65406,6 +66010,12 @@ var getters = {
     },
     stockPrizesSaved: function stockPrizesSaved(state) {
         return state.stockPrizes.saved;
+    },
+    diamonds: function diamonds(state) {
+        return state.diamonds.list;
+    },
+    diamondsLoaded: function diamondsLoaded(state) {
+        return state.diamonds.loaded;
     }
 };
 
@@ -66019,6 +66629,27 @@ var mutations = {
             state.stockPrizes.list = jsonResp.data ? jsonResp.data.prizes : [];
             state.stockPrizes.loaded = true;
         });
+    },
+
+    // Diamonds
+    getDiamondsList: function getDiamondsList(state) {
+        var formData = new FormData();
+        state.diamonds.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'diamonds/list', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.diamonds.list = jsonResp.data ? jsonResp.data.diamonds : [];
+            state.diamonds.loaded = true;
+        });
     }
 };
 
@@ -66105,6 +66736,10 @@ var state = {
         list: [],
         loaded: false,
         saved: true
+    },
+    diamonds: {
+        list: [],
+        loaded: false
     }
 };
 

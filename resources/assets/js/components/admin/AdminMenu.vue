@@ -39,6 +39,9 @@
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/stock-prizes')}" href="#/stock-prizes" >Stock prizes</a>
           </li>
+           <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/diamonds')}" href="#/diamonds" >Diamonds</a>
+          </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
           </li>

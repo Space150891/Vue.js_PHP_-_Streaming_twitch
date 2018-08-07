@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCasesTypes extends Migration
+class CreateDiamonds extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateCasesTypes extends Migration
      */
     public function up()
     {
-        Schema::create('case_types', function (Blueprint $table) {
+        Schema::create('diamonds', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('price');
-            $table->integer('diamonds');
-            $table->string('image')->nullable();
+            $table->integer('amount');
+            $table->integer('cost');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +28,6 @@ class CreateCasesTypes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('case_types');
+        Schema::dropIfExists('diamonds');
     }
 }

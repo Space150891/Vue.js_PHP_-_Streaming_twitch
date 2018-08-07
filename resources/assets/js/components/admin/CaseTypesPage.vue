@@ -8,7 +8,8 @@
 				<tr>
 					<th>id</th>
 					<th>Name</th>
-                    <th>Price</th>
+                    <th>Coins</th>
+                    <th>Diamonds</th>
                     <th>Image</th>
 					<th>Actions</th>
 				</tr>
@@ -18,6 +19,7 @@
 					<td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }}</td>
+                    <td>{{ item.diamonds }}</td>
                     <td>
                         <img 
                           v-if="item.image"
@@ -36,6 +38,7 @@
             <form class="form form-inline">
 				<input class="form-control" placeholder="Name..." v-model="editItem.name" type="text">
                 <input class="form-control" placeholder="Price..." v-model="editItem.price" type="number">
+                <input class="form-control" placeholder="Diamonds..." v-model="editItem.diamonds" type="number">
                 <div v-if="editMode">
 				    <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
 				    <button @click.prevent="editCancelAction()" class="btn btn-default">cancel</button>
@@ -79,6 +82,7 @@
 			editItem: {
 				name: '',
                 price: 0,
+                diamonds: 0,
                 image: null,
 				id: 0,
 			},
@@ -116,6 +120,7 @@
 			editAction: function (item) {
 				this.editItem.name = item.name;
                 this.editItem.price = item.price;
+                this.editItem.diamonds = item.diamonds;
                 this.editItem.image = null;
 				this.editItem.id = item.id;
 				this.editMode = true;
@@ -128,10 +133,14 @@
                 if (this.editItem.price == 0) {
                     this.errors.push('set price');
                 }
+                if (this.editItem.diamonds == 0) {
+                    this.errors.push('set diamonds');
+                }
                 if (this.errors.length == 0) {
                     this.$store.dispatch('createCaseTypeAction', this.editItem);
                     this.editItem.name = '';
                     this.editItem.price = 0;
+                    this.editItem.diamonds = 0;
                     this.editItem.image = null;
                     this.$store.commit('getCaseTypesList');
                 } else {
@@ -145,6 +154,7 @@
 				this.$store.dispatch('CaseTypeSaveAction', this.editItem);
                 this.editItem.name = '';
                 this.editItem.price = 0;
+                this.editItem.diamonds = 0;
                 this.editItem.image = null;
 				this.editItem.id = 0;
 				this.editMode = false;

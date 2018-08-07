@@ -679,5 +679,27 @@ export const mutations = {
             state.stockPrizes.loaded = true;
         });
     },
-    
+    // Diamonds
+    getDiamondsList(state) {
+        var formData = new FormData();
+        state.diamonds.loaded = false;
+        formData.append('token', state.token);
+        fetch(state.apiUrl + 'diamonds/list',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.diamonds.list = jsonResp.data ? jsonResp.data.diamonds : [];
+            state.diamonds.loaded = true;
+        });
+    },
 }

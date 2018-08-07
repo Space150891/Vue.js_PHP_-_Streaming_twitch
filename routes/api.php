@@ -109,6 +109,8 @@ Route::group([
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
 
     Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
+
+    Route::post('diamonds/list', 'Api\DiamondsController@index');
 });
 
 
@@ -181,6 +183,10 @@ Route::group([
     Route::post('store/prizes/store', 'Api\StockPrizesController@store');
     Route::post('store/prizes/update', 'Api\StockPrizesController@update');
     Route::post('store/prizes/delete', 'Api\StockPrizesController@destroy');
+
+    Route::post('diamonds/store', 'Api\DiamondsController@store');
+    Route::post('diamonds/update', 'Api\DiamondsController@update');
+    Route::post('diamonds/delete', 'Api\DiamondsController@destroy');
 });
 
 // bot routes

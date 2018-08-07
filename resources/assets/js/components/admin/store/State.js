@@ -75,4 +75,8 @@ export const state = {
         loaded: false,
         saved : true,
     },
+    diamonds: {
+        list: [],
+        loaded: false,
+    },
 }

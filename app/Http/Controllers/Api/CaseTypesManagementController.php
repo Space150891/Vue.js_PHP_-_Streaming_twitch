@@ -48,8 +48,9 @@ class CaseTypesManagementController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'name'  => 'required|max:255|unique:case_types',
-                'price'  => 'required|numeric',
+                'name'     => 'required|max:255|unique:case_types',
+                'price'    => 'required|numeric',
+                'diamonds' => 'required|numeric',
             ]
         );
 
@@ -62,6 +63,7 @@ class CaseTypesManagementController extends Controller
         $caseType = new CaseType();
         $caseType->name = $request->name;
         $caseType->price = $request->price;
+        $caseType->diamonds = $request->diamonds;
         $caseType->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -118,6 +120,7 @@ class CaseTypesManagementController extends Controller
             'id'       => 'required|numeric',
             'name'     => 'required|max:255',
             'price'    => 'required|numeric',
+            'diamonds' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -136,6 +139,7 @@ class CaseTypesManagementController extends Controller
 
         $caseType->name = $request->name;
         $caseType->price = $request->price;
+        $caseType->diamonds = $request->diamonds;
         $caseType->save();
 
         if ($request->hasFile('image')) {

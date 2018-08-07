@@ -113,4 +113,10 @@ export const getters = {
     stockPrizesSaved: state => {
         return state.stockPrizes.saved;
     },
+    diamonds: state => {
+        return state.diamonds.list;
+    },
+    diamondsLoaded: state => {
+        return state.diamonds.loaded;
+    },
 }

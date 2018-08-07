@@ -236,6 +236,7 @@ export const actions = {
         formData.append('token', state.token);
         formData.append('name', data.name);
         formData.append('price', data.price);
+        formData.append('diamonds', data.diamonds);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -283,6 +284,7 @@ export const actions = {
         formData.append('id', data.id);
         formData.append('name', data.name);
         formData.append('price', data.price);
+        formData.append('diamonds', data.diamonds);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -683,4 +685,78 @@ export const actions = {
             commit('getStockPrizesList');
         });
     },
+    // Diamonds
+    getDiamondsListAction(context) {
+        context.commit('getDiamondsList');
+    },
+    DiamondsCreateAction({commit, state}, data) {
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        fetch(state.apiUrl + 'diamonds/store',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
+    },
+    DiamondsSaveAction({commit, state}, data) {
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('cost', data.cost);
+        formData.append('amount', data.amount);
+        fetch(state.apiUrl + 'diamonds/update',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
+    },
+    DiamondsDeleteAction({commit, state}, id) {
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch(state.apiUrl + 'diamonds/delete',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getDiamondsList');
+        });
+    },
+
 }
