@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
+use GuzzleHttp\Client as Guzzle;
 
 use App\Models\{Viewer, User, Notification, Card, Item};
 
@@ -105,10 +106,29 @@ class ViewersController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-        \Log::info('captcha=' . $request->captcha);
+        //
+        $client = new Guzzle();
+        $response = $client->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            ['form_params'=>
+                [
+                    'secret'    =>  env('GOOGLE_RECAPTCHA_SECRET'),
+                    'response'  =>  $request->captcha,
+                 ]
+            ]
+        );
+    
+        $body = json_decode((string)$response->getBody());
+        //
+        if (!$body->success) {
+            return response()->json([
+                'error' => 'recaptcha error',
+            ]);
+        }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $viewer->current_points = $viewer->current_points >10 ? $viewer->current_points - 10 : 0;
+        $viewer->current_points = $viewer->current_points + 10;
+        $viewer->level_points = $viewer->level_points + 10;
         $viewer->save();
         return response()->json([
             'message' => 'points redeemed',

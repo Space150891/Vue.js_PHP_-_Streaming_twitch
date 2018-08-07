@@ -2,7 +2,7 @@
     <div class="main-wrap">
         <div class="streams-block">
             <div  v-if="stage == 'watching' && checkToken" class="row">
-                <div class="col-md-11">
+                <div class="col-md-10">
                     <div class="row">
                         <stream-frame
                             v-for="(stream, index) in viewChannels"
@@ -13,16 +13,16 @@
                         </stream-frame>
                     </div>
                 </div>
-                <div class="col-md-1 roulette-right-nav">
+                <div class="col-md-2 roulette-right-nav">
                     <div class="timer">
                         {{this.getMS.min}} : {{this.getMS.sec}}
                     </div>
-                    <button
-                        class="btn btn-info"
-                        @click.prevent="nextStreams()"
-                    >
-                            next
+                    <button class="btn btn-info" @click.prevent="nextStreams()">
+                        next
                     </button>
+                    <follow-drop-down v-bind:links="viewChannels"></follow-drop-down>
+                    <drop-down mainLabel="Streamer Profile" baseUrl="profile" v-bind:links="viewChannels"></drop-down>
+                    <drop-down mainLabel="Donate Streamer" baseUrl="donate" v-bind:links="viewChannels"></drop-down>
                 </div>
             </div>
             <div v-if="stage == 'welcome' && checkToken && currentPoints > 0" class="roulette-welcome">
@@ -50,9 +50,14 @@
             <div v-if="stage == 'welcome' && checkToken && currentPoints < 10">
                 <h2>You does not have enough points</h2>
             </div>
-            <div v-if="stage == 'stoped' && checkToken">
+            <div v-if="stage == 'stoped' && checkToken" class="roulette-stoped">
                 <h2>Confirm redeem points</h2>
-                    <vue-recaptcha sitekey="6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq"></vue-recaptcha>
+                <form id="captcha-box">
+                <div
+                    id="captcha-button"
+                >
+                </div>
+                </form>
                 <div>
                     <button @click.prevent="redeemNext()" class="btn btn-success">next random</button>
                     <button @click.prevent="redeemStay()" class="btn btn-warning">stay with this channel(s)</button>
@@ -66,16 +71,15 @@
     </div>
 </template>
 <script>
-    // import VueRecaptcha from 'vue-recaptcha';
-
+    var config = require('./config/config.json');
     export default {
         data() {
             return {
                 totalChannels : 0,
                 stage: 'welcome',
-                timeMax : 4,
+                timeMax : 600,
                 timeNow : 0,
-                captcha : 'z',
+                captcha : '',
             }
         },
         mounted() {
@@ -90,15 +94,19 @@
                 this.$store.dispatch('nextRouletteAction');
             },
             redeemNext() {
-                this.stage = 'watching';
-                this.$store.dispatch('nextRouletteAction');
-                this.$store.dispatch('redeemRouletteAction', this.captcha);
-                this.startTimer();
+                if (this.getCaptcha.length > 0) {
+                    this.stage = 'watching';
+                    this.$store.dispatch('nextRouletteAction');
+                    this.$store.dispatch('redeemRouletteAction', this.getCaptcha);
+                    this.startTimer();
+                }
             },
             redeemStay() {
-                this.stage = 'watching';
-                this.$store.dispatch('redeemRouletteAction', this.captcha);
-                this.startTimer();
+                if (this.getCaptcha.length > 0) {
+                    this.stage = 'watching';
+                    this.$store.dispatch('redeemRouletteAction', this.getCaptcha);
+                    this.startTimer();
+                }
             },
             startTimer() {
                 const timer = setInterval(() => {
@@ -108,8 +116,20 @@
                         // time out
                         this.stage = 'stoped';
                         this.timeNow = 0;
+                        this.renderCaptcha();        
                     }
                 }, 1000);
+            },
+            renderCaptcha() {
+                const waitCaptcha = setInterval(() => {
+                    if (document.getElementById('captcha-button')) {
+                        grecaptcha.render('captcha-button', {
+                            'sitekey' : config.captcha_key,
+                            'theme' : 'light'
+                        });
+                        clearInterval(waitCaptcha);
+                    }
+                }, 300);
             }
         },
         computed: {
@@ -132,6 +152,10 @@
                     min : min > 9 ? min + '' : '0' + min,
                     sec : sec > 9 ? sec + '' : '0' + sec,
                 };
+            },
+            getCaptcha: function() {
+                const form = document.getElementById('captcha-box');
+                return form['g-recaptcha-response'].value;
             },
         },
 

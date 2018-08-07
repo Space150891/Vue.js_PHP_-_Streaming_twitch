@@ -11,6 +11,7 @@ const password = require('password-strength-meter');
 
 import VueRouter from 'vue-router';
 import UserSignStore from './components/store/UserSignStore.js';
+// import VueGrecaptcha from 'vue-grecaptcha';
 
 import VuePaginate from 'vue-paginate';
 Vue.use(VuePaginate);
@@ -53,6 +54,9 @@ const router = new VueRouter({
     ]
 });
 Vue.use(VueRouter);
+// Vue.use(VueGrecaptcha, {
+//     sitekey: '6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq'
+// });
 
 
 /**
@@ -81,7 +85,6 @@ Vue.component('follow-drop-down', require('./components/FollowDropDown.vue'))
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('viewer-card', require('./components/Card.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
-Vue.component('vue-recaptcha', require('vue-recaptcha'));
 
 const app = new Vue({
     el: '#app',

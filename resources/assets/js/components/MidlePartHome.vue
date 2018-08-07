@@ -76,7 +76,7 @@ export default {
             storage.commit('getMainChannel');
             this.switcher = setInterval(function(){
                 storage.commit('getMainChannel');
-            }, 10 * 1000);
+            }, 10 * 1000 * 10);
         },
     },
     computed: {

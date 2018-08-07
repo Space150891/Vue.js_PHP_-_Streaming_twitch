@@ -95,11 +95,11 @@
                         activ: false,
                         link: "/directory",
                     },
-                    // {
-                    //     name: "Roulette",
-                    //     activ: false,
-                    //     link: "/roulette",
-                    // },
+                    {
+                        name: "Roulette",
+                        activ: false,
+                        link: "/roulette",
+                    },
                     {
                         name: "Prices",
                         activ: false,
