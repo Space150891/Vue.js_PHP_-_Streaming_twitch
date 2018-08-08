@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
 
 class PayPalController extends Controller
 {
@@ -27,24 +27,38 @@ class PayPalController extends Controller
      */
     public function getExpressCheckout(Request $request)
     {
-        if (!$request->has('subscription_plan_id') || !$request->has('month_plan_id') || !$request->has('streamer_id')) {
+        if (!$request->has('type') || !$request->has('user_id')) {
+            return redirect('/');
+        }
+        if ((!$request->has('subscription_plan_id') || !$request->has('month_plan_id')) && $request->type == "subscription") {
             return redirect('/#/subscribe');
         }
-        if ($request->subscription_plan_id == 0 || $request->month_plan_id == 0 || $request->streamer_id == 0) {
-            return redirect('/#/subscribe');
+        if (!$request->has('diamonds_set_id') && $request->type == "buy_diamonds") {
+            return redirect('/#/shop');
         }
         $recurring = false;
+        $user = User::find($request->user_id);
+        $userId = $user->id;
         $payment = new Payment();
-        $payment->subscription_plan_id = $request->subscription_plan_id;
-        $payment->month_plan_id = $request->month_plan_id;
-        $payment->streamer_id = $request->streamer_id;
-        $payment->type = "paypal";
+        if ($request->type == 'buy_diamonds') {
+            $data = ['diamonds_set_id'  =>  $request->diamonds_set_id];
+            $payment->details = json_encode($data);
+        }
+        if ($request->type == 'subscription') {
+            $data = [
+                'subscription_plan_id'  => $request->subscription_plan_id,
+                'month_plan_id'         => $request->month_plan_id,
+            ];
+            $payment->details = json_encode($data);
+        }
+        $payment->user_id = $userId;
+        $payment->type = $request->type;
         $payment->status = "draft";
         $payment->save();
         $form = [
-            'subscription_plan_id'  => $request->subscription_plan_id,
-            'month_plan_id'         =>  $request->month_plan_id,
-            'streamer_id'           =>  $request->streamer_id,
+            'type'                  =>  $payment->type,
+            'details'               =>  $payment->details,
+            'user_id'               =>  $userId,
             'id'                    =>  $payment->id,
         ];
         $cart = $this->getCheckoutData($form, $recurring);
@@ -76,15 +90,13 @@ class PayPalController extends Controller
         $token = $request->get('token');
         $payment = Payment::where('token', $token)->first();
         $form = [
-            'subscription_plan_id'  => $payment->subscription_plan_id,
-            'month_plan_id'         =>  $payment->month_plan_id,
-            'streamer_id'           =>  $payment->streamer_id,
+            'type'                  => $payment->type,
+            'details'               =>  $payment->details,
+            'user_id'               =>  $payment->user_id,
             'id'                    =>  $payment->id,
         ];
         $PayerID = $request->get('PayerID');
-
         $cart = $this->getCheckoutData($form, $recurring);
-
         // Verify Express Checkout Token
         $response = $this->provider->getExpressCheckoutDetails($token);
 
@@ -108,29 +120,45 @@ class PayPalController extends Controller
             if (trim($status) === 'Completed') {
                 $payment->status = "Done";
                 $payment->save();
-                $subscribed = new SubscribedStreamers();
-                $subscribed->streamer_id = $payment->streamer_id;
-                $subscribed->subscription_plan_id = $payment->subscription_plan_id;
-                $subscribed->month_plan_id = $payment->month_plan_id;
-                $monthPlan = MonthPlan::find($payment->month_plan_id);
-                $old = SubscribedStreamers::where([
-                    ['streamer_id', '=', $payment->streamer_id],
-                    ['valid_until', '>', Carbon::today()->toDateTimeString()]
-                ])->orderBy('valid_until', 'desc')->first();
-                if ($old) {
-                    $subscribed->valid_from = $old->valid_until;
-                    \Log::info('find old ' . $old->valid_until);
-                } else {
-                    $subscribed->valid_from = Carbon::today()->toDateTimeString();
+                if ($payment->type == 'buy_diamonds') {
+                    $user = User::find($payment->user_id);
+                    $viewer = $user->viewer()->first();
+                    $details = json_decode($payment->details, true);
+                    $set = Diamond::find($details['diamonds_set_id']);
+                    $viewer->diamonds += $set->amount;
+                    $viewer->save();
+                    return redirect('/#/shop');
                 }
+                if ($payment->type == 'subscription') {
+                    $user = User::find($payment->user_id);
+                    $streamer = $user->streamer()->first();
+                    $details = json_decode($payment->details, true);
+                    $sPlanId = $details['subscription_plan_id'];
+                    $mPlanId = $details['month_plan_id'];
+                    $subscribed = new SubscribedStreamers();
+                    $subscribed->streamer_id = $streamer->id;
+                    $subscribed->subscription_plan_id = $sPlanId;
+                    $subscribed->month_plan_id = $mPlanId;
+                    $monthPlan = MonthPlan::find($mPlanId);
+                    $old = SubscribedStreamers::where([
+                        ['streamer_id', '=', $streamer->id],
+                        ['valid_until', '>', Carbon::today()->toDateTimeString()]
+                    ])->orderBy('valid_until', 'desc')->first();
+                    if ($old) {
+                        $subscribed->valid_from = $old->valid_until;
+                        \Log::info('find old ' . $old->valid_until);
+                    } else {
+                        $subscribed->valid_from = Carbon::today()->toDateTimeString();
+                    }
 
-                $toDate = new Carbon($subscribed->valid_from);
-                $toDate->addMonths($monthPlan->monthes);
-                \Log::info('valid to  ' . $toDate->toDateTimeString());
-                $subscribed->valid_until = $toDate->toDateTimeString();
-                $subscribed->save();
+                    $toDate = new Carbon($subscribed->valid_from);
+                    $toDate->addMonths($monthPlan->monthes);
+                    \Log::info('valid to  ' . $toDate->toDateTimeString());
+                    $subscribed->valid_until = $toDate->toDateTimeString();
+                    $subscribed->save();
+                    return redirect('/#/subscribe');
+                }
             }
-
             return redirect('/');
         }
     }
@@ -166,20 +194,33 @@ class PayPalController extends Controller
      */
     protected function getCheckoutData($form, $recurring = false)
     {
-        $subscriptionPlan = SubscriptionPlan::find($form['subscription_plan_id']);
-        $monthPlan = MonthPlan::find($form['month_plan_id']);
         $data = [];
+        if ($form['type'] == 'subscription') {
+            $details = json_decode($form['details'], true);
+            $subscriptionPlan = SubscriptionPlan::find($details['subscription_plan_id']);
+            $monthPlan = MonthPlan::find($details['month_plan_id']);
+            $name = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+            $price = round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2);
+            $description = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+        }
+        if ($form['type'] == 'buy_diamonds') {
+            $details = json_decode($form['details'], true);
+            $set = Diamond::find($details['diamonds_set_id']);
+            $name = 'Buy ' . $set->amount . ' diamonds';
+            $price = $set->cost;
+            $description = $name;
+        }
         $data['items'] = [
             [
-                'name'  => 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes,
-                'price' => round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2),
+                'name'  => $name,
+                'price' => $price,
                 'qty'   => 1,
             ],
         ];
-        // $data['return_url'] = 'http://localhost:8081/paypal/success';
         $data['return_url'] =config('paypal.redirect_url');
-        $data['invoice_id'] = $form['id'];
-        $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+        // $data['invoice_id'] = $form['id'];
+        $data['invoice_id'] = uniqid();
+        $data['invoice_description'] = $description;
         $data['cancel_url'] = url('/');
         $total = 0;
         foreach ($data['items'] as $item) {
@@ -188,4 +229,5 @@ class PayPalController extends Controller
         $data['total'] = $total;
         return $data;
     }
+
 }

@@ -16,7 +16,8 @@
                             months {{monthPlan.monthes}} discount {{monthPlan.percent}} %
                         </option>
                     </select>
-                    <input type="hidden" v-bind:value="currentStreamer.id" name="streamer_id">
+                    <input type="hidden" v-bind:value="currentStreamer.user_id" name="user_id">
+                    <input type="hidden" value="subscription" name="type">
                     <button type="submit" class="btn btn-success form-control" @click="submitAction"> SUBSCRIBE </button>
                 </form>
             </div>

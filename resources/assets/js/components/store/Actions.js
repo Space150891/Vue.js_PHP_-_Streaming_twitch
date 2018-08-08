@@ -153,5 +153,6 @@ export const actions = {
     },
     flashWinItems({state}) {
         state.win.win = false;
-    }
+    },
+    
 }

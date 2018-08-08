@@ -3947,6 +3947,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3993,7 +3998,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.boxOpened = false;
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded', 'caseTypes', 'caseTypesLoaded', 'winItems', 'winedItems', 'winedPrizes']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded', 'caseTypes', 'caseTypesLoaded', 'winItems', 'winedItems', 'winedPrizes', 'currentViewer']))
 });
 
 /***/ }),
@@ -4134,6 +4139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -77798,8 +77804,12 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("input", {
-                attrs: { type: "hidden", name: "streamer_id" },
-                domProps: { value: _vm.currentStreamer.id }
+                attrs: { type: "hidden", name: "user_id" },
+                domProps: { value: _vm.currentStreamer.user_id }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "hidden", value: "subscription", name: "type" }
               }),
               _vm._v(" "),
               _c(
@@ -77986,9 +77996,41 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("button", { staticClass: "btn btn-success" }, [
-                          _vm._v("buy")
-                        ])
+                        _c(
+                          "form",
+                          { attrs: { method: "POST", action: "paypal/pay" } },
+                          [
+                            _c("input", {
+                              attrs: {
+                                type: "hidden",
+                                name: "diamonds_set_id"
+                              },
+                              domProps: { value: diamond.id }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: { type: "hidden", name: "user_id" },
+                              domProps: { value: _vm.currentViewer.user_id }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: {
+                                type: "hidden",
+                                value: "buy_diamonds",
+                                name: "type"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: { type: "submit" }
+                              },
+                              [_vm._v("buy")]
+                            )
+                          ]
+                        )
                       ])
                     })
                   ],
@@ -79736,7 +79778,7 @@ var render = function() {
     _vm.streamer && _vm.streamer.paypal == null
       ? _c("div", { staticClass: "cabinet-page" }, [
           _c("h2", { staticClass: "text-danger text-center" }, [
-            _vm._v("This streamer did not have paypal accaunt")
+            _vm._v("This streamer did not have paypal account")
           ])
         ])
       : _vm._e(),
@@ -98435,6 +98477,7 @@ var mutations = {
                     state.currentViewer.points = jsonResp.data.points;
                     state.currentViewer.diamonds = jsonResp.data.diamonds;
                     state.currentViewer.level = jsonResp.data.level;
+                    state.currentViewer.user_id = jsonResp.data.user_id;
                     state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });
@@ -99002,7 +99045,8 @@ var state = {
         points: 0,
         level: 0,
         name: '',
-        messages: []
+        messages: [],
+        user_id: 0
     },
     currentStreamer: {
         id: 0

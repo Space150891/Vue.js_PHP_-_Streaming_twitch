@@ -101,7 +101,8 @@ class StreamersController extends Controller
         $streamer = $user->streamer()->first();
         return response()->json([
             'data' => [
-                'id'    => $streamer->id,
+                'id'        => $streamer->id,
+                'user_id'   => $user->id,
             ],
         ]);
     }

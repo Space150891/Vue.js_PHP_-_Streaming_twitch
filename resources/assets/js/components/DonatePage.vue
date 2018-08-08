@@ -23,7 +23,7 @@
             <h2>click button Donate from Stream or Profile page</h2>
         </div>
         <div v-if="streamer && streamer.paypal == null" class="cabinet-page">
-            <h2 class="text-danger text-center">This streamer did not have paypal accaunt</h2>
+            <h2 class="text-danger text-center">This streamer did not have paypal account</h2>
         </div>
         <div v-if="!checkToken" class="cabinet-page">
             Please login

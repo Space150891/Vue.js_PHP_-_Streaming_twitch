@@ -10,7 +10,12 @@
                             <i class="fa fa-diamond"></i>
                             x {{diamond.amount}} = {{diamond.cost}} $
                         </span>
-                        <button class="btn btn-success">buy</button>
+                        <form method="POST" action="paypal/pay">
+                            <input type="hidden" v-bind:value="diamond.id" name="diamonds_set_id">
+                            <input type="hidden" v-bind:value="currentViewer.user_id" name="user_id">
+                            <input type="hidden" value="buy_diamonds" name="type">
+                            <button type="submit" class="btn btn-success">buy</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -120,6 +125,7 @@ import { mapGetters} from 'vuex';
                 'winItems',
                 'winedItems',
                 'winedPrizes',
+                'currentViewer'
 			]),
         },
     }

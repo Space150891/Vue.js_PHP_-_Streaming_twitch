@@ -16017,6 +16017,10 @@ div[data-toggle="buttons"] label.active {
   width: 150px;
 }
 
+.shop .diamonds form {
+  display: inline-block;
+}
+
 .shop .cases > img {
   width: 200px;
   height: 150px;

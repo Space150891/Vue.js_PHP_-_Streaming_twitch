@@ -25,6 +25,7 @@ export const mutations = {
                     state.currentViewer.points = jsonResp.data.points;
                     state.currentViewer.diamonds = jsonResp.data.diamonds;
                     state.currentViewer.level = jsonResp.data.level;
+                    state.currentViewer.user_id = jsonResp.data.user_id;
                     state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });

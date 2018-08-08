@@ -94,6 +94,7 @@ class ViewersController extends Controller
                 'level'     => $viewer->getLevel(),
                 'messages'  => $messages,
                 'card'      => $card,
+                'user_id'   => $user->id,
             ],
         ]);
     }
