@@ -32,6 +32,7 @@ const Donate = require('./components/DonatePage.vue');
 const WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
 const MyCardsPage = require('./components/MyCardsPage.vue');
 const RoulettePage = require('./components/RoulettePage.vue');
+const ShopPage = require('./components/ShopPage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -51,13 +52,10 @@ const router = new VueRouter({
         { path: '/watch-streams', component: WatchingStreamsPage},
         { path: '/mycards', component: MyCardsPage},
         { path: '/roulette', component: RoulettePage},
+        { path: '/shop', component: ShopPage},
     ]
 });
 Vue.use(VueRouter);
-// Vue.use(VueGrecaptcha, {
-//     sitekey: '6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq'
-// });
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -85,6 +83,7 @@ Vue.component('follow-drop-down', require('./components/FollowDropDown.vue'))
 Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('viewer-card', require('./components/Card.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
+Vue.component('modal-confirm', require('./components/ConfirmModal.vue'));
 
 const app = new Vue({
     el: '#app',

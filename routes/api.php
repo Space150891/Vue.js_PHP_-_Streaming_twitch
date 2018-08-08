@@ -84,33 +84,28 @@ Route::group([
 
     Route::post('subscriptionplans/list', 'Api\SubscribeController@listSubscriptionPlans');
     Route::post('monthplans/list', 'Api\SubscribeController@listMonthPlans');
-
     Route::post('signedviewers/myviewers/list', 'Api\SignedViewersController@myViewersList');
     Route::post('signedviewers/mystreamers/list', 'Api\SignedViewersController@myStreamersList');
     Route::post('signedviewers/add', 'Api\SignedViewersController@store');
     Route::post('signedviewers/delete', 'Api\SignedViewersController@destroy');
-
     Route::post('afiliates/mylist', 'Api\AfiliateController@mylist');
     Route::get('afiliate/{id}', 'Api\AfiliateController@visiter');
-
     Route::post('games/list', 'Api\GamesController@list');
-
     Route::post('notifications/list', 'Api\NotificationsController@list');
-
     Route::post('achivements/list', 'Api\AchivementsController@list');
     Route::post('achivements/card', 'Api\AchivementsController@card');
     Route::post('achivements/add', 'Api\AchivementsController@addProgress');
-
     Route::post('content/show', 'Api\ContentManagementController@show');
     Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
     Route::post('activity/update', 'Api\ActivitiesController@update');
-
     Route::post('sms/code/get', 'Api\SmsController@getSms');
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
-
     Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
-
     Route::post('diamonds/list', 'Api\DiamondsController@index');
+    Route::post('cases/list', 'Api\CasesManagementController@index');
+    Route::post('cases/buy', 'Api\CasesManagementController@buy');
+    Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
+    Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
 });
 
 
@@ -144,20 +139,20 @@ Route::group([
     Route::post('rarities/update', 'Api\RaritiesManagementController@update');
     Route::post('rarities/delete', 'Api\RaritiesManagementController@destroy');
 
-    Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
+    
     Route::post('cases/types/store', 'Api\CaseTypesManagementController@store');
     Route::post('cases/types/get', 'Api\CaseTypesManagementController@show');
     Route::post('cases/types/update', 'Api\CaseTypesManagementController@update');
     Route::post('cases/types/delete', 'Api\CaseTypesManagementController@destroy');
 
-    Route::post('cases/list', 'Api\CasesManagementController@index');
+    
     Route::post('cases/store', 'Api\CasesManagementController@store');
     Route::post('cases/get', 'Api\CasesManagementController@show');
     Route::post('cases/update', 'Api\CasesManagementController@update');
     Route::post('cases/delete', 'Api\CasesManagementController@destroy');
     Route::post('cases/item/delete', 'Api\CasesManagementController@deleteItem');
     Route::post('cases/item/add', 'Api\CasesManagementController@addItem');
-    Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
+    
 
     Route::post('contact/types/list', 'Api\ContactTypesManagementController@index');
     Route::post('contact/types/store', 'Api\ContactTypesManagementController@store');

@@ -41,9 +41,12 @@ class ViewerItemsController extends Controller
             $cardItemsIds[] = $card->hero_id;
         }
         foreach ($viewerItems as $viewerItem) {
-            if (!in_array($viewerItem->item_id, $cardItemsIds)) {
+            if (!in_array($viewerItem->id, $cardItemsIds)) {
                 $item = $viewerItem->item()->first();
                 $item->type = $item->type()->first()->name;
+                $item_id = $item->id;
+                $item->id = $viewerItem->id;
+                $item->item_id = $item_id;
                 $items[] = $item;
             }
         }

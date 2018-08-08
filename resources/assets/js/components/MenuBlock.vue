@@ -35,6 +35,7 @@
             ></drop-down>
             <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
             <a href="twitch/redirect" class="sign" v-else >Sign up</a>
+            <a href="#/shop" class="cabinet-but" v-if="checkToken">SHOP</a>
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
             <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Promote your channel</a>
             <a href="#/afiliate" class="cabinet-but" v-if="checkToken">Afiliate</a>

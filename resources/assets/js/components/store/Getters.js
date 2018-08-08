@@ -91,4 +91,26 @@ export const getters = {
     rouletteChannels: state => {
         return state.roulette.channels;
     },
+    diamonds: state => {
+        return state.diamonds.list;
+    },
+    diamondsLoaded: state => {
+        return state.diamonds.loaded;
+    },
+    caseTypes: state => {
+        return state.caseTypes.list;
+    },
+    caseTypesLoaded: state => {
+        return state.caseTypes.loaded;
+    },
+    winItems: state => {
+        console.log('in getter', state.win.win);
+        return state.win.win;
+    },
+    winedItems: state => {
+        return state.win.items;
+    },
+    winedPrizes: state => {
+        return state.win.prizes;
+    },
 }

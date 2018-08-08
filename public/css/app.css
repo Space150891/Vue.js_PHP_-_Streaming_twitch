@@ -15634,6 +15634,28 @@ div[data-toggle="buttons"] label.active {
   width: 100%;
 }
 
+.cabinet-page .cabinet-prizes > h2 {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.cabinet-page .cabinet-prizes > div {
+  display: inline-block;
+  width: 100px;
+  height: 300px;
+  margin: 10px;
+}
+
+.cabinet-page .cabinet-prizes > div > img {
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+}
+
+.cabinet-page .cabinet-prizes > div > h5 {
+  text-align: center;
+}
+
 .main-wrap {
   width: 100%;
   display: -webkit-box;
@@ -15968,6 +15990,88 @@ div[data-toggle="buttons"] label.active {
 .roulette-right-nav .menu-dropdown {
   margin: 10px 0 0 0;
   height: 45px;
+}
+
+.shop {
+  width: 85%;
+  margin-top: 150px;
+}
+
+.shop > h1 {
+  text-align: center;
+}
+
+.shop h2 {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.shop .diamonds {
+  text-align: center;
+  font-size: 20px;
+  height: 40px;
+}
+
+.shop .diamonds > span {
+  display: inline-block;
+  width: 150px;
+}
+
+.shop .cases > img {
+  width: 200px;
+  height: 150px;
+}
+
+.shop .cases > button {
+  width: 100px;
+  margin-left: 20px;
+}
+
+.shop .shop-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.shop .shop-modal .shop-box {
+  position: fixed;
+  top: 300px;
+  left: 50%;
+  width: 600px;
+  margin-left: -300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.shop .shop-modal .shop-box h2,
+.shop .shop-modal .shop-box h3,
+.shop .shop-modal .shop-box h5 {
+  text-align: center;
+}
+
+.shop .shop-modal .shop-box button {
+  display: block;
+  margin: 10px auto;
+}
+
+.shop .shop-modal .case-box > img {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+}
+
+.shop .shop-modal .items-box > div {
+  display: inline-block;
+  width: 100px;
+  height: 300px;
+}
+
+.shop .shop-modal .items-box > div > img {
+  width: 100px;
 }
 
 .v-loading {

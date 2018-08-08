@@ -9,11 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 // use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\CaseType;
-use App\Models\LootCase;
-use App\Models\ItemCase;
-use App\Models\Item;
-use App\Models\Raritie;
+use App\Models\{CaseType, LootCase, ItemCase, Item, ItemType, Raritie, Notification, StockPrize, ViewerItem, ViewerPrize, BuyedCaseType};
 
 class CasesManagementController extends Controller
 {
@@ -334,4 +330,165 @@ class CasesManagementController extends Controller
             'message' => 'item added successful',
         ]);
     }
+
+    public function buy(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'       => 'required|numeric',
+            'valute'       => 'required|in:diamonds,coins',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $caseType = CaseType::find($request->id);
+        if (!$caseType) {
+            return response()->json([
+                'errors' => ['case type id not found'],
+            ]);
+        }
+        $cases = LootCase::where('case_type_id', $caseType->id)->get();
+        if (count($cases) == 0) {
+            return response()->json([
+                'errors' => ['cases not found'],
+            ]);
+        }
+        $case = $cases[round(rand(0, count($cases) - 1))];
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $winItems = [];
+        $notify = new Notification();
+        $notify->user_id = $user->id;
+        $prizes = [];
+        if ($request->valute == 'coins') {
+            if ($viewer->current_points >= $caseType->price) {
+                $viewer->current_points = $viewer->current_points - $caseType->price;
+                $notify->event_type = 'user_message';
+                $notify->message = 'Buyed new case! ' . $caseType->name;
+                $winItems = $this->win($case);
+                $prizes = $this->getItems($viewer->id, $winItems);
+                $this->storeBuyedType($viewer->id, $caseType->id);
+            } else {
+                $notify->event_type = 'user_message';
+                $notify->message = 'You no not have money for ' . $caseType->name;
+            }
+        }
+        if ($request->valute == 'diamonds') {
+            if ($viewer->diamonds >= $caseType->diamonds) {
+                $viewer->diamonds = $viewer->diamonds - $caseType->diamonds;
+                $notify->event_type = 'user_message';
+                $notify->message = 'Buyed new case! ' . $caseType->name;
+                $winItems = $this->win($case);
+                $prizes = $this->getItems($viewer->id, $winItems);
+                $this->storeBuyedType($viewer->id, $caseType->id);
+            } else {
+                $notify->event_type = 'user_message';
+                $notify->message = 'You no not have diamonds for ' . $caseType->name;
+            }
+        }
+        $notify->save();
+        $viewer->save();
+        return response()->json([
+            'message' => $notify->message,
+            'items'   => $this->removePrizes($winItems),
+            'prizes'  => $prizes,
+        ]);
+    }
+
+    private function getItems($viewerId, $items)
+    {
+        $prizes = [];
+        foreach ($items as $item) {
+            $itemType = ItemType::find($item->item_type_id );
+            if ($itemType->name == "prize") {
+                $prize = $this->prizeSelect($item->worth);
+                if ($prize) {
+                    $viewerPrize = new ViewerPrize();
+                    $viewerPrize->viewer_id = $viewerId;
+                    $viewerPrize->prize_id = $prize->id;
+                    $viewerPrize->save();
+                    $prize->amount--;
+                    $prize->save();
+                    $prizes[] = $prize;
+                }
+            } else {
+                $viewerItem = new ViewerItem();
+                $viewerItem->viewer_id = $viewerId;
+                $viewerItem->item_id = $item->id;
+                $viewerItem->save();
+            }
+        }
+        return $prizes;
+    }
+
+    private function win($case)
+    {
+        $winingItems = [];
+        $caseItems = ItemCase::where('case_id', $case->id)->get();
+        foreach ($caseItems as $item) {
+            if ($this->chance($item->rarity_id)) {
+                $winingItems[] = Item::find($item->item_id);
+            }
+        }
+        return $winingItems;
+    }
+
+    private function chance($rarityId)
+    {
+        $rarity = Raritie::find($rarityId);
+        $chance = round(rand(0, 100));
+        return  $rarity->percent > $chance;
+    }
+
+    private function prizeSelect($price)
+    {
+        $prize = StockPrize::where([
+            ['cost', '>=', $price],
+            ['amount', '>', 0],
+        ])->orderBy('cost', 'asc')->first();
+        if (!$prize) {
+            $prize = StockPrize::where([
+                ['amount', '>', 0],
+            ])->orderBy('cost', 'desc')->first();
+        }
+        if (!$prize) {
+            return false;
+        }
+        return $prize;
+    }
+
+    private function removePrizes($items)
+    {
+        $newItems = [];
+        foreach ($items as $item) {
+            $itemType = ItemType::find($item->item_type_id);
+            if ($itemType->name !== 'prize') {
+                $newItems[] = $item;
+            }
+        }
+        return $newItems;
+    }
+
+    private function storeBuyedType($viewerId, $caseTypeId){
+        $buyedCase = BuyedCaseType::where([
+            ['viewer_id', '=', $viewerId],
+            ['case_type_id', '=', $caseTypeId]
+        ])->first();
+        if (!$buyedCase) {
+            $buyedCase = new BuyedCaseType();
+            $buyedCase->viewer_id = $viewerId;
+            $buyedCase->case_type_id = $caseTypeId;
+            $buyedCase->total = 1;
+        }
+        $buyedCase->total++;
+        $buyedCase->save();
+    }
+
 }
+
+
+// $prize->amount--;
+// $prize->save();
+// $viewerPrize = new ViewerPrize();
+// $viewerPrize->viewer_id = 

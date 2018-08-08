@@ -10,7 +10,7 @@ use Validator;
 use Carbon\Carbon;
 use GuzzleHttp\Client as Guzzle;
 
-use App\Models\{Viewer, User, Notification, Card, Item};
+use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem};
 
 class ViewersController extends Controller
 {
@@ -77,10 +77,12 @@ class ViewersController extends Controller
             $currentCard = Card::find($viewer->promoted_gamecard_id);
             $card = new \stdClass();
             $card->id = $currentCard->id;
-            $frame = Item::find($currentCard->frame_id);
+            $viewerFrame = ViewerItem::find($currentCard->frame_id);
+            $frame = Item::find($viewerFrame->item_id);
             $card->frame = $frame->image;
-            $hero = Item::find($currentCard->hero_id);
-            $card->hero = $hero->image;
+            $viewerHero = ViewerItem::find($currentCard->hero_id);
+            $hero = Item::find($viewerHero->item_id);
+            $card->hero = $hero->image;                                         
             $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
             $card->achievement = $achievement->description;
         }

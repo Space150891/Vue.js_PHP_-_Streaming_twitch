@@ -83,6 +83,13 @@
                     <a  class="btn btn-info" href="#/mycards">My cards</a>
                     <a class="btn btn-info" href="#/notifications">Notifications</a>
                     <a class="btn btn-info" href="#/achivements">Achivements</a>
+                    <div v-if="profileData.prizes.length > 0" class="cabinet-prizes">
+                        <h2>Winned prizes:</h2>
+                        <div v-for="prize in profileData.prizes">
+                            <img v-bind:src="'storage/' + prize.image">
+                            <h5>{{ prize.name }}</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

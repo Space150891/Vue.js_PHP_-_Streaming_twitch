@@ -127,5 +127,31 @@ export const actions = {
         .then(function(jsonResp){
             commit('loadCurrentViewer');
         });
+    },
+    // shop page
+    buyCaseAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('valute', data.valute);
+        fetch('api/cases/buy',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            state.win.win = true;
+            state.win.items = jsonResp.items;
+            state.win.prizes = jsonResp.prizes;
+            commit('loadCurrentViewer');
+        });
+    },
+    flashWinItems({state}) {
+        state.win.win = false;
     }
 }

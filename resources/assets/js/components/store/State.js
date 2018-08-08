@@ -82,4 +82,17 @@ export const state = {
         channels: [],
         channelsCount: 0,
     },
+    diamonds: {
+        list: [],
+        loaded: false,
+    },
+    caseTypes: {
+        list: [],
+        loaded: false,
+    },
+    win: {
+        win: false,
+        items: [],
+        prizes: [],
+    }
 }

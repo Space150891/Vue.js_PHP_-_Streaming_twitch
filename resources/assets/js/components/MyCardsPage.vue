@@ -117,6 +117,12 @@ import { mapGetters } from 'vuex';
            createCard() {
                if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id > 0) {
                    this.$store.dispatch('createCardAction', this.newCard);
+                   this.newCard.frame_id = 0;
+                   this.newCard.hero_id = 0;
+                   this.newCard.achivement_id = 0;
+                   this.previewCard.frame = '';
+                   this.previewCard.hero = '';
+                   this.previewCard.achievement = '';
                }
            },
            deleteCard(cardId) {
@@ -139,8 +145,7 @@ import { mapGetters } from 'vuex';
                 'achivements',
 			]),
             canCreate: function () {
-               if (this.previewCard.frame != '' && this.previewCard.hero != '' && this.previewCard.achivement != '') {
-                   console.log('can preview');
+               if (this.previewCard.frame != '' && this.previewCard.hero != '' && this.previewCard.achievement != '') {
                    return true;
                }
                return false;

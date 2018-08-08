@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{User, Card, Item};
+use App\Models\{User, Card, Item, ViewerPrize, StockPrize, ViewerItem};
 
 class ProfileController extends Controller
 {
@@ -74,7 +74,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function getCurrent(Request $request) //// 
+    public function getCurrent(Request $request)
     {
         $user = auth()->user();
         $viewer = $user->viewer()->first();
@@ -83,12 +83,21 @@ class ProfileController extends Controller
             $currentCard = Card::find($viewer->promoted_gamecard_id);
             $card = new \stdClass();
             $card->id = $currentCard->id;
-            $frame = Item::find($currentCard->frame_id);
+            $viewerFrame = ViewerItem::find($currentCard->frame_id);
+            $frame = Item::find($viewerFrame->item_id);
             $card->frame = $frame->image;
-            $hero = Item::find($currentCard->hero_id);
+            $viewerHero = ViewerItem::find($currentCard->hero_id);
+            $hero = Item::find($viewerHero->item_id);
             $card->hero = $hero->image;
             $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
             $card->achievement = $achievement->description;
+        }
+        $dataPrizes = [];
+        $viewerPrizes = ViewerPrize::where('viewer_id', $viewer->id)->get();
+        foreach ($viewerPrizes as $viewerPrize) {
+            $prize = $viewerPrize->prize()->first();
+            $prize->id = $viewerPrize->id;
+            $dataPrizes[] = $prize;
         }
         return response()->json([
             'data' => [
@@ -102,6 +111,7 @@ class ProfileController extends Controller
                 'card'      => $card,
                 'verified'  => $viewer->phone_verified ? true : false,
                 'phone'     => $viewer->phone ? $viewer->phone : '',
+                'prizes'    => $dataPrizes,
             ],
         ]);
     }

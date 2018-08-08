@@ -608,5 +608,50 @@ export const mutations = {
             }
         });
     },
-    
+    // Diamonds
+    getDiamondsList(state) {
+        state.diamonds.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/diamonds/list',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.diamonds.list = jsonResp.data ? jsonResp.data.diamonds : [];
+            state.diamonds.loaded = true;
+        });
+    },
+    // cases
+    getCaseTypesList(state) {
+        state.caseTypes.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/cases/types/list',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
+            state.caseTypes.loaded = true;
+        });
+    },
 }

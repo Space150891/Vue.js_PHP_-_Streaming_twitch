@@ -36,9 +36,11 @@ class CardsController extends Controller
         foreach ($viewer->cards()->get() as $card) {
             $c = new \stdClass();
             $c->id = $card->id;
-            $frame = Item::find($card->frame_id);
+            $viewerItemFrame = ViewerItem::find($card->frame_id);
+            $frame = Item::find($viewerItemFrame->item_id);
             $c->frame = $frame->image;
-            $hero = Item::find($card->hero_id);
+            $viewerItemHero = ViewerItem::find($card->hero_id);
+            $hero = Item::find($viewerItemHero->item_id);
             $c->hero = $hero->image;
             $achievement = \DB::table('achievement_details')->find($card->achivement_id);
             $c->achievement = $achievement->description;
@@ -112,10 +114,7 @@ class CardsController extends Controller
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $viewerItem = ViewerItem::where([
-            ['viewer_id', '=', $viewer->id],
-            ['item_id', '=', $request->item_id],
-        ])->first();
+        $viewerItem = ViewerItem::find($request->item_id);
         if (!$viewerItem) {
             return response()->json([
                 'errors' => ['You do not have this item.'],
@@ -124,7 +123,6 @@ class CardsController extends Controller
         $find = CardItem::query()
                 ->where('viewer_id', '=', $viewer->id)
                 ->where('item_id', '=', $request->item_id)
-                ->join('cards', 'cards.id', '=', 'card_items.card_id')
                 ->first();
         if ($find) {
             return response()->json([
