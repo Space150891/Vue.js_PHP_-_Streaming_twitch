@@ -2137,6 +2137,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2148,7 +2156,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             sum: 100,
-            donater: ''
+            donater: '',
+            comment: ''
         };
     },
     mounted: function mounted() {
@@ -2165,7 +2174,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         dotate: function dotate() {
-            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" + this.streamer.paypal + "&item_name=Donate+to+streamer+" + this.streamer.name + "&amount=" + this.sum;
+            var text = 'From: ' + this.donater + ' Comment: ' + this.comment;
+            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
             this.$store.commit('pushAchivement', { name: 'Donate100Achievement', points: this.sum });
             this.$store.commit('pushAchivement', { name: 'FirstDonateAchievement' });
             window.location = link;
@@ -79947,79 +79957,132 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.userId.length > 0 && _vm.checkToken && _vm.streamer.paypal
-      ? _c("div", { staticClass: "cabinet-page" }, [
-          _c("h1", { staticClass: "text-center" }, [_vm._v("Donate")]),
+      ? _c("div", { staticClass: "donate-page" }, [
+          _vm.streamer.donate_back
+            ? _c("img", {
+                staticClass: "back-image",
+                attrs: { src: "storage/" + _vm.streamer.donate_back }
+              })
+            : _vm._e(),
           _vm._v(" "),
-          _c("label", { staticClass: "form-control" }, [
-            _c("h2", { staticClass: "text-center" }, [
-              _vm._v("\n                    to streamer\n                    "),
-              _c("strong", [_vm._v(_vm._s(_vm.streamer.name))])
+          _c("div", { staticClass: "box" }, [
+            _c("div", { staticClass: "header" }, [
+              _vm.streamer.donate_front
+                ? _c("img", {
+                    staticClass: "back-front",
+                    attrs: { src: "storage/" + _vm.streamer.donate_front }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.streamer.user.avatar
+                ? _c("img", {
+                    staticClass: "avatar",
+                    attrs: { src: _vm.streamer.user.avatar }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.streamer.donate_text) +
+                    "\n                "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form" }, [
+              _c("label", { staticClass: "form-control" }, [
+                _vm._v(
+                  "\n                    donater name\n                    "
+                ),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.donater,
+                      expression: "donater"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.donater },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.donater = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "form-control" }, [
+                _vm._v("\n                    comment\n                    "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.comment,
+                      expression: "comment"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.comment },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.comment = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "form-control" }, [
+                _vm._v("\n                    sum USD\n                    "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sum,
+                      expression: "sum"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number" },
+                  domProps: { value: _vm.sum },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.sum = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success form-control",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.dotate()
+                    }
+                  }
+                },
+                [_vm._v("DONATE")]
+              )
             ])
-          ]),
-          _vm._v(" "),
-          _c("label", { staticClass: "form-control" }, [
-            _vm._v("\n                donater name\n                "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.donater,
-                  expression: "donater"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text" },
-              domProps: { value: _vm.donater },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.donater = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("label", { staticClass: "form-control" }, [
-            _vm._v("\n                sum USD\n                "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sum,
-                  expression: "sum"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "number" },
-              domProps: { value: _vm.sum },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.sum = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-success form-control",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.dotate()
-                }
-              }
-            },
-            [_vm._v("DONATE")]
-          )
+          ])
         ])
       : _vm._e(),
     _vm._v(" "),

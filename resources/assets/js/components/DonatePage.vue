@@ -1,23 +1,31 @@
 <template>
     <div>
-        <div v-if="userId.length > 0  && checkToken && streamer.paypal" class="cabinet-page" >
-            <h1 class="text-center">Donate</h1>
-                <label class="form-control">
-                    <h2 class="text-center">
-                        to streamer
-                        <strong>{{streamer.name}}</strong>
-                    </h2>
-                </label>
-
-                <label  class="form-control">
-                    donater name
-                    <input v-model="donater" type="text"  class="form-control">
-                </label>
-                <label  class="form-control">
-                    sum USD
-                    <input v-model="sum" type="number"  class="form-control">
-                </label>
-                <button @click.prevent="dotate()" class="btn btn-success form-control">DONATE</button>
+        <div v-if="userId.length > 0  && checkToken && streamer.paypal" class="donate-page">
+            <img v-if="streamer.donate_back" v-bind:src="'storage/' + streamer.donate_back" class="back-image">
+            <div class="box">
+                <div class="header">
+                    <img v-if="streamer.donate_front" v-bind:src="'storage/' + streamer.donate_front" class="back-front">
+                    <img v-if="streamer.user.avatar" v-bind:src="streamer.user.avatar" class="avatar">
+                    <p>
+                        {{streamer.donate_text}}
+                    </p>
+                </div>
+                <div class="form">
+                    <label  class="form-control">
+                        donater name
+                        <input v-model="donater" type="text"  class="form-control">
+                    </label>
+                    <label  class="form-control">
+                        comment
+                        <input v-model="comment" type="text"  class="form-control">
+                    </label>
+                    <label  class="form-control">
+                        sum USD
+                        <input v-model="sum" type="number"  class="form-control">
+                    </label>
+                    <button @click.prevent="dotate()" class="btn btn-success form-control">DONATE</button>
+                </div>
+            </div>
         </div>
         <div v-if="userId.length == 0 && checkToken" class="cabinet-page" >
             <h2>click button Donate from Stream or Profile page</h2>
@@ -42,6 +50,7 @@
             return {
                 sum : 100,
                 donater: '',
+                comment: '',
             }
         },
         mounted() {
@@ -56,7 +65,8 @@
         },
         methods: {
             dotate() {
-                const link = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" + this.streamer.paypal + "&item_name=Donate+to+streamer+" + this.streamer.name + "&amount=" + this.sum;
+                const text = 'From: ' + this.donater + ' Comment: ' + this.comment;
+                const link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
                 this.$store.commit('pushAchivement', {name: 'Donate100Achievement', points: this.sum});
                 this.$store.commit('pushAchivement', {name: 'FirstDonateAchievement'});
                 window.location = link;
