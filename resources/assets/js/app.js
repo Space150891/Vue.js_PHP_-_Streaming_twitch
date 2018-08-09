@@ -33,6 +33,7 @@ const WatchingStreamsPage = require('./components/WatchingStreamsPage.vue');
 const MyCardsPage = require('./components/MyCardsPage.vue');
 const RoulettePage = require('./components/RoulettePage.vue');
 const ShopPage = require('./components/ShopPage.vue');
+const CustomizeDonatePage = require('./components/CustomizeDonatePage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -53,6 +54,7 @@ const router = new VueRouter({
         { path: '/mycards', component: MyCardsPage},
         { path: '/roulette', component: RoulettePage},
         { path: '/shop', component: ShopPage},
+        { path: '/custom-donate', component: CustomizeDonatePage},
     ]
 });
 Vue.use(VueRouter);

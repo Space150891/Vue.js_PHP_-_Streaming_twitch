@@ -22,6 +22,9 @@ class CreateStreamersTable extends Migration
             $table->string('name')->default('');
             $table->integer('user_id');
             $table->string('paypal')->nullable();
+            $table->string('donate_front')->nullable();
+            $table->string('donate_back')->nullable();
+            $table->string('donate_text')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

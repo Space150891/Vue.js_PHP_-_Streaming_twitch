@@ -10,6 +10,11 @@ export const state = {
     },
     currentStreamer: {
         id: 0,
+        paypal: null,
+        donate_front: null,
+        donate_back: null,
+        donate_text: null,
+        avatar : null,
     },
     message: "",
     profileData: {

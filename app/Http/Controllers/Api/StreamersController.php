@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\{Streamer, User, PromoutedStreamer};
 
@@ -101,8 +102,13 @@ class StreamersController extends Controller
         $streamer = $user->streamer()->first();
         return response()->json([
             'data' => [
-                'id'        => $streamer->id,
-                'user_id'   => $user->id,
+                'id'            => $streamer->id,
+                'user_id'       => $user->id,
+                'donate_front'  => $streamer->donate_front,
+                'donate_back'   => $streamer->donate_back,
+                'donate_text'   => $streamer->donate_text,
+                'paypal'        => $streamer->paypal,
+                'avatar'        => $user->avatar,
             ],
         ]);
     }
@@ -129,5 +135,76 @@ class StreamersController extends Controller
         ]);
 
     }
+
+    public function saveCustomDonatePage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'donate_text'       => 'required',
+            'paypal'            => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $user = auth()->user();
+        $streamer = $user->streamer()->first();
+        $streamer->donate_text = $request->donate_text;
+        $streamer->paypal = $request->paypal;
+        $streamer->save();
+        return response()->json([
+            'message' => 'donate page settings updated',
+        ]);
+    }
+
+    public function uploadDonateImage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'type'       => 'string|in:front,back',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        if (!$request->hasFile('image')) {
+            return response()->json([
+                'errors' => ['there is not image file'],
+            ]);
+        }
+        $user = auth()->user();
+        $streamer = $user->streamer()->first();
+        $file = $request->file('image');
+        $extention = strtolower($file->extension());
+        $destination = 'public/donations';
+        $fileName = $this->generateFileName($destination, $extention);
+        Storage::putFileAs($destination, $file, $fileName);
+        $savedName = 'donations/' . $fileName;
+        if ($request->type == 'back') {
+            $this->deleteFile($streamer->donate_back);
+            $streamer->donate_back = $savedName;
+        } else {
+            $this->deleteFile($streamer->donate_front);
+            $streamer->donate_front = $savedName;
+        }
+        $streamer->save();
+        return response()->json([
+            'data' => [
+                'file'  =>  $savedName,
+            ],
+        ]);
+    }
+
+    private function deleteFile($path) {
+        if (!empty($path)) {
+            Storage::delete('public/' . $path);
+        }
+    }
  
+    private function generateFileName($path, $ext) {
+        do {
+            $name = 'image_' . uniqid() . '_' . $ext;
+        } while(Storage::exists($path . '/' . $name));
+        return $name;
+    }
 }

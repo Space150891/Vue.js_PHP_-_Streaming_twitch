@@ -154,5 +154,50 @@ export const actions = {
     flashWinItems({state}) {
         state.win.win = false;
     },
-    
+    getCurrentStreamer(context) {
+        context.commit('loadCurrentStreamer');
+    },
+    saveCurrentStreamer({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('donate_text', data.donate_text);
+        formData.append('paypal', data.paypal);
+        fetch('api/streamers/custom/donate/save',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            
+        });
+    },
+    uploadDonationImage({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('type', data.type);
+        formData.append('image', data.file);
+        fetch('api/streamers/custom/donate/upload',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (data.type == 'back') {
+                state.currentStreamer.donate_back = jsonResp.data.file;
+            }
+            if (data.type == 'front') {
+                state.currentStreamer.donate_front = jsonResp.data.file;
+            }
+        });
+    },
 }

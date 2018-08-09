@@ -42,6 +42,10 @@ Route::group([
     Route::post('streamers/get', 'Api\StreamersController@show');
     Route::post('streamers/list', 'Api\StreamersController@list');
     Route::post('streamers/list/pagg', 'Api\StreamersController@pagination');
+    Route::post('streamers/custom/donate/save', 'Api\StreamersController@saveCustomDonatePage');
+    Route::post('streamers/custom/donate/upload', 'Api\StreamersController@uploadDonateImage');
+    
+    
     Route::post('streamers/promoted/list', 'Api\PromotedStreamersManagementController@list');
     Route::post('streamers/promoted/up', 'Api\PromotedStreamersManagementController@up');
     Route::post('streamers/promoted/down', 'Api\PromotedStreamersManagementController@down');

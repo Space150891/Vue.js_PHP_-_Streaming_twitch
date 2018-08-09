@@ -16078,6 +16078,85 @@ div[data-toggle="buttons"] label.active {
   width: 100px;
 }
 
+.custom-donate {
+  width: 100%;
+  max-width: 1000px;
+  margin: 150px auto 0 auto;
+}
+
+.custom-donate > h1,
+.custom-donate h2 {
+  text-align: center;
+}
+
+.custom-donate .preview {
+  border: 1px #333 solid;
+  position: relative;
+  height: 600px;
+}
+
+.custom-donate .preview > img {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-donate .preview .header {
+  border: 1px #333 solid;
+  height: 200px;
+  width: 600px;
+  overflow: hidden;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  margin-left: -300px;
+}
+
+.custom-donate .preview .header > img {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-donate .preview .header > img.avatar {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 20px;
+  bottom: -20px;
+}
+
+.custom-donate .preview .header > span {
+  position: absolute;
+  left: 130px;
+  bottom: 0;
+  text-shadow: 0px 0px 1px white;
+  display: inline-block;
+  background: #fff;
+  padding: 2px 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.custom-donate .preview .form {
+  top: 10%;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: 200px;
+  position: absolute;
+  background: #fff;
+  border: 1px #333 solid;
+  height: 300px;
+  width: 600px;
+}
+
+.custom-donate .preview .form > h3 {
+  margin: 100px 0 20px 0;
+  text-align: center;
+}
+
+.custom-donate .preview .form > h5 {
+  text-align: center;
+}
+
 .v-loading {
   width: 100%;
   height: 300px;

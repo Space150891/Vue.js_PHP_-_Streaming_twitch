@@ -1829,6 +1829,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2012,6 +2013,89 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CustomizeDonatePage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            text: ''
+        };
+    },
+    mounted: function mounted() {
+        this.$store.dispatch('getCurrentStreamer');
+    },
+
+    methods: {
+        handleUploadBackClick: function handleUploadBackClick() {
+            this.$refs.fileBack.click();
+        },
+        handleUploadFrontClick: function handleUploadFrontClick() {
+            this.$refs.fileFront.click();
+        },
+        uploadBackFile: function uploadBackFile(imageFile) {
+            var data = {
+                type: 'back',
+                file: imageFile
+            };
+            this.$store.dispatch('uploadDonationImage', data);
+        },
+        uploadFrontFile: function uploadFrontFile(imageFile) {
+            var data = {
+                type: 'front',
+                file: imageFile
+            };
+            this.$store.dispatch('uploadDonationImage', data);
+        },
+        save: function save() {
+            var data = {
+                'donate_text': this.currentStreamer.donate_text,
+                'paypal': this.currentStreamer.paypal
+            };
+            this.$store.dispatch('saveCurrentStreamer', data);
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'currentStreamer']))
 });
 
 /***/ }),
@@ -76608,7 +76692,16 @@ var render = function() {
                     [_vm._v("Achivements")]
                   ),
                   _vm._v(" "),
-                  _vm.profileData.prizes.length > 0
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info",
+                      attrs: { href: "#/custom-donate" }
+                    },
+                    [_vm._v("Customize donate page")]
+                  ),
+                  _vm._v(" "),
+                  _vm.profileData.prizes && _vm.profileData.prizes.length > 0
                     ? _c(
                         "div",
                         { staticClass: "cabinet-prizes" },
@@ -76683,6 +76776,167 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1e485e86", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-209f5c5a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CustomizeDonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c("div", { staticClass: "custom-donate" }, [
+        _c("h1", { staticClass: "text-center" }, [
+          _vm._v("Customize Donate Page")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.currentStreamer.donate_text,
+              expression: "currentStreamer.donate_text"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "Welcome text..." },
+          domProps: { value: _vm.currentStreamer.donate_text },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.currentStreamer, "donate_text", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.currentStreamer.paypal,
+              expression: "currentStreamer.paypal"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "PayPal..." },
+          domProps: { value: _vm.currentStreamer.paypal },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.currentStreamer, "paypal", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.save()
+              }
+            }
+          },
+          [_vm._v("save")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-warning",
+            on: { click: _vm.handleUploadBackClick }
+          },
+          [_vm._v("change background image")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-warning",
+            on: { click: _vm.handleUploadFrontClick }
+          },
+          [_vm._v("change header image")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          ref: "fileBack",
+          staticStyle: { display: "none" },
+          attrs: { type: "file" },
+          on: {
+            change: function($event) {
+              _vm.uploadBackFile($event.target.files[0])
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          ref: "fileFront",
+          staticStyle: { display: "none" },
+          attrs: { type: "file" },
+          on: {
+            change: function($event) {
+              _vm.uploadFrontFile($event.target.files[0])
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("h2", [_vm._v("Preview")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "preview" }, [
+          _vm.currentStreamer.donate_back
+            ? _c("img", {
+                attrs: { src: "storage/" + _vm.currentStreamer.donate_back }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "header" }, [
+            _vm.currentStreamer.donate_front
+              ? _c("img", {
+                  attrs: { src: "storage/" + _vm.currentStreamer.donate_front }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "avatar",
+              attrs: { src: _vm.currentStreamer.avatar, alt: "avatar" }
+            }),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm.currentStreamer.donate_text))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form" }, [
+            _c("h3", [_vm._v("Donate Form")]),
+            _vm._v(" "),
+            _c("h5", [
+              _vm._v("donate to PayPal account: "),
+              _c("strong", [_vm._v(_vm._s(_vm.currentStreamer.paypal))])
+            ])
+          ])
+        ])
+      ])
+    : _c("div", { staticClass: "custom-donate" }, [
+        _vm._v("\n    Please login\n")
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-209f5c5a", module.exports)
   }
 }
 
@@ -96179,9 +96433,10 @@ var WatchingStreamsPage = __webpack_require__("./resources/assets/js/components/
 var MyCardsPage = __webpack_require__("./resources/assets/js/components/MyCardsPage.vue");
 var RoulettePage = __webpack_require__("./resources/assets/js/components/RoulettePage.vue");
 var ShopPage = __webpack_require__("./resources/assets/js/components/ShopPage.vue");
+var CustomizeDonatePage = __webpack_require__("./resources/assets/js/components/CustomizeDonatePage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }, { path: '/roulette', component: RoulettePage }, { path: '/shop', component: ShopPage }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }, { path: '/roulette', component: RoulettePage }, { path: '/shop', component: ShopPage }, { path: '/custom-donate', component: CustomizeDonatePage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -96576,6 +96831,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-828081f8", Component.options)
   } else {
     hotAPI.reload("data-v-828081f8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/CustomizeDonatePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CustomizeDonatePage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-209f5c5a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CustomizeDonatePage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CustomizeDonatePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-209f5c5a", Component.options)
+  } else {
+    hotAPI.reload("data-v-209f5c5a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -98319,6 +98622,50 @@ var actions = {
         var state = _ref9.state;
 
         state.win.win = false;
+    },
+    getCurrentStreamer: function getCurrentStreamer(context) {
+        context.commit('loadCurrentStreamer');
+    },
+    saveCurrentStreamer: function saveCurrentStreamer(_ref10, data) {
+        var commit = _ref10.commit,
+            state = _ref10.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('donate_text', data.donate_text);
+        formData.append('paypal', data.paypal);
+        fetch('api/streamers/custom/donate/save', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {});
+    },
+    uploadDonationImage: function uploadDonationImage(_ref11, data) {
+        var commit = _ref11.commit,
+            state = _ref11.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('type', data.type);
+        formData.append('image', data.file);
+        fetch('api/streamers/custom/donate/upload', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (data.type == 'back') {
+                state.currentStreamer.donate_back = jsonResp.data.file;
+            }
+            if (data.type == 'front') {
+                state.currentStreamer.donate_front = jsonResp.data.file;
+            }
+        });
     }
 };
 
@@ -99049,7 +99396,12 @@ var state = {
         user_id: 0
     },
     currentStreamer: {
-        id: 0
+        id: 0,
+        paypal: null,
+        donate_front: null,
+        donate_back: null,
+        donate_text: null,
+        avatar: null
     },
     message: "",
     profileData: {
