@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, ViewerItem, Card};
+use App\Models\{Viewer, Item, ViewerItem, Card, ViewerPrize, StockPrize};
 
 class ViewerItemsController extends Controller
 {
@@ -19,7 +19,7 @@ class ViewerItemsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['lastPrizes']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -159,6 +159,27 @@ class ViewerItemsController extends Controller
         $viewerItem->delete();
         return response()->json([
             'message' => 'item delete successful',
+        ]);
+    }
+
+    public function lastPrizes(Request $request)
+    {
+        $viewerPrizes = ViewerPrize::orderBy('created_at', 'desc')->limit(10)->get();
+        $prizes = [];
+        foreach ($viewerPrizes as $viewerPrize) {
+            \Log::info('prizeid=' . $viewerPrize->prize_id);
+            $prize = StockPrize::find($viewerPrize->prize_id);
+            $prizes[] = [
+                'id'            => $viewerPrize->id,
+                'name'          => $prize->name,
+                'description'   => $prize->description,
+                'image'         => $prize->image,
+            ];
+        }
+        return response()->json([
+            'data' => [
+                'prizes'    =>  $prizes,
+            ],
         ]);
     }
 }

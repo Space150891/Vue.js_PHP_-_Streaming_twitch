@@ -69,14 +69,12 @@ export const getters = {
         return state.menuMessages;
     },
     myItems: state => {
-        console.log('my items in getter', state.myItems);
         return state.myItems.list;
     },
     myItemsLoades: state => {
         return state.myItems.loaded;
     },
     myCards: state => {
-        console.log('my cards in getter', state.myCards);
         return state.myCards.list;
     },
     myCardsLoades: state => {
@@ -104,7 +102,6 @@ export const getters = {
         return state.caseTypes.loaded;
     },
     winItems: state => {
-        console.log('in getter', state.win.win);
         return state.win.win;
     },
     winedItems: state => {
@@ -112,5 +109,8 @@ export const getters = {
     },
     winedPrizes: state => {
         return state.win.prizes;
+    },
+    lastPrizes: state => {
+        return state.lastPrizes;
     },
 }

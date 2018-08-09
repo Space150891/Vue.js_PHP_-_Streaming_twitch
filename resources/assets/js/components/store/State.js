@@ -100,5 +100,6 @@ export const state = {
         win: false,
         items: [],
         prizes: [],
-    }
+    },
+    lastPrizes: [],
 }

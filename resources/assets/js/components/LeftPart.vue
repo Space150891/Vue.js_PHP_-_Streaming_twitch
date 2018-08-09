@@ -74,7 +74,6 @@ var config = require('./config/config.json');
         },
         computed: {
             promotedStreamers: function () {
-            console.log(this.$store.getters.promotedStreamers);
               return this.$store.getters.promotedStreamers;
             },
         },

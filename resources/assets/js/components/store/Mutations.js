@@ -655,4 +655,22 @@ export const mutations = {
             state.caseTypes.loaded = true;
         });
     },
+    // last prizes
+    getLastPrizes(state) {
+        fetch('api/prizes/last',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.lastPrizes = jsonResp.data ? jsonResp.data.prizes : [];
+        });
+    },
 }

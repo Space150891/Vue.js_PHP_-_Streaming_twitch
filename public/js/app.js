@@ -2468,7 +2468,6 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     }
 }), _defineProperty(_data$methods$mounted, 'computed', {
     promotedStreamers: function promotedStreamers() {
-        console.log(this.$store.getters.promotedStreamers);
         return this.$store.getters.promotedStreamers;
     }
 }), _data$methods$mounted);
@@ -3734,6 +3733,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -3754,42 +3756,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            leftItems: [{
-                mainText: "Residentevil",
-                image: __webpack_require__("./public/images/Residentevil.png"),
-                imageName: "alt",
-                downText: "Lorem ipsum dolor sit."
-            }, {
-                mainText: "superman",
-                image: __webpack_require__("./public/images/superman.png"),
-                downText: "Lorem ipsum dolor sit.",
-                imageName: "alt"
-            }, {
-                mainText: "Liverpool",
-                image: __webpack_require__("./public/images/Liverpool.png"),
-                downText: "Lorem ipsum dolor sit.",
-                imageName: "alt"
-            }, {
-                mainText: "Illuminati",
-                image: __webpack_require__("./public/images/Illuminati.png"),
-                downText: "Lorem ipsum dolor sit.",
-                imageName: "alt"
-            }, {
-                mainText: "thelastofus",
-                image: __webpack_require__("./public/images/thelastofus.png"),
-                downText: "Lorem ipsum dolor sit.",
-                imageName: "alt"
-            }, {
-                mainText: "CS",
-                image: __webpack_require__("./public/images/cs.png"),
-                downText: "Lorem ipsum dolor sit.",
-                imageName: "alt"
-            }]
-        };
-    }
+    mounted: function mounted() {
+        this.$store.dispatch('getLastPrizesAction');
+    },
+
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['lastPrizes']))
 });
 
 /***/ }),
@@ -23424,7 +23398,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.rightPart-main {\n  width: 15%;\n  height: 100vh;\n  margin-top: 111px;\n}\n.rightPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  position: static;\n  z-index: -20;\n  padding-left: 2px;\n}\n.rightPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  width: 100%;\n  height: auto;\n  border-bottom: 1px solid black;\n  padding-bottom: 10%;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.rightPart-img {\n  width: 33%;\n}\n.rightPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.rightPart-mainText {\n  width: 59%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.rightPart-mainText h1 {\n    font-size: 20px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.rightPart-mainText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.rightPart-mainText {\n    text-align: center;\n}\n.rightPart-mainText h1 {\n      font-size: 16px;\n}\n.rightPart-mainText p {\n      font-size: 13px;\n}\n}\n@media screen and (max-width: 1085px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.rightPart-mainText h1 {\n    font-size: 13px;\n}\n.rightPart-mainText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.rightPart-main {\n    margin-top: 73px;\n}\n}\n@media screen and (max-width: 775px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.rightPart-mainText h1 {\n    font-size: 12px;\n}\n.rightPart-mainText p {\n    font-size: 11px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.rightPart-main {\n  width: 15%;\n  height: 100vh;\n  margin-top: 111px;\n}\n.rightPart {\n  width: 100%;\n  display: inline-block;\n  height: calc(100vh - 16vh);\n  position: static;\n  z-index: -20;\n  padding-left: 2px;\n}\n.rightPart-item {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  width: 100%;\n  height: auto;\n  border-bottom: 1px solid black;\n  padding-bottom: 10%;\n  margin-bottom: 20px;\n  cursor: pointer;\n  text-decoration: none;\n  color: black;\n}\n.rightPart-img {\n  width: 33%;\n}\n.rightPart-img img {\n    width: 90px;\n    height: 90px;\n    border: 2px solid black;\n}\n.rightPart-mainText {\n  width: 59%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  text-align: center;\n  word-wrap: break-word;\n}\n.rightPart-mainText h2 {\n    font-size: 20px;\n    font-weight: 800;\n    margin: 0;\n    padding: 0;\n}\n.rightPart-mainText p {\n    font-size: 15px;\n    line-height: 10px;\n}\n@media screen and (max-width: 1471px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 55px;\n    height: 55px;\n}\n.rightPart-mainText {\n    text-align: center;\n}\n.rightPart-mainText h2 {\n      font-size: 16px;\n}\n.rightPart-mainText p {\n      font-size: 13px;\n}\n}\n@media screen and (max-width: 1085px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 35px;\n    height: 35px;\n}\n.rightPart-mainText h2 {\n    font-size: 13px;\n}\n.rightPart-mainText p {\n    font-size: 12px;\n}\n}\n@media screen and (max-width: 991px) {\n.rightPart-main {\n    margin-top: 73px;\n}\n}\n@media screen and (max-width: 775px) {\n.rightPart-item {\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.rightPart-img img {\n    width: 30px;\n    height: 30px;\n}\n.rightPart-mainText h2 {\n    font-size: 12px;\n}\n.rightPart-mainText p {\n    font-size: 11px;\n}\n}\n", ""]);
 
 // exports
 
@@ -76763,16 +76737,18 @@ var render = function() {
     _c(
       "div",
       { staticClass: "rightPart" },
-      _vm._l(_vm.leftItems, function(item) {
+      _vm._l(_vm.lastPrizes, function(item) {
         return _c("div", { staticClass: "rightPart-item" }, [
           _c("div", { staticClass: "rightPart-img" }, [
-            _c("img", { attrs: { src: item.image, alt: item.imageName } })
+            _c("img", {
+              attrs: { src: "storage/" + item.image, alt: item.name }
+            })
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "rightPart-mainText" }, [
-            _c("h1", [_vm._v(_vm._s(item.mainText))]),
+            _c("h2", [_vm._v(_vm._s(item.name))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.downText))])
+            _c("p", [_vm._v(_vm._s(item.description))])
           ])
         ])
       })
@@ -98729,6 +98705,12 @@ var actions = {
                 state.currentStreamer.donate_front = jsonResp.data.file;
             }
         });
+    },
+    getLastPrizesAction: function getLastPrizesAction(_ref12) {
+        var commit = _ref12.commit,
+            state = _ref12.state;
+
+        commit('getLastPrizes');
     }
 };
 
@@ -98810,14 +98792,12 @@ var getters = {
         return state.menuMessages;
     },
     myItems: function myItems(state) {
-        console.log('my items in getter', state.myItems);
         return state.myItems.list;
     },
     myItemsLoades: function myItemsLoades(state) {
         return state.myItems.loaded;
     },
     myCards: function myCards(state) {
-        console.log('my cards in getter', state.myCards);
         return state.myCards.list;
     },
     myCardsLoades: function myCardsLoades(state) {
@@ -98845,7 +98825,6 @@ var getters = {
         return state.caseTypes.loaded;
     },
     winItems: function winItems(state) {
-        console.log('in getter', state.win.win);
         return state.win.win;
     },
     winedItems: function winedItems(state) {
@@ -98853,6 +98832,9 @@ var getters = {
     },
     winedPrizes: function winedPrizes(state) {
         return state.win.prizes;
+    },
+    lastPrizes: function lastPrizes(state) {
+        return state.lastPrizes;
     }
 };
 
@@ -99438,6 +99420,22 @@ var mutations = {
             state.caseTypes.list = jsonResp.data ? jsonResp.data.caseTypes : [];
             state.caseTypes.loaded = true;
         });
+    },
+
+    // last prizes
+    getLastPrizes: function getLastPrizes(state) {
+        fetch('api/prizes/last', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.lastPrizes = jsonResp.data ? jsonResp.data.prizes : [];
+        });
     }
 };
 
@@ -99550,7 +99548,8 @@ var state = {
         win: false,
         items: [],
         prizes: []
-    }
+    },
+    lastPrizes: []
 };
 
 /***/ }),

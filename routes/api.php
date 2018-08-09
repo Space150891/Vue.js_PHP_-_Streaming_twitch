@@ -70,6 +70,7 @@ Route::group([
     Route::post('viewer/items/add', 'Api\ViewerItemsController@store');
     Route::post('viewer/items/get', 'Api\ViewerItemsController@show');
     Route::post('viewer/items/delete', 'Api\ViewerItemsController@destroy');
+    Route::post('prizes/last', 'Api\ViewerItemsController@lastPrizes');
 
     Route::post('viewer/cases/list', 'Api\ViewerCaseTypesController@index');
     Route::post('viewer/cases/add', 'Api\ViewerCaseTypesController@store');
@@ -110,6 +111,8 @@ Route::group([
     Route::post('cases/buy', 'Api\CasesManagementController@buy');
     Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
     Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
+
+
 });
 
 

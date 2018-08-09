@@ -1,13 +1,13 @@
 <template>
 <div class="rightPart-main">
     <div class="rightPart">
-        <div v-for="(item) in leftItems" class="rightPart-item" >
+        <div v-for="(item) in lastPrizes" class="rightPart-item" >
             <div class="rightPart-img">
-                <img v-bind:src="item.image" v-bind:alt="item.imageName">
+                <img v-bind:src="'storage/' + item.image" v-bind:alt="item.name">
             </div>
             <div class="rightPart-mainText">
-                <h1>{{ item.mainText }}</h1>
-                <p>{{ item.downText }}</p>
+                <h2>{{ item.name }}</h2>
+                <p>{{ item.description }}</p>
             </div>
         </div>
     </div>
@@ -18,51 +18,17 @@
 </template>
 
 <script>
+import { mapGetters} from 'vuex';
+
     export default {
-        data(){
-            return {
-                leftItems: [
-                    {
-                        mainText: "Residentevil",
-                        image:require('../../../../public/images/Residentevil.png'),
-                        imageName: "alt",
-                        downText: "Lorem ipsum dolor sit."
-                    },
-                    {
-                        mainText: "superman",
-                        image:require('../../../../public/images/superman.png'),
-                        downText: "Lorem ipsum dolor sit.",
-                        imageName: "alt"
-                    },
-                    {
-                        mainText: "Liverpool",
-                        image:require('../../../../public/images/Liverpool.png'),
-                        downText: "Lorem ipsum dolor sit.",
-                        imageName: "alt"
-                    },
-                    {
-                        mainText: "Illuminati",
-                        image:require('../../../../public/images/Illuminati.png'),
-                        downText: "Lorem ipsum dolor sit.",
-                        imageName: "alt"
-                    },
-                    {
-                        mainText: "thelastofus",
-                        image:require('../../../../public/images/thelastofus.png'),
-                        downText: "Lorem ipsum dolor sit.",
-                        imageName: "alt"
-                    },
-                    {
-                        mainText: "CS",
-                        image:require('../../../../public/images/cs.png'),
-                        downText: "Lorem ipsum dolor sit.",
-                        imageName: "alt"
-                    }
-                ]
-            }
+        mounted() {
+            this.$store.dispatch('getLastPrizesAction');
         },
-       
-        
+        computed: {
+            ...mapGetters([
+                'lastPrizes'
+			]),
+        },
     }
 </script>
 <style lang="scss">
@@ -108,7 +74,7 @@
         text-align: center;
         word-wrap:break-word;
 
-        h1 {
+        h2 {
             font-size: 20px;
             font-weight: 800;
             margin: 0;
@@ -134,7 +100,7 @@
         }
         .rightPart-mainText {
             text-align: center;
-            h1 {
+            h2 {
                 font-size: 16px;
             }
             p {
@@ -154,7 +120,7 @@
             }
         }
         .rightPart-mainText {
-            h1 {
+            h2 {
                 font-size: 13px;
             }
             p {
@@ -181,7 +147,7 @@
             }
         }
         .rightPart-mainText {
-            h1 {
+            h2 {
                 font-size: 12px;
             }
             p {

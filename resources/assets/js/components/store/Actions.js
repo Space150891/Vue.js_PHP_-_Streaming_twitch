@@ -200,4 +200,7 @@ export const actions = {
             }
         });
     },
+    getLastPrizesAction({commit, state}) {
+        commit('getLastPrizes');
+    },
 }
