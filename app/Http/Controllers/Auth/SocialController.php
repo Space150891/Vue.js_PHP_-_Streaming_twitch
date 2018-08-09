@@ -186,14 +186,6 @@ class SocialController extends Controller
         $user = User::where('name', strtolower($body['name']))->first();
         if (!$user) {
             $ip = $request->ip();
-            $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
-            if ($afiliate) {
-                $afiliate->register_at = Carbon::now()->toDateTimeString();
-                $afiliate->save();
-                $userReferal = User::find($afiliate->user_id);
-                $userReferal->addProgress(new FirstReferViewerAchievement(), 1);
-                $userReferal->addProgress(new Refer100ViewersAchievement(), 1);
-            }
             $user = new User();
             $user->token = '';
             $user->activated = 1;
@@ -204,6 +196,12 @@ class SocialController extends Controller
             $mail = new WellcomeMail();
             Mail::to($user->email)->send($mail);
             $user->save();
+            $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
+            if ($afiliate) {
+                $afiliate->register_at = Carbon::now()->toDateTimeString();
+                $afiliate->afiliate_id = $user->id;
+                $afiliate->save();
+            }
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
             $streamer->name = $user->name;

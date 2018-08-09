@@ -62,11 +62,13 @@ class AfiliateController extends Controller
 
         $visited = Afiliate::where('user_id', $user->id)->count();
         $registered = Afiliate::where('user_id', $user->id)->whereNotNull('register_at')->count();
+        $confirmed = Afiliate::where('user_id', $user->id)->whereNotNull('confirm_at')->count();
         return response()->json([
             'data' => [
                 'visited'       => $visited,
                 'registered'    => $registered,
-                'total'         => $visited + $registered,
+                'confirmed'     => $confirmed,
+                'total'         => $visited,
             ],
         ]);
     }

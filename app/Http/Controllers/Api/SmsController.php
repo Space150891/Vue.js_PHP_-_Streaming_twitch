@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
+use Carbon\Carbon;
 
-use App\Models\{User, SmsCode};
-use App\Achievements\{AccountVerifiedAchievement};
+use App\Models\{User, SmsCode, Afiliate};
+use App\Achievements\{AccountVerifiedAchievement, FirstReferViewerAchievement, Refer100ViewersAchievement};
 
 class SmsController extends Controller
 {
@@ -84,6 +85,14 @@ class SmsController extends Controller
         $viewer->phone_verified = 1;
         $viewer->save();
         $user->addProgress(new AccountVerifiedAchievement(), 1);
+        $afiliate = Afiliate::where('afiliate_id', $user->id)->whereNull('confirm_at')->first();
+        if ($afiliate) {
+            $afiliate->confirm_at = Carbon::now()->toDateTimeString();
+            $afiliate->save();
+            $userReferal = User::find($afiliate->user_id);
+            $userReferal->addProgress(new FirstReferViewerAchievement(), 1);
+            $userReferal->addProgress(new Refer100ViewersAchievement(), 1);
+        }
         return response()->json([
             'message' => 'code correct',
         ]);

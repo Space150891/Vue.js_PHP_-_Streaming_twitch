@@ -48,6 +48,7 @@ export const state = {
     afiliates: {
         visited: 0,
         registered: 0,
+        confirmed: 0,
         total: 0,
     },
     games: {
