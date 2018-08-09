@@ -9,7 +9,19 @@ use Illuminate\Http\Response;
 use Validator;
 // use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\{CaseType, LootCase, ItemCase, Item, ItemType, Raritie, Notification, StockPrize, ViewerItem, ViewerPrize, BuyedCaseType};
+use App\Models\{User, CaseType, LootCase, ItemCase, Item, ItemType, Raritie, Notification, StockPrize, ViewerItem, ViewerPrize, BuyedCaseType};
+use App\Achievements\{
+    BuyFirstCaseAchievement,
+    OpenFirstCaseAchievement,
+    Open2CasesAchievement,
+    Open3CasesAchievement,
+    Open5CasesAchievement,
+    FirstWinAchievement,
+    FirstNonPriceWinAchievement,
+    FirstPriceWinAchievement,
+    NNonPricesWinAchievement,
+    NPricesWinAchievement
+};
 
 class CasesManagementController extends Controller
 {
@@ -368,7 +380,7 @@ class CasesManagementController extends Controller
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $winItems = $this->win($case);
                 $prizes = $this->getItems($viewer->id, $winItems);
-                $this->storeBuyedType($viewer->id, $caseType->id);
+                $this->storeBuyedType($user, $caseType->id);
             } else {
                 $notify->event_type = 'user_message';
                 $notify->message = 'You no not have money for ' . $caseType->name;
@@ -381,7 +393,7 @@ class CasesManagementController extends Controller
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $winItems = $this->win($case);
                 $prizes = $this->getItems($viewer->id, $winItems);
-                $this->storeBuyedType($viewer->id, $caseType->id);
+                $this->storeBuyedType($user, $caseType->id);
             } else {
                 $notify->event_type = 'user_message';
                 $notify->message = 'You no not have diamonds for ' . $caseType->name;
@@ -389,9 +401,21 @@ class CasesManagementController extends Controller
         }
         $notify->save();
         $viewer->save();
+        $winItems = $this->removePrizes($winItems);
+        if (count($winItems) > 0 || count($prizes) > 0) {
+            $user->addProgress(new FirstWinAchievement(), 1);
+        }
+        foreach ($winItems as $item) {
+            $user->addProgress(new FirstNonPriceWinAchievement(), 1);
+            $user->addProgress(new NNonPricesWinAchievement(), 1);
+        }
+        foreach ($prizes as $prize) {
+            $user->addProgress(new FirstPriceWinAchievement(), 1);
+            $user->addProgress(new NPricesWinAchievement(), 1);
+        }
         return response()->json([
             'message' => $notify->message,
-            'items'   => $this->removePrizes($winItems),
+            'items'   => $winItems,
             'prizes'  => $prizes,
         ]);
     }
@@ -428,7 +452,8 @@ class CasesManagementController extends Controller
         $caseItems = ItemCase::where('case_id', $case->id)->get();
         foreach ($caseItems as $item) {
             if ($this->chance($item->rarity_id)) {
-                $winingItems[] = Item::find($item->item_id);
+                $winItem = Item::find($item->item_id);
+                $winingItems[] = $winItem;
             }
         }
         return $winingItems;
@@ -470,7 +495,10 @@ class CasesManagementController extends Controller
         return $newItems;
     }
 
-    private function storeBuyedType($viewerId, $caseTypeId){
+    private function storeBuyedType($user, $caseTypeId)
+    {
+        $viewer = $user->viewer()->first();
+        $viewerId = $viewer->id;
         $buyedCase = BuyedCaseType::where([
             ['viewer_id', '=', $viewerId],
             ['case_type_id', '=', $caseTypeId]
@@ -483,12 +511,11 @@ class CasesManagementController extends Controller
         }
         $buyedCase->total++;
         $buyedCase->save();
+        $user->addProgress(new BuyFirstCaseAchievement(), 1);
+        $user->addProgress(new OpenFirstCaseAchievement(), 1);
+        $user->addProgress(new Open2CasesAchievement(), 1);
+        $user->addProgress(new Open3CasesAchievement(), 1);
+        $user->addProgress(new Open5CasesAchievement(), 1);
     }
 
 }
-
-
-// $prize->amount--;
-// $prize->save();
-// $viewerPrize = new ViewerPrize();
-// $viewerPrize->viewer_id = 

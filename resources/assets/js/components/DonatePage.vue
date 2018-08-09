@@ -70,7 +70,7 @@
                 this.$store.commit('pushAchivement', {name: 'Donate100Achievement', points: this.sum});
                 this.$store.commit('pushAchivement', {name: 'FirstDonateAchievement'});
                 window.location = link;
-            }
+            },
         },
         computed: {
             checkToken: function () {

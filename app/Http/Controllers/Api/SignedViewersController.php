@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 
 use App\Models\{User, Viewer, Streamer, SignedViewer};
+use App\Achievements\{FirstStreamerSubscribeAchievement, Streamer100SubscribeAchievement};
 
 class SignedViewersController extends Controller
 {
@@ -67,7 +68,8 @@ class SignedViewersController extends Controller
         $signedViewer->viewer_id = $viewer->id;
         $signedViewer->streamer_id = $streamer->id;
         $signedViewer->save();
-        
+        $user->addProgress(new FirstStreamerSubscribeAchievement(), 1);
+        $user->addProgress(new Streamer100SubscribeAchievement(), 1);
         return response()->json([
             'message' => 'streamer added successful',
             'data' => [

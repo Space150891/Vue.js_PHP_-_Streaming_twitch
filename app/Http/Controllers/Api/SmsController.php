@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 
 use App\Models\{User, SmsCode};
+use App\Achievements\{AccountVerifiedAchievement};
 
 class SmsController extends Controller
 {
@@ -82,6 +83,7 @@ class SmsController extends Controller
         $viewer = $user->viewer()->first();
         $viewer->phone_verified = 1;
         $viewer->save();
+        $user->addProgress(new AccountVerifiedAchievement(), 1);
         return response()->json([
             'message' => 'code correct',
         ]);

@@ -14,7 +14,13 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Facades\Auth;
-use App\Achievements\{FirstLoginAchievement, Login10daysAchievement, Login20daysAchievement};
+use App\Achievements\{
+    FirstLoginAchievement,
+    Login10daysAchievement,
+    Login20daysAchievement,
+    FirstReferViewerAchievement,
+    Refer100ViewersAchievement
+};
 use App\Mail\WellcomeMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -184,6 +190,9 @@ class SocialController extends Controller
             if ($afiliate) {
                 $afiliate->register_at = Carbon::now()->toDateTimeString();
                 $afiliate->save();
+                $userReferal = User::find($afiliate->user_id);
+                $userReferal->addProgress(new FirstReferViewerAchievement(), 1);
+                $userReferal->addProgress(new Refer100ViewersAchievement(), 1);
             }
             $user = new User();
             $user->token = '';

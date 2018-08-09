@@ -167,7 +167,6 @@ class ViewerItemsController extends Controller
         $viewerPrizes = ViewerPrize::orderBy('created_at', 'desc')->limit(10)->get();
         $prizes = [];
         foreach ($viewerPrizes as $viewerPrize) {
-            \Log::info('prizeid=' . $viewerPrize->prize_id);
             $prize = StockPrize::find($viewerPrize->prize_id);
             $prizes[] = [
                 'id'            => $viewerPrize->id,

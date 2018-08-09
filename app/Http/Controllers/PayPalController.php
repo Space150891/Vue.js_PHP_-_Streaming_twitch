@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
+use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement};
 
 class PayPalController extends Controller
 {
@@ -127,6 +128,8 @@ class PayPalController extends Controller
                     $set = Diamond::find($details['diamonds_set_id']);
                     $viewer->diamonds += $set->amount;
                     $viewer->save();
+                    $user->addProgress(new BuyFirstDiamondsAchievement(), 1);
+                    $user->addProgress(new Buy100DiamondsAchievement(), $set->amount);
                     return redirect('/#/shop');
                 }
                 if ($payment->type == 'subscription') {
