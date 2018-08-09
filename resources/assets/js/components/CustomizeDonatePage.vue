@@ -1,8 +1,8 @@
 <template>
     <div v-if="checkToken" class="custom-donate" >
         <h1 class="text-center">Customize Donate Page</h1>
-        <input v-model="currentStreamer.donate_text" type="text" class="form-control" placeholder="Welcome text...">
-        <input v-model="currentStreamer.paypal" type="text" class="form-control" placeholder="PayPal...">
+        <input v-model="currentStreamer.donate_text" v-on:blur="save()" type="text" class="form-control" placeholder="Welcome text...">
+        <input v-model="currentStreamer.paypal" v-on:blur="save()" type="text" class="form-control" placeholder="PayPal...">
         <button @click.prevent="save()" class="btn btn-success">save</button>
         <button v-on:click="handleUploadBackClick" class="btn btn-warning">change background image</button>
         <button v-on:click="handleUploadFrontClick" class="btn btn-warning">change header image</button>

@@ -1695,7 +1695,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76793,6 +76792,9 @@ var render = function() {
           attrs: { type: "text", placeholder: "Welcome text..." },
           domProps: { value: _vm.currentStreamer.donate_text },
           on: {
+            blur: function($event) {
+              _vm.save()
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -76815,6 +76817,9 @@ var render = function() {
           attrs: { type: "text", placeholder: "PayPal..." },
           domProps: { value: _vm.currentStreamer.paypal },
           on: {
+            blur: function($event) {
+              _vm.save()
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -80235,9 +80240,7 @@ var render = function() {
         _vm._v(" "),
         _c("h4", [_vm._v("Visited: " + _vm._s(_vm.afiliates.visited))]),
         _vm._v(" "),
-        _c("h4", [_vm._v("Registered: " + _vm._s(_vm.afiliates.registered))]),
-        _vm._v(" "),
-        _c("h4", [_vm._v("Total: " + _vm._s(_vm.afiliates.total))])
+        _c("h4", [_vm._v("Registered: " + _vm._s(_vm.afiliates.registered))])
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
         _vm._v("\n    Please login\n")
