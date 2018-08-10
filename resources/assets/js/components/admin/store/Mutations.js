@@ -702,4 +702,41 @@ export const mutations = {
             state.diamonds.loaded = true;
         });
     },
+    loadStatistic(state, data) {
+        console.log('mutation loading table');
+        var formData = new FormData();
+        state.statistic.loaded = false;
+        formData.append('token', state.token);
+        formData.append('page', data.page);
+        formData.append('on_page', data.on_page);
+        formData.append('table', data.table);
+        formData.append('period', data.period);
+        fetch(state.apiUrl + 'statistic/get',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.data) {
+                state.statistic.page = jsonResp.data.page;
+                state.statistic.pages = jsonResp.data.pages;
+                state.statistic.fields = jsonResp.data.fields;
+                state.statistic.values = jsonResp.data.values;
+            } else {
+                state.statistic.page = 0;
+                state.statistic.pages = 0;
+                state.statistic.fields = [];
+                state.statistic.values = [];
+            }
+            state.statistic.loaded = true;
+        });
+    },
 }

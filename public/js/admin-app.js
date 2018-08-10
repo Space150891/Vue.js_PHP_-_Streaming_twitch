@@ -2084,6 +2084,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -4105,6 +4108,107 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		this.editMode = false;
 	}), _methods),
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'rarities', 'raritiesLoaded']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/StatisticPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            filter: {
+                page: 0,
+                on_page: 10,
+                period: 'all',
+                table: ''
+            },
+            periods: ['all', 'year', 'month', 'day'],
+            tables: ['payments', 'winned prizes']
+        };
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        getPage: function getPage(page) {
+            this.filter.page = page;
+            this.loadTable();
+        },
+        loadTable: function loadTable() {
+            console.log('coading table');
+            this.$store.dispatch('loadStatisticAction', this.filter);
+        },
+        selectTable: function selectTable(tableName) {
+            this.filter.table = tableName;
+            this.filter.page = 1;
+            console.log('change table');
+            this.loadTable();
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'statistic']))
 });
 
 /***/ }),
@@ -45108,6 +45212,193 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2c516750\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/StatisticPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/statistic" } }),
+      _vm._v(" "),
+      _vm.checkToken
+        ? _c("div", [
+            _c(
+              "ul",
+              { staticClass: "nav nav-tabs" },
+              _vm._l(_vm.tables, function(tableName) {
+                return _c("li", { staticClass: "nav-item" }, [
+                  tableName == _vm.filter.table
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "nav-link active",
+                          attrs: { href: "#" }
+                        },
+                        [_vm._v(_vm._s(tableName))]
+                      )
+                    : _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.selectTable(tableName)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(tableName))]
+                      )
+                ])
+              })
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && _vm.filter.table != ""
+        ? _c(
+            "div",
+            [
+              _c("div", [
+                _c("strong", [_vm._v("Show:")]),
+                _vm._v(" "),
+                _c("label", { staticClass: "form-group" }, [
+                  _vm._v("\n                period:\n                "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filter.period,
+                          expression: "filter.period"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.filter,
+                              "period",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.loadTable()
+                          }
+                        ]
+                      }
+                    },
+                    _vm._l(_vm.periods, function(period) {
+                      return _c("option", [_vm._v(_vm._s(period))])
+                    })
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.statistic.loaded
+                ? _c(
+                    "table",
+                    { staticClass: "table table-striped table-condenced" },
+                    [
+                      _c("thead", [
+                        _c(
+                          "tr",
+                          _vm._l(_vm.statistic.fields, function(field) {
+                            return _c("th", [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(field) +
+                                  "\n                    "
+                              )
+                            ])
+                          })
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.statistic.values, function(item) {
+                          return _c(
+                            "tr",
+                            _vm._l(_vm.statistic.fields, function(field) {
+                              return _c("td", [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(item[field]) +
+                                    "\n                    "
+                                )
+                              ])
+                            })
+                          )
+                        })
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.statistic.loaded
+                ? _c("pagination", {
+                    attrs: {
+                      page: _vm.statistic.page,
+                      pages: _vm.statistic.pages,
+                      buttons: "3"
+                    },
+                    on: {
+                      "load-page": function($event) {
+                        _vm.getPage($event)
+                      }
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.checkToken && _vm.statistic.loaded == false
+                ? _c("div", { staticClass: "v-loading" })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && _vm.filter.table == ""
+        ? _c("div", [_c("h5", [_vm._v("select table")])])
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2c516750", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-32761348\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/ItemsPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -45963,6 +46254,20 @@ var render = function() {
                         attrs: { href: "#/diamonds" }
                       },
                       [_vm._v("Diamonds")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/statistic"
+                        },
+                        attrs: { href: "#/statistic" }
+                      },
+                      [_vm._v("Statistic")]
                     )
                   ]),
                   _vm._v(" "),
@@ -63965,9 +64270,10 @@ var MainContentPage = __webpack_require__("./resources/assets/js/components/admi
 var AllUsersPage = __webpack_require__("./resources/assets/js/components/admin/AllUsersPage.vue");
 var StockPrizesPage = __webpack_require__("./resources/assets/js/components/admin/StockPrizesPage.vue");
 var DiamondsPage = __webpack_require__("./resources/assets/js/components/admin/DiamondsPage.vue");
+var StatisticPage = __webpack_require__("./resources/assets/js/components/admin/StatisticPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }, { path: '/statistic', component: StatisticPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -64868,6 +65174,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-7bd2a6ef", Component.options)
   } else {
     hotAPI.reload("data-v-7bd2a6ef", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/StatisticPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/StatisticPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2c516750\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/StatisticPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/StatisticPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c516750", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c516750", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -65855,6 +66209,13 @@ var actions = {
             }
             commit('getDiamondsList');
         });
+    },
+    loadStatisticAction: function loadStatisticAction(_ref31, data) {
+        var commit = _ref31.commit,
+            state = _ref31.state;
+
+        console.log('Action loading table');
+        commit('loadStatistic', data);
     }
 };
 
@@ -66016,6 +66377,9 @@ var getters = {
     },
     diamondsLoaded: function diamondsLoaded(state) {
         return state.diamonds.loaded;
+    },
+    statistic: function statistic(state) {
+        return state.statistic;
     }
 };
 
@@ -66650,6 +67014,40 @@ var mutations = {
             state.diamonds.list = jsonResp.data ? jsonResp.data.diamonds : [];
             state.diamonds.loaded = true;
         });
+    },
+    loadStatistic: function loadStatistic(state, data) {
+        console.log('mutation loading table');
+        var formData = new FormData();
+        state.statistic.loaded = false;
+        formData.append('token', state.token);
+        formData.append('page', data.page);
+        formData.append('on_page', data.on_page);
+        formData.append('table', data.table);
+        formData.append('period', data.period);
+        fetch(state.apiUrl + 'statistic/get', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.data) {
+                state.statistic.page = jsonResp.data.page;
+                state.statistic.pages = jsonResp.data.pages;
+                state.statistic.fields = jsonResp.data.fields;
+                state.statistic.values = jsonResp.data.values;
+            } else {
+                state.statistic.page = 0;
+                state.statistic.pages = 0;
+                state.statistic.fields = [];
+                state.statistic.values = [];
+            }
+            state.statistic.loaded = true;
+        });
     }
 };
 
@@ -66739,6 +67137,13 @@ var state = {
     },
     diamonds: {
         list: [],
+        loaded: false
+    },
+    statistic: {
+        page: 0,
+        pages: 0,
+        fields: [],
+        values: [],
         loaded: false
     }
 };

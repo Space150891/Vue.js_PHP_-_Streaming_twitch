@@ -119,4 +119,7 @@ export const getters = {
     diamondsLoaded: state => {
         return state.diamonds.loaded;
     },
+    statistic: state => {
+        return state.statistic;
+    },
 }

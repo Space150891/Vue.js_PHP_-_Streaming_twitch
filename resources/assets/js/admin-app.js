@@ -18,6 +18,7 @@ const MainContentPage = require('./components/admin/MainContentPage.vue');
 const AllUsersPage = require('./components/admin/AllUsersPage.vue');
 const StockPrizesPage = require('./components/admin/StockPrizesPage.vue');
 const DiamondsPage = require('./components/admin/DiamondsPage.vue');
+const StatisticPage = require('./components/admin/StatisticPage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -36,6 +37,7 @@ const router = new VueRouter({
         { path: '/users', component: AllUsersPage},
         { path: '/stock-prizes', component: StockPrizesPage},
         { path: '/diamonds', component: DiamondsPage},
+        { path: '/statistic', component: StatisticPage},
     ]
 });
 Vue.use(VueRouter);

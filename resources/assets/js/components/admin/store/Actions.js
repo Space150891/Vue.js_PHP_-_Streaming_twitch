@@ -758,5 +758,8 @@ export const actions = {
             commit('getDiamondsList');
         });
     },
-
+    loadStatisticAction({commit, state}, data) {
+        console.log('Action loading table');
+        commit('loadStatistic', data);
+    },
 }

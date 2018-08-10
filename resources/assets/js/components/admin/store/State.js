@@ -79,4 +79,11 @@ export const state = {
         list: [],
         loaded: false,
     },
+    statistic: {
+        page: 0,
+        pages: 0,
+        fields: [],
+        values: [],
+        loaded: false,
+    },
 }
