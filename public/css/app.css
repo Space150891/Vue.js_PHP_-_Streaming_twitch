@@ -16042,7 +16042,7 @@ div[data-toggle="buttons"] label.active {
 
 .shop .shop-modal .shop-box {
   position: fixed;
-  top: 300px;
+  top: 150px;
   left: 50%;
   width: 600px;
   margin-left: -300px;
@@ -16071,7 +16071,6 @@ div[data-toggle="buttons"] label.active {
 .shop .shop-modal .items-box > div {
   display: inline-block;
   width: 100px;
-  height: 300px;
 }
 
 .shop .shop-modal .items-box > div > img {

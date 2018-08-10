@@ -7,6 +7,7 @@ export const state = {
         name: '',
         messages : [],
         user_id: 0,
+        contacts: {}
     },
     currentStreamer: {
         id: 0,

@@ -26,6 +26,7 @@ export const mutations = {
                     state.currentViewer.diamonds = jsonResp.data.diamonds;
                     state.currentViewer.level = jsonResp.data.level;
                     state.currentViewer.user_id = jsonResp.data.user_id;
+                    state.currentViewer.contacts = jsonResp.data.contacts;
                     state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });

@@ -59,7 +59,73 @@
                     <div v-for="item in winedPrizes">
                         <img v-bind:src="'storage/' + item.image" v-bind:alt="item.name">
                         <h5>{{ item.name }}</h5>
+                        
                     </div>
+                    <section v-if="winedPrizes.length > 0" class="">
+                        <p>To receive your prize please confirm your contacts</p>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="contact-country">Country:</span>
+                            </div>
+                            <input v-model="currentViewer.contacts.country" type="text" class="form-control" aria-label="Country..." aria-describedby="contact-country">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="contact-city">City:</span>
+                            </div>
+                            <input v-model="currentViewer.contacts.city" type="text" class="form-control" aria-label="City..." aria-describedby="contact-city">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="contact-zip">Zip-code</span>
+                            </div>
+                            <input v-model="currentViewer.contacts.zip_code" type="text" class="form-control" aria-label="Zip-code..." aria-describedby="contact-zip">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="contact-address">Local address</span>
+                            </div>
+                            <input v-model="currentViewer.contacts.local_address" type="text" class="form-control" aria-label="Local address..." aria-describedby="contact-address">
+                        </div>
+                         <div v-if="!profileData.verified">
+                        <div v-if="!smsSended" class="form-inline">
+                            <input
+                                v-model="phone"
+                                placeholder="Phone..."
+                                class="form-control"
+                            >
+                            <button
+                                @click.prevent="sendSMS()"
+                                placeholder="Code..."
+                                class="btn btn-success"
+                            >
+                                send SMS
+                            </button>
+                        </div>
+                        <div
+                            v-if="smsSended"
+                            class="form-inline"
+                        >
+                            <input
+                                v-model="code"
+                                class="form-control"
+                            >
+                            <button
+                                @click.prevent="checkCode()"
+                                class="btn btn-success"
+                            >
+                                check Code
+                            </button>
+                        </div>
+                        <modal-alert
+                            v-if="checkedCode==='false'"
+                            AlertType="warning"
+                            v-bind:messages="['code wrong']"
+                            v-bind:opened="openAlertModal"
+                            v-on:close-alert-modal="openAlertModal=false"
+                        ></modal-alert>
+                    </div>
+                    </section>
                     <button @click.prevent="getModalItems()" class="btn btn-success">GET</button>
                 </div>
             </div>
@@ -87,11 +153,16 @@ import { mapGetters} from 'vuex';
                 boxOpened: false,
                 boxName: '',
                 boxImage: '',
+                phone: '',
+                code: '',
+                smsSended: false,
+                openAlertModal: false,
             }
         },
         mounted() {
             this.$store.commit('getDiamondsList');
             this.$store.commit('getCaseTypesList');
+            this.$store.commit('loadProfile');
         },
         methods: {
             showConfirmModal(item, valute) {
@@ -112,7 +183,37 @@ import { mapGetters} from 'vuex';
                 this.$store.dispatch('flashWinItems');
             },
             getModalItems() {
-                this.boxOpened = false;
+                if (this.winedPrizes.length > 0) {
+                    let canSave = true;
+                    if (this.currentViewer.contacts.country == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.city == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.zip_code == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.local_address == '') {
+                        canSave = false;
+                    }
+                    if (!this.profileData.verified) {
+                        canSave = false;
+                    }
+                    if (canSave) {
+                        this.$store.dispatch('updateViewerContacts', this.currentViewer.contacts);
+                        this.boxOpened = false;
+                    }
+                } else {
+                    this.boxOpened = false;
+                }
+            },
+            sendSMS() {
+               this.$store.commit('sendSMS', this.phone);
+               this.smsSended = true;
+            },
+            checkCode() {
+                this.$store.dispatch('checkCodeAction', this.code);
             },
         },
         computed: {
@@ -125,8 +226,26 @@ import { mapGetters} from 'vuex';
                 'winItems',
                 'winedItems',
                 'winedPrizes',
-                'currentViewer'
+                'currentViewer',
 			]),
+            checkedCode: function () {
+                const result = this.$store.getters.checkedCode;
+                if (result === 'true') {
+                    this.$store.commit('loadProfile');
+                }
+                if (result === 'false') {
+                    this.openAlertModal = true;
+                    this.smsSended = false;
+                }
+                return result;
+            },
+            profileData: function () {
+                const data = this.$store.getters.profileData;
+                if (data.phone && this.phone == '') {
+                    this.phone = data.phone;
+                }
+                return data;
+            },
         },
     }
 </script>

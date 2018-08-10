@@ -22,7 +22,10 @@ class CreateViewersTable extends Migration
             $table->integer('diamonds')->default(0);
             $table->integer('promoted_gamecard_id')->nullable();
             $table->string('phone')->nullable();
-            $table->string('address')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('local_address')->nullable();
             $table->integer('referal')->default(0);
             $table->boolean('phone_verified')->default(false);
             $table->integer('alert_type_id')->nullable();

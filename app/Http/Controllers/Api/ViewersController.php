@@ -95,6 +95,12 @@ class ViewersController extends Controller
                 'messages'  => $messages,
                 'card'      => $card,
                 'user_id'   => $user->id,
+                'contacts'  => [
+                    'country'       => $viewer->country,
+                    'city'          => $viewer->city,
+                    'zip_code'      => $viewer->zip_code,
+                    'local_address' => $viewer->local_address,
+                ],
             ],
         ]);
     }
@@ -135,6 +141,31 @@ class ViewersController extends Controller
         $viewer->save();
         return response()->json([
             'message' => 'points redeemed',
+        ]);
+    }
+
+    public function updateViewerContacts(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'country'       => 'required|min:1',
+            'city'          => 'required|min:1',
+            'zip_code'      => 'required|min:1',
+            'local_address' => 'required|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $viewer->country = $request->country;
+        $viewer->city = $request->city;
+        $viewer->zip_code = $request->zip_code;
+        $viewer->local_address = $request->local_address;
+        $viewer->save();
+        return response()->json([
+            'message' => 'viewer contact updated',
         ]);
     }
  

@@ -37,6 +37,7 @@ Route::group([
 
     Route::post('viewers/get', 'Api\ViewersController@show');
     Route::post('viewers/current', 'Api\ViewersController@current');
+    Route::post('viewer/contacts/update', 'Api\ViewersController@updateViewerContacts');
     Route::post('viewer/redeem', 'Api\ViewersController@redeem');
 
     Route::post('streamers/get', 'Api\StreamersController@show');

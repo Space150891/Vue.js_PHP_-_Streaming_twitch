@@ -154,6 +154,28 @@ export const actions = {
     flashWinItems({state}) {
         state.win.win = false;
     },
+    updateViewerContacts({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('country', data.country);
+        formData.append('city', data.city);
+        formData.append('zip_code', data.zip_code);
+        formData.append('local_address', data.local_address);
+        fetch('api/viewer/contacts/update',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            commit('loadCurrentViewer');
+        });
+    },
+    //
     getCurrentStreamer(context) {
         context.commit('loadCurrentStreamer');
     },

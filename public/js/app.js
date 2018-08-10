@@ -4020,6 +4020,72 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4036,12 +4102,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             },
             boxOpened: false,
             boxName: '',
-            boxImage: ''
+            boxImage: '',
+            phone: '',
+            code: '',
+            smsSended: false,
+            openAlertModal: false
         };
     },
     mounted: function mounted() {
         this.$store.commit('getDiamondsList');
         this.$store.commit('getCaseTypesList');
+        this.$store.commit('loadProfile');
     },
 
     methods: {
@@ -4063,10 +4134,59 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('flashWinItems');
         },
         getModalItems: function getModalItems() {
-            this.boxOpened = false;
+            if (this.winedPrizes.length > 0) {
+                var canSave = true;
+                if (this.currentViewer.contacts.country == '') {
+                    canSave = false;
+                }
+                if (this.currentViewer.contacts.city == '') {
+                    canSave = false;
+                }
+                if (this.currentViewer.contacts.zip_code == '') {
+                    canSave = false;
+                }
+                if (this.currentViewer.contacts.local_address == '') {
+                    canSave = false;
+                }
+                if (!this.profileData.verified) {
+                    canSave = false;
+                }
+                if (canSave) {
+                    this.$store.dispatch('updateViewerContacts', this.currentViewer.contacts);
+                    this.boxOpened = false;
+                }
+            } else {
+                this.boxOpened = false;
+            }
+        },
+        sendSMS: function sendSMS() {
+            this.$store.commit('sendSMS', this.phone);
+            this.smsSended = true;
+        },
+        checkCode: function checkCode() {
+            this.$store.dispatch('checkCodeAction', this.code);
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded', 'caseTypes', 'caseTypesLoaded', 'winItems', 'winedItems', 'winedPrizes', 'currentViewer']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded', 'caseTypes', 'caseTypesLoaded', 'winItems', 'winedItems', 'winedPrizes', 'currentViewer']), {
+        checkedCode: function checkedCode() {
+            var result = this.$store.getters.checkedCode;
+            if (result === 'true') {
+                this.$store.commit('loadProfile');
+            }
+            if (result === 'false') {
+                this.openAlertModal = true;
+                this.smsSended = false;
+            }
+            return result;
+        },
+        profileData: function profileData() {
+            var data = this.$store.getters.profileData;
+            if (data.phone && this.phone == '') {
+                this.phone = data.phone;
+            }
+            return data;
+        }
+    })
 });
 
 /***/ }),
@@ -78431,6 +78551,300 @@ var render = function() {
                           ])
                         }),
                         _vm._v(" "),
+                        _vm.winedPrizes.length > 0
+                          ? _c("section", {}, [
+                              _c("p", [
+                                _vm._v(
+                                  "To receive your prize please confirm your contacts"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(0),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.currentViewer.contacts.country,
+                                      expression:
+                                        "currentViewer.contacts.country"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    "aria-label": "Country...",
+                                    "aria-describedby": "contact-country"
+                                  },
+                                  domProps: {
+                                    value: _vm.currentViewer.contacts.country
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.currentViewer.contacts,
+                                        "country",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(1),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.currentViewer.contacts.city,
+                                      expression: "currentViewer.contacts.city"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    "aria-label": "City...",
+                                    "aria-describedby": "contact-city"
+                                  },
+                                  domProps: {
+                                    value: _vm.currentViewer.contacts.city
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.currentViewer.contacts,
+                                        "city",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(2),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.currentViewer.contacts.zip_code,
+                                      expression:
+                                        "currentViewer.contacts.zip_code"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    "aria-label": "Zip-code...",
+                                    "aria-describedby": "contact-zip"
+                                  },
+                                  domProps: {
+                                    value: _vm.currentViewer.contacts.zip_code
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.currentViewer.contacts,
+                                        "zip_code",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "input-group" }, [
+                                _vm._m(3),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.currentViewer.contacts
+                                          .local_address,
+                                      expression:
+                                        "currentViewer.contacts.local_address"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    "aria-label": "Local address...",
+                                    "aria-describedby": "contact-address"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.currentViewer.contacts.local_address
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.currentViewer.contacts,
+                                        "local_address",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              !_vm.profileData.verified
+                                ? _c(
+                                    "div",
+                                    [
+                                      !_vm.smsSended
+                                        ? _c(
+                                            "div",
+                                            { staticClass: "form-inline" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.phone,
+                                                    expression: "phone"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  placeholder: "Phone..."
+                                                },
+                                                domProps: { value: _vm.phone },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.phone =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-success",
+                                                  attrs: {
+                                                    placeholder: "Code..."
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      _vm.sendSMS()
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            send SMS\n                        "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.smsSended
+                                        ? _c(
+                                            "div",
+                                            { staticClass: "form-inline" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.code,
+                                                    expression: "code"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                domProps: { value: _vm.code },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.code =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-success",
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      _vm.checkCode()
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            check Code\n                        "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.checkedCode === "false"
+                                        ? _c("modal-alert", {
+                                            attrs: {
+                                              AlertType: "warning",
+                                              messages: ["code wrong"],
+                                              opened: _vm.openAlertModal
+                                            },
+                                            on: {
+                                              "close-alert-modal": function(
+                                                $event
+                                              ) {
+                                                _vm.openAlertModal = false
+                                              }
+                                            }
+                                          })
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
                         _c(
                           "button",
                           {
@@ -78465,7 +78879,56 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-country" } },
+        [_vm._v("Country:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-city" } },
+        [_vm._v("City:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-zip" } },
+        [_vm._v("Zip-code")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-address" } },
+        [_vm._v("Local address")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -98668,12 +99131,35 @@ var actions = {
 
         state.win.win = false;
     },
+    updateViewerContacts: function updateViewerContacts(_ref10, data) {
+        var commit = _ref10.commit,
+            state = _ref10.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('country', data.country);
+        formData.append('city', data.city);
+        formData.append('zip_code', data.zip_code);
+        formData.append('local_address', data.local_address);
+        fetch('api/viewer/contacts/update', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('loadCurrentViewer');
+        });
+    },
+
+    //
     getCurrentStreamer: function getCurrentStreamer(context) {
         context.commit('loadCurrentStreamer');
     },
-    saveCurrentStreamer: function saveCurrentStreamer(_ref10, data) {
-        var commit = _ref10.commit,
-            state = _ref10.state;
+    saveCurrentStreamer: function saveCurrentStreamer(_ref11, data) {
+        var commit = _ref11.commit,
+            state = _ref11.state;
 
         var formData = new FormData();
         formData.append('token', state.token);
@@ -98688,9 +99174,9 @@ var actions = {
             return res.json();
         }).then(function (jsonResp) {});
     },
-    uploadDonationImage: function uploadDonationImage(_ref11, data) {
-        var commit = _ref11.commit,
-            state = _ref11.state;
+    uploadDonationImage: function uploadDonationImage(_ref12, data) {
+        var commit = _ref12.commit,
+            state = _ref12.state;
 
         var formData = new FormData();
         formData.append('token', state.token);
@@ -98712,9 +99198,9 @@ var actions = {
             }
         });
     },
-    getLastPrizesAction: function getLastPrizesAction(_ref12) {
-        var commit = _ref12.commit,
-            state = _ref12.state;
+    getLastPrizesAction: function getLastPrizesAction(_ref13) {
+        var commit = _ref13.commit,
+            state = _ref13.state;
 
         commit('getLastPrizes');
     }
@@ -98876,6 +99362,7 @@ var mutations = {
                     state.currentViewer.diamonds = jsonResp.data.diamonds;
                     state.currentViewer.level = jsonResp.data.level;
                     state.currentViewer.user_id = jsonResp.data.user_id;
+                    state.currentViewer.contacts = jsonResp.data.contacts;
                     state.menuMessages = state.menuMessages.concat(jsonResp.data.messages);
                 }
             });
@@ -99460,7 +99947,8 @@ var state = {
         level: 0,
         name: '',
         messages: [],
-        user_id: 0
+        user_id: 0,
+        contacts: {}
     },
     currentStreamer: {
         id: 0,
