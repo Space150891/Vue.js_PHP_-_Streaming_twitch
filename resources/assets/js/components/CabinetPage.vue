@@ -25,16 +25,10 @@
                     <li class="list-group-item">nikname <span class="badge">{{profileData.nikname}}</span></li>
                     <li class="list-group-item" v-if="profileData.email">email <span class="badge">{{profileData.email}}</span></li>
                 </ul>
-                <a 
-                v-if="profileData.paypal"
-                v-bind:href="'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=' + profileData.paypal + '&item_name=Donate+to+streamer+' + profileData.nikname">
-                    Donate
-                </a>
-                <a
-                    v-if="profileData.paypal"
-                    v-bind:href="'#/donate/' + profileData.streamer_id">
-                    Donate Page
-                </a>
+            </div>
+        </div>
+        <div>
+            <div>
                 <div v-if="userId == ''">
                     Phone status:
                     <span v-if="profileData.verified">verified</span>
@@ -91,6 +85,51 @@
                             <h5>{{ prize.name }}</h5>
                         </div>
                     </div>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr v-for="field in profileData.fields">
+                                <td>{{field.alias}}</td>
+                                <td>{{field.value}}</td>
+                                <td>
+                                    <i v-if="checkHiden(field.name)" class="fa fa-eye-slash"></i>
+                                    <i v-else class="fa fa-eye"></i>
+                                </td>
+                                <td>
+                                    <button v-if="checkHiden(field.name)" @click.prevent="setUnHidden(field)" class="btn btn-xs btn-info">
+                                        show
+                                    </button>
+                                    <button v-else @click.prevent="setHidden(field.name)" class="btn btn-xs btn-warning">
+                                        hide
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-if="userId != ''">
+                    <a
+                        v-if="profileData.paypal"
+                        v-bind:href="'#/donate/' + profileData.streamer_id"
+                        class="btn btn-warning"
+                    >
+                        Donate Page
+                    </a>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr v-for="field in profileData.fields">
+                                <td>{{field.alias}}</td>
+                                <td>
+                                    <div v-if="field.name == 'inventory' && field.data" class="cabinet-prizes">
+                                        <div v-for="item in field.data">
+                                            <img v-bind:src="'storage/' + item.icon">
+                                            <h5>{{ item.title }}</h5>
+                                        </div>
+                                    </div>
+                                    <span v-else>{{field.value}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -119,13 +158,23 @@
             this.$store.commit('loadProfile', this.userId);
         },
         methods: {
-           sendSMS() {
-               this.$store.commit('sendSMS', this.phone);
-               this.smsSended = true;
-           },
-           checkCode() {
+            sendSMS() {
+                this.$store.commit('sendSMS', this.phone);
+                this.smsSended = true;
+            },
+            checkCode() {
                 this.$store.dispatch('checkCodeAction', this.code);
-           },
+            },
+            checkHiden(field) {
+                console.log('check field', field, this.profileData.hide_fields.indexOf(field));
+                return (this.profileData.hide_fields.indexOf(field) > -1) ? true : false;
+            },
+            setHidden(field) {
+                this.$store.dispatch('hideProfileFieldAction', field);
+            },
+            setUnHidden(field) {
+                this.$store.dispatch('showProfileFieldAction', field);
+            },
         },
         computed: {
             checkToken: function () {

@@ -87,6 +87,8 @@ Route::group([
 
     Route::post('profile/get', 'Api\ProfileController@get');
     Route::post('profile/current', 'Api\ProfileController@getCurrent');
+    Route::post('profile/field/hide', 'Api\ProfileController@hideField');
+    Route::post('profile/field/show', 'Api\ProfileController@showField');
 
     Route::post('subscriptionplans/list', 'Api\SubscribeController@listSubscriptionPlans');
     Route::post('monthplans/list', 'Api\SubscribeController@listMonthPlans');

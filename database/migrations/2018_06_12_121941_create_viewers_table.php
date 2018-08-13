@@ -26,6 +26,7 @@ class CreateViewersTable extends Migration
             $table->string('city')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('local_address')->nullable();
+            $table->text('hide_fields')->nullable();
             $table->integer('referal')->default(0);
             $table->boolean('phone_verified')->default(false);
             $table->integer('alert_type_id')->nullable();

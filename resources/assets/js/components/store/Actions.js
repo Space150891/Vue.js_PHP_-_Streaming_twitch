@@ -225,4 +225,41 @@ export const actions = {
     getLastPrizesAction({commit, state}) {
         commit('getLastPrizes');
     },
+    // cabinet
+    hideProfileFieldAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('field', data);
+        fetch('api/profile/field/hide',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            commit('loadProfile');
+        });
+    },
+    showProfileFieldAction({commit, state}, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('field', data);
+        fetch('api/profile/field/show',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            commit('loadProfile');
+        });
+    },
 }

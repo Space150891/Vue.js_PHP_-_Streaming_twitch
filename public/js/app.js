@@ -1830,6 +1830,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1857,6 +1896,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         checkCode: function checkCode() {
             this.$store.dispatch('checkCodeAction', this.code);
+        },
+        checkHiden: function checkHiden(field) {
+            console.log('check field', field, this.profileData.hide_fields.indexOf(field));
+            return this.profileData.hide_fields.indexOf(field) > -1 ? true : false;
+        },
+        setHidden: function setHidden(field) {
+            this.$store.dispatch('hideProfileFieldAction', field);
+        },
+        setUnHidden: function setUnHidden(field) {
+            this.$store.dispatch('showProfileFieldAction', field);
         }
     },
     computed: {
@@ -76599,34 +76648,12 @@ var render = function() {
                     ])
                   ])
                 : _vm._e()
-            ]),
-            _vm._v(" "),
-            _vm.profileData.paypal
-              ? _c(
-                  "a",
-                  {
-                    attrs: {
-                      href:
-                        "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=" +
-                        _vm.profileData.paypal +
-                        "&item_name=Donate+to+streamer+" +
-                        _vm.profileData.nikname
-                    }
-                  },
-                  [_vm._v("\n                Donate\n            ")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.profileData.paypal
-              ? _c(
-                  "a",
-                  {
-                    attrs: { href: "#/donate/" + _vm.profileData.streamer_id }
-                  },
-                  [_vm._v("\n                Donate Page\n            ")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", [
             _vm.userId == ""
               ? _c("div", [
                   _vm._v("\n                Phone status:\n                "),
@@ -76824,7 +76851,114 @@ var render = function() {
                         ],
                         2
                       )
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "table table-sm" }, [
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.profileData.fields, function(field) {
+                        return _c("tr", [
+                          _c("td", [_vm._v(_vm._s(field.alias))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(field.value))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm.checkHiden(field.name)
+                              ? _c("i", { staticClass: "fa fa-eye-slash" })
+                              : _c("i", { staticClass: "fa fa-eye" })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm.checkHiden(field.name)
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-xs btn-info",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.setUnHidden(field)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    show\n                                "
+                                    )
+                                  ]
+                                )
+                              : _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-xs btn-warning",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.setHidden(field.name)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    hide\n                                "
+                                    )
+                                  ]
+                                )
+                          ])
+                        ])
+                      })
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.userId != ""
+              ? _c("div", [
+                  _vm.profileData.paypal
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-warning",
+                          attrs: {
+                            href: "#/donate/" + _vm.profileData.streamer_id
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Donate Page\n                "
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "table table-sm" }, [
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.profileData.fields, function(field) {
+                        return _c("tr", [
+                          _c("td", [_vm._v(_vm._s(field.alias))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            field.name == "inventory" && field.data
+                              ? _c(
+                                  "div",
+                                  { staticClass: "cabinet-prizes" },
+                                  _vm._l(field.data, function(item) {
+                                    return _c("div", [
+                                      _c("img", {
+                                        attrs: { src: "storage/" + item.icon }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("h5", [_vm._v(_vm._s(item.title))])
+                                    ])
+                                  })
+                                )
+                              : _c("span", [_vm._v(_vm._s(field.value))])
+                          ])
+                        ])
+                      })
+                    )
+                  ])
                 ])
               : _vm._e()
           ])
@@ -99203,6 +99337,44 @@ var actions = {
             state = _ref13.state;
 
         commit('getLastPrizes');
+    },
+
+    // cabinet
+    hideProfileFieldAction: function hideProfileFieldAction(_ref14, data) {
+        var commit = _ref14.commit,
+            state = _ref14.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('field', data);
+        fetch('api/profile/field/hide', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('loadProfile');
+        });
+    },
+    showProfileFieldAction: function showProfileFieldAction(_ref15, data) {
+        var commit = _ref15.commit,
+            state = _ref15.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('field', data);
+        fetch('api/profile/field/show', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            commit('loadProfile');
+        });
     }
 };
 
