@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{PromoutedStreamer, Streamer, User, MainStreamer};
+use App\Models\{PromoutedStreamer, Streamer, User, MainStreamer, SubscriptionPlan, MonthPlan, SubscribedStreamers};
 
 class MainStreamersManagementController extends Controller
 {
@@ -48,10 +48,30 @@ class MainStreamersManagementController extends Controller
                 'data' => $streamer->name,
             ]);
         }
-        $allStreamers = Streamer::all();
-        $num = round(rand(0, count($allStreamers) - 1));
+        
+        $now = Carbon::today()->toDateTimeString();
+        $sPlans = SubscriptionPlan::orderBy('cost', 'desc')->get();
+        $stream = false;
+        foreach ($sPlans as $sPlan) {
+            $subscribed = SubscribedStreamers::where([
+                ['valid_from', '<=', $now],
+                ['valid_until', '>=', $now],
+                ['subscription_plan_id', '=', $sPlan->id],
+            ])->get();
+            if (count($subscribed) > 0) {
+                $num = round(rand(0, count($subscribed) - 1));
+                $streamer = Streamer::find($subscribed[$num]->id);
+                $stream = $streamer->name;
+                break;
+            }
+        }
+        if (!$stream) {
+            $allStreamers = Streamer::all();
+            $num = round(rand(0, count($allStreamers) - 1));
+            $stream = $allStreamers[$num]->name;
+        }
         return response()->json([
-            'data' => $allStreamers[$num]->name,
+            'data' => $stream,
         ]);
     }
 
