@@ -34,6 +34,7 @@ const MyCardsPage = require('./components/MyCardsPage.vue');
 const RoulettePage = require('./components/RoulettePage.vue');
 const ShopPage = require('./components/ShopPage.vue');
 const CustomizeDonatePage = require('./components/CustomizeDonatePage.vue');
+const CustomAchivementsPage = require('./components/CustomAchivementsPage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -55,6 +56,7 @@ const router = new VueRouter({
         { path: '/roulette', component: RoulettePage},
         { path: '/shop', component: ShopPage},
         { path: '/custom-donate', component: CustomizeDonatePage},
+        { path: '/custom-achivements', component: CustomAchivementsPage},
     ]
 });
 Vue.use(VueRouter);
@@ -86,6 +88,7 @@ Vue.component('modal-alert', require('./components/admin/AlertModal.vue'));
 Vue.component('viewer-card', require('./components/Card.vue'));
 Vue.component('modal-delete', require('./components/admin/ConfirmDelete.vue'));
 Vue.component('modal-confirm', require('./components/ConfirmModal.vue'));
+Vue.component('inline-alert', require('./components/AlertInline.vue'));
 
 const app = new Vue({
     el: '#app',

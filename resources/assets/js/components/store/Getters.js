@@ -113,4 +113,14 @@ export const getters = {
     lastPrizes: state => {
         return state.lastPrizes;
     },
+    alerts: state => {
+        console.log('alerts', state.alerts);
+        return state.alerts;
+    },
+    customAchievements: state => {
+        return state.customAchievements.list;
+    },
+    customAchievementsLoaded: state => {
+        return state.customAchievements.loaded;
+    },
 }

@@ -104,4 +104,9 @@ export const state = {
         prizes: [],
     },
     lastPrizes: [],
+    alerts: [],
+    customAchievements: {
+        list: [],
+        loaded: false,
+    },
 }

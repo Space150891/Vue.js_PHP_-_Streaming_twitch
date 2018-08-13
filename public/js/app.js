@@ -1724,11 +1724,52 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AlertInline.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  methods: {
+    clearAlerts: function clearAlerts() {
+      this.$store.commit('clearAlerts');
+    }
+  },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['alerts']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CabinetPage.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -2062,6 +2103,117 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     };
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CustomAchivementsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            newText: '',
+            deletingItem: {
+                name: '',
+                id: 0,
+                openModal: false
+            }
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.$store.commit('loadCustomAchivements');
+        }
+    },
+
+    methods: {
+        createAchivement: function createAchivement() {
+            if (this.newText.length > 0) {
+                this.$store.dispatch('createNewAchivementAction', this.newText);
+                this.newText = '';
+            }
+        },
+        confirmDeleteAction: function confirmDeleteAction(item) {
+            this.deletingItem.name = item.text;
+            this.deletingItem.id = item.id;
+            this.deletingItem.openModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.deletingItem.openModal = false;
+            this.$store.dispatch('deleteCustomAchivementAction', this.deletingItem.id);
+        },
+        setMain: function setMain(id) {
+            this.$store.dispatch('setMainCustomAchivementAction', id);
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'alerts', 'customAchievements', 'customAchievementsLoaded']))
 });
 
 /***/ }),
@@ -76832,6 +76984,15 @@ var render = function() {
                     [_vm._v("Customize donate page")]
                   ),
                   _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-info",
+                      attrs: { href: "#/custom-achivements" }
+                    },
+                    [_vm._v("Customize achivements page")]
+                  ),
+                  _vm._v(" "),
                   _vm.profileData.prizes && _vm.profileData.prizes.length > 0
                     ? _c(
                         "div",
@@ -80527,6 +80688,192 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9fe0224c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CustomAchivementsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.checkToken
+    ? _c(
+        "div",
+        { staticClass: "cabinet-page" },
+        [
+          _c("h1", { staticClass: "text-center" }, [
+            _vm._v("Custom achivements page")
+          ]),
+          _vm._v(" "),
+          _c("inline-alert"),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newText,
+                  expression: "newText"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Achievement text..." },
+              domProps: { value: _vm.newText },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newText = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group-append" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.createAchivement()
+                    }
+                  }
+                },
+                [_vm._v("Create")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.customAchievementsLoaded
+            ? _c("div", [
+                _vm.customAchievements.length > 0
+                  ? _c("table", { staticClass: "table" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.customAchievements, function(item) {
+                          return _c("tr", [
+                            _c("td", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(item.text) +
+                                  "\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(item.status) +
+                                  "\n                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              item.main
+                                ? _c("span", [_vm._v("MAIN")])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              !item.main && item.status == "ok"
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-warning btn-xs",
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.setMain(item.id)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                set main\n                            "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.confirmDeleteAction(item)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                delete\n                            "
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        })
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("modal-delete", {
+            attrs: {
+              name: _vm.deletingItem.name,
+              opened: _vm.deletingItem.openModal
+            },
+            on: {
+              "close-delete-modal": function($event) {
+                _vm.deletingItem.openModal = false
+              },
+              "confirm-delete": _vm.deleteAction
+            }
+          }),
+          _vm._v(" "),
+          !_vm.customAchievementsLoaded
+            ? _c("div", { staticClass: "v-loading" })
+            : _vm._e()
+        ],
+        1
+      )
+    : _c("div", { staticClass: "cabinet-page" }, [
+        _vm._v("\n        Please login\n    ")
+      ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Text")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9fe0224c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-be0ebfd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/DonatePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80853,6 +81200,55 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-ee7b2512", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-f44ef7a4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AlertInline.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.alerts.length > 0
+    ? _c(
+        "div",
+        [
+          _vm._l(_vm.alerts, function(alert) {
+            return _c(
+              "div",
+              { staticClass: "alert alert-primary", attrs: { role: "alert" } },
+              [_vm._v("\n      " + _vm._s(alert) + "\n  ")]
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info pull-right",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.clearAlerts()
+                }
+              }
+            },
+            [_vm._v("\n      clear\n  ")]
+          )
+        ],
+        2
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f44ef7a4", module.exports)
   }
 }
 
@@ -97076,9 +97472,10 @@ var MyCardsPage = __webpack_require__("./resources/assets/js/components/MyCardsP
 var RoulettePage = __webpack_require__("./resources/assets/js/components/RoulettePage.vue");
 var ShopPage = __webpack_require__("./resources/assets/js/components/ShopPage.vue");
 var CustomizeDonatePage = __webpack_require__("./resources/assets/js/components/CustomizeDonatePage.vue");
+var CustomAchivementsPage = __webpack_require__("./resources/assets/js/components/CustomAchivementsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }, { path: '/roulette', component: RoulettePage }, { path: '/shop', component: ShopPage }, { path: '/custom-donate', component: CustomizeDonatePage }]
+    routes: [{ path: '/', component: Home }, { path: '/directory', component: Directory }, { path: '/prices', component: Price }, { path: '/bag', component: Bag }, { path: '/cabinet', component: Cabinet }, { path: '/profile/:userId', component: Cabinet, props: true }, { path: '/subscribe', component: Subscribe }, { path: '/mystreamers', component: MyStreamers }, { path: '/myviewers', component: MyViewers }, { path: '/afiliate', component: Afiliate }, { path: '/notifications', component: Notifications }, { path: '/achivements', component: Achivements }, { path: '/donate/:userId', component: Donate, props: true }, { path: '/watch-streams', component: WatchingStreamsPage }, { path: '/mycards', component: MyCardsPage }, { path: '/roulette', component: RoulettePage }, { path: '/shop', component: ShopPage }, { path: '/custom-donate', component: CustomizeDonatePage }, { path: '/custom-achivements', component: CustomAchivementsPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -97109,6 +97506,7 @@ Vue.component('modal-alert', __webpack_require__("./resources/assets/js/componen
 Vue.component('viewer-card', __webpack_require__("./resources/assets/js/components/Card.vue"));
 Vue.component('modal-delete', __webpack_require__("./resources/assets/js/components/admin/ConfirmDelete.vue"));
 Vue.component('modal-confirm', __webpack_require__("./resources/assets/js/components/ConfirmModal.vue"));
+Vue.component('inline-alert', __webpack_require__("./resources/assets/js/components/AlertInline.vue"));
 
 var app = new Vue({
     el: '#app',
@@ -97277,6 +97675,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-ee7b2512", Component.options)
   } else {
     hotAPI.reload("data-v-ee7b2512", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/AlertInline.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/AlertInline.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-f44ef7a4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/AlertInline.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AlertInline.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f44ef7a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-f44ef7a4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -97473,6 +97919,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-828081f8", Component.options)
   } else {
     hotAPI.reload("data-v-828081f8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/CustomAchivementsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CustomAchivementsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9fe0224c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CustomAchivementsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CustomAchivementsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9fe0224c", Component.options)
+  } else {
+    hotAPI.reload("data-v-9fe0224c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -99375,6 +99869,81 @@ var actions = {
         }).then(function (jsonResp) {
             commit('loadProfile');
         });
+    },
+    createNewAchivementAction: function createNewAchivementAction(_ref16, text) {
+        var commit = _ref16.commit,
+            state = _ref16.state;
+
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('text', text);
+        fetch('api/achivements/custom/store', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
+    },
+    deleteCustomAchivementAction: function deleteCustomAchivementAction(_ref17, id) {
+        var commit = _ref17.commit,
+            state = _ref17.state;
+
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch('api/achivements/custom/deletemy', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
+    },
+    setMainCustomAchivementAction: function setMainCustomAchivementAction(_ref18, id) {
+        var commit = _ref18.commit,
+            state = _ref18.state;
+
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch('api/achivements/custom/main', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
     }
 };
 
@@ -99499,6 +100068,16 @@ var getters = {
     },
     lastPrizes: function lastPrizes(state) {
         return state.lastPrizes;
+    },
+    alerts: function alerts(state) {
+        console.log('alerts', state.alerts);
+        return state.alerts;
+    },
+    customAchievements: function customAchievements(state) {
+        return state.customAchievements.list;
+    },
+    customAchievementsLoaded: function customAchievementsLoaded(state) {
+        return state.customAchievements.loaded;
     }
 };
 
@@ -100101,6 +100680,33 @@ var mutations = {
             }
             state.lastPrizes = jsonResp.data ? jsonResp.data.prizes : [];
         });
+    },
+    clearAlerts: function clearAlerts(state) {
+        state.alerts = [];
+    },
+
+    //custom achivements
+    loadCustomAchivements: function loadCustomAchivements(state) {
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/custom/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.customAchievements.list = jsonResp.data ? jsonResp.data.achievements : [];
+            state.customAchievements.loaded = true;
+        });
     }
 };
 
@@ -100216,7 +100822,12 @@ var state = {
         items: [],
         prizes: []
     },
-    lastPrizes: []
+    lastPrizes: [],
+    alerts: [],
+    customAchievements: {
+        list: [],
+        loaded: false
+    }
 };
 
 /***/ }),

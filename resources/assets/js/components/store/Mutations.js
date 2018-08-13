@@ -674,4 +674,34 @@ export const mutations = {
             state.lastPrizes = jsonResp.data ? jsonResp.data.prizes : [];
         });
     },
+    clearAlerts(state) {
+        state.alerts = [];
+    },
+    //custom achivements
+    loadCustomAchivements(state) {
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/custom/list',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.customAchievements.list = jsonResp.data ? jsonResp.data.achievements : [];
+            state.customAchievements.loaded = true;
+            
+        });
+    },
 }

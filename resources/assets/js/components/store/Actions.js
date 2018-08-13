@@ -262,4 +262,79 @@ export const actions = {
             commit('loadProfile');
         });
     },
+    createNewAchivementAction({commit, state}, text) {
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('text', text);
+        fetch('api/achivements/custom/store',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
+    },
+    deleteCustomAchivementAction({commit, state}, id) {
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch('api/achivements/custom/deletemy',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
+    },
+    setMainCustomAchivementAction({commit, state}, id) {
+        state.customAchievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', id);
+        fetch('api/achivements/custom/main',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                state.alerts.push(jsonResp.message);
+            }
+            commit('loadCustomAchivements');
+        });
+    },
 }

@@ -78,6 +78,7 @@
                     <a class="btn btn-info" href="#/notifications">Notifications</a>
                     <a class="btn btn-info" href="#/achivements">Achivements</a>
                     <a class="btn btn-info" href="#/custom-donate">Customize donate page</a>
+                    <a class="btn btn-info" href="#/custom-achivements">Customize achivements page</a>
                     <div v-if="profileData.prizes && profileData.prizes.length > 0" class="cabinet-prizes">
                         <h2>Winned prizes:</h2>
                         <div v-for="prize in profileData.prizes">
