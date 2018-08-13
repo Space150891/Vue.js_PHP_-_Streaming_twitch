@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\TestCommand',
         'App\Console\Commands\FakeStreamersCommand',
+        'App\Console\Commands\DailyWinerCommand',
     ];
 
     /**
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('activations:clean')
                     ->daily();
+        $schedule->command('viewers:daily_winner')->daily();
     }
 
     /**

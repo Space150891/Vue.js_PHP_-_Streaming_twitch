@@ -2,27 +2,25 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Stripe\Stripe;
-use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem, Activity, Item, Notification};
-use GuzzleHttp\Client as Guzzle;
+use App\Models\{Activity, Item, ViewerItem, Viewer, Streamer, Notification};
+use Carbon\Carbon;
 
-class TestCommand extends Command
+class DailyWinerCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'try';
+    protected $signature = 'viewers:daily_winner';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Testing command';
+    protected $description = 'Select random daily viewer winner';
 
     /**
      * Create a new command instance.
@@ -40,11 +38,6 @@ class TestCommand extends Command
      * @return mixed
      */
     public function handle()
-    {
-        var_dump($this->getDailyWinners());
-    }
-
-    private function getDailyWinners()
     {
         $today = Carbon::today()->toDateTimeString();
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
@@ -86,9 +79,6 @@ class TestCommand extends Command
             echo "viewer id={$winner}: " . $message . "\n";
             $notify->save();
         }
-
     }
-
-
 
 }
