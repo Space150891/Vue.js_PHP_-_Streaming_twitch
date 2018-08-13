@@ -100070,7 +100070,6 @@ var getters = {
         return state.lastPrizes;
     },
     alerts: function alerts(state) {
-        console.log('alerts', state.alerts);
         return state.alerts;
     },
     customAchievements: function customAchievements(state) {

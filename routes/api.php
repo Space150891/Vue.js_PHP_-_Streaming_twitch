@@ -196,6 +196,12 @@ Route::group([
     Route::post('diamonds/store', 'Api\DiamondsController@store');
     Route::post('diamonds/update', 'Api\DiamondsController@update');
     Route::post('diamonds/delete', 'Api\DiamondsController@destroy');
+
+    // custom achivements
+    Route::post('achivements/custom/all', 'Api\CustomAchievementsController@all');
+    Route::post('achivements/custom/ok', 'Api\CustomAchievementsController@ok');
+    Route::post('achivements/custom/block', 'Api\CustomAchievementsController@block');
+    Route::post('achivements/custom/delete', 'Api\CustomAchievementsController@delete');
 });
 
 // bot routes

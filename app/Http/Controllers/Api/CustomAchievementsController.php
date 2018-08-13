@@ -133,5 +133,107 @@ class CustomAchievementsController extends Controller
             'message' => 'custom achievement set as main',
         ]);
     }
+
+    public function delete(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $custom = CustomAchievement::where([
+            ['id', '=', $request->id],
+        ])->first();
+        if (!$custom) {
+            return response()->json([
+                'errors' => ['can not find achivement id'],
+            ]);
+        }
+        $oldMain = $custom->main;
+        $custom->delete();
+        if ($oldMain == 1) {
+            $first = CustomAchievement::where([
+                ['streamer_id', '=', $streamer->id],
+                ['status', '=', 'ok']
+            ])->orderBy('updated_at', 'desc')->first();
+            if ($first) {
+                $first->main = 1;
+                $first->save();
+            }
+        }
+        return response()->json([
+            'message' => 'custom achivement deleted',
+        ]);
+    }
+
+    public function ok(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $custom = CustomAchievement::where([
+            ['id', '=', $request->id],
+        ])->first();
+        if (!$custom) {
+            return response()->json([
+                'errors' => ['can not find achivement id'],
+            ]);
+        }
+        $custom->status = "ok";
+        $main = CustomAchievement::where([
+            ['streamer_id', '=', $custom->streamer_id],
+            ['main', '=', 1],
+        ])->first();
+        if (!$main) {
+            $custom->main = 1;
+        }
+        $custom->save();
+        return response()->json([
+            'message' => 'custom achivement OK',
+        ]);
+    }
+
+    public function block(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $custom = CustomAchievement::where([
+            ['id', '=', $request->id],
+        ])->first();
+        if (!$custom) {
+            return response()->json([
+                'errors' => ['can not find achivement id'],
+            ]);
+        }
+        $custom->status = "block";
+        $custom->save();
+        return response()->json([
+            'message' => 'custom achivement BLOCKED',
+        ]);
+    }
+
+    public function all(Request $request)
+    {
+        $all = CustomAchievement::all();
+        return response()->json([
+            'data' => [
+                'achievements' => $all,
+            ],
+        ]);
+    }
  
 }

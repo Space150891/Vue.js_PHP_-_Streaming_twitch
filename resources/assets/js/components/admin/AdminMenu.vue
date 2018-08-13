@@ -46,6 +46,9 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/statistic')}" href="#/statistic">Statistic</a>
           </li>
           <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/custom-achivements')}" href="#/custom-achivements">Custom achivements</a>
+          </li>
+          <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
           </li>
         </ul>

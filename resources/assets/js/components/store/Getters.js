@@ -114,7 +114,6 @@ export const getters = {
         return state.lastPrizes;
     },
     alerts: state => {
-        console.log('alerts', state.alerts);
         return state.alerts;
     },
     customAchievements: state => {

@@ -86,4 +86,8 @@ export const state = {
         values: [],
         loaded: false,
     },
+    customAchievements: {
+        list: [],
+        loaded: false,
+    },
 }

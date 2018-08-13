@@ -122,4 +122,10 @@ export const getters = {
     statistic: state => {
         return state.statistic;
     },
+    customAchievements: state => {
+        return state.customAchievements.list;
+    },
+    customAchievementsLoaded: state => {
+        return state.customAchievements.loaded;
+    },
 }
