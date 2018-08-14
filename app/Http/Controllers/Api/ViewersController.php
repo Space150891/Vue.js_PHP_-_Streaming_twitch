@@ -73,19 +73,19 @@ class ViewersController extends Controller
             $notification->save();
         }
         $card = false;
-        if ($viewer->promoted_gamecard_id) {
-            $currentCard = Card::find($viewer->promoted_gamecard_id);
-            $card = new \stdClass();
-            $card->id = $currentCard->id;
-            $viewerFrame = ViewerItem::find($currentCard->frame_id);
-            $frame = Item::find($viewerFrame->item_id);
-            $card->frame = $frame->image;
-            $viewerHero = ViewerItem::find($currentCard->hero_id);
-            $hero = Item::find($viewerHero->item_id);
-            $card->hero = $hero->image;                                         
-            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
-            $card->achievement = $achievement->description;
-        }
+        // if ($viewer->promoted_gamecard_id) {
+        //     $currentCard = Card::find($viewer->promoted_gamecard_id);
+        //     $card = new \stdClass();
+        //     $card->id = $currentCard->id;
+        //     $viewerFrame = ViewerItem::find($currentCard->frame_id);
+        //     $frame = Item::find($viewerFrame->item_id);
+        //     $card->frame = $frame->image;
+        //     $viewerHero = ViewerItem::find($currentCard->hero_id);
+        //     $hero = Item::find($viewerHero->item_id);
+        //     $card->hero = $hero->image;                                         
+        //     $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+        //     $card->achievement = $achievement->description;
+        // }
         return response()->json([
             'data' => [
                 'name'      => $viewer->name,

@@ -1655,6 +1655,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1671,6 +1678,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         achivements: function achivements() {
             return this.$store.getters.achivements;
+        },
+        customAchivements: function customAchivements() {
+            return this.$store.getters.viewerCustomAchievements;
         }
     }
 });
@@ -1910,6 +1920,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1939,7 +1951,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$store.dispatch('checkCodeAction', this.code);
         },
         checkHiden: function checkHiden(field) {
-            console.log('check field', field, this.profileData.hide_fields.indexOf(field));
             return this.profileData.hide_fields.indexOf(field) > -1 ? true : false;
         },
         setHidden: function setHidden(field) {
@@ -1970,6 +1981,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.smsSended = false;
             }
             return result;
+        },
+        customAchievementsLoaded: function customAchievementsLoaded() {
+            return this.$store.getters.customAchievementsLoaded;
         }
     }
 });
@@ -3759,7 +3773,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('loadMyCardsPage');
         },
         createCard: function createCard() {
-            if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id > 0) {
+            if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id) {
                 this.$store.dispatch('createCardAction', this.newCard);
                 this.newCard.frame_id = 0;
                 this.newCard.hero_id = 0;
@@ -77014,62 +77028,68 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("table", { staticClass: "table table-sm" }, [
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.profileData.fields, function(field) {
-                        return _c("tr", [
-                          _c("td", [_vm._v(_vm._s(field.alias))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(field.value))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm.checkHiden(field.name)
-                              ? _c("i", { staticClass: "fa fa-eye-slash" })
-                              : _c("i", { staticClass: "fa fa-eye" })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm.checkHiden(field.name)
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-xs btn-info",
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        _vm.setUnHidden(field)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                    show\n                                "
+                  _vm.customAchievementsLoaded
+                    ? _c("table", { staticClass: "table table-sm" }, [
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.profileData.fields, function(field) {
+                            return _c("tr", [
+                              _c("td", [_vm._v(_vm._s(field.alias))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(field.value))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm.checkHiden(field.name)
+                                  ? _c("i", { staticClass: "fa fa-eye-slash" })
+                                  : _c("i", { staticClass: "fa fa-eye" })
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm.checkHiden(field.name)
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-xs btn-info",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.setUnHidden(field.name)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    show\n                                "
+                                        )
+                                      ]
                                     )
-                                  ]
-                                )
-                              : _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-xs btn-warning",
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        _vm.setHidden(field.name)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                    hide\n                                "
+                                  : _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-xs btn-warning",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.setHidden(field.name)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    hide\n                                "
+                                        )
+                                      ]
                                     )
-                                  ]
-                                )
-                          ])
-                        ])
-                      })
-                    )
-                  ])
+                              ])
+                            ])
+                          })
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.customAchievementsLoaded
+                    ? _c("div", { staticClass: "v-loading" })
+                    : _vm._e()
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -81059,22 +81079,41 @@ var render = function() {
         _c(
           "div",
           { staticClass: "row" },
-          _vm._l(_vm.achivements, function(achivement) {
-            return _c("div", { staticClass: "col-md-4 achivement-block" }, [
-              _c("div", { staticClass: "achivement-panel" }, [
-                _c("div", { staticClass: "avatar" }),
-                _vm._v(" "),
-                _c("h4", [_vm._v(_vm._s(achivement.description))]),
-                _vm._v(" "),
-                _c("h5", [
-                  _vm._v(
-                    "unlocked " +
-                      _vm._s(achivement.unlocked_at.date.substr(0, 10))
-                  )
+          [
+            _vm._l(_vm.achivements, function(achivement) {
+              return _c("div", { staticClass: "col-md-4 achivement-block" }, [
+                _c("div", { staticClass: "achivement-panel" }, [
+                  _c("div", { staticClass: "avatar" }),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v(_vm._s(achivement.description))]),
+                  _vm._v(" "),
+                  _c("h5", [
+                    _vm._v(
+                      "unlocked " +
+                        _vm._s(achivement.unlocked_at.date.substr(0, 10))
+                    )
+                  ])
                 ])
               ])
-            ])
-          })
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.customAchivements, function(achivement) {
+              return _c("div", { staticClass: "col-md-4 achivement-block" }, [
+                _c("div", { staticClass: "achivement-panel" }, [
+                  _c("img", { attrs: { src: achivement.image } }),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v(_vm._s(achivement.text))]),
+                  _vm._v(" "),
+                  _c("h5", [
+                    _vm._v(
+                      "unlocked " + _vm._s(achivement.updated_at.substr(0, 10))
+                    )
+                  ])
+                ])
+              ])
+            })
+          ],
+          2
         )
       ])
     : _c("div", { staticClass: "cabinet-page" }, [
@@ -99838,6 +99877,7 @@ var actions = {
         var commit = _ref14.commit,
             state = _ref14.state;
 
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('field', data);
@@ -99856,6 +99896,7 @@ var actions = {
         var commit = _ref15.commit,
             state = _ref15.state;
 
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('field', data);
@@ -100077,6 +100118,9 @@ var getters = {
     },
     customAchievementsLoaded: function customAchievementsLoaded(state) {
         return state.customAchievements.loaded;
+    },
+    viewerCustomAchievements: function viewerCustomAchievements(state) {
+        return state.viewerCustomAchievements.list;
     }
 };
 
@@ -100138,6 +100182,7 @@ var mutations = {
     loadProfile: function loadProfile(state) {
         var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         var url = 'api/profile/current';
         if (name != '') {
@@ -100158,6 +100203,7 @@ var mutations = {
                 state.token = false;
             } else {
                 state.profileData = jsonResp.data;
+                state.customAchievements.loaded = true;
             }
         });
     },
@@ -100388,6 +100434,7 @@ var mutations = {
     },
     loadAchivements: function loadAchivements(state) {
         state.achivements.loaded = false;
+        state.viewerCustomAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         fetch('api/achivements/list', {
@@ -100400,7 +100447,9 @@ var mutations = {
         }).then(function (jsonResp) {
             if (!jsonResp.errors) {
                 state.achivements.loaded = true;
+                state.viewerCustomAchievements.loaded = true;
                 state.achivements.list = jsonResp.data.achivements;
+                state.viewerCustomAchievements.list = jsonResp.data.customs;
             }
         });
     },
@@ -100824,6 +100873,10 @@ var state = {
     lastPrizes: [],
     alerts: [],
     customAchievements: {
+        list: [],
+        loaded: false
+    },
+    viewerCustomAchievements: {
         list: [],
         loaded: false
     }

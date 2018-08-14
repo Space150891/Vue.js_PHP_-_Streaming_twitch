@@ -122,4 +122,7 @@ export const getters = {
     customAchievementsLoaded: state => {
         return state.customAchievements.loaded;
     },
+    viewerCustomAchievements: state => {
+        return state.viewerCustomAchievements.list;
+    },
 }

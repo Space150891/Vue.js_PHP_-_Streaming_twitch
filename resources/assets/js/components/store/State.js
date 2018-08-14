@@ -109,4 +109,8 @@ export const state = {
         list: [],
         loaded: false,
     },
+    viewerCustomAchievements: {
+        list: [],
+        loaded: false,
+    }
 }

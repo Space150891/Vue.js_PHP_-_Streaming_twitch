@@ -220,6 +220,18 @@ class CustomAchievementsController extends Controller
             ]);
         }
         $custom->status = "block";
+        if ($custom->main == 1) {
+            $first = CustomAchievement::where([
+                ['streamer_id', '=', $custom->streamer_id],
+                ['status', '=', 'ok'],
+                ['id', '!=', $custom->id],
+            ])->orderBy('updated_at', 'desc')->first();
+            if ($first) {
+                $first->main = 1;
+                $first->save();
+            }
+        }
+        $custom->main = 0;
         $custom->save();
         return response()->json([
             'message' => 'custom achivement BLOCKED',

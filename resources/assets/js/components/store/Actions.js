@@ -227,6 +227,7 @@ export const actions = {
     },
     // cabinet
     hideProfileFieldAction({commit, state}, data) {
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('field', data);
@@ -245,6 +246,7 @@ export const actions = {
         });
     },
     showProfileFieldAction({commit, state}, data) {
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('field', data);

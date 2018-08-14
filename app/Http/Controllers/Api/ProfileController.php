@@ -16,7 +16,8 @@ use App\Models\{
     StockPrize,
     ViewerItem,
     BuyedCaseType,
-    CaseType
+    CaseType,
+    CustomAchievement
 };
 
 class ProfileController extends Controller
@@ -148,12 +149,19 @@ class ProfileController extends Controller
             $currentCard = Card::find($viewer->promoted_gamecard_id);
             $card = new \stdClass();
             $card->id = $currentCard->id;
-            $frame = Item::find($currentCard->frame_id);
+            $viewerFrame = ViewerItem::find($currentCard->frame_id);
+            $frame = Item::find($viewerFrame->item_id);
             $card->frame = $frame->image;
-            $hero = Item::find($currentCard->hero_id);
+            $viewerHero = ViewerItem::find($currentCard->hero_id);
+            $hero = Item::find($viewerHero->item_id);
             $card->hero = $hero->image;
-            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
-            $card->achievement = $achievement->description;
+            if ($currentCard->a_type == "custom") {
+                $achievement = CustomAchievement::find($currentCard->achivement_id);
+                $card->achievement = $achievement->text;
+            } else {
+                $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+                $card->achievement = $achievement->description;
+            }
         }
         return response()->json([
             'data' => [
@@ -185,8 +193,13 @@ class ProfileController extends Controller
             $viewerHero = ViewerItem::find($currentCard->hero_id);
             $hero = Item::find($viewerHero->item_id);
             $card->hero = $hero->image;
-            $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
-            $card->achievement = $achievement->description;
+            if ($currentCard->a_type == "custom") {
+                $achievement = CustomAchievement::find($currentCard->achivement_id);
+                $card->achievement = $achievement->text;
+            } else {
+                $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+                $card->achievement = $achievement->description;
+            }
         }
         $dataPrizes = [];
         $viewerPrizes = ViewerPrize::where('viewer_id', $viewer->id)->get();
@@ -309,7 +322,7 @@ class ProfileController extends Controller
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $hiddenFields = $viewer->hide_fields ? json_decode($viewer->hide_fields, true) : [];
-        if (!in_array($field, $hiddenFields)) {
+        if (in_array($field, $hiddenFields)) {
             $pos = array_search($field, $hiddenFields);
             array_splice($hiddenFields, $pos, 1);
         }

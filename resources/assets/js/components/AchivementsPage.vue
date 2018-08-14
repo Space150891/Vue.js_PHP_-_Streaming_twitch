@@ -9,6 +9,13 @@
                     <h5>unlocked {{achivement.unlocked_at.date.substr(0, 10)}}</h5>
                 </div>
             </div>
+            <div class="col-md-4 achivement-block" v-for="achivement in customAchivements" >
+                <div class="achivement-panel">
+                    <img v-bind:src="achivement.image">
+                    <h4>{{achivement.text}}</h4>
+                    <h5>unlocked {{achivement.updated_at.substr(0, 10)}}</h5>
+                </div>
+            </div>
         </div>
     </div>
     <div v-else class="cabinet-page">
@@ -34,6 +41,9 @@
             },
             achivements: function () {
                 return this.$store.getters.achivements;
+            },
+            customAchivements: function () {
+                return this.$store.getters.viewerCustomAchievements;
             },
         },
     }

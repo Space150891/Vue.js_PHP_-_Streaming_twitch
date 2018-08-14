@@ -53,6 +53,7 @@ export const mutations = {
         });
     },
     loadProfile(state, name = '') {
+        state.customAchievements.loaded = false;
         var formData = new FormData();
         var url = 'api/profile/current';
         if (name != '') {
@@ -76,6 +77,7 @@ export const mutations = {
                 state.token = false;
             } else {
                 state.profileData = jsonResp.data;
+                state.customAchievements.loaded = true;
             }
         });
     },
@@ -342,6 +344,7 @@ export const mutations = {
     },
     loadAchivements(state){
         state.achivements.loaded = false;
+        state.viewerCustomAchievements.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
         fetch('api/achivements/list',
@@ -357,7 +360,9 @@ export const mutations = {
         .then(function(jsonResp){
             if (!jsonResp.errors) {
                 state.achivements.loaded = true;
+                state.viewerCustomAchievements.loaded = true;
                 state.achivements.list = jsonResp.data.achivements;
+                state.viewerCustomAchievements.list = jsonResp.data.customs;
             }
         });
     },

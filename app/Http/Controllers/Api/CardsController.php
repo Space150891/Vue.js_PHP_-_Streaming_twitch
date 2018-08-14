@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, Card, CardItem, ViewerItem};
+use App\Models\{Viewer, Item, Card, CardItem, ViewerItem, CustomAchievement};
 
 class CardsController extends Controller
 {
@@ -42,8 +42,13 @@ class CardsController extends Controller
             $viewerItemHero = ViewerItem::find($card->hero_id);
             $hero = Item::find($viewerItemHero->item_id);
             $c->hero = $hero->image;
-            $achievement = \DB::table('achievement_details')->find($card->achivement_id);
-            $c->achievement = $achievement->description;
+            if ($card->a_type == "custom") {
+                $achievement = CustomAchievement::find($card->achivement_id);
+                $c->achievement = $achievement->text;
+            } else {
+                $achievement = \DB::table('achievement_details')->find($card->achivement_id);
+                $c->achievement = $achievement->description;
+            }
             $c->promoted = ($viewer->promoted_gamecard_id == $c->id) ? true : false;
             $cards[] = $c;
         }
@@ -65,7 +70,7 @@ class CardsController extends Controller
         $validator = Validator::make($request->all(), [
             'frame_id'      => 'required|numeric',
             'hero_id'       => 'required|numeric',
-            'achivement_id' => 'required|numeric',
+            'achivement_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -87,7 +92,12 @@ class CardsController extends Controller
         $card->viewer_id = $viewer->id;
         $card->frame_id = $request->frame_id;
         $card->hero_id = $request->hero_id;
-        $card->achivement_id = $request->achivement_id;
+        if (strpos((string) $request->achivement_id, "c") === 0) {
+            $card->achivement_id = (int)substr((string)$request->achivement_id, 1);
+            $card->a_type = "custom";
+        } else {
+            $card->achivement_id = $request->achivement_id;
+        }
         $card->save();
         if ($totalCards == 0) {
             $viewer->promoted_gamecard_id = $card->id;

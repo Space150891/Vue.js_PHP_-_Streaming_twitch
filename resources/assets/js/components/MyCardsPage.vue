@@ -115,7 +115,7 @@ import { mapGetters } from 'vuex';
                this.$store.dispatch('loadMyCardsPage');
            },
            createCard() {
-               if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id > 0) {
+               if (this.newCard.frame_id > 0 && this.newCard.hero_id > 0 && this.newCard.achivement_id) {
                    this.$store.dispatch('createCardAction', this.newCard);
                    this.newCard.frame_id = 0;
                    this.newCard.hero_id = 0;

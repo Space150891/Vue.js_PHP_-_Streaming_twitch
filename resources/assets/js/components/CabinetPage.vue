@@ -86,7 +86,7 @@
                             <h5>{{ prize.name }}</h5>
                         </div>
                     </div>
-                    <table class="table table-sm">
+                    <table v-if="customAchievementsLoaded" class="table table-sm">
                         <tbody>
                             <tr v-for="field in profileData.fields">
                                 <td>{{field.alias}}</td>
@@ -96,7 +96,7 @@
                                     <i v-else class="fa fa-eye"></i>
                                 </td>
                                 <td>
-                                    <button v-if="checkHiden(field.name)" @click.prevent="setUnHidden(field)" class="btn btn-xs btn-info">
+                                    <button v-if="checkHiden(field.name)" @click.prevent="setUnHidden(field.name)" class="btn btn-xs btn-info">
                                         show
                                     </button>
                                     <button v-else @click.prevent="setHidden(field.name)" class="btn btn-xs btn-warning">
@@ -106,6 +106,8 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div v-if="!customAchievementsLoaded" class="v-loading">
+                    </div>
                 </div>
                 <div v-if="userId != ''">
                     <a
@@ -167,7 +169,6 @@
                 this.$store.dispatch('checkCodeAction', this.code);
             },
             checkHiden(field) {
-                console.log('check field', field, this.profileData.hide_fields.indexOf(field));
                 return (this.profileData.hide_fields.indexOf(field) > -1) ? true : false;
             },
             setHidden(field) {
@@ -198,6 +199,9 @@
                     this.smsSended = false;
                 }
                 return result;
+            },
+            customAchievementsLoaded: function () {
+                return this.$store.getters.customAchievementsLoaded;
             },
         },
     }

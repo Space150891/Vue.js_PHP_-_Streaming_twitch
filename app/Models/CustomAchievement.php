@@ -9,4 +9,8 @@ class CustomAchievement extends Model
 {
     use SoftDeletes;
     //
+    public function streamer()
+    {
+        return $this->belongsTo('App\Models\Streamer');
+    }
 }

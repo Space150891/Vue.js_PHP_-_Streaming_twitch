@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Notification, Card};
+use App\Models\{Notification, Card, CustomAchievement, UserCustomAchievement, Streamer};
 
 class AchivementsController extends Controller
 {
@@ -34,8 +34,18 @@ class AchivementsController extends Controller
             $details->unlocked_at = $achievement->unlocked_at;
             $list[] = $details;
         }
+        $customs = [];
+        $customs = UserCustomAchievement::where('user_id', $user->id)->get();
+        for ($i = 0; $i <count($customs); $i++) {
+            $achievement = $customs[$i]->achievement()->first();
+            $streamer = $achievement->streamer()->first();
+            $user = $streamer->user()->first();
+            $customs[$i]->image = $user->avatar;
+            $customs[$i]->text = $achievement->text;
+        }
         return response()->json(['data' => [
             'achivements' => $list,
+            'customs'      => $customs,
         ]]);
     }
 
@@ -43,17 +53,47 @@ class AchivementsController extends Controller
     {
         $user = auth()->user();
         $viewer = $user->viewer()->first();
+        // get all achievements
         $achievements  = $user->unlockedAchievements();
+        $customs = UserCustomAchievement::where('user_id', $user->id)->get();
+        // get achievements in cards
         $cards = Card::where('viewer_id', $viewer->id)->get();
         $cardAchievementsIds = [];
         foreach ($cards as $card) {
-            $cardAchievementsIds[] = $card->achivement_id;
+            $cardAchievementsIds[] = [
+                'id'    => $card->achivement_id,
+                'type'  => $card->a_type,
+            ];
         }
+        // select achivements not in cards
         $list = [];
         foreach ($achievements as $achievement) {
-            if (!in_array($achievement->achievement_id, $cardAchievementsIds)) {
+            $find = false;
+            foreach ($cardAchievementsIds as $cardAchievementsId) {
+                if ($cardAchievementsId['id'] == $achievement->achievement_id && is_null($cardAchievementsId['type'])) {
+                    $find = true;
+                }
+            }
+            if ($find === false) {
                 $details = \DB::table('achievement_details')->find($achievement->achievement_id);
                 $details->unlocked_at = $achievement->unlocked_at;
+                $list[] = $details;
+            }
+        }
+        // select custom achievements not in cards
+        foreach ($customs as $custom) {
+            $find = false;
+            foreach ($cardAchievementsIds as $cardAchievementsId) {
+                if ($cardAchievementsId['id'] == $custom->custom_achievement_id && $cardAchievementsId['type'] == "custom") {
+                    $find = true;
+                }
+            }
+            if ($find === false) {
+                $customAchievement = CustomAchievement::find($custom['id']);
+                $details = new \stdClass();;
+                $details->id = "c" . $custom['id'];
+                $details->name = $customAchievement->text;
+                $details->unlocked_at = $customAchievement->updated_at;
                 $list[] = $details;
             }
         }
