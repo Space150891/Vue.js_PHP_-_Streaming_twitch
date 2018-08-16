@@ -174,14 +174,14 @@ class ViewerItemsController extends Controller
         $prizeN = 0;
         for ($i = 0; $i < ($countPrizes + $countItems - 1); $i++) {
             $prize = [];
-            if ($itemN == $countItems - 1) {
+            if ($itemN >= $countItems - 1) {
                 $stockPrize = StockPrize::find($viewerPrizes[$prizeN]->prize_id);
                 $prize['id']  = $i;
                 $prize['name'] = $stockPrize->name;
                 $prize['image'] = $stockPrize->image;
                 $prize['viewer'] = $viewerPrizes[$prizeN]->viewer_id;
                 $prizeN ++;
-            } elseif ($prizeN == $countPrizes - 1) {
+            } elseif ($prizeN >= $countPrizes - 1) {
                 $item = Item::find($viewerItems[$itemN]->item_id);
                 $prize['id']  = $i;
                 $prize['name'] = $item->title;
