@@ -166,20 +166,22 @@ class ViewerItemsController extends Controller
     {
         $count = 10;
         $viewerPrizes = ViewerPrize::orderBy('created_at', 'desc')->limit($count)->get();
+        $countPrizes = count($viewerPrizes);
         $viewerItems = ViewerItem::orderBy('created_at', 'desc')->limit($count)->get();
+        $countItems = count($viewerItems);
         $prizes = [];
         $itemN = 0;
         $prizeN = 0;
-        for ($i = 0; $i < ($count * 2 - 1); $i++) {
+        for ($i = 0; $i < ($countPrizes + $countItems - 1); $i++) {
             $prize = [];
-            if ($itemN == $count - 1) {
+            if ($itemN == $countItems - 1) {
                 $stockPrize = StockPrize::find($viewerPrizes[$prizeN]->prize_id);
                 $prize['id']  = $i;
                 $prize['name'] = $stockPrize->name;
                 $prize['image'] = $stockPrize->image;
                 $prize['viewer'] = $viewerPrizes[$prizeN]->viewer_id;
                 $prizeN ++;
-            } elseif ($prizeN == $count - 1) {
+            } elseif ($prizeN == $countPrizes - 1) {
                 $item = Item::find($viewerItems[$itemN]->item_id);
                 $prize['id']  = $i;
                 $prize['name'] = $item->title;
