@@ -29,7 +29,6 @@
             }
         },
         mounted() {
-            console.log('one stream');
         },
         methods: {
             twitchVideoUrl(channelName) {

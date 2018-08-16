@@ -7,7 +7,7 @@
             </div>
             <div class="rightPart-mainText">
                 <h2>{{ item.name }}</h2>
-                <p>{{ item.description }}</p>
+                <p>{{ item.viewer }}</p>
             </div>
         </div>
     </div>
@@ -21,8 +21,25 @@
 import { mapGetters} from 'vuex';
 
     export default {
+        data() {
+            return {
+                timer : false,
+            }
+        },
         mounted() {
-            this.$store.dispatch('getLastPrizesAction');
+            this.startTimer();
+        },
+        destroyed() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+        },
+        methods: {
+            startTimer() {
+                this.timer = setInterval(() => {
+                    this.$store.dispatch('getLastPrizesAction');
+                }, 5000);
+            },
         },
         computed: {
             ...mapGetters([

@@ -3974,10 +3974,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            timer: false
+        };
+    },
     mounted: function mounted() {
-        this.$store.dispatch('getLastPrizesAction');
+        this.startTimer();
+    },
+    destroyed: function destroyed() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
     },
 
+    methods: {
+        startTimer: function startTimer() {
+            var _this = this;
+
+            this.timer = setInterval(function () {
+                _this.$store.dispatch('getLastPrizesAction');
+            }, 2000);
+        }
+    },
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['lastPrizes']))
 });
 
@@ -4879,9 +4898,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {};
     },
-    mounted: function mounted() {
-        console.log('one stream');
-    },
+    mounted: function mounted() {},
 
     methods: {
         twitchVideoUrl: function twitchVideoUrl(channelName) {
@@ -77183,7 +77200,7 @@ var render = function() {
           _c("div", { staticClass: "rightPart-mainText" }, [
             _c("h2", [_vm._v(_vm._s(item.name))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(item.description))])
+            _c("p", [_vm._v(_vm._s(item.viewer))])
           ])
         ])
       })

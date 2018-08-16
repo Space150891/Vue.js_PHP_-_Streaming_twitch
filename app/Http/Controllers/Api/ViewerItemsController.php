@@ -164,17 +164,56 @@ class ViewerItemsController extends Controller
 
     public function lastPrizes(Request $request)
     {
-        $viewerPrizes = ViewerPrize::orderBy('created_at', 'desc')->limit(10)->get();
+        $count = 10;
+        $viewerPrizes = ViewerPrize::orderBy('created_at', 'desc')->limit($count)->get();
+        $viewerItems = ViewerItem::orderBy('created_at', 'desc')->limit($count)->get();
         $prizes = [];
-        foreach ($viewerPrizes as $viewerPrize) {
-            $prize = StockPrize::find($viewerPrize->prize_id);
-            $prizes[] = [
-                'id'            => $viewerPrize->id,
-                'name'          => $prize->name,
-                'description'   => $prize->description,
-                'image'         => $prize->image,
-            ];
+        $itemN = 0;
+        $prizeN = 0;
+        for ($i = 0; $i < ($count * 2 - 1); $i++) {
+            $prize = [];
+            if ($itemN == $count - 1) {
+                $stockPrize = StockPrize::find($viewerPrizes[$prizeN]->prize_id);
+                $prize['id']  = $i;
+                $prize['name'] = $stockPrize->name;
+                $prize['image'] = $stockPrize->image;
+                $prize['viewer'] = $viewerPrizes[$prizeN]->viewer_id;
+                $prizeN ++;
+            } elseif ($prizeN == $count - 1) {
+                $item = Item::find($viewerItems[$itemN]->item_id);
+                $prize['id']  = $i;
+                $prize['name'] = $item->title;
+                $prize['image'] = $item->image;
+                $prize['viewer'] = $viewerItems[$itemN]->viewer_id;
+                $itemN ++;
+            } elseif ($viewerPrizes[$prizeN]->created_at > $viewerItems[$itemN]->created_at) {
+                $stockPrize = StockPrize::find($viewerPrizes[$prizeN]->prize_id);
+                $prize['id']  = $i;
+                $prize['name'] = $stockPrize->name;
+                $prize['image'] = $stockPrize->image;
+                $prize['viewer'] = $viewerPrizes[$prizeN]->viewer_id;
+                $prizeN ++;
+            } else {
+                $item = Item::find($viewerItems[$itemN]->item_id);
+                $prize['id']  = $i;
+                $prize['name'] = $item->title;
+                $prize['image'] = $item->image;
+                $prize['viewer'] = $viewerItems[$itemN]->viewer_id;
+                $itemN ++;
+            }
+            $viewer = Viewer::find($prize['viewer']);
+            $prize['viewer'] = $viewer->name;
+            $prizes[] = $prize;
         }
+        // foreach ($viewerPrizes as $viewerPrize) {
+        //     $prize = StockPrize::find($viewerPrize->prize_id);
+        //     $prizes[] = [
+        //         'id'            => $viewerPrize->id,
+        //         'name'          => $prize->name,
+        //         'description'   => $prize->description,
+        //         'image'         => $prize->image,
+        //     ];
+        // }
         return response()->json([
             'data' => [
                 'prizes'    =>  $prizes,
