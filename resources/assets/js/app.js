@@ -35,6 +35,7 @@ const RoulettePage = require('./components/RoulettePage.vue');
 const ShopPage = require('./components/ShopPage.vue');
 const CustomizeDonatePage = require('./components/CustomizeDonatePage.vue');
 const CustomAchivementsPage = require('./components/CustomAchivementsPage.vue');
+const StartStreamPage = require('./components/StartStreamPage.vue');
 
 const router = new VueRouter({
     routes: [
@@ -57,6 +58,7 @@ const router = new VueRouter({
         { path: '/shop', component: ShopPage},
         { path: '/custom-donate', component: CustomizeDonatePage},
         { path: '/custom-achivements', component: CustomAchivementsPage},
+        { path: '/start-stream/:streamToken', component: StartStreamPage,  props: true },
     ]
 });
 Vue.use(VueRouter);

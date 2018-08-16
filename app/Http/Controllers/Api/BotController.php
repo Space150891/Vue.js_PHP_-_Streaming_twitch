@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{User, Activity, Viewer, Streamer};
+use App\Models\{User, Activity, Viewer, Streamer, ActiveStreamer};
 
 class BotController extends Controller
 {
@@ -20,7 +20,7 @@ class BotController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getEvent']]);
+        $this->middleware('auth:api', ['except' => ['getEvent', 'activeChannels']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -75,6 +75,36 @@ class BotController extends Controller
         ];
         return response()->json([
             'data' => $data,
+        ]);
+    }
+
+    public function activeChannels(Request $request)
+    {
+        $botSecret = config('ospp.bot.secret_key');
+        $validator = Validator::make($request->all(), [
+            'secretKey' => 'required|min:1|max:256',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        if ($request->secretKey !== $botSecret) {
+            return response()->json([
+                'errors' => ['secret key is wrong'],
+            ]);
+        }
+        $activs = ActiveStreamer::all();
+        $data = [];
+        foreach ($activs as $active) {
+            if (!in_array($active->streamer_name, $data)) {
+                $data[] = $active->streamer_name;
+            }
+        }
+        return response()->json([
+            'data' => [
+                'streams'   =>  $data,
+            ],
         ]);
     }
  

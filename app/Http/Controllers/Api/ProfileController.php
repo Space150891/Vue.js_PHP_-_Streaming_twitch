@@ -182,6 +182,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $viewer = $user->viewer()->first();
+        $streamer = $user->streamer()->first();
         $card = false;
         if ($viewer->promoted_gamecard_id) {
             $currentCard = Card::find($viewer->promoted_gamecard_id);
@@ -225,6 +226,10 @@ class ProfileController extends Controller
             $real = StockPrize::find($prize->prize_id);
             $sumPrizes += $real->cost;
         }
+        if (!$streamer->stream_token) {
+            $streamer->stream_token = $this->genCode();
+            $streamer->save();
+        }
         return response()->json([
             'data' => [
                 'id'            => $user->id,
@@ -239,6 +244,7 @@ class ProfileController extends Controller
                 'phone'         => $viewer->phone ? $viewer->phone : '',
                 'prizes'        => $dataPrizes,
                 'hide_fields'   => $viewer->hide_fields ? $viewer->hide_fields : [],
+                'stream_token'  => $streamer->stream_token,
                 'fields'        => [
                     [
                         'name'      => 'current_points',
@@ -331,6 +337,18 @@ class ProfileController extends Controller
         return response()->json([
             'message' => 'field removed from hidden',
         ]);
+    }
+
+    private function genCode()
+    {
+        $length = 50;
+        $symbols = '/\d|\w/';
+        $code = '';
+        do {
+            $char = str_random(1);
+            $code .= preg_match($symbols, $char) === 1 ? $char : '';
+        } while(strlen($code) < $length);
+        return $code;
     }
     
 }

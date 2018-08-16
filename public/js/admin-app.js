@@ -67601,7 +67601,7 @@ var state = {
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
-module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq"}
+module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq","ws_server":"ws://localhost:8080"}
 
 /***/ }),
 

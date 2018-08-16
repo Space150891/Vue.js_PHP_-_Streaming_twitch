@@ -452,7 +452,7 @@ export const mutations = {
     clearWatchingStreams(state) {
         state.wachingStreamers = [];
     },
-    viewingChannel(state, channel) {
+    viewingChannel(state, channel) { // delete later
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('channel', channel);

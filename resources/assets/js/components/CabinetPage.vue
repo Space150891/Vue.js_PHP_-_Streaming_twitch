@@ -72,6 +72,18 @@
                         ></modal-alert>
                     </div>
                     <br>
+                    <div>
+                        <h2>
+                            Streaming  link: 
+                            <a v-bind:href="'#/start-stream/' + profileData.stream_token" target="_blank">
+                                http://dev.streamcases.tv/#/start-stream/{{profileData.stream_token}}
+                            </a>
+                        </h2>
+                        <h5>
+                            You may enter this link to your OBS to make your stream active in Gamificator.
+                            Or simple open this link in browser.
+                        </h5>
+                    </div>
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
                     <a  class="btn btn-info" href="#/mycards">My cards</a>

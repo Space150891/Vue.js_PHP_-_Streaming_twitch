@@ -125,4 +125,7 @@ export const getters = {
     viewerCustomAchievements: state => {
         return state.viewerCustomAchievements.list;
     },
+    jwt: state => {
+        return state.token;
+    },
 }

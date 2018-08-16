@@ -42,7 +42,7 @@
             twitchChatUrl(channelName) {
                 return "https://www.twitch.tv/embed/" + channelName + "/chat";
             },
-            startVieweing() {
+            startVieweing() { // delete later
                 if (this.checkToken){
                     let storage = this.$store;
                     let name = this.selectedName;
@@ -54,7 +54,7 @@
             }
         },
         mounted() {
-            this.startVieweing();
+            // this.startVieweing();
         },
         destroyed() {
             if (this.viewing) {

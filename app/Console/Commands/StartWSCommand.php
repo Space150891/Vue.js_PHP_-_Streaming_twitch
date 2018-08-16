@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
-use App\Http\WS\Chat;
+use App\Http\Controllers\WSController;
 
 class StartWSCommand extends Command
 {
@@ -43,11 +43,11 @@ class StartWSCommand extends Command
      */
     public function handle()
     {
-        $port = 8090;
+        $port = 8080;
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new Chat()
+                    new WSController()
                 )
             ),
             $port

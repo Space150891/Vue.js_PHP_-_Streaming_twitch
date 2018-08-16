@@ -25,6 +25,7 @@ class CreateStreamersTable extends Migration
             $table->string('donate_front')->nullable();
             $table->string('donate_back')->nullable();
             $table->string('donate_text')->nullable();
+            $table->string('stream_token', 50)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

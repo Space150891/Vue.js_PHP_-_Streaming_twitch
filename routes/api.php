@@ -209,6 +209,7 @@ Route::group([
     'middleware' => ['api'],
 ], function ($router) {
     Route::post('bot/', 'Api\BotController@getEvent');
+    Route::post('bot/streams', 'Api\BotController@activeChannels');
 });
 
 // Route::post('api/bot/', 'Api\BotController@getEvent');

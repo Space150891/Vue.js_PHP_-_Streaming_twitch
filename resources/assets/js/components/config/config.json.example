@@ -2,5 +2,6 @@
     "baseUrl" : "http://localhost:8000",
     "timeOut" : 3000,
     "on_page" : 50,
-    "captcha_key" : "6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq"
+    "captcha_key" : "6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq",
+    "ws_server" : "web://localhost:8080"
 }
