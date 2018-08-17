@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use App\Models\{Streamer, User, ActiveStreamer, Activity};
+use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner};
 use Illuminate\Support\Facades\Auth;
 
 class WSController extends Controller implements MessageComponentInterface {
@@ -46,6 +46,16 @@ class WSController extends Controller implements MessageComponentInterface {
             $streams = $msg['streams'];
             foreach ($streams as $stream) {
                 $streamer = Streamer::where('name', $stream)->first();
+                $daily = DailyWinner::where([
+                    ['viewer_id', '=', $viewer->id],
+                    ['streamer_id', '=', $streamer->id],
+                ])->first();
+                if (!$daily) {
+                    $daily = new DailyWinner();
+                    $daily->viewer_id = $viewer->id;
+                    $daily->streamer_id = $streamer->id;
+                    $daily->save();
+                }
                 $activity = Activity::where([
                     ['viewer_id', '=', $viewer->id],
                     ['streamer_id', '=', $streamer->id],

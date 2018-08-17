@@ -30,7 +30,6 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        \Log::info('shedule sterting...');
         $schedule->command('activations:clean')->daily();
         $schedule->command('viewers:daily_winner')->daily();
         $schedule->command('ws:start')->everyFiveMinutes();

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\{Activity, Item, ViewerItem, Viewer, Streamer, Notification};
+use App\Models\{DailyWinner, Item, ViewerItem, Viewer, Streamer, Notification};
 use Carbon\Carbon;
 
 class DailyWinerCommand extends Command
@@ -43,7 +43,7 @@ class DailyWinerCommand extends Command
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
         $streams = [];
         $winners = [];
-        $activity = Activity::where([
+        $activity = DailyWinner::where([
             ['updated_at', '>=', $today],
             ['updated_at', '<=', $tomorrow],
         ])->get();
