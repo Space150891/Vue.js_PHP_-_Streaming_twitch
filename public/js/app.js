@@ -5045,7 +5045,8 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            connect: false
+            connect: false,
+            timer: false
         };
     },
     mounted: function mounted() {
@@ -5054,14 +5055,10 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         }
     },
     deactivated: function deactivated() {
-        if (this.connect) {
-            this.connect.close();
-        }
+        this.closeAll();
     },
     destroyed: function destroyed() {
-        if (this.connect) {
-            this.connect.close();
-        }
+        this.closeAll();
     },
 
     methods: {
@@ -5071,17 +5068,32 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             this.connect = new WebSocket(config.ws_server);
             var ws = this.connect;
             ws.onopen = function () {
-                console.log('sending message...' + _this.token);
                 var mess = {
                     role: 'viewer',
                     token: _this.token,
                     streams: _this.wachingStreamers
                 };
                 ws.send(JSON.stringify(mess));
+                _this.timer = setInterval(function () {
+                    var data = {
+                        role: 'viewer',
+                        action: 'add_points'
+                    };
+                    ws.send(JSON.stringify(data));
+                    _this.$store.commit('loadCurrentViewer');
+                }, 1000 * 60 * 10); // ten minutes
             };
             ws.onmessage = function (event) {
-                console.log('from WS server', event.data);
+                // console.log('from WS server', event.data);
             };
+        },
+        closeAll: function closeAll() {
+            if (this.connect) {
+                this.connect.close();
+            }
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
         }
     },
     computed: {

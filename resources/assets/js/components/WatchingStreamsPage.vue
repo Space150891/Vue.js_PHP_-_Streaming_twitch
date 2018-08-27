@@ -31,6 +31,7 @@ const config = require('./config/config.json');
         data() {
             return {
                 connect: false,
+                timer: false,
             }
         },
         mounted() {
@@ -39,31 +40,42 @@ const config = require('./config/config.json');
             }
         },
         deactivated() {
-            if (this.connect) {
-                this.connect.close();
-            }
+            this.closeAll();
         },
         destroyed() {
-            if (this.connect) {
-                this.connect.close();
-            }
+            this.closeAll();
         },
         methods: {
             startConnection() {
                 this.connect = new WebSocket(config.ws_server);
                 const ws = this.connect;
                 ws.onopen = () => {
-                    console.log('sending message...' + this.token);
                      const mess = {
                         role: 'viewer',
                         token:  this.token,
                         streams: this.wachingStreamers,
                     }
                     ws.send(JSON.stringify(mess));
+                    this.timer = setInterval(() => {
+                        const data = {
+                            role: 'viewer',
+                            action: 'add_points'
+                        }
+                        ws.send(JSON.stringify(data));
+                    this.$store.commit('loadCurrentViewer');
+                    }, 1000 * 60 * 10); // ten minutes
                 };
                 ws.onmessage = (event) => {
-                    console.log('from WS server', event.data);
+                    // console.log('from WS server', event.data);
                 };
+           },
+           closeAll() {
+                if (this.connect) {
+                    this.connect.close();
+                }
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
            },
         },
         computed: {

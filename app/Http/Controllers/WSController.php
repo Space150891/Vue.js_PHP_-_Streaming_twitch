@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner};
+use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer};
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class WSController extends Controller implements MessageComponentInterface {
 
@@ -23,6 +24,7 @@ class WSController extends Controller implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
         $msg = json_decode($msg, true);
         $this->clients[$from->resourceId]['role'] = $msg['role'];
+        // viewer login
         if (is_null($this->clients[$from->resourceId]['streamer_id']) && $msg['role'] == 'streamer') {
             $streamer = Streamer::where('stream_token', $msg['token'])->first();
             if (!$streamer) {
@@ -40,9 +42,10 @@ class WSController extends Controller implements MessageComponentInterface {
                 }
             }
         }
+        // streamer login
         if (is_null($this->clients[$from->resourceId]['viewer_id']) && $msg['role'] == 'viewer') {
             $user = auth()->setToken($msg['token'])->user();
-            $viewer = $user->viewer->first();
+            $viewer = $user->viewer()->first();
             $streams = $msg['streams'];
             foreach ($streams as $stream) {
                 $streamer = Streamer::where('name', $stream)->first();
@@ -70,6 +73,25 @@ class WSController extends Controller implements MessageComponentInterface {
             $this->clients[$from->resourceId]['viewer_id'] = $viewer->id;
             $this->clients[$from->resourceId]['streams'] = $msg['streams'];
         }
+        // add points to viewer
+        if (!is_null($this->clients[$from->resourceId]['viewer_id']) && isset($msg['action']) && $msg['action'] == 'add_points') {
+            $activity = Activity::where([
+                ['viewer_id', '=', $this->clients[$from->resourceId]['viewer_id']],
+            ])->get();
+            $viewer = Viewer::find($this->clients[$from->resourceId]['viewer_id']);
+            $now = new Carbon;
+            $updateTime = $now->toDateTimeString();
+            foreach ($activity as $act) {
+                $time = time() - strtotime($act->updated_at);
+                if ($time >= 10 * 60 - 5) {
+                    $viewer->level_points =  $viewer->level_points + 10;
+                    $viewer->current_points =  $viewer->current_points + 10;
+                    $viewer->save();
+                }
+                $act->updated_at = $updateTime;
+                $act->save();
+            }
+        }
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -89,7 +111,6 @@ class WSController extends Controller implements MessageComponentInterface {
             }
             unset($this->clients[$conn->resourceId]);
         }
-        var_dump($this->clients);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
