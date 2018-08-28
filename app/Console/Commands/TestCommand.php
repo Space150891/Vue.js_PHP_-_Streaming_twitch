@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Stripe\Stripe;
-use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem, Activity, Item, Notification};
+use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem, Activity, Item, Notification, SubscribedStreamers};
 use GuzzleHttp\Client as Guzzle;
 
 class TestCommand extends Command
@@ -41,7 +41,19 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        var_dump($this->getDailyWinners());
+        $now = new Carbon;
+        $updateTime = $now->toDateTimeString();
+        echo $updateTime;
+        $subscribed = SubscribedStreamers::where([
+            ['streamer_id', '=', 2],
+            ['valid_from', '<=', $updateTime],
+            ['valid_until', '>=', $updateTime],
+        ])->first();
+        if ($subscribed) {
+            echo "\n found!";
+        } else {
+            echo "\n not found";
+        }
     }
 
     private function getDailyWinners()

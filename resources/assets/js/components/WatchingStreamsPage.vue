@@ -63,10 +63,10 @@ const config = require('./config/config.json');
                         }
                         ws.send(JSON.stringify(data));
                     this.$store.commit('loadCurrentViewer');
-                    }, 1000 * 60 * 10); // ten minutes
+                    }, 1000 * 60); // one minute 
                 };
                 ws.onmessage = (event) => {
-                    // console.log('from WS server', event.data);
+                    console.log('from WS server', event.data);
                 };
            },
            closeAll() {

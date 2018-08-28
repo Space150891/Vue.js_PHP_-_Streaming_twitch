@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer, ViewerPrize, StockPrize};
+use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer, ViewerPrize, StockPrize, SubscribedStreamers, SubscriptionPlan};
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -18,7 +18,10 @@ class WSController extends Controller implements MessageComponentInterface {
 
     public function onOpen(ConnectionInterface $conn) {
         $this->clients[$conn->resourceId] = ['streamer_id' => null, 'viewer_id' => null];
-        // $conn->send('connected to WS...');
+        $data = [
+            'action'    =>  'connected to WS...'
+        ];
+        $conn->send(json_encode($data));
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -28,11 +31,17 @@ class WSController extends Controller implements MessageComponentInterface {
         if (is_null($this->clients[$from->resourceId]['streamer_id']) && $msg['role'] == 'streamer') {
             $streamer = Streamer::where('stream_token', $msg['token'])->first();
             if (!$streamer) {
-                $from->send('wrong stream token');
+                $data = [
+                    'error'    =>  'wrong stream token'
+                ];
+                $from->send(json_encode($data));
                 $from->close();
             } else {
                 $this->clients[$from->resourceId]['streamer_id'] = $streamer->id;
-                // $from->send('started stream from ' . $streamer->name);
+                $data = [
+                    'action'    =>  'started stream from ' . $streamer->name
+                ];
+                $from->send(json_encode($data));
                 $active = ActiveStreamer::where('streamer_id', $streamer->id)->first();
                 if (!$active) {
                     $active = new ActiveStreamer();
@@ -81,15 +90,47 @@ class WSController extends Controller implements MessageComponentInterface {
             $viewer = Viewer::find($this->clients[$from->resourceId]['viewer_id']);
             $now = new Carbon;
             $updateTime = $now->toDateTimeString();
+            $points = 0;
             foreach ($activity as $act) {
                 $time = time() - strtotime($act->updated_at);
-                if ($time >= 10 * 60 - 5) {
-                    $viewer->level_points =  $viewer->level_points + 10;
-                    $viewer->current_points =  $viewer->current_points + 10;
+                $tolalViewers = Activity::where('streamer_id', $act->streamer_id)->count();
+                if ($tolalViewers <= 100) {
+                    $points = 100;
+                } elseif ($tolalViewers <= 300) {
+                    $points = 40;
+                } elseif ($tolalViewers <= 500) {
+                    $points = 20;
+                }  elseif ($tolalViewers <= 1000) {
+                    $points = 10;
+                }  else {
+                    $points = 11;
+                }
+                $subscribed = SubscribedStreamers::where([
+                    ['streamer_id', '=', $act->streamer_id],
+                    ['valid_from', '<=', $updateTime],
+                    ['valid_until', '>=', $updateTime],
+                ])->first();
+                if ($subscribed) {
+                    $plan = SubscriptionPlan::find($subscribed->subscription_plan_id);
+                    if ($plan->name == 'basic') {
+                        $points += 10;
+                    } elseif ($plan->name == 'advanced') {
+                        $points += 100;
+                    } elseif ($plan->name == 'golden') {
+                        $points += 1000;
+                    }
+                }
+                if ($time >= 60 - 5) {
+                    $viewer->level_points =  $viewer->level_points + $points;
+                    $viewer->current_points =  $viewer->current_points + $points;
                     $viewer->save();
                 }
                 $act->updated_at = $updateTime;
                 $act->save();
+                $data = [
+                    'points' => $points
+                ];
+                $from->send(json_encode($data));
             }
         }
         // check win prize
@@ -99,7 +140,10 @@ class WSController extends Controller implements MessageComponentInterface {
             // $updateTime = $now->timestamp;
             $updateTime = $now->toDateTimeString();
             $viewerPrize = ViewerPrize::where('created_at', '>', $updateTime)->orderBy('created_at', 'desc')->first();
-            // $from->send('update time ' . $updateTime);
+            $data = [
+                'update time ' => $updateTime
+            ];
+            $from->send(json_encode($data));
             if ($viewerPrize) {
                 $viewer = Viewer::find($viewerPrize->viewer_id);
                 $prize = StockPrize::find($viewerPrize->prize_id);
