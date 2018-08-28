@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer};
+use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer, ViewerPrize, StockPrize};
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -18,7 +18,7 @@ class WSController extends Controller implements MessageComponentInterface {
 
     public function onOpen(ConnectionInterface $conn) {
         $this->clients[$conn->resourceId] = ['streamer_id' => null, 'viewer_id' => null];
-        $conn->send('connected to WS...');
+        // $conn->send('connected to WS...');
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -32,7 +32,7 @@ class WSController extends Controller implements MessageComponentInterface {
                 $from->close();
             } else {
                 $this->clients[$from->resourceId]['streamer_id'] = $streamer->id;
-                $from->send('started stream from ' . $streamer->name);
+                // $from->send('started stream from ' . $streamer->name);
                 $active = ActiveStreamer::where('streamer_id', $streamer->id)->first();
                 if (!$active) {
                     $active = new ActiveStreamer();
@@ -90,6 +90,26 @@ class WSController extends Controller implements MessageComponentInterface {
                 }
                 $act->updated_at = $updateTime;
                 $act->save();
+            }
+        }
+        // check win prize
+        if (!is_null($this->clients[$from->resourceId]['streamer_id']) && isset($msg['action']) && $msg['action'] == 'check') {
+            $now = new Carbon;
+            $now->subSeconds(5);
+            // $updateTime = $now->timestamp;
+            $updateTime = $now->toDateTimeString();
+            $viewerPrize = ViewerPrize::where('created_at', '>', $updateTime)->orderBy('created_at', 'desc')->first();
+            // $from->send('update time ' . $updateTime);
+            if ($viewerPrize) {
+                $viewer = Viewer::find($viewerPrize->viewer_id);
+                $prize = StockPrize::find($viewerPrize->prize_id);
+                $alert = [
+                    'viewer'    => $viewer->name,
+                    'prize'     => $prize->name,
+                    'image'     => $prize->image,
+                    'action'    => 'win',
+                ];
+                $from->send(json_encode($alert));
             }
         }
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Models\{Streamer};
 
 class StreamController extends Controller
 {
@@ -41,6 +42,15 @@ class StreamController extends Controller
             'chat'    => 'aws',
         ];
         return view('pages.stream.streams4', $data);
+    }
+
+    public function startStream($token)
+    {
+        $streamer = Streamer::where('stream_token', $token)->first();
+        if (!$streamer) {
+            return redirect('/');
+        }
+        return view('pages.alert-widget', ['token' => $token]);
     }
 
 }
