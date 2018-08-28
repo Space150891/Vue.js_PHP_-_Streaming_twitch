@@ -95,7 +95,7 @@ class WSController extends Controller implements MessageComponentInterface {
         // check win prize
         if (!is_null($this->clients[$from->resourceId]['streamer_id']) && isset($msg['action']) && $msg['action'] == 'check') {
             $now = new Carbon;
-            $now->subSeconds(5);
+            $now->subSeconds(env("WS_STREAM_ALERT_PERIOD") - 3);
             // $updateTime = $now->timestamp;
             $updateTime = $now->toDateTimeString();
             $viewerPrize = ViewerPrize::where('created_at', '>', $updateTime)->orderBy('created_at', 'desc')->first();

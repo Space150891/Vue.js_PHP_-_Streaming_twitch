@@ -41,7 +41,7 @@
                     action: 'check'
                 }
                 ws.send(JSON.stringify(data));
-            }, 5000); // five seconds
+            }, {{ env("WS_STREAM_ALERT_PERIOD") }} * 1000);
         };
         ws.onmessage = function(event) {
             console.log(event.data);
@@ -52,7 +52,7 @@
                 document.getElementById('stream-widget').innerHTML = html;
                 setTimeout(() => {
                     document.getElementById('stream-widget').innerHTML = "";
-                }, 2000); // two seconds
+                }, 4000); // two seconds
             }
         };
   </script>
