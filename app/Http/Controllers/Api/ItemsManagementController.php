@@ -168,7 +168,7 @@ class itemsManagementController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = strtolower($file->extension());
-            $fileName = 'image_' . $item->id . '_' . $extention;
+            $fileName = 'image_' . $item->id . '.' . $extention;
             $destination = 'public/items/images';
             Storage::putFileAs($destination, $file, $fileName);
             $item->image = 'items/images/' . $fileName;
@@ -177,7 +177,7 @@ class itemsManagementController extends Controller
         if ($request->hasFile('icon')) {
             $file = $request->file('icon');
             $extention = strtolower($file->extension());
-            $fileName = 'icon_' . $item->id . '_' . $extention;
+            $fileName = 'icon_' . $item->id . '.' . $extention;
             $destination = 'public/items/icons';
             Storage::putFileAs($destination, $file, $fileName);
             $item->icon = 'items/icons/' . $fileName;
@@ -230,7 +230,7 @@ class itemsManagementController extends Controller
 
     private function generateFileName($ext) {
         do {
-            $name = 'prize_' . uniqid() . '_' . $ext;
+            $name = 'prize_' . uniqid() . '.' . $ext;
         } while(Storage::exists('public/stock/' . $name));
         return $name;
     }

@@ -1,5 +1,6 @@
 <template>
-    <div v-if="userId == '' || checkToken" class="cabinet-page" >
+<div>
+    <div v-if="userId == '' && checkToken" class="cabinet-page" >
         <h1 class="text-center">Profile</h1>
         <div class="row">
             <div class="col-md-3">
@@ -75,14 +76,27 @@
                     <div>
                         <h2>
                             Streaming  link: 
-                            <a v-bind:href="'#/start-stream/' + profileData.stream_token" target="_blank">
-                                http://dev.streamcases.tv/#/start-stream/{{profileData.stream_token}}
+                            <a v-bind:href="'start-stream/' + profileData.stream_token" target="_blank">
+                                http://dev.streamcases.tv/start-stream/{{profileData.stream_token}}
                             </a>
                         </h2>
                         <h5>
                             You may enter this link to your OBS to make your stream active in Gamificator.
                             Or simple open this link in browser.
                         </h5>
+                    </div>
+                    <div>
+                        <label class="text-success">
+                            Prize alert frequency:
+                            <select class="form-control" v-model="prizeAlert" v-on:change="savePrizeAlert()">
+                                <option value=30> 30 seconds </option>
+
+                                <option value=60> 1 minute </option>
+                                <option value=120> 2 minutes </option>
+                                <option value=300> 5 minutes </option>
+                                <option value=600> 10 minutes </option>
+                            </select>
+                        </label>
                     </div>
                     <a class="btn btn-info" href="#/myviewers">My viewers</a>
                     <a  class="btn btn-info" href="#/mystreamers">My streamers</a>
@@ -93,14 +107,14 @@
                     <a class="btn btn-info" href="#/custom-achivements">Customize achivements page</a>
                     <div v-if="profileData.prizes && profileData.prizes.length > 0" class="cabinet-prizes">
                         <h2>Winned prizes:</h2>
-                        <div v-for="prize in profileData.prizes">
+                        <div v-for="prize in profileData.prizes" :key="prize.id">
                             <img v-bind:src="'storage/' + prize.image">
                             <h5>{{ prize.name }}</h5>
                         </div>
                     </div>
                     <table v-if="customAchievementsLoaded" class="table table-sm">
                         <tbody>
-                            <tr v-for="field in profileData.fields">
+                            <tr v-for="field in profileData.fields" :key="field.id">
                                 <td>{{field.alias}}</td>
                                 <td>{{field.value}}</td>
                                 <td>
@@ -131,11 +145,11 @@
                     </a>
                     <table class="table table-sm">
                         <tbody>
-                            <tr v-for="field in profileData.fields">
+                            <tr v-for="field in profileData.fields" :key="field.id">
                                 <td>{{field.alias}}</td>
                                 <td>
                                     <div v-if="field.name == 'inventory' && field.data" class="cabinet-prizes">
-                                        <div v-for="item in field.data">
+                                        <div v-for="item in field.data" :key="item.id">
                                             <img v-bind:src="'storage/' + item.icon">
                                             <h5>{{ item.title }}</h5>
                                         </div>
@@ -149,9 +163,10 @@
             </div>
         </div>
     </div>
-    <div v-else class="cabinet-page">
+    <div v-if="!checkToken" class="cabinet-page">
         Please login
     </div>
+</div>
 </template>
 <script>
     export default {
@@ -167,6 +182,7 @@
                 code: '',
                 smsSended: false,
                 openAlertModal: false,
+                prizeAlert: 30,
             }
         },
         mounted() {
@@ -189,6 +205,9 @@
             setUnHidden(field) {
                 this.$store.dispatch('showProfileFieldAction', field);
             },
+            savePrizeAlert() {
+                this.$store.dispatch('savePrizeAlertAction', this.prizeAlert);
+            }
         },
         computed: {
             checkToken: function () {
@@ -199,6 +218,7 @@
                 if (data.phone && this.phone == '') {
                     this.phone = data.phone;
                 }
+                this.prizeAlert= data.prize_alert;
                 return data;
             },
             checkedCode: function () {

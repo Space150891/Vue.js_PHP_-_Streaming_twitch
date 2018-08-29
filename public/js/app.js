@@ -1934,6 +1934,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1947,7 +1962,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             phone: '',
             code: '',
             smsSended: false,
-            openAlertModal: false
+            openAlertModal: false,
+            prizeAlert: 30
         };
     },
     mounted: function mounted() {
@@ -1970,6 +1986,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         setUnHidden: function setUnHidden(field) {
             this.$store.dispatch('showProfileFieldAction', field);
+        },
+        savePrizeAlert: function savePrizeAlert() {
+            this.$store.dispatch('savePrizeAlertAction', this.prizeAlert);
         }
     },
     computed: {
@@ -1981,6 +2000,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (data.phone && this.phone == '') {
                 this.phone = data.phone;
             }
+            this.prizeAlert = data.prize_alert;
             return data;
         },
         checkedCode: function checkedCode() {
@@ -77338,438 +77358,512 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.userId == "" || _vm.checkToken
-    ? _c("div", { staticClass: "cabinet-page" }, [
-        _c("h1", { staticClass: "text-center" }, [_vm._v("Profile")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _vm.profileData.avatar
-              ? _c("img", {
-                  staticClass: "img-thumbnail avatar-img",
-                  attrs: { src: _vm.profileData.avatar, alt: "avatar" }
-                })
-              : _vm._e()
-          ]),
+  return _c("div", [
+    _vm.userId == "" && _vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _c("h1", { staticClass: "text-center" }, [_vm._v("Profile")]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _vm._v(
-              "\n            " +
-                _vm._s(_vm.profileData.bio ? _vm.profileData.bio : "") +
-                "\n        "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-3" },
-            [
-              _vm.profileData.card
-                ? _c("viewer-card", {
-                    attrs: {
-                      frame: _vm.profileData.card.frame,
-                      hero: _vm.profileData.card.hero,
-                      achivement: _vm.profileData.card.achievement
-                    }
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _vm.profileData.avatar
+                ? _c("img", {
+                    staticClass: "img-thumbnail avatar-img",
+                    attrs: { src: _vm.profileData.avatar, alt: "avatar" }
                   })
                 : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-9" }, [
-            _c("h5", [_vm._v("Twitch details")]),
+            ]),
             _vm._v(" "),
-            _c("ul", { staticClass: "list-group" }, [
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("username "),
-                _c("span", { staticClass: "badge" }, [
-                  _vm._v(_vm._s(_vm.profileData.username))
-                ])
-              ]),
+            _c("div", { staticClass: "col-md-9" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.profileData.bio ? _vm.profileData.bio : "") +
+                  "\n            "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col-md-3" },
+              [
+                _vm.profileData.card
+                  ? _c("viewer-card", {
+                      attrs: {
+                        frame: _vm.profileData.card.frame,
+                        hero: _vm.profileData.card.hero,
+                        achivement: _vm.profileData.card.achievement
+                      }
+                    })
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c("h5", [_vm._v("Twitch details")]),
               _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("nikname "),
-                _c("span", { staticClass: "badge" }, [
-                  _vm._v(_vm._s(_vm.profileData.nikname))
-                ])
-              ]),
+              _c("ul", { staticClass: "list-group" }, [
+                _c("li", { staticClass: "list-group-item" }, [
+                  _vm._v("username "),
+                  _c("span", { staticClass: "badge" }, [
+                    _vm._v(_vm._s(_vm.profileData.username))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "list-group-item" }, [
+                  _vm._v("nikname "),
+                  _c("span", { staticClass: "badge" }, [
+                    _vm._v(_vm._s(_vm.profileData.nikname))
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.profileData.email
+                  ? _c("li", { staticClass: "list-group-item" }, [
+                      _vm._v("email "),
+                      _c("span", { staticClass: "badge" }, [
+                        _vm._v(_vm._s(_vm.profileData.email))
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("div", [
+              _vm.userId == ""
+                ? _c("div", [
+                    _vm._v(
+                      "\n                    Phone status:\n                    "
+                    ),
+                    _vm.profileData.verified
+                      ? _c("span", [_vm._v("verified")])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.profileData.verified
+                      ? _c("span", [_vm._v("Unverified")])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.profileData.verified
+                      ? _c(
+                          "div",
+                          [
+                            !_vm.smsSended
+                              ? _c("div", { staticClass: "form-inline" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.phone,
+                                        expression: "phone"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { placeholder: "Phone..." },
+                                    domProps: { value: _vm.phone },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.phone = $event.target.value
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-success",
+                                      attrs: { placeholder: "Code..." },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.sendSMS()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                send SMS\n                            "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.smsSended
+                              ? _c("div", { staticClass: "form-inline" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.code,
+                                        expression: "code"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    domProps: { value: _vm.code },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.code = $event.target.value
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-success",
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.checkCode()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                check Code\n                            "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.checkedCode === "false"
+                              ? _c("modal-alert", {
+                                  attrs: {
+                                    AlertType: "warning",
+                                    messages: ["code wrong"],
+                                    opened: _vm.openAlertModal
+                                  },
+                                  on: {
+                                    "close-alert-modal": function($event) {
+                                      _vm.openAlertModal = false
+                                    }
+                                  }
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("h2", [
+                        _vm._v(
+                          "\n                            Streaming  link: \n                            "
+                        ),
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href:
+                                "start-stream/" + _vm.profileData.stream_token,
+                              target: "_blank"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                http://dev.streamcases.tv/start-stream/" +
+                                _vm._s(_vm.profileData.stream_token) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("h5", [
+                        _vm._v(
+                          "\n                            You may enter this link to your OBS to make your stream active in Gamificator.\n                            Or simple open this link in browser.\n                        "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("label", { staticClass: "text-success" }, [
+                        _vm._v(
+                          "\n                            Prize alert frequency:\n                            "
+                        ),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.prizeAlert,
+                                expression: "prizeAlert"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.prizeAlert = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  _vm.savePrizeAlert()
+                                }
+                              ]
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "30" } }, [
+                              _vm._v(" 30 seconds ")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "60" } }, [
+                              _vm._v(" 1 minute ")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "120" } }, [
+                              _vm._v(" 2 minutes ")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "300" } }, [
+                              _vm._v(" 5 minutes ")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "600" } }, [
+                              _vm._v(" 10 minutes ")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/myviewers" }
+                      },
+                      [_vm._v("My viewers")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/mystreamers" }
+                      },
+                      [_vm._v("My streamers")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/mycards" }
+                      },
+                      [_vm._v("My cards")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/notifications" }
+                      },
+                      [_vm._v("Notifications")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/achivements" }
+                      },
+                      [_vm._v("Achivements")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/custom-donate" }
+                      },
+                      [_vm._v("Customize donate page")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { href: "#/custom-achivements" }
+                      },
+                      [_vm._v("Customize achivements page")]
+                    ),
+                    _vm._v(" "),
+                    _vm.profileData.prizes && _vm.profileData.prizes.length > 0
+                      ? _c(
+                          "div",
+                          { staticClass: "cabinet-prizes" },
+                          [
+                            _c("h2", [_vm._v("Winned prizes:")]),
+                            _vm._v(" "),
+                            _vm._l(_vm.profileData.prizes, function(prize) {
+                              return _c("div", { key: prize.id }, [
+                                _c("img", {
+                                  attrs: { src: "storage/" + prize.image }
+                                }),
+                                _vm._v(" "),
+                                _c("h5", [_vm._v(_vm._s(prize.name))])
+                              ])
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.customAchievementsLoaded
+                      ? _c("table", { staticClass: "table table-sm" }, [
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.profileData.fields, function(field) {
+                              return _c("tr", { key: field.id }, [
+                                _c("td", [_vm._v(_vm._s(field.alias))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(field.value))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm.checkHiden(field.name)
+                                    ? _c("i", {
+                                        staticClass: "fa fa-eye-slash"
+                                      })
+                                    : _c("i", { staticClass: "fa fa-eye" })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm.checkHiden(field.name)
+                                    ? _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-xs btn-info",
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              _vm.setUnHidden(field.name)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        show\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    : _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-xs btn-warning",
+                                          on: {
+                                            click: function($event) {
+                                              $event.preventDefault()
+                                              _vm.setHidden(field.name)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        hide\n                                    "
+                                          )
+                                        ]
+                                      )
+                                ])
+                              ])
+                            })
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.customAchievementsLoaded
+                      ? _c("div", { staticClass: "v-loading" })
+                      : _vm._e()
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _vm.profileData.email
-                ? _c("li", { staticClass: "list-group-item" }, [
-                    _vm._v("email "),
-                    _c("span", { staticClass: "badge" }, [
-                      _vm._v(_vm._s(_vm.profileData.email))
+              _vm.userId != ""
+                ? _c("div", [
+                    _vm.profileData.paypal
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: {
+                              href: "#/donate/" + _vm.profileData.streamer_id
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Donate Page\n                    "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("table", { staticClass: "table table-sm" }, [
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.profileData.fields, function(field) {
+                          return _c("tr", { key: field.id }, [
+                            _c("td", [_vm._v(_vm._s(field.alias))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              field.name == "inventory" && field.data
+                                ? _c(
+                                    "div",
+                                    { staticClass: "cabinet-prizes" },
+                                    _vm._l(field.data, function(item) {
+                                      return _c("div", { key: item.id }, [
+                                        _c("img", {
+                                          attrs: { src: "storage/" + item.icon }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("h5", [_vm._v(_vm._s(item.title))])
+                                      ])
+                                    })
+                                  )
+                                : _c("span", [_vm._v(_vm._s(field.value))])
+                            ])
+                          ])
+                        })
+                      )
                     ])
                   ])
                 : _vm._e()
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c("div", [
-            _vm.userId == ""
-              ? _c("div", [
-                  _vm._v("\n                Phone status:\n                "),
-                  _vm.profileData.verified
-                    ? _c("span", [_vm._v("verified")])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  !_vm.profileData.verified
-                    ? _c("span", [_vm._v("Unverified")])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  !_vm.profileData.verified
-                    ? _c(
-                        "div",
-                        [
-                          !_vm.smsSended
-                            ? _c("div", { staticClass: "form-inline" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.phone,
-                                      expression: "phone"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { placeholder: "Phone..." },
-                                  domProps: { value: _vm.phone },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.phone = $event.target.value
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success",
-                                    attrs: { placeholder: "Code..." },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        _vm.sendSMS()
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            send SMS\n                        "
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.smsSended
-                            ? _c("div", { staticClass: "form-inline" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.code,
-                                      expression: "code"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  domProps: { value: _vm.code },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.code = $event.target.value
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success",
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        _vm.checkCode()
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            check Code\n                        "
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.checkedCode === "false"
-                            ? _c("modal-alert", {
-                                attrs: {
-                                  AlertType: "warning",
-                                  messages: ["code wrong"],
-                                  opened: _vm.openAlertModal
-                                },
-                                on: {
-                                  "close-alert-modal": function($event) {
-                                    _vm.openAlertModal = false
-                                  }
-                                }
-                              })
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("h2", [
-                      _vm._v(
-                        "\n                        Streaming  link: \n                        "
-                      ),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "#/start-stream/" + _vm.profileData.stream_token,
-                            target: "_blank"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                            http://dev.streamcases.tv/#/start-stream/" +
-                              _vm._s(_vm.profileData.stream_token) +
-                              "\n                        "
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("h5", [
-                      _vm._v(
-                        "\n                        You may enter this link to your OBS to make your stream active in Gamificator.\n                        Or simple open this link in browser.\n                    "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/myviewers" }
-                    },
-                    [_vm._v("My viewers")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/mystreamers" }
-                    },
-                    [_vm._v("My streamers")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/mycards" }
-                    },
-                    [_vm._v("My cards")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/notifications" }
-                    },
-                    [_vm._v("Notifications")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/achivements" }
-                    },
-                    [_vm._v("Achivements")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/custom-donate" }
-                    },
-                    [_vm._v("Customize donate page")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { href: "#/custom-achivements" }
-                    },
-                    [_vm._v("Customize achivements page")]
-                  ),
-                  _vm._v(" "),
-                  _vm.profileData.prizes && _vm.profileData.prizes.length > 0
-                    ? _c(
-                        "div",
-                        { staticClass: "cabinet-prizes" },
-                        [
-                          _c("h2", [_vm._v("Winned prizes:")]),
-                          _vm._v(" "),
-                          _vm._l(_vm.profileData.prizes, function(prize) {
-                            return _c("div", [
-                              _c("img", {
-                                attrs: { src: "storage/" + prize.image }
-                              }),
-                              _vm._v(" "),
-                              _c("h5", [_vm._v(_vm._s(prize.name))])
-                            ])
-                          })
-                        ],
-                        2
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.customAchievementsLoaded
-                    ? _c("table", { staticClass: "table table-sm" }, [
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.profileData.fields, function(field) {
-                            return _c("tr", [
-                              _c("td", [_vm._v(_vm._s(field.alias))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(field.value))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm.checkHiden(field.name)
-                                  ? _c("i", { staticClass: "fa fa-eye-slash" })
-                                  : _c("i", { staticClass: "fa fa-eye" })
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm.checkHiden(field.name)
-                                  ? _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-xs btn-info",
-                                        on: {
-                                          click: function($event) {
-                                            $event.preventDefault()
-                                            _vm.setUnHidden(field.name)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    show\n                                "
-                                        )
-                                      ]
-                                    )
-                                  : _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-xs btn-warning",
-                                        on: {
-                                          click: function($event) {
-                                            $event.preventDefault()
-                                            _vm.setHidden(field.name)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    hide\n                                "
-                                        )
-                                      ]
-                                    )
-                              ])
-                            ])
-                          })
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  !_vm.customAchievementsLoaded
-                    ? _c("div", { staticClass: "v-loading" })
-                    : _vm._e()
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.userId != ""
-              ? _c("div", [
-                  _vm.profileData.paypal
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-warning",
-                          attrs: {
-                            href: "#/donate/" + _vm.profileData.streamer_id
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Donate Page\n                "
-                          )
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("table", { staticClass: "table table-sm" }, [
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.profileData.fields, function(field) {
-                        return _c("tr", [
-                          _c("td", [_vm._v(_vm._s(field.alias))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            field.name == "inventory" && field.data
-                              ? _c(
-                                  "div",
-                                  { staticClass: "cabinet-prizes" },
-                                  _vm._l(field.data, function(item) {
-                                    return _c("div", [
-                                      _c("img", {
-                                        attrs: { src: "storage/" + item.icon }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("h5", [_vm._v(_vm._s(item.title))])
-                                    ])
-                                  })
-                                )
-                              : _c("span", [_vm._v(_vm._s(field.value))])
-                          ])
-                        ])
-                      })
-                    )
-                  ])
-                ])
-              : _vm._e()
-          ])
         ])
-      ])
-    : _c("div", { staticClass: "cabinet-page" }, [
-        _vm._v("\n    Please login\n")
-      ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.checkToken
+      ? _c("div", { staticClass: "cabinet-page" }, [
+          _vm._v("\n        Please login\n    ")
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -100687,6 +100781,27 @@ var actions = {
                 state.alerts.push(jsonResp.message);
             }
             commit('loadCustomAchivements');
+        });
+    },
+    savePrizeAlertAction: function savePrizeAlertAction(_ref19, prizeAlert) {
+        var commit = _ref19.commit,
+            state = _ref19.state;
+
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('prize_alert', prizeAlert);
+        fetch('api/profile/prize-alert/save', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            console.log(jsonResp);
         });
     }
 };

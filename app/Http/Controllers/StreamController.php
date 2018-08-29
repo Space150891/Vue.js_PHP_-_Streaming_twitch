@@ -50,7 +50,11 @@ class StreamController extends Controller
         if (!$streamer) {
             return redirect('/');
         }
-        return view('pages.alert-widget', ['token' => $token]);
+        $data = [
+            'token'         => $token,
+            'prize_alert'   => $streamer->prize_alert,
+        ];
+        return view('pages.alert-widget', $data);
     }
 
 }

@@ -3,7 +3,22 @@
 namespace App\Http\Controllers;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use App\Models\{Streamer, User, ActiveStreamer, Activity, DailyWinner, Viewer, ViewerPrize, StockPrize, SubscribedStreamers, SubscriptionPlan};
+use App\Models\{
+    Streamer,
+    User,
+    ActiveStreamer,
+    Activity,
+    DailyWinner,
+    Viewer,
+    ViewerPrize,
+    ViewerItem,
+    StockPrize,
+    SubscribedStreamers,
+    SubscriptionPlan,
+    Card,
+    CustomAchievement,
+    Item,
+};
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -136,23 +151,74 @@ class WSController extends Controller implements MessageComponentInterface {
         // check win prize
         if (!is_null($this->clients[$from->resourceId]['streamer_id']) && isset($msg['action']) && $msg['action'] == 'check') {
             $now = new Carbon;
-            $now->subSeconds(env("WS_STREAM_ALERT_PERIOD") - 3);
+            $streamer = Streamer::find($this->clients[$from->resourceId]['streamer_id']);
+            $now->subSeconds($streamer->prize_alert - 3);
             // $updateTime = $now->timestamp;
             $updateTime = $now->toDateTimeString();
             $viewerPrize = ViewerPrize::where('created_at', '>', $updateTime)->orderBy('created_at', 'desc')->first();
             $data = [
                 'update time ' => $updateTime
             ];
-            $from->send(json_encode($data));
+            $from->send(json_encode($data)); // delete after testing
+            $alert = false;
             if ($viewerPrize) {
                 $viewer = Viewer::find($viewerPrize->viewer_id);
+                $user = $viewer->user()->first();
                 $prize = StockPrize::find($viewerPrize->prize_id);
                 $alert = [
-                    'viewer'    => $viewer->name,
-                    'prize'     => $prize->name,
-                    'image'     => $prize->image,
+                    'viewer'    => [
+                        'name'      => $viewer->name,
+                        'avatar'    => $user->avatar,
+                    ],
+                    'prize'     => [
+                        'price'     => $prize->cost,
+                        'icon'      => $prize->image,
+                    ],
                     'action'    => 'win',
                 ];
+            } else {
+                $viewerItem = ViewerItem::where('created_at', '>', $updateTime)->orderBy('created_at', 'desc')->first();
+                if ($viewerItem) {
+                    $viewer = Viewer::find($viewerItem->viewer_id);
+                    $user = $viewer->user()->first();
+                    $item = Item::find($viewerItem->item_id);
+                    $alert = [
+                        'viewer'    => [
+                            'name'      => $viewer->name,
+                            'avatar'    => $user->avatar,
+                        ],
+                        'prize'     => [
+                            'price'     => 0,
+                            'icon'      => $item->icon,
+                        ],
+                        'action'    => 'win',
+                    ];
+                }
+            }
+            if ($alert) {
+                $mainUser = $streamer->user()->first();
+                $mainViewer = $mainUser->viewer()->first();
+                if (!is_null($mainViewer->promoted_gamecard_id)) {
+                    $card = Card::find($mainViewer->promoted_gamecard_id);
+                    $viewerItem = ViewerItem::find($card->frame_id);
+                    $frame = Item::find($viewerItem->item_id);
+                    $viewerItem = ViewerItem::find($card->hero_id);
+                    $hero = Item::find($viewerItem->item_id);
+                    if ($card->a_type == "custom") {
+                        $achievement = CustomAchievement::find($card->achivement_id);
+                        $ach = $achievement->text;
+                    } else {
+                        $achievement = \DB::table('achievement_details')->find($card->achivement_id);
+                        $ach = $achievement->description;
+                    }
+                    $alert['card'] = [
+                        'frame' => $frame->image,
+                        'hero'  => $hero->image,
+                        'ach'   => $ach,
+                    ];
+                } else {
+                    $alert['card'] = false;
+                }
                 $from->send(json_encode($alert));
             }
         }

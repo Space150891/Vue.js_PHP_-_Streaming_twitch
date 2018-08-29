@@ -245,6 +245,7 @@ class ProfileController extends Controller
                 'prizes'        => $dataPrizes,
                 'hide_fields'   => $viewer->hide_fields ? $viewer->hide_fields : [],
                 'stream_token'  => $streamer->stream_token,
+                'prize_alert'   => $streamer->prize_alert,
                 'fields'        => [
                     [
                         'name'      => 'current_points',
@@ -336,6 +337,25 @@ class ProfileController extends Controller
         $viewer->save();
         return response()->json([
             'message' => 'field removed from hidden',
+        ]);
+    }
+
+    public function savePrizeAlert(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'prize_alert'       => 'required|in:30,60,120,300,600',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $user = auth()->user();
+        $streamer = $user->streamer()->first();
+        $streamer->prize_alert = $request->prize_alert;
+        $streamer->save();
+        return response()->json([
+            'message' => 'prize alert saved',
         ]);
     }
 

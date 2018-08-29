@@ -339,4 +339,24 @@ export const actions = {
             commit('loadCustomAchivements');
         });
     },
+    savePrizeAlertAction({commit, state}, prizeAlert) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('prize_alert', prizeAlert);
+        fetch('api/profile/prize-alert/save',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+        });
+    },
 }

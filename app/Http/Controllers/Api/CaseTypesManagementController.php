@@ -68,7 +68,7 @@ class CaseTypesManagementController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extention = strtolower($file->extension());
-            $fileName = 'image_' . $caseType->id . '_' . $extention;
+            $fileName = 'image_' . $caseType->id . '.' . $extention;
             $destination = 'public/case_types/';
             Storage::putFileAs($destination, $file, $fileName);
             $caseType->image = 'case_types/' . $fileName;
