@@ -17,7 +17,7 @@ use App\Models\{
     SubscriptionPlan,
     Card,
     CustomAchievement,
-    Item,
+    Item
 };
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
