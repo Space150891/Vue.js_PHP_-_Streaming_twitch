@@ -77629,6 +77629,10 @@ var render = function() {
                             }
                           },
                           [
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v(" 1 second ")
+                            ]),
+                            _vm._v(" "),
                             _c("option", { attrs: { value: "30" } }, [
                               _vm._v(" 30 seconds ")
                             ]),
@@ -100801,7 +100805,6 @@ var actions = {
             if (jsonResp.errors) {
                 state.alerts = state.alerts.concat(jsonResp.errors);
             }
-            console.log(jsonResp);
         });
     }
 };

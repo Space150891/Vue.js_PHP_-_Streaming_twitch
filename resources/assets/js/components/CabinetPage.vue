@@ -89,8 +89,8 @@
                         <label class="text-success">
                             Prize alert frequency:
                             <select class="form-control" v-model="prizeAlert" v-on:change="savePrizeAlert()">
+                                <option value=1> 1 second </option>
                                 <option value=30> 30 seconds </option>
-
                                 <option value=60> 1 minute </option>
                                 <option value=120> 2 minutes </option>
                                 <option value=300> 5 minutes </option>
