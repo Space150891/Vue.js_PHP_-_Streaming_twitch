@@ -114,10 +114,14 @@
   <body>
     <main id="stream-widget">
     </main>
+    <div id="test">
+    </div>
   </body>
   <script>
-    var connect = new WebSocket('{{ env("WS") }}');
+    window.addEventListener('obsRecordingStarted', function(evt) {
+        var connect = new WebSocket('{{ env("WS") }}');
         var ws = connect;
+        document.getElementById("test").innerHTML= '<img src="https://www.freeiconspng.com/uploads/glossy-ball-green-png-16.png\">';
         ws.onopen = function() {
             var mess = {
                 role: 'streamer',
@@ -131,53 +135,59 @@
                 }
                 ws.send(JSON.stringify(data));
             }, {{ $prize_alert }} * 1000);
-        };
-        ws.onmessage = function(event) {
-            console.log(event.data);
-            var data = JSON.parse(event.data);
-            if (data.action && data.action == 'win') {
-                var card = 'no card';
-                var prize = '';
-                if (data.card) {
-                    card = `<div class="flip-gamecard"> \
-                        <img src="/storage/${data.card.hero}" alt="hero" class="flip-hero"> \
-                        <img src="/storage/${data.card.frame}" alt="frame" class="flip-frame"> \
-                        <p class="flip-ach"> \
-                        ${data.card.ach} \
-                        </p></div>`;
-                }
-                var prizeImg = `<img src="/storage/${data.prize.icon}" alt="prize" class="flip-prize-image">`;
-                if (data.prize.price > 0) {
-                    prize = `<div><h5>${data.prize.price} USD </h5>${prizeImg}</div>`;
-                } else {
-                    prize = `<div>${prizeImg}</div>`;
-                }
-                var html = `<div class="container-flip"> \
-                                <div class="card-flip"> \
-                                    <div class="front-flip"> \
-                                        <div> \
-                                            <img src="${data.viewer.avatar}" alt="avatar" class="flip-avatar"> \
-                                            <strong class="flip-viewer">${data.viewer.name}</strong> \
+            window.addEventListener('obsRecordingStopped', function(evt) {
+                document.getElementById("test").innerHTML= '<img src="https://vignette.wikia.nocookie.net/pocketplanes/images/f/fc/Offline_status.png\">';
+                ws.close();
+            });
+        
+            ws.onmessage = function(event) {
+                console.log(event.data);
+                var data = JSON.parse(event.data);
+                if (data.action && data.action == 'win') {
+                    var card = 'no card';
+                    var prize = '';
+                    if (data.card) {
+                        card = `<div class="flip-gamecard"> \
+                            <img src="/storage/${data.card.hero}" alt="hero" class="flip-hero"> \
+                            <img src="/storage/${data.card.frame}" alt="frame" class="flip-frame"> \
+                            <p class="flip-ach"> \
+                            ${data.card.ach} \
+                            </p></div>`;
+                    }
+                    var prizeImg = `<img src="/storage/${data.prize.icon}" alt="prize" class="flip-prize-image">`;
+                    if (data.prize.price > 0) {
+                        prize = `<div><h5>${data.prize.price} USD </h5>${prizeImg}</div>`;
+                    } else {
+                        prize = `<div>${prizeImg}</div>`;
+                    }
+                    var html = `<div class="container-flip"> \
+                                    <div class="card-flip"> \
+                                        <div class="front-flip"> \
+                                            <div> \
+                                                <img src="${data.viewer.avatar}" alt="avatar" class="flip-avatar"> \
+                                                <strong class="flip-viewer">${data.viewer.name}</strong> \
+                                            </div> \
+                                            <div> \
+                                                <img src="/images/logo.png" class="flip-logo"> \
+                                            </div> \
+                                            ${prize} \
                                         </div> \
-                                        <div> \
-                                            <img src="/images/logo.png" class="flip-logo"> \
+                                        <div class="back-flip"> \
+                                            ${card} \
                                         </div> \
-                                        ${prize} \
                                     </div> \
-                                    <div class="back-flip"> \
-                                        ${card} \
-                                    </div> \
-                                </div> \
-                            </div>`;
-                document.getElementById('stream-widget').innerHTML = html;
-                setTimeout(() => {
-                    document.querySelector('.card-flip').classList.add("flipped");
-                }, 2000); // 2 seconds
-                setTimeout(() => {
-                    document.getElementById('stream-widget').innerHTML = "";
-                }, 4000); // two seconds
+                                </div>`;
+                    document.getElementById('stream-widget').innerHTML = html;
+                    setTimeout(() => {
+                        document.querySelector('.card-flip').classList.add("flipped");
+                    }, 2000); // 2 seconds
+                    setTimeout(() => {
+                        document.getElementById('stream-widget').innerHTML = "";
+                    }, 4000); // two seconds
 
-            }
+                }
+            };
         };
+    });
   </script>
 </html>
