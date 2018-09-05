@@ -709,4 +709,32 @@ export const mutations = {
             
         });
     },
+    getLiqForm(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', data.subscriptionPlan);
+        formData.append('month_plan_id', data.monthPlan);
+        fetch('liqpay/getform',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            } else {
+                state.payments.liqForm = jsonResp.data.form;
+            }
+            
+        });
+
+    },
 }

@@ -359,4 +359,7 @@ export const actions = {
             }
         });
     },
+    getLiqFormAction({commit, state}, data) {
+        commit('getLiqForm', data);
+    }
 }

@@ -6,19 +6,35 @@
                 <form action="paypal/pay" method="POST">
                     <select v-model="form.subscriptionPlan" class="form-control" name="subscription_plan_id">
                         <option value=0>Select subscription plan</option>
-                        <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id">
+                        <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id" :key="subscriptionPlan.id">
                             {{subscriptionPlan.name}} cost {{subscriptionPlan.price}}
                         </option>
                     </select>
-                    <select  v-model="form.monthPlan" class="form-control" name="month_plan_id">
+                    <select v-on:change="loadLiqForm()" v-model="form.monthPlan" class="form-control" name="month_plan_id">
                         <option value=0>Select months</option>
-                        <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id">
+                        <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id" :key="monthPlan.id">>
                             months {{monthPlan.monthes}} discount {{monthPlan.percent}} %
                         </option>
                     </select>
                     <input type="hidden" v-bind:value="currentStreamer.user_id" name="user_id">
                     <input type="hidden" value="subscription" name="type">
-                    <button type="submit" class="btn btn-success form-control" @click="submitAction"> SUBSCRIBE </button>
+                    <div v-if="!payReady" class="pay-disable">
+                        <img src="\images\paypal_bw.png" alt="paypal icon">
+                        <img src="\images\liqpay_bw.png" alt="liqpay icon">
+                        <img src="\images\qiwi_bw.png" alt="qiwi icon">
+                    </div>
+                    <div v-if="payReady" class="pay-enable">
+                        <div>
+                            <img @click="submitAction" src="\images\paypal.png" alt="paypal icon">
+                        </div>
+                        <div>
+                            <img src="\images\liqpay.png" alt="liqpay icon">
+                            {{ payments.liqForm }}
+                        </div>
+                        <div>
+                            <img src="\images\qiwi.png" alt="qiwi icon">
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -27,6 +43,33 @@
         Please login
     </div>
 </template>
+<style>
+.pay-disable {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.pay-disable > img{
+    width: 100px;
+}
+
+.pay-enable {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.pay-enable>div {
+    width: 100px;
+}
+
+.pay-enable>div img {
+    cursor: pointer;
+    width: 100%;
+} 
+
+</style>
 <script>
     export default {
         data(){
@@ -34,7 +77,7 @@
                 form : {
                     subscriptionPlan : 0,
                     monthPlan : 0,
-                }
+                },
             }
         },
         mounted() {
@@ -44,6 +87,15 @@
             submitAction(event) {
                 if (this.form.subscriptionPlan == 0 || this.form.monthPlan == 0) {
                     event.preventDefault();
+                }
+            },
+            loadLiqForm() {
+                if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                    const data = {
+                        subscriptionPlan,
+                        monthPlan,
+                    };
+                    this.$store.dispatch('getLiqFormAction', data);
                 }
             },
         },
@@ -60,6 +112,16 @@
             monthPlans: function () {
                 return this.$store.getters.monthPlans;
             },
+            payReady: function () {
+                if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            payments: function () {
+                return this.$store.getters.payments;
+            }
         },
     }
 </script>

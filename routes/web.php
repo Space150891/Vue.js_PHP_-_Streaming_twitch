@@ -156,3 +156,5 @@ Route::post('paypal/pay', 'PayPalController@getExpressCheckout');
 Route::get('paypal/success', 'PayPalController@getExpressCheckoutSuccess');
 Route::post('paypal/notify', 'PayPalController@notify');
 Route::get('start-stream/{token}', 'StreamController@startStream');
+Route::post('liqpay/getform', 'LiqpayController@genSubscribeForm');
+Route::post('liqpay/subscribe', 'LiqpayController@acceptSubscribe');

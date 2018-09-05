@@ -128,4 +128,7 @@ export const getters = {
     jwt: state => {
         return state.token;
     },
+    payments: state => {
+        return state.payments;
+    }
 }

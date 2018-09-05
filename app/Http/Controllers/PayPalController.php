@@ -42,13 +42,14 @@ class PayPalController extends Controller
         $userId = $user->id;
         $payment = new Payment();
         if ($request->type == 'buy_diamonds') {
-            $data = ['diamonds_set_id'  =>  $request->diamonds_set_id];
+            $data = ['diamonds_set_id'  =>  $request->diamonds_set_id, 'service'    => 'paypal'];
             $payment->details = json_encode($data);
         }
         if ($request->type == 'subscription') {
             $data = [
                 'subscription_plan_id'  => $request->subscription_plan_id,
                 'month_plan_id'         => $request->month_plan_id,
+                'service'    => 'paypal'
             ];
             $payment->details = json_encode($data);
         }

@@ -4687,6 +4687,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -4706,6 +4749,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.form.subscriptionPlan == 0 || this.form.monthPlan == 0) {
                 event.preventDefault();
             }
+        },
+        loadLiqForm: function loadLiqForm() {
+            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                var data = {
+                    subscriptionPlan: subscriptionPlan,
+                    monthPlan: monthPlan
+                };
+                this.$store.dispatch('getLiqFormAction', data);
+            }
         }
     },
     computed: {
@@ -4720,6 +4772,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         monthPlans: function monthPlans() {
             return this.$store.getters.monthPlans;
+        },
+        payReady: function payReady() {
+            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        payments: function payments() {
+            return this.$store.getters.payments;
         }
     }
 });
@@ -23981,6 +24043,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  width: 75%;\n  height: 89vh;\n  margin-left: 15%;\n  margin-top: 109px;\n  overflow-y: scroll;\n}\n.flex-pos {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.paginate-list {\n  width: 100%;\n  list-style-type: none;\n  padding: 0;\n}\n.paginate-list li {\n    display: inline-block;\n}\n.paginate-links.pricesItems {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-top: 2%;\n  margin-bottom: 6%;\n}\n.paginate-links.pricesItems a {\n    margin: 0 10px;\n    cursor: pointer;\n    color: #555555;\n}\n.paginate-links.pricesItems li.active a {\n    font-weight: bold;\n}\n.paginate-links.pricesItems li.next:before {\n    content: ' | ';\n    margin-right: 13px;\n    color: #ddd;\n}\n.paginate-links.pricesItems li.disabled a {\n    color: #ccc;\n    cursor: no-drop;\n}\n.price-up-items {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  margin: 0px 10px;\n  padding: 0px 15px;\n  border-bottom: 1px solid black;\n}\n.price-up-item {\n  font-size: 16px;\n  padding: 3.5px 10px;\n  margin-right: 10px;\n  border-right: 1px solid #e2e2e2;\n  cursor: pointer;\n}\n.price-up-item:hover {\n    background: #e2e2e2;\n}\n.price-up-item:active {\n    background: #c3c3c3;\n}\n.prices-items {\n  height: 180px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 3px solid black;\n  margin: 1%;\n  padding: 10px;\n  cursor: pointer;\n  position: relative;\n}\n.prices-items h2 {\n    font-size: 20px;\n}\n.prices-items span {\n    padding: 0px 14px 3px 14px;\n    border: 3px solid black;\n    border-radius: 10px;\n    position: absolute;\n    bottom: 10px;\n}\n.price-image {\n  width: 80px;\n  height: 80px;\n}\n@media (min-width: 1201px) and (max-width: 1350px) {\n.prc-mdd {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 23%;\n            flex: 0 0 23%;\n    max-width: 23%;\n}\n}\n@media (max-width: 991px) {\n.midle-price {\n    margin-top: 69px;\n}\n}\n@media (max-width: 767px) {\n.col-sm-12 {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 100%;\n            flex: 0 0 100%;\n}\n.prices-items {\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 60%;\n            flex: 0 0 60%;\n    min-width: 160px;\n}\n}\n@media (max-width: 600px) {\n.price-up-item {\n    padding: 5px;\n    font-size: 15px;\n}\n}\n@media (max-width: 600px) and (max-height: 321px) {\n.price-items-pagination {\n    height: 50px;\n}\n.price-image {\n    width: 35%;\n}\n.prices-items span {\n    font-size: 13px;\n}\n.prices-items {\n    padding: 2px;\n}\n.prices-items h2 {\n    font-size: 17px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.pay-disable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable > img{\n    width: 100px;\n}\n.pay-enable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-enable>div {\n    width: 100px;\n}\n.pay-enable>div img {\n    cursor: pointer;\n    width: 100%;\n} \n\n", ""]);
 
 // exports
 
@@ -79135,7 +79212,10 @@ var render = function() {
                   _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
                     return _c(
                       "option",
-                      { domProps: { value: subscriptionPlan.id } },
+                      {
+                        key: subscriptionPlan.id,
+                        domProps: { value: subscriptionPlan.id }
+                      },
                       [
                         _vm._v(
                           "\n                        " +
@@ -79165,23 +79245,28 @@ var render = function() {
                   staticClass: "form-control",
                   attrs: { name: "month_plan_id" },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "monthPlan",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.form,
+                          "monthPlan",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        _vm.loadLiqForm()
+                      }
+                    ]
                   }
                 },
                 [
@@ -79190,15 +79275,19 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.monthPlans, function(monthPlan) {
-                    return _c("option", { domProps: { value: monthPlan.id } }, [
-                      _vm._v(
-                        "\n                        months " +
-                          _vm._s(monthPlan.monthes) +
-                          " discount " +
-                          _vm._s(monthPlan.percent) +
-                          " %\n                    "
-                      )
-                    ])
+                    return _c(
+                      "option",
+                      { key: monthPlan.id, domProps: { value: monthPlan.id } },
+                      [
+                        _vm._v(
+                          ">\n                        months " +
+                            _vm._s(monthPlan.monthes) +
+                            " discount " +
+                            _vm._s(monthPlan.percent) +
+                            " %\n                    "
+                        )
+                      ]
+                    )
                   })
                 ],
                 2
@@ -79213,15 +79302,57 @@ var render = function() {
                 attrs: { type: "hidden", value: "subscription", name: "type" }
               }),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success form-control",
-                  attrs: { type: "submit" },
-                  on: { click: _vm.submitAction }
-                },
-                [_vm._v(" SUBSCRIBE ")]
-              )
+              !_vm.payReady
+                ? _c("div", { staticClass: "pay-disable" }, [
+                    _c("img", {
+                      attrs: {
+                        src: "\\images\\paypal_bw.png",
+                        alt: "paypal icon"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      attrs: {
+                        src: "\\images\\liqpay_bw.png",
+                        alt: "liqpay icon"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      attrs: { src: "\\images\\qiwi_bw.png", alt: "qiwi icon" }
+                    })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.payReady
+                ? _c("div", { staticClass: "pay-enable" }, [
+                    _c("div", [
+                      _c("img", {
+                        attrs: {
+                          src: "\\images\\paypal.png",
+                          alt: "paypal icon"
+                        },
+                        on: { click: _vm.submitAction }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("img", {
+                        attrs: {
+                          src: "\\images\\liqpay.png",
+                          alt: "liqpay icon"
+                        }
+                      }),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.payments.liqForm) +
+                          "\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ])
+                : _vm._e()
             ])
           ])
         ])
@@ -79230,7 +79361,16 @@ var render = function() {
         _vm._v("\n    Please login\n")
       ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("img", { attrs: { src: "\\images\\qiwi.png", alt: "qiwi icon" } })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -85463,6 +85603,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d0acfd2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MidlePricesPart.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3d0acfd2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MidlePricesPart.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("04f04824", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -100034,6 +100201,10 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
+}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubscribePage.vue")
@@ -100042,7 +100213,7 @@ var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/templa
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -100806,6 +100977,12 @@ var actions = {
                 state.alerts = state.alerts.concat(jsonResp.errors);
             }
         });
+    },
+    getLiqFormAction: function getLiqFormAction(_ref20, data) {
+        var commit = _ref20.commit,
+            state = _ref20.state;
+
+        commit('getLiqForm', data);
     }
 };
 
@@ -100945,6 +101122,9 @@ var getters = {
     },
     jwt: function jwt(state) {
         return state.token;
+    },
+    payments: function payments(state) {
+        return state.payments;
     }
 };
 
@@ -101580,6 +101760,29 @@ var mutations = {
             state.customAchievements.list = jsonResp.data ? jsonResp.data.achievements : [];
             state.customAchievements.loaded = true;
         });
+    },
+    getLiqForm: function getLiqForm(state, data) {
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', data.subscriptionPlan);
+        formData.append('month_plan_id', data.monthPlan);
+        fetch('liqpay/getform', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            } else {
+                state.payments.liqForm = jsonResp.data.form;
+            }
+        });
     }
 };
 
@@ -101704,6 +101907,9 @@ var state = {
     viewerCustomAchievements: {
         list: [],
         loaded: false
+    },
+    payments: {
+        liqForm: ''
     }
 };
 

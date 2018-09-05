@@ -112,5 +112,8 @@ export const state = {
     viewerCustomAchievements: {
         list: [],
         loaded: false,
-    }
+    },
+    payments: {
+        liqForm: '',
+    },
 }
