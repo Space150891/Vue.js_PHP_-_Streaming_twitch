@@ -430,6 +430,7 @@ export const mutations = {
             }
             state.mainContent.list = jsonResp.data ? jsonResp.data : [];
             state.mainContent.loaded = true;
+            state.multistream = jsonResp.data.multistream ? true : false;
         });
     },
     getMainChannel(state) {
@@ -737,4 +738,23 @@ export const mutations = {
         });
 
     },
+    getMultistreamCheck(state) {
+        fetch('api/multistream/check',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            } else {
+                state.multistream = jsonResp.data.multistream ? true : false;
+                console.log('MULTISTREAM=', state.multistream);
+            }
+        });
+    }
 }

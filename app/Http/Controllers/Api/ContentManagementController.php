@@ -19,7 +19,7 @@ class ContentManagementController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['show']]);
+        $this->middleware('auth:api', ['except' => ['show', 'checkMultistream']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -46,22 +46,37 @@ class ContentManagementController extends Controller
             ]);
         }
         $content = json_decode($request->content);
-        //dd($content);
+        // dd($content);
         foreach ($content as $cont) {
             $existContent = MainContent::where('name', $cont->name)->first();
             if ($existContent) {
-                $existContent->content = $cont->content;
+                $existContent->content = isset($cont->content) ? $cont->content : '';
                 $existContent->save();
             } else {
                 $newContent = new MainContent();
                 $newContent->name = $cont->name;
-                $newContent->content = $cont->content;
+                $newContent->content = isset($cont->content) ? $cont->content : '';
                 $newContent->save();
             }
         }
         return response()->json([
             'message' => 'content saved',
         ]);
+    }
+
+    public function checkMultistream(Request $request)
+    {
+        $multi = MainContent::where('name', 'multistream')->first();
+        if ($multi && $multi->content === 'true') {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        return response()->json([
+            'data' => [
+                'multistream' => $response,
+            ],
+        ]); 
     }
  
 }

@@ -121,6 +121,9 @@ Route::group([
     Route::post('achivements/custom/list', 'Api\CustomAchievementsController@index');
     Route::post('achivements/custom/deletemy', 'Api\CustomAchievementsController@deleteMy');
     Route::post('achivements/custom/main', 'Api\CustomAchievementsController@main');
+
+    Route::post('multistream/check', 'Api\ContentManagementController@checkMultistream');
+    
 });
 
 

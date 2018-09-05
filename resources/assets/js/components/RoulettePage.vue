@@ -25,7 +25,7 @@
                     <drop-down mainLabel="Donate Streamer" baseUrl="donate" v-bind:links="viewChannels"></drop-down>
                 </div>
             </div>
-            <div v-if="stage == 'welcome' && checkToken && currentPoints > 0" class="roulette-welcome">
+            <div v-if="stage == 'welcome' && checkToken && checkMultistream" class="roulette-welcome">
                 <h1>Roulette</h1>
                 <input v-model="totalChannels" type="radio" value=1 name="channels" id="cr1">
                 <label for="cr1">
@@ -83,6 +83,15 @@
             }
         },
         mounted() {
+            this.checkMultistream;
+            if (!this.checkMultistream) {
+                this.totalChannels = 1;
+                this.startViewRoulette();
+            }
+            this.$store.commit('getMultistreamCheck');
+        },
+        updated() {
+            // this.$store.commit('getMultistreamCheck');
         },
         methods: {
             startViewRoulette() {
@@ -156,6 +165,9 @@
             getCaptcha: function() {
                 const form = document.getElementById('captcha-box');
                 return form['g-recaptcha-response'].value;
+            },
+            checkMultistream: function () {
+                return this.$store.getters.checkMultistream;
             },
         },
 
