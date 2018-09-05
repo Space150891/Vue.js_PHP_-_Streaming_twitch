@@ -92,6 +92,10 @@ class SmsController extends Controller
             $userReferal = User::find($afiliate->user_id);
             $userReferal->addProgress(new FirstReferViewerAchievement(), 1);
             $userReferal->addProgress(new Refer100ViewersAchievement(), 1);
+            $viewerReferal = $userReferal->viewer()->first();
+            $viewerReferal->current_points = $viewerReferal->current_points + 10;
+            $viewerReferal->level_points = $viewerReferal->level_points + 10;
+            $viewerReferal->save();
         }
         return response()->json([
             'message' => 'code correct',

@@ -3231,6 +3231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3244,6 +3245,10 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     mounted: function mounted() {
         this.$store.commit('loadGames');
         this.clearSelected();
+        this.$store.commit('getMultistreamCheck');
+    },
+    updated: function updated() {
+        // this.$store.commit('getMultistreamCheck');
     },
 
     methods: {
@@ -3258,11 +3263,16 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             this.currentGame = false;
         },
         select: function select(streamerName) {
-            var pos = this.selected.indexOf(streamerName);
-            if (pos > -1) {
-                this.selected.splice(pos, 1);
+            if (this.checkMultistream) {
+                var pos = this.selected.indexOf(streamerName);
+                if (pos > -1) {
+                    this.selected.splice(pos, 1);
+                } else {
+                    this.selected.push(streamerName);
+                }
             } else {
                 this.selected.push(streamerName);
+                this.watchStreams();
             }
         },
         watchStreams: function watchStreams() {
@@ -3283,6 +3293,9 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         },
         streamsLoaded: function streamsLoaded() {
             return this.$store.getters.streamersLoaded;
+        },
+        checkMultistream: function checkMultistream() {
+            return this.$store.getters.checkMultistream;
         }
     }
 });
@@ -4123,7 +4136,17 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             captcha: ''
         };
     },
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        this.checkMultistream;
+        if (!this.checkMultistream) {
+            this.totalChannels = 1;
+            this.startViewRoulette();
+        }
+        this.$store.commit('getMultistreamCheck');
+    },
+    updated: function updated() {
+        // this.$store.commit('getMultistreamCheck');
+    },
 
     methods: {
         startViewRoulette: function startViewRoulette() {
@@ -4199,6 +4222,9 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         getCaptcha: function getCaptcha() {
             var form = document.getElementById('captcha-box');
             return form['g-recaptcha-response'].value;
+        },
+        checkMultistream: function checkMultistream() {
+            return this.$store.getters.checkMultistream;
         }
     }
 
@@ -78648,7 +78674,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.stage == "welcome" && _vm.checkToken && _vm.currentPoints > 0
+        _vm.stage == "welcome" && _vm.checkToken && _vm.checkMultistream
           ? _c("div", { staticClass: "roulette-welcome" }, [
               _c("h1", [_vm._v("Roulette")]),
               _vm._v(" "),
@@ -80408,6 +80434,7 @@ var render = function() {
                         ? _c(
                             "div",
                             {
+                              key: stream.name,
                               staticClass:
                                 "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items",
                               on: {
@@ -80460,6 +80487,7 @@ var render = function() {
                 ? _c(
                     "div",
                     {
+                      key: item.name,
                       staticClass:
                         "dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
                     },
@@ -100596,7 +100624,7 @@ module.exports = Component.exports
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
-module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq","ws_server":"ws://localhost:8080"}
+module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq","ws_server":"ws://localhost:8080","multistream":false}
 
 /***/ }),
 
@@ -101125,6 +101153,9 @@ var getters = {
     },
     payments: function payments(state) {
         return state.payments;
+    },
+    checkMultistream: function checkMultistream(state) {
+        return state.multistream;
     }
 };
 
@@ -101512,6 +101543,7 @@ var mutations = {
             }
             state.mainContent.list = jsonResp.data ? jsonResp.data : [];
             state.mainContent.loaded = true;
+            state.multistream = jsonResp.data.multistream ? true : false;
         });
     },
     getMainChannel: function getMainChannel(state) {
@@ -101783,6 +101815,22 @@ var mutations = {
                 state.payments.liqForm = jsonResp.data.form;
             }
         });
+    },
+    getMultistreamCheck: function getMultistreamCheck(state) {
+        fetch('api/multistream/check', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            } else {
+                state.multistream = jsonResp.data.multistream ? true : false;
+                console.log('MULTISTREAM=', state.multistream);
+            }
+        });
     }
 };
 
@@ -101910,7 +101958,8 @@ var state = {
     },
     payments: {
         liqForm: ''
-    }
+    },
+    multistream: false
 };
 
 /***/ }),

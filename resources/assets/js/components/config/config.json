@@ -3,5 +3,6 @@
     "timeOut" : 3000,
     "on_page" : 50,
     "captcha_key" : "6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq",
-    "ws_server" : "ws://localhost:8080"
+    "ws_server" : "ws://localhost:8080",
+    "multistream" : false
 }

@@ -130,5 +130,8 @@ export const getters = {
     },
     payments: state => {
         return state.payments;
-    }
+    },
+    checkMultistream: state => {
+        return state.multistream;
+    },
 }

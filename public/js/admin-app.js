@@ -3750,6 +3750,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3759,7 +3767,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         return {
             customToolbar: [['bold', 'italic', 'underline', 'strike'], [{ 'align': '' }, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }], ['blockquote', 'code-block'], [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }], [{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
             [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
-            ['link'], ['clean']]
+            ['link'], ['clean']],
+            multistream: 0
         };
     },
     mounted: function mounted() {
@@ -3786,10 +3795,22 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 name: 'welcomeEmail',
                 content: this.mainContent.welcomeEmail
             });
+            data.push({
+                name: 'multistream',
+                content: this.multistream
+            });
             this.$store.dispatch('updateMainContentAction', data);
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'mainContent', 'mainContentLoaded']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'mainContentLoaded']), {
+        mainContent: function mainContent() {
+            var data = this.$store.getters.mainContent;
+            if (this.multistream == 0) {
+                this.multistream = this.$store.getters.mainContent.multistream ? 'true' : 'false';
+            }
+            return data;
+        }
+    })
 });
 
 /***/ }),
@@ -46618,7 +46639,7 @@ var render = function() {
                         },
                         attrs: { href: "#/main-content" }
                       },
-                      [_vm._v("Main content")]
+                      [_vm._v("Main content / multistream")]
                     )
                   ]),
                   _vm._v(" "),
@@ -49761,7 +49782,39 @@ var render = function() {
             [
               _c("inline-alert"),
               _vm._v(" "),
-              _c("h5", [_vm._v("Main Content")]),
+              _c("h2", [_vm._v("Main Content")]),
+              _vm._v(" "),
+              _c("h4", [_vm._v("Multistream")]),
+              _vm._v(" "),
+              _vm.multistream == "false"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-lg",
+                      on: {
+                        click: function($event) {
+                          _vm.multistream = "true"
+                        }
+                      }
+                    },
+                    [_vm._v("\n            MULTISTREAM OFF\n        ")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.multistream == "true"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-lg",
+                      on: {
+                        click: function($event) {
+                          _vm.multistream = "false"
+                        }
+                      }
+                    },
+                    [_vm._v("\n            MULTISTREAM ON\n        ")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "button",
@@ -67890,7 +67943,7 @@ var state = {
 /***/ "./resources/assets/js/components/config/config.json":
 /***/ (function(module, exports) {
 
-module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq","ws_server":"ws://localhost:8080"}
+module.exports = {"baseUrl":"http://localhost:8000","timeOut":3000,"on_page":50,"captcha_key":"6LeKiWgUAAAAAMoKLZ5JqthjMkOmXEC-g1x_k5Bq","ws_server":"ws://localhost:8080","multistream":false}
 
 /***/ }),
 
