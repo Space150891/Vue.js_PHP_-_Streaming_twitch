@@ -29,8 +29,9 @@
                             >
                                 <img 
                                   class="price-image"
-                                  v-bind:src="stream.avatar ? backPublic + '/' + stream.avatar : backPublic + '/images/tvitch-question.png'"
+                                  v-bind:src="stream.image ? stream.image : backPublic + '/images/tvitch-question.png'"
                                   v-bind:alt="stream.name" 
+                                  style="width:231px; height: 383px"
                                 >
                                 <h2>
                                     {{ stream.name }}

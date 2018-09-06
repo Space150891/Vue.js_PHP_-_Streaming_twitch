@@ -3232,6 +3232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80446,9 +80447,13 @@ var render = function() {
                             [
                               _c("img", {
                                 staticClass: "price-image",
+                                staticStyle: {
+                                  width: "231px",
+                                  height: "383px"
+                                },
                                 attrs: {
-                                  src: stream.avatar
-                                    ? _vm.backPublic + "/" + stream.avatar
+                                  src: stream.image
+                                    ? stream.image
                                     : _vm.backPublic +
                                       "/images/tvitch-question.png",
                                   alt: stream.name
