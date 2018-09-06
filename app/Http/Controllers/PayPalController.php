@@ -150,14 +150,12 @@ class PayPalController extends Controller
                     ])->orderBy('valid_until', 'desc')->first();
                     if ($old) {
                         $subscribed->valid_from = $old->valid_until;
-                        \Log::info('find old ' . $old->valid_until);
                     } else {
                         $subscribed->valid_from = Carbon::today()->toDateTimeString();
                     }
 
                     $toDate = new Carbon($subscribed->valid_from);
                     $toDate->addMonths($monthPlan->monthes);
-                    \Log::info('valid to  ' . $toDate->toDateTimeString());
                     $subscribed->valid_until = $toDate->toDateTimeString();
                     $subscribed->save();
                     return redirect('/#/subscribe');

@@ -141,7 +141,6 @@ class SignedViewersController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-        \Log::info('delete id=' . $request->id);
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $signedViewer = SignedViewer::where([
