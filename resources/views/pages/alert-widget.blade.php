@@ -114,7 +114,7 @@
   <body>
     <main id="stream-widget">
     </main>
-    <div id="test">
+    <div id="test" style="width: 100px; height:100px">
     </div>
   </body>
   <script>
