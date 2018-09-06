@@ -4752,10 +4752,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         loadLiqForm: function loadLiqForm() {
             if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                var _ref = [this.form.subscriptionPlan, this.form.monthPlan],
+                    subscriptionPlan = _ref[0],
+                    monthPlan = _ref[1];
+
                 var data = {
                     subscriptionPlan: subscriptionPlan,
                     monthPlan: monthPlan
                 };
+                console.log(data);
                 this.$store.dispatch('getLiqFormAction', data);
             }
         }
@@ -4781,7 +4786,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         payments: function payments() {
-            return this.$store.getters.payments;
+            return this.$store.getters.payments.liqForm;
         }
     }
 });
@@ -24057,7 +24062,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable > img{\n    width: 100px;\n}\n.pay-enable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-enable>div {\n    width: 100px;\n}\n.pay-enable>div img {\n    cursor: pointer;\n    width: 100%;\n} \n\n", ""]);
+exports.push([module.i, "\n.pay-disable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable > img{\n    width: 100px;\n}\n.pay-enable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-enable>div {\n    width: 100px;\n}\n.pay-enable>div img {\n    cursor: pointer;\n    width: 100%;\n}\n\n", ""]);
 
 // exports
 
@@ -79185,23 +79190,28 @@ var render = function() {
                   staticClass: "form-control",
                   attrs: { name: "subscription_plan_id" },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "subscriptionPlan",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.form,
+                          "subscriptionPlan",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        _vm.loadLiqForm()
+                      }
+                    ]
                   }
                 },
                 [
@@ -79229,131 +79239,129 @@ var render = function() {
                   })
                 ],
                 2
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.monthPlan,
-                      expression: "form.monthPlan"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "month_plan_id" },
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.form,
-                          "monthPlan",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      },
-                      function($event) {
-                        _vm.loadLiqForm()
-                      }
-                    ]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.monthPlan,
+                    expression: "form.monthPlan"
                   }
-                },
-                [
-                  _c("option", { attrs: { value: "0" } }, [
-                    _vm._v("Select months")
+                ],
+                staticClass: "form-control",
+                attrs: { name: "month_plan_id" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form,
+                        "monthPlan",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function($event) {
+                      _vm.loadLiqForm()
+                    }
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { value: "0" } }, [
+                  _vm._v("Select months")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.monthPlans, function(monthPlan) {
+                  return _c(
+                    "option",
+                    { key: monthPlan.id, domProps: { value: monthPlan.id } },
+                    [
+                      _vm._v(
+                        ">\n                    months " +
+                          _vm._s(monthPlan.monthes) +
+                          " discount " +
+                          _vm._s(monthPlan.percent) +
+                          " %\n                "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", name: "user_id" },
+              domProps: { value: _vm.currentStreamer.user_id }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", value: "subscription", name: "type" }
+            }),
+            _vm._v(" "),
+            !_vm.payReady
+              ? _c("div", { staticClass: "pay-disable" }, [
+                  _c("img", {
+                    attrs: {
+                      src: "\\images\\paypal_bw.png",
+                      alt: "paypal icon"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: "\\images\\liqpay_bw.png",
+                      alt: "liqpay icon"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: { src: "\\images\\qiwi_bw.png", alt: "qiwi icon" }
+                  })
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.payReady
+              ? _c("div", { staticClass: "pay-enable" }, [
+                  _c("div", [
+                    _c("img", {
+                      attrs: {
+                        src: "\\images\\paypal.png",
+                        alt: "paypal icon"
+                      },
+                      on: { click: _vm.submitAction }
+                    })
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.monthPlans, function(monthPlan) {
-                    return _c(
-                      "option",
-                      { key: monthPlan.id, domProps: { value: monthPlan.id } },
-                      [
-                        _vm._v(
-                          ">\n                        months " +
-                            _vm._s(monthPlan.monthes) +
-                            " discount " +
-                            _vm._s(monthPlan.percent) +
-                            " %\n                    "
-                        )
-                      ]
-                    )
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "hidden", name: "user_id" },
-                domProps: { value: _vm.currentStreamer.user_id }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "hidden", value: "subscription", name: "type" }
-              }),
-              _vm._v(" "),
-              !_vm.payReady
-                ? _c("div", { staticClass: "pay-disable" }, [
+                  _c("div", [
                     _c("img", {
                       attrs: {
-                        src: "\\images\\paypal_bw.png",
-                        alt: "paypal icon"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\liqpay_bw.png",
+                        src: "\\images\\liqpay.png",
                         alt: "liqpay icon"
-                      }
+                      },
+                      on: { click: _vm.loadLiqForm }
                     }),
                     _vm._v(" "),
-                    _c("img", {
-                      attrs: { src: "\\images\\qiwi_bw.png", alt: "qiwi icon" }
-                    })
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.payReady
-                ? _c("div", { staticClass: "pay-enable" }, [
-                    _c("div", [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\paypal.png",
-                          alt: "paypal icon"
-                        },
-                        on: { click: _vm.submitAction }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\liqpay.png",
-                          alt: "liqpay icon"
-                        }
-                      }),
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.payments.liqForm) +
-                          "\n                    "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(0)
-                  ])
-                : _vm._e()
-            ])
+                    _c("div", { domProps: { innerHTML: _vm._s(_vm.payments) } })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ])
+              : _vm._e()
           ])
         ])
       ])
@@ -101763,7 +101771,7 @@ var mutations = {
     },
     getLiqForm: function getLiqForm(state, data) {
         var formData = new FormData();
-        formData.append('token', state.token);
+        // formData.append('_token', state.token);
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
         fetch('liqpay/getform', {
@@ -101782,6 +101790,8 @@ var mutations = {
             } else {
                 state.payments.liqForm = jsonResp.data.form;
             }
+        }).catch(function (err) {
+            return err;
         });
     }
 };

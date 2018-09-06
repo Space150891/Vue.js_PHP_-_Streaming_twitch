@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h5 class="card-title">Subscription</h5>
                 <form action="paypal/pay" method="POST">
-                    <select v-model="form.subscriptionPlan" class="form-control" name="subscription_plan_id">
+                    <select v-on:change="loadLiqForm()" v-model="form.subscriptionPlan" class="form-control" name="subscription_plan_id">
                         <option value=0>Select subscription plan</option>
                         <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id" :key="subscriptionPlan.id">
                             {{subscriptionPlan.name}} cost {{subscriptionPlan.price}}
@@ -23,19 +23,19 @@
                         <img src="\images\liqpay_bw.png" alt="liqpay icon">
                         <img src="\images\qiwi_bw.png" alt="qiwi icon">
                     </div>
-                    <div v-if="payReady" class="pay-enable">
-                        <div>
-                            <img @click="submitAction" src="\images\paypal.png" alt="paypal icon">
-                        </div>
-                        <div>
-                            <img src="\images\liqpay.png" alt="liqpay icon">
-                            {{ payments.liqForm }}
-                        </div>
-                        <div>
-                            <img src="\images\qiwi.png" alt="qiwi icon">
-                        </div>
-                    </div>
                 </form>
+                <div v-if="payReady" class="pay-enable">
+                    <div>
+                        <img @click="submitAction" src="\images\paypal.png" alt="paypal icon">
+                    </div>
+                    <div>
+                        <img @click="loadLiqForm" src="\images\liqpay.png" alt="liqpay icon">
+                        <div v-html="payments"></div>
+                    </div>
+                    <div>
+                        <img src="\images\qiwi.png" alt="qiwi icon">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -44,30 +44,30 @@
     </div>
 </template>
 <style>
-.pay-disable {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
+    .pay-disable {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
 
-.pay-disable > img{
-    width: 100px;
-}
+    .pay-disable > img{
+        width: 100px;
+    }
 
-.pay-enable {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
+    .pay-enable {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
 
-.pay-enable>div {
-    width: 100px;
-}
+    .pay-enable>div {
+        width: 100px;
+    }
 
-.pay-enable>div img {
-    cursor: pointer;
-    width: 100%;
-} 
+    .pay-enable>div img {
+        cursor: pointer;
+        width: 100%;
+    }
 
 </style>
 <script>
@@ -91,6 +91,7 @@
             },
             loadLiqForm() {
                 if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                    let [subscriptionPlan,monthPlan] = [this.form.subscriptionPlan,this.form.monthPlan];
                     const data = {
                         subscriptionPlan,
                         monthPlan,
@@ -101,7 +102,7 @@
         },
         computed: {
             checkToken: function () {
-              return this.$store.getters.checkToken;
+                return this.$store.getters.checkToken;
             },
             currentStreamer: function () {
                 return this.$store.getters.currentStreamer;
@@ -120,7 +121,7 @@
                 }
             },
             payments: function () {
-                return this.$store.getters.payments;
+                return this.$store.getters.payments.liqForm;
             }
         },
     }

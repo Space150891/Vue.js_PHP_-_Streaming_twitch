@@ -26,7 +26,7 @@ class LiqpayController extends Controller
             'action'         => 'subscribe',
             'amount'         => '33', // сумма заказа
             'currency'       => 'USD',
-            'description'    => 'Оплата заказа № 3', 
+            'description'    => 'Оплата заказа № 3',
             'order_id'       => '3',
             'subscribe'            => '1',
             'subscribe_date_start' => $now->format('Y-m-d H:i:s'),
@@ -35,18 +35,18 @@ class LiqpayController extends Controller
             'server_url'	=>	$serverUrl,
             'language'		=>	$lang,
             'sandbox'       =>  $sandbox,
-            ));
+        ));
 
-            return response()->json([
-                'data' => [
-                    'form'       => $html,
-                ],
-            ]);
+        return response()->json([
+            'data' => [
+                'form'       => $html,
+            ],
+        ]);
     }
 
     public function acceptSubscribe(Request $request)
     {
-        
+//here are the connect with liq
     }
-    
+
 }
