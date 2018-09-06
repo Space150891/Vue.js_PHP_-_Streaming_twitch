@@ -21,13 +21,10 @@ class ServerEventsController extends Controller
             function() use ($request){
                 if (array_key_exists('token', $_COOKIE) && $_COOKIE['token'] != 'undefined' && $_COOKIE['token'] != 'null') {
                     $user = auth()->setToken($_COOKIE['token'])->user();
-                    // \Log::info('check user ' . $user->name);
                     if ($user) {
                         $count = 0;
                         do {
                             if ($data) {
-                                \Log::info('data ' . $data);
-                                \Log::info('count ' . $count);
                                 $count++;
                                 $total = Notification::where('user_id', $user->id)->count();
                                 if ($total > 99) {
