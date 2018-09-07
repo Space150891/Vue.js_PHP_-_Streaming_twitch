@@ -162,6 +162,7 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
+        $ip = getOrigin($_SERVER);
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -185,6 +186,10 @@ class SocialController extends Controller
         $user = User::where('name', strtolower($body['name']))->first();
         if (!$user) {
             $user = new User();
+            $user->name = $body['name'];
+            $user->bio = $body['bio'];
+            $user->avatar = $body['logo'];
+            $user->twitch_id = $body['_id'];
             $user->token = '';
             $user->activated = 1;
             $user->password = \Hash::make('123');
@@ -198,6 +203,7 @@ class SocialController extends Controller
                 $afiliate->afiliate_id = $user->id;
                 $afiliate->save();
             }
+            $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
             $streamer->name = $user->name;
@@ -209,7 +215,7 @@ class SocialController extends Controller
             $streamer = $user->streamer()->first();
             $viewer = $user->viewer()->first();
         }
-        $ip = $request->ip();
+        $ip = getOrigin($_SERVER);
         $user->name = strtolower($body['name']);
         $user->email = strtolower($body['email']);
         $user->save();
