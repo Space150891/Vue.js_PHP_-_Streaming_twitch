@@ -167,7 +167,7 @@ class PayPalController extends Controller
         }
     }
 
-    
+
 
     /**
      * Parse PayPal IPN.

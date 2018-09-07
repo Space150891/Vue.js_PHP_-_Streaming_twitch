@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Subscription</h5>
-                <form action="paypal/pay" method="POST">
+                <form action="paypal/pay" method="POST" class="paypal-form">
                     <select v-on:change="loadLiqForm()" v-model="form.subscriptionPlan" class="form-control" name="subscription_plan_id">
                         <option value=0>Select subscription plan</option>
                         <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id" :key="subscriptionPlan.id">
@@ -71,58 +71,58 @@
 
 </style>
 <script>
-    export default {
-        data(){
-            return {
-                form : {
-                    subscriptionPlan : 0,
-                    monthPlan : 0,
-                },
-            }
+  export default {
+    data(){
+      return {
+        form : {
+          subscriptionPlan : 0,
+          monthPlan : 0,
         },
-        mounted() {
-            this.$store.dispatch('getSubscribeData');
-        },
-        methods: {
-            submitAction(event) {
-                if (this.form.subscriptionPlan == 0 || this.form.monthPlan == 0) {
-                    event.preventDefault();
-                }
-            },
-            loadLiqForm() {
-                if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-                    let [subscriptionPlan,monthPlan] = [this.form.subscriptionPlan,this.form.monthPlan];
-                    const data = {
-                        subscriptionPlan,
-                        monthPlan,
-                    };
-                    this.$store.dispatch('getLiqFormAction', data);
-                }
-            },
-        },
-        computed: {
-            checkToken: function () {
-                return this.$store.getters.checkToken;
-            },
-            currentStreamer: function () {
-                return this.$store.getters.currentStreamer;
-            },
-            subscriptionPlans: function () {
-                return this.$store.getters.subscriptionPlans;
-            },
-            monthPlans: function () {
-                return this.$store.getters.monthPlans;
-            },
-            payReady: function () {
-                if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            payments: function () {
-                return this.$store.getters.payments.liqForm;
-            }
-        },
-    }
+      }
+    },
+    mounted() {
+      this.$store.dispatch('getSubscribeData');
+    },
+    methods: {
+      submitAction() {
+        if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+          document.getElementsByClassName('paypal-form')[0].submit();
+        }
+      },
+      loadLiqForm() {
+        if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+          let [subscriptionPlan,monthPlan] = [this.form.subscriptionPlan,this.form.monthPlan];
+          const data = {
+            subscriptionPlan,
+            monthPlan,
+          };
+          this.$store.dispatch('getLiqFormAction', data);
+        }
+      },
+    },
+    computed: {
+      checkToken: function () {
+        return this.$store.getters.checkToken;
+      },
+      currentStreamer: function () {
+        return this.$store.getters.currentStreamer;
+      },
+      subscriptionPlans: function () {
+        return this.$store.getters.subscriptionPlans;
+      },
+      monthPlans: function () {
+        return this.$store.getters.monthPlans;
+      },
+      payReady: function () {
+        if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      payments: function () {
+        return this.$store.getters.payments.liqForm;
+      }
+    },
+  }
 </script>
