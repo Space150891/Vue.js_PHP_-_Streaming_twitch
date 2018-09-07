@@ -229,7 +229,7 @@ class SocialController extends Controller
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $streamData = json_decode((string) $result->getBody(), true);
         //$streamData = isset($body['data'][0]) ? $body['data'][0] : false;
-
+        $streamer->save();
         if ($streamData['game']) {
             $result = $guzzle->request('GET', 'https://api.twitch.tv/helix/games', ['query' => ['name' => $streamData['game']]]);
             $body = json_decode((string) $result->getBody(), true);
@@ -248,7 +248,7 @@ class SocialController extends Controller
                 $game->save();
             }
         }
-        
+        $streamer->save();
         ////
         $user->addProgress(new FirstLoginAchievement(), 1);
         if (!$this->alreadyToday('Login10daysAchievement', $user)) {
