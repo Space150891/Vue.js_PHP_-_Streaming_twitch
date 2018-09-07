@@ -4730,6 +4730,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -24061,7 +24085,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable > img{\n    width: 100px;\n}\n.pay-enable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-enable>div {\n    width: 100px;\n}\n.pay-enable>div img {\n    cursor: pointer;\n    width: 100%;\n}\n\n", ""]);
+exports.push([module.i, "\n.pay-disable div{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable img{\n    width: 100px;\n    -webkit-filter: grayscale(100%);\n    filter: grayscale(100%);\n}\n.pay-enable div{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n.pay-enable div img {\n    cursor: pointer;\n    width: 100px;\n}\n\n", ""]);
 
 // exports
 
@@ -79172,7 +79196,7 @@ var render = function() {
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [_vm._v("Subscription")]),
+            _c("h4", { staticClass: "card-title" }, [_vm._v("Subscription")]),
             _vm._v(" "),
             _c(
               "form",
@@ -79181,135 +79205,154 @@ var render = function() {
                 attrs: { action: "paypal/pay", method: "POST" }
               },
               [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.subscriptionPlan,
-                        expression: "form.subscriptionPlan"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { name: "subscription_plan_id" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "subscriptionPlan",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        function($event) {
-                          _vm.loadLiqForm()
-                        }
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("Select subscription plan")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
-                      return _c(
-                        "option",
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "subscriptionPlan" } }, [
+                    _vm._v("Select subscription plan:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
                         {
-                          key: subscriptionPlan.id,
-                          domProps: { value: subscriptionPlan.id }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(subscriptionPlan.name) +
-                              " cost " +
-                              _vm._s(subscriptionPlan.price) +
-                              "\n                    "
-                          )
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.subscriptionPlan,
+                          expression: "form.subscriptionPlan"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        name: "subscription_plan_id",
+                        id: "subscriptionPlan"
+                      },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "subscriptionPlan",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.loadLiqForm()
+                          }
                         ]
-                      )
-                    })
-                  ],
-                  2
-                ),
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "0", selected: "", disabled: "" } },
+                        [_vm._v("Select subscription plan")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
+                        return _c(
+                          "option",
+                          {
+                            key: subscriptionPlan.id,
+                            domProps: { value: subscriptionPlan.id }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(subscriptionPlan.name) +
+                                " cost " +
+                                _vm._s(subscriptionPlan.price) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
                 _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.monthPlan,
-                        expression: "form.monthPlan"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { name: "month_plan_id" },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "monthPlan",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        function($event) {
-                          _vm.loadLiqForm()
-                        }
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("Select months")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.monthPlans, function(monthPlan) {
-                      return _c(
-                        "option",
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "monthPlan" } }, [
+                    _vm._v("Select month plan:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
                         {
-                          key: monthPlan.id,
-                          domProps: { value: monthPlan.id }
-                        },
-                        [
-                          _vm._v(
-                            ">\n                        months " +
-                              _vm._s(monthPlan.monthes) +
-                              " discount " +
-                              _vm._s(monthPlan.percent) +
-                              " %\n                    "
-                          )
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.monthPlan,
+                          expression: "form.monthPlan"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { name: "month_plan_id", id: "monthPlan" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "monthPlan",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.loadLiqForm()
+                          }
                         ]
-                      )
-                    })
-                  ],
-                  2
-                ),
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "0", selected: "", disabled: "" } },
+                        [_vm._v("Select months")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.monthPlans, function(monthPlan) {
+                        return _c(
+                          "option",
+                          {
+                            key: monthPlan.id,
+                            domProps: { value: monthPlan.id }
+                          },
+                          [
+                            _vm._v(
+                              ">\n                            months " +
+                                _vm._s(monthPlan.monthes) +
+                                " discount " +
+                                _vm._s(monthPlan.percent) +
+                                " %\n                        "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   attrs: { type: "hidden", name: "user_id" },
@@ -79321,35 +79364,22 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 !_vm.payReady
-                  ? _c("div", { staticClass: "pay-disable" }, [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\paypal_bw.png",
-                          alt: "paypal icon"
-                        }
-                      }),
+                  ? _c("div", { staticClass: "pay-disable row" }, [
+                      _vm._m(0),
                       _vm._v(" "),
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\liqpay_bw.png",
-                          alt: "liqpay icon"
-                        }
-                      }),
+                      _vm._m(1),
                       _vm._v(" "),
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\qiwi_bw.png",
-                          alt: "qiwi icon"
-                        }
-                      })
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _vm._m(3)
                     ])
                   : _vm._e()
               ]
             ),
             _vm._v(" "),
             _vm.payReady
-              ? _c("div", { staticClass: "pay-enable" }, [
-                  _c("div", [
+              ? _c("div", { staticClass: "pay-enable row" }, [
+                  _c("div", { staticClass: "col-md-3" }, [
                     _c("img", {
                       attrs: {
                         src: "\\images\\paypal.png",
@@ -79359,7 +79389,7 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("div", [
+                  _c("div", { staticClass: "col-md-3" }, [
                     _c("img", {
                       attrs: {
                         src: "\\images\\liqpay.png",
@@ -79371,7 +79401,9 @@ var render = function() {
                     _c("div", { domProps: { innerHTML: _vm._s(_vm.payments) } })
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _vm._m(5)
                 ])
               : _vm._e()
           ])
@@ -79386,8 +79418,48 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", { attrs: { src: "\\images\\qiwi.png", alt: "qiwi icon" } })
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\paypal.png", alt: "paypal icon" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\liqpay.png", alt: "liqpay icon" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\yandex.png", alt: "yandex icon" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\stripe.png", alt: "stripe icon" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\yandex.png", alt: "yandex icon" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", { attrs: { src: "\\images\\stripe.png", alt: "stripe icon" } })
     ])
   }
 ]
