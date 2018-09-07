@@ -837,4 +837,108 @@ export const actions = {
             commit('loadAllCustomAchivements');
         });
     },
+    updateSubscriptionPointsAction({commit, state}, data) {
+        state.subscriptionPlans.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('points', data.points);
+        formData.append('subscription_plan_id', data.id);
+        console.log('in action', data.id);
+        fetch(state.apiUrl + 'subscription/update',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                // state.alerts.push(jsonResp.message);
+            }
+            commit('getSubscriptionPlansList');
+        });
+    },
+    // subscription bonus points
+    createSubscriptionBonusPointsAction({commit, state}, data) {
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', data.selectedPlan);
+        formData.append('from_viewers', data.from_viewers);
+        formData.append('to_viewers', data.to_viewers);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'subscription/points/create',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+            }
+            if (jsonResp.message) {
+            }
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
+    },
+    updateSubscriptionBonusPointsAction({commit, state}, data) {
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        console.log('in action', data.id);
+        formData.append('subscription_point_id', data.id);
+        formData.append('from_viewers', data.from_viewers);
+        formData.append('to_viewers', data.to_viewers);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'subscription/points/update',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+            }
+            if (jsonResp.message) {
+            }
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
+    },
+    deleteSubscriptionBonusPointsAction({commit, state}, data) {
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_point_id', data.deleteId);
+        fetch(state.apiUrl + 'subscription/points/delete',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+            }
+            if (jsonResp.message) {
+            }
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
+    },
 }

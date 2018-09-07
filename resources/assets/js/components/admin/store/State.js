@@ -90,4 +90,8 @@ export const state = {
         list: [],
         loaded: false,
     },
+    subscriptionBonusPoints: {
+        list: [],
+        loaded: false,
+    },
 }
