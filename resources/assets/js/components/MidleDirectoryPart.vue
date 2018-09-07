@@ -27,7 +27,7 @@
                               @click="select(stream.name)"
                               class="dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
                             >
-                                <img 
+                                <img
                                   class="price-image"
                                   v-bind:src="stream.image ? stream.image : backPublic + '/images/tvitch-question.png'"
                                   v-bind:alt="stream.name" 
