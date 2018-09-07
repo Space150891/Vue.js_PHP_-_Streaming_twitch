@@ -15,6 +15,7 @@ use App\Models\{
     StockPrize,
     SubscribedStreamers,
     SubscriptionPlan,
+    SubscriptionPoint,
     Card,
     CustomAchievement,
     Item,
@@ -110,17 +111,6 @@ class WSController extends Controller implements MessageComponentInterface {
             foreach ($activity as $act) {
                 $time = time() - strtotime($act->updated_at);
                 $tolalViewers = Activity::where('streamer_id', $act->streamer_id)->count();
-                if ($tolalViewers <= 100) {
-                    $points = 100;
-                } elseif ($tolalViewers <= 300) {
-                    $points = 40;
-                } elseif ($tolalViewers <= 500) {
-                    $points = 20;
-                }  elseif ($tolalViewers <= 1000) {
-                    $points = 10;
-                }  else {
-                    $points = 11;
-                }
                 $subscribed = SubscribedStreamers::where([
                     ['streamer_id', '=', $act->streamer_id],
                     ['valid_from', '<=', $updateTime],
@@ -128,12 +118,12 @@ class WSController extends Controller implements MessageComponentInterface {
                 ])->first();
                 if ($subscribed) {
                     $plan = SubscriptionPlan::find($subscribed->subscription_plan_id);
-                    if ($plan->name == 'basic') {
-                        $points += 10;
-                    } elseif ($plan->name == 'advanced') {
-                        $points += 100;
-                    } elseif ($plan->name == 'golden') {
-                        $points += 1000;
+                    $points += $plan->points;
+                    $bonusPoints = SubscriptionPoint::where('subscription_plan_id', $subscribed->subscription_plan_id)->get();
+                    foreach ($bonusPoints as $bonusPoint) {
+                        if ($bonusPoint->from_viewers >= $tolalViewers && $bonusPoint->to_viewers <= $tolalViewers) {
+                            $points += $bonusPoint->points;
+                        }
                     }
                 }
                 if ($time >= 60 - 5) {

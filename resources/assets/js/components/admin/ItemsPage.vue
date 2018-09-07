@@ -51,7 +51,7 @@
 				<input class="form-control" placeholder="Title..." v-model="editItem.title" type="text">
                 <select v-model="editItem.item_type_id" class="form-control">
                     <option value="0">Select item type</option>
-                    <option v-for="itemType in itemTypes" v-bind:value="itemType.id">{{ itemType.name }}</option>
+                    <option v-for="itemType in itemTypes" v-bind:value="itemType.id" :key="itemType.id">{{ itemType.name }}</option>
                 </select>
                 <input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
                 <input class="form-control" placeholder="Worth..." v-model="editItem.worth" type="number">

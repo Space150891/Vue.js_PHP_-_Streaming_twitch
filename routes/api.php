@@ -206,6 +206,14 @@ Route::group([
     Route::post('achivements/custom/ok', 'Api\CustomAchievementsController@ok');
     Route::post('achivements/custom/block', 'Api\CustomAchievementsController@block');
     Route::post('achivements/custom/delete', 'Api\CustomAchievementsController@delete');
+
+    Route::post('subscription/get', 'Api\SubscriptionPlansController@index');
+    Route::post('subscription/update', 'Api\SubscriptionPlansController@update');
+
+    Route::post('subscription/points/get', 'Api\SubscriptionBonusesController@index');
+    Route::post('subscription/points/create', 'Api\SubscriptionBonusesController@store');
+    Route::post('subscription/points/update', 'Api\SubscriptionBonusesController@update');
+    Route::post('subscription/points/delete', 'Api\SubscriptionBonusesController@delete');
 });
 
 // bot routes

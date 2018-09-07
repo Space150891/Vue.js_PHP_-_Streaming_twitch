@@ -101,6 +101,9 @@ export const getters = {
     subscriptionPlans: state => {
         return state.subscriptionPlans.list;
     },
+    subscriptionPlansLoaded: state => {
+        return state.subscriptionPlans.loaded;
+    },
     monthPlans: state => {
         return state.monthPlans.list;
     },
@@ -127,5 +130,11 @@ export const getters = {
     },
     customAchievementsLoaded: state => {
         return state.customAchievements.loaded;
+    },
+    subscriptionBonusPoints: state => {
+        return state.subscriptionBonusPoints.list;
+    },
+    subscriptionBonusPointsLoaded: state => {
+        return state.subscriptionBonusPoints.loaded;
     },
 }

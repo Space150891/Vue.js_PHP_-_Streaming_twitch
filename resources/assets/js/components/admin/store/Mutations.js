@@ -766,4 +766,31 @@ export const mutations = {
             
         });
     },
+    // subscription bonus points
+    loadSubscriptionBonusPoints(state, id) {
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', id);
+        fetch('api/subscription/points/get',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.subscriptionBonusPoints.list = jsonResp.data ? jsonResp.data.points : [];
+            state.subscriptionBonusPoints.loaded = true;
+        });
+    },
 }

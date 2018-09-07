@@ -2090,6 +2090,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -4644,6 +4647,195 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 		}
 	},
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'streamers', 'streamersPages', 'streamersLoaded']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      selectedPlan: 0,
+      selectedPlanPoints: 0,
+      editMode: false,
+      editItem: {
+        from_viewers: 0,
+        to_viewers: 0,
+        points: 0,
+        id: 0,
+        subscription_point_id: 0
+      },
+      deletingItem: {
+        name: '',
+        id: 0,
+        openModal: false
+      }
+    };
+  },
+  mounted: function mounted() {
+    if (this.checkToken) {
+      this.$store.commit('getSubscriptionPlansList');
+    }
+  },
+
+  methods: {
+    selectPlan: function selectPlan(plan) {
+      this.selectedPlan = plan.id;
+      this.selectedPlanPoints = plan.points;
+      this.$store.commit('loadSubscriptionBonusPoints', plan.id);
+    },
+    editScheme: function editScheme(scheme) {},
+    confirmDeleteAction: function confirmDeleteAction(item) {
+      this.deletingItem.name = '';
+      this.deletingItem.id = item.id;
+      this.deletingItem.openModal = true;
+    },
+    deleteAction: function deleteAction() {
+      var data = {
+        deleteId: this.deletingItem.id,
+        selectedPlan: this.selectedPlan
+      };
+      this.$store.dispatch('deleteSubscriptionBonusPointsAction', data);
+      this.deletingItem.openModal = false;
+    },
+    editAction: function editAction(item) {
+      this.editItem.from_viewers = item.from_viewers;
+      this.editItem.to_viewers = item.to_viewers;
+      this.editItem.points = item.points;
+      this.editItem.id = item.id;
+      console.log('in edit id=', item.id);
+      this.editMode = true;
+    },
+    createAction: function createAction() {
+      var data = this.editItem;
+      data.selectedPlan = this.selectedPlan;
+      this.$store.dispatch('createSubscriptionBonusPointsAction', data);
+      this.editItem.points = 0;
+      this.editItem.from_viewers = 0;
+      this.editItem.to_viewers = 0;
+      this.editItem.id = 0;
+      this.editItem.subscription_plan_id = 0;
+    },
+    cancelAction: function cancelAction() {
+      this.editItem.points = 0;
+      this.editItem.from_viewers = 0;
+      this.editItem.to_viewers = 0;
+      this.editItem.id = 0;
+      this.editMode = false;
+    },
+    saveAction: function saveAction() {
+      var data = this.editItem;
+      data.selectedPlan = this.selectedPlan;
+      this.$store.dispatch('updateSubscriptionBonusPointsAction', data);
+      this.editItem.points = 0;
+      this.editItem.from_viewers = 0;
+      this.editItem.to_viewers = 0;
+      this.editItem.id = 0;
+      this.editItem.subscription_plan_id = 0;
+      this.editMode = false;
+    },
+    saveBasePoints: function saveBasePoints() {
+      var data = {
+        points: this.selectedPlanPoints,
+        id: this.selectedPlan
+      };
+      this.$store.dispatch('updateSubscriptionPointsAction', data);
+    }
+  },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'subscriptionPlans', 'subscriptionPlansLoaded', 'subscriptionBonusPoints', 'subscriptionBonusPointsLoaded']))
 });
 
 /***/ }),
@@ -45975,7 +46167,10 @@ var render = function() {
                       _vm._l(_vm.itemTypes, function(itemType) {
                         return _c(
                           "option",
-                          { domProps: { value: itemType.id } },
+                          {
+                            key: itemType.id,
+                            domProps: { value: itemType.id }
+                          },
                           [_vm._v(_vm._s(itemType.name))]
                         )
                       })
@@ -46696,6 +46891,20 @@ var render = function() {
                         attrs: { href: "#/custom-achivements" }
                       },
                       [_vm._v("Custom achivements")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/bonus-points"
+                        },
+                        attrs: { href: "#/bonus-points" }
+                      },
+                      [_vm._v("Subscripton Bonuses")]
                     )
                   ]),
                   _vm._v(" "),
@@ -47563,6 +47772,358 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-6b6ea8ae", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6cd008cd\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/bonus-points" } }),
+      _vm._v(" "),
+      _vm.checkToken && _vm.subscriptionPlansLoaded
+        ? _c("div", [
+            _c("h2", [_vm._v("Subscription bonus points")]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row" },
+              [
+                _vm.subscriptionPlansLoaded
+                  ? _c("div", { staticClass: "col-md-3" }, [
+                      _c("h5", [_vm._v("Subscription plans")]),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        { staticClass: "list-group" },
+                        _vm._l(_vm.subscriptionPlans, function(plan) {
+                          return _c(
+                            "li",
+                            {
+                              key: plan.id,
+                              class: {
+                                "list-group-item": true,
+                                active: plan.id == _vm.selectedPlan
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.selectPlan(plan)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(plan.name))]
+                          )
+                        })
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.subscriptionPlansLoaded
+                  ? _c("div", { staticClass: "col-md-3 v-loading" })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.selectedPlan > 0 && _vm.subscriptionBonusPointsLoaded
+                  ? _c("div", { staticClass: "col-md-9" }, [
+                      _c("table", { staticClass: "table table-striped" }, [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.subscriptionBonusPoints, function(scheme) {
+                            return _c("tr", { key: scheme.id }, [
+                              _c("td", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(scheme.from_viewers) +
+                                    "\n              "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(scheme.to_viewers) +
+                                    "\n              "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(scheme.points) +
+                                    "\n              "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm btn-warning",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.editAction(scheme)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm btn-danger",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.confirmDeleteAction(scheme)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("delete")]
+                                )
+                              ])
+                            ])
+                          })
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("form", { staticClass: "form form-inline" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.from_viewers,
+                                expression: "editItem.from_viewers"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "From...", type: "number" },
+                            domProps: { value: _vm.editItem.from_viewers },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "from_viewers",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.to_viewers,
+                                expression: "editItem.to_viewers"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "To...", type: "number" },
+                            domProps: { value: _vm.editItem.to_viewers },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "to_viewers",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.points,
+                                expression: "editItem.points"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "Points...", type: "number" },
+                            domProps: { value: _vm.editItem.points },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "points",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.editMode
+                            ? _c("div", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.saveAction()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("UPDATE")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-default",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.cancelAction()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("cancel")]
+                                )
+                              ])
+                            : _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.createAction()
+                                    }
+                                  }
+                                },
+                                [_vm._v("Create new")]
+                              )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("form", { staticClass: "form form-inline" }, [
+                          _vm._v(
+                            "\n              base points:\n              "
+                          ),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedPlanPoints,
+                                expression: "selectedPlanPoints"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { placeholder: "base...", type: "number" },
+                            domProps: { value: _vm.selectedPlanPoints },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.selectedPlanPoints = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.saveBasePoints()
+                                }
+                              }
+                            },
+                            [_vm._v("SAVE BASE")]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.selectedPlan == 0
+                  ? _c("div", { staticClass: "col-md-9" }, [
+                      _vm._v("\n        select subscription plan\n      ")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.selectedPlan > 0 && !_vm.subscriptionBonusPointsLoaded
+                  ? _c("div", { staticClass: "col-md-9 v-loading" })
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("modal-delete", {
+                  attrs: {
+                    name: _vm.deletingItem.name,
+                    opened: _vm.deletingItem.openModal
+                  },
+                  on: {
+                    "close-delete-modal": function($event) {
+                      _vm.deletingItem.openModal = false
+                    },
+                    "confirm-delete": _vm.deleteAction
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v(" from ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" to ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" points ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" actions ")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6cd008cd", module.exports)
   }
 }
 
@@ -64904,9 +65465,10 @@ var StockPrizesPage = __webpack_require__("./resources/assets/js/components/admi
 var DiamondsPage = __webpack_require__("./resources/assets/js/components/admin/DiamondsPage.vue");
 var StatisticPage = __webpack_require__("./resources/assets/js/components/admin/StatisticPage.vue");
 var CustomAchivementsPage = __webpack_require__("./resources/assets/js/components/admin/CustomAchivementsPage.vue");
+var SubscriptionBonusPointsPage = __webpack_require__("./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }, { path: '/statistic', component: StatisticPage }, { path: '/custom-achivements', component: CustomAchivementsPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }, { path: '/statistic', component: StatisticPage }, { path: '/custom-achivements', component: CustomAchivementsPage }, { path: '/bonus-points', component: SubscriptionBonusPointsPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -66010,6 +66572,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6cd008cd\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6cd008cd", Component.options)
+  } else {
+    hotAPI.reload("data-v-6cd008cd", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/admin/UploadImage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66972,6 +67582,105 @@ var actions = {
             }
             commit('loadAllCustomAchivements');
         });
+    },
+    updateSubscriptionPointsAction: function updateSubscriptionPointsAction(_ref35, data) {
+        var commit = _ref35.commit,
+            state = _ref35.state;
+
+        state.subscriptionPlans.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('points', data.points);
+        formData.append('subscription_plan_id', data.id);
+        console.log('in action', data.id);
+        fetch(state.apiUrl + 'subscription/update', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.errors);
+            }
+            if (jsonResp.message) {
+                // state.alerts.push(jsonResp.message);
+            }
+            commit('getSubscriptionPlansList');
+        });
+    },
+
+    // subscription bonus points
+    createSubscriptionBonusPointsAction: function createSubscriptionBonusPointsAction(_ref36, data) {
+        var commit = _ref36.commit,
+            state = _ref36.state;
+
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', data.selectedPlan);
+        formData.append('from_viewers', data.from_viewers);
+        formData.append('to_viewers', data.to_viewers);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'subscription/points/create', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {}
+            if (jsonResp.message) {}
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
+    },
+    updateSubscriptionBonusPointsAction: function updateSubscriptionBonusPointsAction(_ref37, data) {
+        var commit = _ref37.commit,
+            state = _ref37.state;
+
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        console.log('in action', data.id);
+        formData.append('subscription_point_id', data.id);
+        formData.append('from_viewers', data.from_viewers);
+        formData.append('to_viewers', data.to_viewers);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'subscription/points/update', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {}
+            if (jsonResp.message) {}
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
+    },
+    deleteSubscriptionBonusPointsAction: function deleteSubscriptionBonusPointsAction(_ref38, data) {
+        var commit = _ref38.commit,
+            state = _ref38.state;
+
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_point_id', data.deleteId);
+        fetch(state.apiUrl + 'subscription/points/delete', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {}
+            if (jsonResp.message) {}
+            commit('loadSubscriptionBonusPoints', data.selectedPlan);
+        });
     }
 };
 
@@ -67116,6 +67825,9 @@ var getters = {
     subscriptionPlans: function subscriptionPlans(state) {
         return state.subscriptionPlans.list;
     },
+    subscriptionPlansLoaded: function subscriptionPlansLoaded(state) {
+        return state.subscriptionPlans.loaded;
+    },
     monthPlans: function monthPlans(state) {
         return state.monthPlans.list;
     },
@@ -67142,6 +67854,12 @@ var getters = {
     },
     customAchievementsLoaded: function customAchievementsLoaded(state) {
         return state.customAchievements.loaded;
+    },
+    subscriptionBonusPoints: function subscriptionBonusPoints(state) {
+        return state.subscriptionBonusPoints.list;
+    },
+    subscriptionBonusPointsLoaded: function subscriptionBonusPointsLoaded(state) {
+        return state.subscriptionBonusPoints.loaded;
     }
 };
 
@@ -67834,6 +68552,31 @@ var mutations = {
             state.customAchievements.list = jsonResp.data ? jsonResp.data.achievements : [];
             state.customAchievements.loaded = true;
         });
+    },
+
+    // subscription bonus points
+    loadSubscriptionBonusPoints: function loadSubscriptionBonusPoints(state, id) {
+        state.subscriptionBonusPoints.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('subscription_plan_id', id);
+        fetch('api/subscription/points/get', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.subscriptionBonusPoints.list = jsonResp.data ? jsonResp.data.points : [];
+            state.subscriptionBonusPoints.loaded = true;
+        });
     }
 };
 
@@ -67933,6 +68676,10 @@ var state = {
         loaded: false
     },
     customAchievements: {
+        list: [],
+        loaded: false
+    },
+    subscriptionBonusPoints: {
         list: [],
         loaded: false
     }

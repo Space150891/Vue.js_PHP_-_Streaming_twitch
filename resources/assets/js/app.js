@@ -59,6 +59,7 @@ const router = new VueRouter({
         { path: '/custom-donate', component: CustomizeDonatePage},
         { path: '/custom-achivements', component: CustomAchivementsPage},
         { path: '/start-stream/:streamToken', component: StartStreamPage,  props: true },
+        
     ]
 });
 Vue.use(VueRouter);
