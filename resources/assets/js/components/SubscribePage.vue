@@ -60,7 +60,63 @@
                         <div v-html="payments"></div>
                     </div>
                     <div class="col-md-3">
-                        <img src="\images\yandex.png" alt="yandex icon">
+                        <img src="\images\yandex.png"
+                             alt="yandex icon"
+                             id="show-modal"
+                             @click="showModal = true">
+                        <transition name="modal">
+                            <div class="modal-mask"
+                                 v-if="showModal">
+                                <div class="modal-wrapper">
+                                    <div class="modal-container">
+                                        <form action="https://demomoney.yandex.ru/eshop.xml" method="post">
+
+                                            <div class="modal-header">
+                                                <h3 class="mt-0 text-warning">Subscribe form for yandex</h3>
+                                                <button type="button"
+                                                        class="close"
+                                                        aria-label="Close"
+                                                        @click="showModal = false">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <!-- Обязательные поля -->
+                                                <input name="shopId" value="151" type="hidden"/>
+                                                <input name="scid" value="363" type="hidden"/>
+                                                <div class="form-group">
+                                                    <label for="cnumber">Customer Number:</label>
+                                                    <input type="text" name="customerNumber" value="100500" class="form-control" id="cnumber">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="sum">Sum:</label>
+                                                    <input type="text" name="sum" value="100" class="form-control" id="sum">
+                                                </div>
+                                                Способ оплаты:<br>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="paymentType" value="PC">Оплата из кошелька в Яндекс.Деньгах</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="paymentType" value="AC">Оплата с произвольной банковской карты</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="paymentType" value="GP">Оплата наличными через кассы и терминалы</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button class="btn btn-lg btn-warning modal-default-button"
+                                                        type="submit">
+                                                    Pay
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
                     </div>
                     <div class="col-md-3">
                         <img src="\images\stripe.png"
@@ -81,7 +137,7 @@
         Please login
     </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
     .pay-disable div{
         display: flex;
         align-items: center;
@@ -95,8 +151,10 @@
     }
 
     .pay-enable div{
+        z-index: 10000;
         display: flex;
         align-items: center;
+        justify-content: center;
         flex-direction: column;
     }
 
@@ -123,6 +181,66 @@
         cursor: pointer;
         border: 1px solid #1275ff;
     }
+    /* modal style */
+    .modal-header button.close{
+        top: 10px;
+        right: 10px;
+        position: absolute;
+    }
+    .modal-mask {
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
+
+    .modal-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+
+    }
+
+    .modal-container {
+        width: 400px;
+        margin: 0px auto;
+        padding: 20px 30px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+        transition: all .3s ease;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+
+
+    div.modal-body {
+        margin: 20px 0;
+        display:flex;
+        flex-direction:column;
+        align-items: start;
+    }
+
+    .modal-default-button {
+        float: right;
+    }
+    .modal-enter {
+        opacity: 0;
+    }
+
+    .modal-leave-active {
+        opacity: 0;
+    }
+
+    .modal-enter .modal-container,
+    .modal-leave-active .modal-container {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
 </style>
 <script>
   import { mapGetters } from 'vuex';
@@ -133,6 +251,7 @@
           subscriptionPlan : 0,
           monthPlan : 0,
         },
+        showModal:false,
         stripeShow:false,
         // configure for stipe button
         handler : StripeCheckout.configure({
@@ -192,6 +311,9 @@
       });
     },
     methods: {
+      yandexSubstr(){
+        alert('to be announced');
+      },
       checkout(){
         this.handler.open({
           name: 'Subscription',

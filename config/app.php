@@ -176,7 +176,8 @@ return [
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Softon\Sms\SmsServiceProvider::class,
         Artem328\LaravelYandexKassa\YandexKassaServiceProvider::class,
-        Laravel\Cashier\CashierServiceProvider::class
+        Laravel\Cashier\CashierServiceProvider::class,
+        Artem328\LaravelYandexKassa\YandexKassaServiceProvider::class,
     ],
 
     /*
@@ -234,6 +235,7 @@ return [
         'PayPal'       => Srmklive\PayPal\Facades\PayPal::class,
         'YandexKassa' => Artem328\LaravelYandexKassa\Facades\YandexKassa::class,
         'Sms'          => Softon\Sms\Facades\Sms::class,
+        'YandexKassa' => Artem328\LaravelYandexKassa\Facades\YandexKassa::class,
     ],
 
 ];

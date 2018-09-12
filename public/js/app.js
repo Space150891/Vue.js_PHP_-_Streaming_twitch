@@ -4787,6 +4787,124 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4798,6 +4916,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         subscriptionPlan: 0,
         monthPlan: 0
       },
+      showModal: false,
       stripeShow: false,
       // configure for stipe button
       handler: StripeCheckout.configure({
@@ -4854,6 +4973,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
   methods: {
+    yandexSubstr: function yandexSubstr() {
+      alert('to be announced');
+    },
     checkout: function checkout() {
       this.handler.open({
         name: 'Subscription',
@@ -24176,7 +24298,7 @@ exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  wid
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -24184,7 +24306,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c]{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c]{\n    width: 100px;\n    -webkit-filter: grayscale(100%);\n    filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c]{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n    cursor: pointer;\n    width: 100px;\n}\n.stipeButton[data-v-3e91dc5c]{\n    display: block;\n    min-height: 30px;\n    position: relative;\n    padding: 0 12px;\n    height: 30px;\n    line-height: 30px;\n    background: #1275ff;\n    background-image: -webkit-gradient(linear,left top, left bottom,from(#7dc5ee),color-stop(85%, #008cdd),to(#30a2e4));\n    background-image: linear-gradient(#7dc5ee,#008cdd 85%,#30a2e4);\n    font-size: 14px;\n    color: #fff;\n    font-weight: bold;\n    font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);\n    border-radius: 4px;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    cursor: pointer;\n    border: 1px solid #1275ff;\n}\n", ""]);
+exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c] {\n  width: 100px;\n  -webkit-filter: grayscale(100%);\n  filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c] {\n  z-index: 10000;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n  cursor: pointer;\n  width: 100px;\n}\n.stipeButton[data-v-3e91dc5c] {\n  display: block;\n  min-height: 30px;\n  position: relative;\n  padding: 0 12px;\n  height: 30px;\n  line-height: 30px;\n  background: #1275ff;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#7dc5ee), color-stop(85%, #008cdd), to(#30a2e4));\n  background-image: linear-gradient(#7dc5ee, #008cdd 85%, #30a2e4);\n  font-size: 14px;\n  color: #fff;\n  font-weight: bold;\n  font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  border: 1px solid #1275ff;\n}\n\n/* modal style */\n.modal-header button.close[data-v-3e91dc5c] {\n  top: 10px;\n  right: 10px;\n  position: absolute;\n}\n.modal-mask[data-v-3e91dc5c] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-3e91dc5c] {\n  display: table-cell;\n  vertical-align: middle;\n  position: relative;\n}\n.modal-container[data-v-3e91dc5c] {\n  width: 400px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\ndiv.modal-body[data-v-3e91dc5c] {\n  margin: 20px 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: start;\n      -ms-flex-align: start;\n          align-items: start;\n}\n.modal-default-button[data-v-3e91dc5c] {\n  float: right;\n}\n.modal-enter[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-3e91dc5c],\n.modal-leave-active .modal-container[data-v-3e91dc5c] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
 
 // exports
 
@@ -79498,7 +79620,223 @@ var render = function() {
                     _c("div", { domProps: { innerHTML: _vm._s(_vm.payments) } })
                   ]),
                   _vm._v(" "),
-                  _vm._m(4),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-3" },
+                    [
+                      _c("img", {
+                        attrs: {
+                          src: "\\images\\yandex.png",
+                          alt: "yandex icon",
+                          id: "show-modal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.showModal = true
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("transition", { attrs: { name: "modal" } }, [
+                        _vm.showModal
+                          ? _c("div", { staticClass: "modal-mask" }, [
+                              _c("div", { staticClass: "modal-wrapper" }, [
+                                _c("div", { staticClass: "modal-container" }, [
+                                  _c(
+                                    "form",
+                                    {
+                                      attrs: {
+                                        action:
+                                          "https://demomoney.yandex.ru/eshop.xml",
+                                        method: "post"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "modal-header" },
+                                        [
+                                          _c(
+                                            "h3",
+                                            {
+                                              staticClass: "mt-0 text-warning"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Subscribe form for yandex"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass: "close",
+                                              attrs: {
+                                                type: "button",
+                                                "aria-label": "Close"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.showModal = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  attrs: {
+                                                    "aria-hidden": "true"
+                                                  }
+                                                },
+                                                [_vm._v("×")]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "modal-body" }, [
+                                        _c("input", {
+                                          attrs: {
+                                            name: "shopId",
+                                            value: "151",
+                                            type: "hidden"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            name: "scid",
+                                            value: "363",
+                                            type: "hidden"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group" },
+                                          [
+                                            _c(
+                                              "label",
+                                              { attrs: { for: "cnumber" } },
+                                              [_vm._v("Customer Number:")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "email",
+                                                name: "customerNumber",
+                                                value: "100500",
+                                                id: "cnumber"
+                                              }
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group" },
+                                          [
+                                            _c(
+                                              "label",
+                                              { attrs: { for: "sum" } },
+                                              [_vm._v("Sum:")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "text",
+                                                name: "sum",
+                                                value: "100",
+                                                id: "sum"
+                                              }
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(
+                                          "\n                                            Способ оплаты:"
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "radio" }, [
+                                          _c("label", [
+                                            _c("input", {
+                                              attrs: {
+                                                type: "radio",
+                                                name: "paymentType",
+                                                value: "PC"
+                                              }
+                                            }),
+                                            _vm._v(
+                                              "Оплата из кошелька в Яндекс.Деньгах"
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "radio" }, [
+                                          _c("label", [
+                                            _c("input", {
+                                              attrs: {
+                                                type: "radio",
+                                                name: "paymentType",
+                                                value: "AC"
+                                              }
+                                            }),
+                                            _vm._v(
+                                              "Оплата с произвольной банковской карты"
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "radio" }, [
+                                          _c("label", [
+                                            _c("input", {
+                                              attrs: {
+                                                type: "radio",
+                                                name: "paymentType",
+                                                value: "GP"
+                                              }
+                                            }),
+                                            _vm._v(
+                                              "Оплата наличными через кассы и терминалы"
+                                            )
+                                          ])
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "modal-footer" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-lg btn-warning modal-default-button",
+                                              attrs: { type: "submit" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                Pay\n                                            "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ])
+                            ])
+                          : _vm._e()
+                      ])
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-3" }, [
                     _c("img", {
@@ -79584,14 +79922,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("img", { attrs: { src: "\\images\\stripe.png", alt: "stripe icon" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\yandex.png", alt: "yandex icon" } })
     ])
   }
 ]
@@ -85837,23 +86167,23 @@ if(false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("63bf7c9f", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("3de81a82", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -100427,7 +100757,7 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
