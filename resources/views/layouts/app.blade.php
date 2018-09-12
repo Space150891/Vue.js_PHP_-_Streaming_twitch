@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="https://checkout.stripe.com/checkout.js"></script>
         {{-- CSRF Token --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -26,12 +27,12 @@
 
         @yield('template_linked_css')
 
-        
+
         @yield('head')
         @yield('header_scripts')
-        
+
         <script>
-            
+
             var pageUrl = window.location.pathname;
             if(pageUrl == "/twitch/callback") {
                 @if (isset($access_token))
@@ -57,16 +58,15 @@
             </main>
         </div>
 
-            
 
-            
+
+
         {{-- Scripts --}}
         <script src="{{ mix('/js/app.js') }}"></script>
-        
-        
 
-        
+
+
+
         @yield('footer_scripts')
-
     </body>
 </html>

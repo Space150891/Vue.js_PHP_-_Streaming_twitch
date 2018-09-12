@@ -4658,6 +4658,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4755,20 +4788,80 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _this = this;
+
     return {
       form: {
         subscriptionPlan: 0,
         monthPlan: 0
-      }
+      },
+      stripeShow: false,
+      // configure for stipe button
+      handler: StripeCheckout.configure({
+        key: 'pk_test_rYqZCPeTboW9LwXQUqToYR9Q',
+        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        locale: 'auto',
+        token: function token(_token) {
+          // You can access the token ID with `token.id`.
+          // Get the token ID to your server-side code for use.
+          if (_token) {
+            var csrf = document.head.querySelector('meta[name="csrf-token"]').content;
+            var user_id = _this.profileData.id;
+
+            var discount = null;
+            switch (_this.monthPlans[_this.form.monthPlan - 1].monthes) {
+              case 3:
+                discount = 'three-month';
+                break;
+              case 6:
+                discount = 'six-month';
+                break;
+              case 12:
+                discount = 'year';
+                break;
+              default:
+                discount = null;
+            }
+
+            var plan = _this.subscriptionPlans[_this.form.subscriptionPlan - 1].name;
+            axios.post('stripe/subscribe', {
+              user_id: user_id,
+              'X-CSRF-TOKEN': csrf,
+              token: _token,
+              discount: discount,
+              plan: plan
+            }).then(function (success) {
+              console.log(success);
+            }, function (err) {
+              console.log(err);
+            });
+          }
+        }
+      })
     };
   },
   mounted: function mounted() {
     this.$store.dispatch('getSubscribeData');
+    this.$store.commit('loadProfile');
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function () {
+      this.handler.close();
+    });
   },
 
   methods: {
+    checkout: function checkout() {
+      this.handler.open({
+        name: 'Subscription',
+        description: 'Pay for ' + this.monthPlans[this.form.monthPlan - 1].monthes + ' month',
+        email: this.profileData.email,
+        amount: this.amount
+      });
+    },
     submitAction: function submitAction() {
       if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
         document.getElementsByClassName('paypal-form')[0].submit();
@@ -4788,7 +4881,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   },
-  computed: {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['profileData']), {
     checkToken: function checkToken() {
       return this.$store.getters.checkToken;
     },
@@ -4810,8 +4903,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     payments: function payments() {
       return this.$store.getters.payments.liqForm;
+    },
+    amount: function amount() {
+      var costMonthes = this.subscriptionPlans[this.form.subscriptionPlan - 1].cost * this.monthPlans[this.form.monthPlan - 1].monthes;
+      var precent = costMonthes * this.monthPlans[this.form.monthPlan - 1].percent / 100;
+      var sum = costMonthes - precent;
+      return parseFloat((sum.toFixed(2) + '').replace('.', ''));
     }
-  }
+  })
 });
 
 /***/ }),
@@ -24077,7 +24176,7 @@ exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  wid
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -24085,7 +24184,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable div{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable img{\n    width: 100px;\n    -webkit-filter: grayscale(100%);\n    filter: grayscale(100%);\n}\n.pay-enable div{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n.pay-enable div img {\n    cursor: pointer;\n    width: 100px;\n}\n\n", ""]);
+exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c]{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c]{\n    width: 100px;\n    -webkit-filter: grayscale(100%);\n    filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c]{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n    cursor: pointer;\n    width: 100px;\n}\n.stipeButton[data-v-3e91dc5c]{\n    display: block;\n    min-height: 30px;\n    position: relative;\n    padding: 0 12px;\n    height: 30px;\n    line-height: 30px;\n    background: #1275ff;\n    background-image: -webkit-gradient(linear,left top, left bottom,from(#7dc5ee),color-stop(85%, #008cdd),to(#30a2e4));\n    background-image: linear-gradient(#7dc5ee,#008cdd 85%,#30a2e4);\n    font-size: 14px;\n    color: #fff;\n    font-weight: bold;\n    font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);\n    border-radius: 4px;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    cursor: pointer;\n    border: 1px solid #1275ff;\n}\n", ""]);
 
 // exports
 
@@ -79185,7 +79284,7 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79197,6 +79296,14 @@ var render = function() {
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("h4", { staticClass: "card-title" }, [_vm._v("Subscription")]),
+            _vm._v(" "),
+            _c("form", {
+              attrs: {
+                action: "your-server-side-code",
+                method: "POST",
+                id: "asdasd"
+              }
+            }),
             _vm._v(" "),
             _c(
               "form",
@@ -79227,28 +79334,23 @@ var render = function() {
                         id: "subscriptionPlan"
                       },
                       on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "subscriptionPlan",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          function($event) {
-                            _vm.loadLiqForm()
-                          }
-                        ]
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "subscriptionPlan",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
                       }
                     },
                     [
@@ -79300,28 +79402,23 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: { name: "month_plan_id", id: "monthPlan" },
                       on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "monthPlan",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          function($event) {
-                            _vm.loadLiqForm()
-                          }
-                        ]
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "monthPlan",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
                       }
                     },
                     [
@@ -79403,7 +79500,50 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(4),
                   _vm._v(" "),
-                  _vm._m(5)
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c("img", {
+                      attrs: {
+                        src: "\\images\\stripe.png",
+                        alt: "stripe icon"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.stripeShow = true
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "form",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.stripeShow,
+                            expression: "stripeShow"
+                          }
+                        ],
+                        attrs: { action: "stripe/subscription", method: "POST" }
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "stipeButton",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.checkout($event)
+                              }
+                            }
+                          },
+                          [_vm._v("Pay with Card")]
+                        )
+                      ]
+                    )
+                  ])
                 ])
               : _vm._e()
           ])
@@ -79452,14 +79592,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("img", { attrs: { src: "\\images\\yandex.png", alt: "yandex icon" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\stripe.png", alt: "stripe icon" } })
     ])
   }
 ]
@@ -85705,23 +85837,23 @@ if(false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("04f04824", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("63bf7c9f", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -100295,19 +100427,19 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubscribePage.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-3e91dc5c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(

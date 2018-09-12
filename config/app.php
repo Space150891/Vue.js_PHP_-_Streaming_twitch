@@ -144,7 +144,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        
+
         /*
          * Package Service Providers...
          */
@@ -170,11 +170,13 @@ return [
         App\Providers\LocalEnvironmentServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         jeremykenedy\laravelexceptionnotifier\LaravelExceptionNotifier::class,
-        Laravel\Cashier\CashierServiceProvider::class, 
+        Laravel\Cashier\CashierServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Gstt\Achievements\AchievementsServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Softon\Sms\SmsServiceProvider::class,
+        Artem328\LaravelYandexKassa\YandexKassaServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class
     ],
 
     /*
@@ -230,6 +232,7 @@ return [
         'Image'        => Intervention\Image\Facades\Image::class,
         'Uuid'         => Webpatser\Uuid\Uuid::class,
         'PayPal'       => Srmklive\PayPal\Facades\PayPal::class,
+        'YandexKassa' => Artem328\LaravelYandexKassa\Facades\YandexKassa::class,
         'Sms'          => Softon\Sms\Facades\Sms::class,
     ],
 
