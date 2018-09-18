@@ -79494,7 +79494,7 @@ var render = function() {
                               "\n                            " +
                                 _vm._s(subscriptionPlan.name) +
                                 " cost " +
-                                _vm._s(subscriptionPlan.price) +
+                                _vm._s(subscriptionPlan.cost) +
                                 "\n                        "
                             )
                           ]
@@ -79727,7 +79727,7 @@ var render = function() {
                                             _c("input", {
                                               staticClass: "form-control",
                                               attrs: {
-                                                type: "email",
+                                                type: "text",
                                                 name: "customerNumber",
                                                 value: "100500",
                                                 id: "cnumber"
@@ -101266,10 +101266,7 @@ var actions = {
         var commit = _ref5.commit,
             state = _ref5.state;
 
-        if (state.currentViewer.points >= 10) {
-            state.roulette.channelsCount = totalChannels;
-            commit('getRandomChannels', totalChannels);
-        }
+        state.roulette.channelsCount = totalChannels;
     },
     nextRouletteAction: function nextRouletteAction(_ref6) {
         var commit = _ref6.commit,

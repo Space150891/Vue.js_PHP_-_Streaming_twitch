@@ -17,7 +17,7 @@
                             <option v-for="subscriptionPlan in subscriptionPlans"
                                     v-bind:value="subscriptionPlan.id"
                                     :key="subscriptionPlan.id">
-                                {{subscriptionPlan.name}} cost {{subscriptionPlan.price}}
+                                {{subscriptionPlan.name}} cost {{subscriptionPlan.cost}}
                             </option>
                         </select>
                     </div>
