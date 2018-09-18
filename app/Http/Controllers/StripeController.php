@@ -14,11 +14,11 @@ class StripeController extends Controller
             //newSubscription - this is Laravel Cashier packet for subscription in Stripe
 
             if($request->discount){
-                $res = $user->newSubscription('main',$request->plan)
+                $res = $user->newSubscription('main', $request->plan)
                     ->withCoupon($request->discount)
                     ->create($request->token['id']);
             }else{
-                $res = $user->newSubscription('main',$request->plan)
+                $res = $user->newSubscription('main', $request->plan)
                     ->create($request->token['id']);
             }
 
