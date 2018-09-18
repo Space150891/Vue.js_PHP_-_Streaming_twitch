@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Http\Requests\LiqpayFormRequest;
 use Illuminate\Http\Request;
 use LiqPay;
 use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
@@ -10,10 +11,11 @@ use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement};
 
 class LiqpayController extends Controller
 {
-    public function genSubscribeForm(Request $request)
+    public function genSubscribeForm(LiqpayFormRequest $request)
     {
+        dd($request);
         // not ready
-        $public_key = env('LIQPAY_PUBLIC_KEY');
+            $public_key = env('LIQPAY_PUBLIC_KEY');
         $private_key = env('LIQPAY_PRIVATE_KEY');
         $resultUrl = env('LIQPAY_RUSULT_URL');
         $serverUrl = env('LIQPAY_SERVER_URL');
@@ -21,13 +23,15 @@ class LiqpayController extends Controller
         $sandbox = env('LIQPAY_SANDBOX') ? '1' : null;
         $liqpay = new LiqPay($public_key, $private_key);
         $now = new Carbon();
+        $order_id = str_random(40).''.new Carbon();
+        $amount = $request->amount;
         $html = $liqpay->cnb_form(array(
             'version'=>'3',
             'action'         => 'subscribe',
-            'amount'         => '33', // сумма заказа
+            'amount'         => $amount, // сумма заказа
             'currency'       => 'USD',
-            'description'    => 'Оплата заказа № 3',
-            'order_id'       => '3',
+            'description'    => 'Subscribe pay',
+            'order_id'       => $order_id,
             'subscribe'            => '1',
             'subscribe_date_start' => $now->format('Y-m-d H:i:s'),
             'subscribe_periodicity'=> 'month',
@@ -39,7 +43,7 @@ class LiqpayController extends Controller
 
         return response()->json([
             'data' => [
-                'form'       => $html,
+                'form' => $html,
             ],
         ]);
     }

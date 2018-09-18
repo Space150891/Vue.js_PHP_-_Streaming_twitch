@@ -315,11 +315,12 @@
         alert('to be announced');
       },
       checkout(){
+        let amount = parseFloat((this.amount.toFixed(2) + '').replace('.',''))
         this.handler.open({
           name: 'Subscription',
           description:`Pay for ${this.monthPlans[this.form.monthPlan -1].monthes} month`,
           email:this.profileData.email,
-          amount: this.amount
+          amount
         });
       },
       submitAction() {
@@ -333,6 +334,7 @@
           const data = {
             subscriptionPlan,
             monthPlan,
+            amount: this.amount
           };
           this.$store.dispatch('getLiqFormAction', data);
         }
@@ -365,8 +367,7 @@
       amount(){
         let costMonthes = this.subscriptionPlans[this.form.subscriptionPlan-1].cost * this.monthPlans[this.form.monthPlan -1].monthes;
         let precent = (costMonthes * this.monthPlans[this.form.monthPlan -1].percent) / 100;
-        let sum = costMonthes -precent ;
-        return parseFloat((sum.toFixed(2) + '').replace('.',''))
+        return (costMonthes -precent) ;
       }
     },
   }

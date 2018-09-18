@@ -714,6 +714,7 @@ export const mutations = {
         // formData.append('_token', state.token);
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
+        formData.append('amount', data.amount);
         fetch('liqpay/getform',
             {
                 method: "POST",
@@ -721,7 +722,7 @@ export const mutations = {
                 mode: 'cors',
                 body: formData,
             })
-            .then(res =>res.json())
+            .then(res =>{return res.json()})
             .then(function(jsonResp){
                 if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
                     state.token = false;

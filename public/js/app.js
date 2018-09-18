@@ -4977,11 +4977,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       alert('to be announced');
     },
     checkout: function checkout() {
+      var amount = parseFloat((this.amount.toFixed(2) + '').replace('.', ''));
       this.handler.open({
         name: 'Subscription',
         description: 'Pay for ' + this.monthPlans[this.form.monthPlan - 1].monthes + ' month',
         email: this.profileData.email,
-        amount: this.amount
+        amount: amount
       });
     },
     submitAction: function submitAction() {
@@ -4997,7 +4998,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         var data = {
           subscriptionPlan: subscriptionPlan,
-          monthPlan: monthPlan
+          monthPlan: monthPlan,
+          amount: this.amount
         };
         this.$store.dispatch('getLiqFormAction', data);
       }
@@ -5029,8 +5031,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     amount: function amount() {
       var costMonthes = this.subscriptionPlans[this.form.subscriptionPlan - 1].cost * this.monthPlans[this.form.monthPlan - 1].monthes;
       var precent = costMonthes * this.monthPlans[this.form.monthPlan - 1].percent / 100;
-      var sum = costMonthes - precent;
-      return parseFloat((sum.toFixed(2) + '').replace('.', ''));
+      return costMonthes - precent;
     }
   })
 });
@@ -79727,7 +79728,7 @@ var render = function() {
                                             _c("input", {
                                               staticClass: "form-control",
                                               attrs: {
-                                                type: "email",
+                                                type: "text",
                                                 name: "customerNumber",
                                                 value: "100500",
                                                 id: "cnumber"
@@ -102320,6 +102321,7 @@ var mutations = {
         // formData.append('_token', state.token);
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
+        formData.append('amount', data.amount);
         fetch('liqpay/getform', {
             method: "POST",
             credentials: 'omit',
