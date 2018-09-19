@@ -116,4 +116,5 @@ export const state = {
     payments: {
         liqForm: '',
     },
+    multistream: false,
 }

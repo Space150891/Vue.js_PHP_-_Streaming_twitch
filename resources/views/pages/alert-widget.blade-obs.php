@@ -118,14 +118,15 @@
     </div>
   </body>
   <script>
+    window.addEventListener('obsRecordingStarted', function(evt) {
         var connect = new WebSocket('{{ env("WS") }}');
         var ws = connect;
+        document.getElementById("test").innerHTML= '<img src="https://www.freeiconspng.com/uploads/glossy-ball-green-png-16.png\">';
         ws.onopen = function() {
             var mess = {
                 role: 'streamer',
                 token:  '{{ $token }}'
             }
-            document.getElementById("test").innerHTML= '<img src="https://www.freeiconspng.com/uploads/glossy-ball-green-png-16.png\" style="width:100%">';
             ws.send(JSON.stringify(mess));
             setInterval(() => {
                 var data = {
@@ -134,9 +135,11 @@
                 }
                 ws.send(JSON.stringify(data));
             }, {{ $prize_alert }} * 1000);
-            ws.onclose = function() {
-                document.getElementById("test").innerHTML= '<img src="https://vignette.wikia.nocookie.net/pocketplanes/images/f/fc/Offline_status.png\"  style="width:100%">';
-            };
+            window.addEventListener('obsRecordingStopped', function(evt) {
+                document.getElementById("test").innerHTML= '<img src="https://vignette.wikia.nocookie.net/pocketplanes/images/f/fc/Offline_status.png\">';
+                ws.close();
+            });
+        
             ws.onmessage = function(event) {
                 console.log(event.data);
                 var data = JSON.parse(event.data);
@@ -185,5 +188,6 @@
                 }
             };
         };
+    });
   </script>
 </html>

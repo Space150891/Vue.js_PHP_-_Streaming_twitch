@@ -3,7 +3,15 @@
   <admin-menu page="/main-content"></admin-menu>
   <div v-if="checkToken && mainContentLoaded">
         <inline-alert></inline-alert>
-		<h5>Main Content</h5>
+		<h2>Main Content</h2>
+        
+        <h4>Multistream</h4>
+        <button @click="multistream = 'true'" v-if="multistream == 'false'" class="btn btn-danger btn-lg">
+            MULTISTREAM OFF
+        </button>
+        <button @click="multistream = 'false'" v-if="multistream == 'true'" class="btn btn-success btn-lg">
+            MULTISTREAM ON
+        </button>
         <button 
           @click.prevent="saveAction()"
           class="btn btn-success"
@@ -49,6 +57,7 @@
                 ['link'],
                 ['clean'],        
             ],
+            multistream: 0,
         }
     },
 	mounted() {
@@ -74,15 +83,25 @@
                     name: 'welcomeEmail',
                     content: this.mainContent.welcomeEmail
                 });
+                data.push({
+                    name: 'multistream',
+                    content: this.multistream
+                });
                 this.$store.dispatch('updateMainContentAction', data);
             },
     },
     computed: {
 			...mapGetters([
 				'checkToken',
-				'mainContent',
                 'mainContentLoaded',
-			]),
+            ]),
+            mainContent: function () {
+                const data = this.$store.getters.mainContent;
+                if (this.multistream == 0) {
+                    this.multistream = this.$store.getters.mainContent.multistream ? 'true' : 'false';
+                }
+                return data;
+            },
     }
   }
 </script>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate, Game};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -148,11 +148,10 @@ class SocialController extends Controller
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
-        // $url = "https://id.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
-        $url .= "&scope=user_read";
+        $url .= "&scope=channel_read user_read";
         $url .= "&state={$state}";
         $request->session()->put('twitch_state', $state);
         return redirect($url);
@@ -163,6 +162,7 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
+        $ip = getOrigin($_SERVER);
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -175,33 +175,35 @@ class SocialController extends Controller
         $body = json_decode((string) $result->getBody(), true);
         $accessToken = $body['access_token'];
         $guzzle = new Guzzle([ 'headers' => [
+            // 'Accept'    => 'application/vnd.twitchtv.v3+json',
             'Client-ID' => $clientId,
             'Authorization' => 'OAuth ' . $accessToken,
         ] ]);
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
+        // $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
-        \Log::info('USER');
-        \Log::info($body);
         $user = User::where('name', strtolower($body['name']))->first();
         if (!$user) {
-            $ip = $request->ip();
             $user = new User();
+            $user->name = $body['name'];
+            $user->bio = $body['bio'];
+            $user->avatar = $body['logo'];
+            $user->twitch_id = $body['_id'];
             $user->token = '';
             $user->activated = 1;
             $user->password = \Hash::make('123');
             $user->last_name = '';
-            $user->name = strtolower($body['name']);
             $user->email = strtolower($body['email']);
             $mail = new WellcomeMail();
             Mail::to($user->email)->send($mail);
-            $user->save();
             $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
             if ($afiliate) {
                 $afiliate->register_at = Carbon::now()->toDateTimeString();
                 $afiliate->afiliate_id = $user->id;
                 $afiliate->save();
             }
+            $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
             $streamer->name = $user->name;
@@ -213,21 +215,41 @@ class SocialController extends Controller
             $streamer = $user->streamer()->first();
             $viewer = $user->viewer()->first();
         }
-
+        $ip = getOrigin($_SERVER);
         $user->name = strtolower($body['name']);
+        $user->email = strtolower($body['email']);
+        $user->save();
         $user->first_name = $body['display_name'];
-        $user->email = $body['email'];
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
+        $user->twitch_id = $body['_id'];
         $user->save();
         $twitchUserId = $body['_id'];
-        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId);
-        $body = json_decode((string) $result->getBody(), true);
-        \Log::info('STREAMS');
-        \Log::info($body);
         $streamer->twitch_id = $twitchUserId;
-        $streamer->game = isset($body['stream']['channel']['game']) ? strtolower($body['stream']['channel']['game']) : null;
+        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
+        $streamData = json_decode((string) $result->getBody(), true);
+        //$streamData = isset($body['data'][0]) ? $body['data'][0] : false;
         $streamer->save();
+        if ($streamData['game']) {
+            $result = $guzzle->request('GET', 'https://api.twitch.tv/helix/games', ['query' => ['name' => $streamData['game']]]);
+            $body = json_decode((string) $result->getBody(), true);
+            $gameData = $body['data'][0];
+            $streamer->game = $gameData['name'];
+            $streamer->image = isset($streamData['video_banner']) ? $streamData['video_banner'] : null;
+            $streamer->viewers_count = isset($streamData['views']) ? $streamData['views'] : 0;
+            $streamer->followers_count = isset($streamData['followers']) ? $streamData['followers'] : 0;
+            $streamer->save();
+            $game = Game::find($gameData['id']);
+            if (!$game) {
+                $game = new Game();
+                $game->name = $gameData['name'];
+                $game->twitch_id = $gameData['id'];
+                $game->avatar = $this->getImage($gameData['box_art_url'], 136, 190);
+                $game->save();
+            }
+        }
+        $streamer->save();
+        ////
         $user->addProgress(new FirstLoginAchievement(), 1);
         if (!$this->alreadyToday('Login10daysAchievement', $user)) {
             $user->addProgress(new Login10daysAchievement(), 1);
@@ -241,7 +263,6 @@ class SocialController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
-        \Log::info('token='.$token);
         return view('layouts.app', $data);
     }
 
@@ -292,4 +313,12 @@ class SocialController extends Controller
         $count = \DB::table('achievement_details')->where('class_name', $class)->count();
         return ($count === 0);
     }
+
+    private function getImage($url, $width, $heigth)
+    {
+        $url = str_replace("{width}", $width, $url);
+        $url = str_replace("{height}", $heigth, $url);
+        return $url;
+    }
+
 }

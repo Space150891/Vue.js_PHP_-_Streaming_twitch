@@ -15,9 +15,11 @@ use App\Models\{
     StockPrize,
     SubscribedStreamers,
     SubscriptionPlan,
+    SubscriptionPoint,
     Card,
     CustomAchievement,
-    Item
+    Item,
+    Afiliate
 };
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -109,17 +111,6 @@ class WSController extends Controller implements MessageComponentInterface {
             foreach ($activity as $act) {
                 $time = time() - strtotime($act->updated_at);
                 $tolalViewers = Activity::where('streamer_id', $act->streamer_id)->count();
-                if ($tolalViewers <= 100) {
-                    $points = 100;
-                } elseif ($tolalViewers <= 300) {
-                    $points = 40;
-                } elseif ($tolalViewers <= 500) {
-                    $points = 20;
-                }  elseif ($tolalViewers <= 1000) {
-                    $points = 10;
-                }  else {
-                    $points = 11;
-                }
                 $subscribed = SubscribedStreamers::where([
                     ['streamer_id', '=', $act->streamer_id],
                     ['valid_from', '<=', $updateTime],
@@ -127,12 +118,12 @@ class WSController extends Controller implements MessageComponentInterface {
                 ])->first();
                 if ($subscribed) {
                     $plan = SubscriptionPlan::find($subscribed->subscription_plan_id);
-                    if ($plan->name == 'basic') {
-                        $points += 10;
-                    } elseif ($plan->name == 'advanced') {
-                        $points += 100;
-                    } elseif ($plan->name == 'golden') {
-                        $points += 1000;
+                    $points += $plan->points;
+                    $bonusPoints = SubscriptionPoint::where('subscription_plan_id', $subscribed->subscription_plan_id)->get();
+                    foreach ($bonusPoints as $bonusPoint) {
+                        if ($bonusPoint->from_viewers >= $tolalViewers && $bonusPoint->to_viewers <= $tolalViewers) {
+                            $points += $bonusPoint->points;
+                        }
                     }
                 }
                 if ($time >= 60 - 5) {
@@ -142,11 +133,21 @@ class WSController extends Controller implements MessageComponentInterface {
                 }
                 $act->updated_at = $updateTime;
                 $act->save();
-                $data = [
-                    'points' => $points
-                ];
-                $from->send(json_encode($data));
             }
+            /// afiliates
+            $user = $viewer->user()->first();
+            $afiliate = Afiliate::where('afiliate_id', $user->id)->whereNotNull('confirm_at')->first();
+            if ($afiliate) {
+                $userReferal = User::find($afiliate->user_id);
+                $viewerReferal = $userReferal->viewer()->first();
+                $viewerReferal->current_points = $viewerReferal->current_points + 1;
+                $viewerReferal->level_points = $viewerReferal->level_points + 1;
+                $viewerReferal->save();
+            }
+            $data = [
+                'points' => $points
+            ];
+            $from->send(json_encode($data));
         }
         // check win prize
         if (!is_null($this->clients[$from->resourceId]['streamer_id']) && isset($msg['action']) && $msg['action'] == 'check') {

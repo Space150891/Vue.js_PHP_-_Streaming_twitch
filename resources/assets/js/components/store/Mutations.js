@@ -415,22 +415,23 @@ export const mutations = {
         var formData = new FormData();
         state.mainContent.loaded = false;
         fetch('api/content/show',
-            {
-                method: "POST",
-                body: formData,
-                credentials: 'omit',
-                mode: 'cors',
-            })
-            .then(function(res){
-                return res.json();
-            })
-            .then(function(jsonResp){
-                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
-                    state.token = false;
-                }
-                state.mainContent.list = jsonResp.data ? jsonResp.data : [];
-                state.mainContent.loaded = true;
-            });
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            state.mainContent.list = jsonResp.data ? jsonResp.data : [];
+            state.mainContent.loaded = true;
+            state.multistream = jsonResp.data.multistream ? true : false;
+        });
     },
     getMainChannel(state) {
         fetch('api/streamers/main/show',
@@ -738,4 +739,23 @@ export const mutations = {
             .catch(err => err);
 
     },
+    getMultistreamCheck(state) {
+        fetch('api/multistream/check',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+                state.alerts = state.alerts.concat(jsonResp.message);
+            } else {
+                state.multistream = jsonResp.data.multistream ? true : false;
+                console.log('MULTISTREAM=', state.multistream);
+            }
+        });
+    }
 }

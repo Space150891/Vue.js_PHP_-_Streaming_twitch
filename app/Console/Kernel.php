@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('activations:clean')->daily();
         $schedule->command('viewers:daily_winner')->daily();
-        $schedule->command('ws:start')->everyFiveMinutes();
+        // $schedule->command('ws:start')->everyFiveMinutes();
     }
 
     /**

@@ -23,13 +23,15 @@
                             <div
                               v-if="streamsLoaded"
                               v-for="stream in streams"
+                              :key="stream.name"
                               @click="select(stream.name)"
                               class="dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items"
                             >
-                                <img 
+                                <img
                                   class="price-image"
-                                  v-bind:src="stream.avatar ? backPublic + '/' + stream.avatar : backPublic + '/images/tvitch-question.png'"
+                                  v-bind:src="stream.image ? stream.image : backPublic + '/images/tvitch-question.png'"
                                   v-bind:alt="stream.name" 
+                                  style="width:231px; height: 383px"
                                 >
                                 <h2>
                                     {{ stream.name }}
@@ -43,7 +45,7 @@
                         </div>
                         <div v-if="!streamsLoaded"  class="v-loading"></div>
                     </div>
-                    <div v-if="!currentGame" v-for="(item) in games" class="dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items" >
+                    <div v-if="!currentGame" :key="item.name" v-for="(item)  in games" class="dir-bg col-lg-3 dir-mdd col-sm-6 col-12 directory-items" >
                         <a href="#" @click.prevent="setCurrent(item.name)">
                             <img class="price-image" v-bind:src="item.avatar" v-bind:alt="item.name" >
                             <h2>{{ item.name }}</h2>
@@ -78,34 +80,44 @@ var config = require('./config/config.json');
         mounted() {
             this.$store.commit('loadGames');
             this.clearSelected();
+            this.$store.commit('getMultistreamCheck');
+        },
+        updated() {
+            // this.$store.commit('getMultistreamCheck');
         },
         methods: {
-           setCurrent(gameName) {
-               this.clearSelected();
-               this.$store.commit('loadStreamersByGame', gameName);
-               this.currentGame = gameName;
-           },
-           showAll() {
-               this.clearSelected();
-               this.$store.commit('flashStreamers');
-               this.currentGame = false;
-           },
-           select(streamerName) {
-                const pos = this.selected.indexOf(streamerName);
-                if (pos > -1) {
-                    this.selected.splice(pos, 1);
+            setCurrent(gameName) {
+                this.clearSelected();
+                this.$store.commit('loadStreamersByGame', gameName);
+                this.currentGame = gameName;
+            },
+            showAll() {
+                this.clearSelected();
+                this.$store.commit('flashStreamers');
+                this.currentGame = false;
+            },
+            select(streamerName) {
+                if (this.checkMultistream) {
+                    const pos = this.selected.indexOf(streamerName);
+                    if (pos > -1) {
+                        this.selected.splice(pos, 1);
+                    } else {
+                        this.selected.push(streamerName);
+                    }
                 } else {
                     this.selected.push(streamerName);
+                    this.watchStreams();
                 }
-           },
-           watchStreams() {
-               this.$store.commit('setWatchingStreams', this.selected);
-               window.location.assign('#/watch-streams');
-           },
-           clearSelected() {
-               this.selected = [];
-               this.$store.commit('clearWatchingStreams');
-           }
+                    
+            },
+            watchStreams() {
+                this.$store.commit('setWatchingStreams', this.selected);
+                window.location.assign('#/watch-streams');
+            },
+            clearSelected() {
+                this.selected = [];
+                this.$store.commit('clearWatchingStreams');
+            }
         },
         computed: {
             games: function () {
@@ -116,6 +128,9 @@ var config = require('./config/config.json');
             },
             streamsLoaded: function () {
                 return this.$store.getters.streamersLoaded;
+            },
+            checkMultistream: function () {
+                return this.$store.getters.checkMultistream;
             },
         },
     }
