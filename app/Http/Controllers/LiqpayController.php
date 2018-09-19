@@ -13,9 +13,9 @@ class LiqpayController extends Controller
 {
     public function genSubscribeForm(LiqpayFormRequest $request)
     {
-        dd($request);
+        //dd($request);
         // not ready
-            $public_key = env('LIQPAY_PUBLIC_KEY');
+        $public_key = env('LIQPAY_PUBLIC_KEY');
         $private_key = env('LIQPAY_PRIVATE_KEY');
         $resultUrl = env('LIQPAY_RUSULT_URL');
         $serverUrl = env('LIQPAY_SERVER_URL');

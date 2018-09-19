@@ -28,6 +28,7 @@ class PayPalController extends Controller
      */
     public function getExpressCheckout(Request $request)
     {
+        return 'paypal';
         if (!$request->has('type') || !$request->has('user_id')) {
             return redirect('/');
         }

@@ -4853,58 +4853,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4914,10 +4862,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     return {
       form: {
         subscriptionPlan: 0,
-        monthPlan: 0
+        monthPlan: 0,
+        payService: ''
       },
-      showModal: false,
-      stripeShow: false,
       // configure for stipe button
       handler: StripeCheckout.configure({
         key: 'pk_test_rYqZCPeTboW9LwXQUqToYR9Q',
@@ -4929,29 +4876,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           if (_token) {
             var csrf = document.head.querySelector('meta[name="csrf-token"]').content;
             var user_id = _this.profileData.id;
-
-            var discount = null;
-            switch (_this.monthPlans[_this.form.monthPlan - 1].monthes) {
-              case 3:
-                discount = 'three-month';
-                break;
-              case 6:
-                discount = 'six-month';
-                break;
-              case 12:
-                discount = 'year';
-                break;
-              default:
-                discount = null;
-            }
-
-            var plan = _this.subscriptionPlans[_this.form.subscriptionPlan - 1].name;
             axios.post('stripe/subscribe', {
               user_id: user_id,
               'X-CSRF-TOKEN': csrf,
               token: _token,
-              discount: discount,
-              plan: plan
+              discount: _this.monthPlan,
+              plan: _this.subscriptionPlan
             }).then(function (success) {
               console.log(success);
             }, function (err) {
@@ -4970,6 +4900,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     window.addEventListener('popstate', function () {
       this.handler.close();
     });
+    setInterval(function () {
+      var liqForm = document.querySelector('#liq-pay>form');
+      if (liqForm) {
+        liqForm.submit();
+      }
+    }, 1000);
   },
 
   methods: {
@@ -4980,14 +4916,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var amount = parseFloat((this.amount.toFixed(2) + '').replace('.', ''));
       this.handler.open({
         name: 'Subscription',
-        description: 'Pay for ' + this.monthPlans[this.form.monthPlan - 1].monthes + ' month',
+        description: 'Pay for Gamificator platform',
         email: this.profileData.email,
         amount: amount
       });
     },
     submitAction: function submitAction() {
       if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-        document.getElementsByClassName('paypal-form')[0].submit();
+        document.getElementById('paypal-form').submit();
       }
     },
     loadLiqForm: function loadLiqForm() {
@@ -5002,6 +4938,24 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           amount: this.amount
         };
         this.$store.dispatch('getLiqFormAction', data);
+      }
+    },
+    payClick: function payClick() {
+      // main pay button
+      if (this.form.payService == 'paypal') {
+        document.getElementById('paypal-form').submit();
+      }
+      if (this.form.payService == 'liqpay') {
+        this.loadLiqForm();
+        if (this.$store.getters.payments.liqForm != '') {
+          document.querySelector('#liq-pay>form').submit();
+        }
+      }
+      if (this.form.payService == 'yandex') {
+        alert('to be anonced');
+      }
+      if (this.form.payService == 'stripe') {
+        this.checkout();
       }
     }
   },
@@ -5021,9 +4975,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     payReady: function payReady() {
       if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
     payments: function payments() {
       return this.$store.getters.payments.liqForm;
@@ -24307,7 +24260,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c] {\n  width: 100px;\n  -webkit-filter: grayscale(100%);\n  filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c] {\n  z-index: 10000;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n  cursor: pointer;\n  width: 100px;\n}\n.stipeButton[data-v-3e91dc5c] {\n  display: block;\n  min-height: 30px;\n  position: relative;\n  padding: 0 12px;\n  height: 30px;\n  line-height: 30px;\n  background: #1275ff;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#7dc5ee), color-stop(85%, #008cdd), to(#30a2e4));\n  background-image: linear-gradient(#7dc5ee, #008cdd 85%, #30a2e4);\n  font-size: 14px;\n  color: #fff;\n  font-weight: bold;\n  font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  border: 1px solid #1275ff;\n}\n\n/* modal style */\n.modal-header button.close[data-v-3e91dc5c] {\n  top: 10px;\n  right: 10px;\n  position: absolute;\n}\n.modal-mask[data-v-3e91dc5c] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-3e91dc5c] {\n  display: table-cell;\n  vertical-align: middle;\n  position: relative;\n}\n.modal-container[data-v-3e91dc5c] {\n  width: 400px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\ndiv.modal-body[data-v-3e91dc5c] {\n  margin: 20px 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: start;\n      -ms-flex-align: start;\n          align-items: start;\n}\n.modal-default-button[data-v-3e91dc5c] {\n  float: right;\n}\n.modal-enter[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-3e91dc5c],\n.modal-leave-active .modal-container[data-v-3e91dc5c] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
+exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c] {\n  width: 100px;\n  -webkit-filter: grayscale(100%);\n  filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c] {\n  z-index: 10000;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n  cursor: pointer;\n  width: 100px;\n}\n.pay-enable > button[data-v-3e91dc5c] {\n  display: block;\n  margin: 10px auto;\n}\n.stipeButton[data-v-3e91dc5c] {\n  display: block;\n  min-height: 30px;\n  position: relative;\n  padding: 0 12px;\n  height: 30px;\n  line-height: 30px;\n  background: #1275ff;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#7dc5ee), color-stop(85%, #008cdd), to(#30a2e4));\n  background-image: linear-gradient(#7dc5ee, #008cdd 85%, #30a2e4);\n  font-size: 14px;\n  color: #fff;\n  font-weight: bold;\n  font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  border: 1px solid #1275ff;\n}\n\n/* modal style */\n.modal-header button.close[data-v-3e91dc5c] {\n  top: 10px;\n  right: 10px;\n  position: absolute;\n}\n.modal-mask[data-v-3e91dc5c] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-3e91dc5c] {\n  display: table-cell;\n  vertical-align: middle;\n  position: relative;\n}\n.modal-container[data-v-3e91dc5c] {\n  width: 400px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\ndiv.modal-body[data-v-3e91dc5c] {\n  margin: 20px 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: start;\n      -ms-flex-align: start;\n          align-items: start;\n}\n.modal-default-button[data-v-3e91dc5c] {\n  float: right;\n}\n.modal-enter[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-3e91dc5c],\n.modal-leave-active .modal-container[data-v-3e91dc5c] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
 
 // exports
 
@@ -79431,8 +79384,11 @@ var render = function() {
             _c(
               "form",
               {
-                staticClass: "paypal-form",
-                attrs: { action: "paypal/pay", method: "POST" }
+                attrs: {
+                  action: "paypal/pay",
+                  method: "POST",
+                  id: "paypal-form"
+                }
               },
               [
                 _c("div", { staticClass: "form-group" }, [
@@ -79507,8 +79463,8 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "monthPlan" } }, [
-                    _vm._v("Select month plan:")
+                  _c("label", { attrs: { for: "pay-type" } }, [
+                    _vm._v("Select payment service:")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -79518,61 +79474,139 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.form.monthPlan,
-                          expression: "form.monthPlan"
+                          value: _vm.form.payService,
+                          expression: "form.payService"
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { name: "month_plan_id", id: "monthPlan" },
+                      attrs: { id: "pay-type" },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.form,
-                            "monthPlan",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "payService",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.form.monthPlan = 0
+                          }
+                        ]
                       }
                     },
                     [
                       _c(
                         "option",
-                        { attrs: { value: "0", selected: "", disabled: "" } },
-                        [_vm._v("Select months")]
+                        { attrs: { value: "", selected: "", disabled: "" } },
+                        [_vm._v("Select pay service")]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.monthPlans, function(monthPlan) {
-                        return _c(
-                          "option",
-                          {
-                            key: monthPlan.id,
-                            domProps: { value: monthPlan.id }
-                          },
-                          [
-                            _vm._v(
-                              ">\n                            months " +
-                                _vm._s(monthPlan.monthes) +
-                                " discount " +
-                                _vm._s(monthPlan.percent) +
-                                " %\n                        "
-                            )
-                          ]
-                        )
-                      })
-                    ],
-                    2
+                      _c("option", { attrs: { value: "paypal" } }, [
+                        _vm._v("PayPal")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "liqpay" } }, [
+                        _vm._v("Liqpay")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "stripe" } }, [
+                        _vm._v("Stripe")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "yandex" } }, [
+                        _vm._v("Yandex")
+                      ])
+                    ]
                   )
                 ]),
+                _vm._v(" "),
+                _vm.form.payService != ""
+                  ? _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "monthPlan" } }, [
+                        _vm._v("Select your discount:")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.monthPlan,
+                              expression: "form.monthPlan"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "month_plan_id", id: "monthPlan" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "monthPlan",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { value: "0", selected: "", disabled: "" }
+                            },
+                            [_vm._v("Select discount")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.monthPlans, function(monthPlan) {
+                            return monthPlan.monthes == 1 ||
+                              monthPlan.monthes == 12 ||
+                              _vm.form.payService == "stripe" ||
+                              _vm.form.payService == "paypal"
+                              ? _c(
+                                  "option",
+                                  {
+                                    key: monthPlan.id,
+                                    domProps: { value: monthPlan.id }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(monthPlan.monthes) +
+                                        " monthes subscription. Discount " +
+                                        _vm._s(monthPlan.percent) +
+                                        " %\n                        "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   attrs: { type: "hidden", name: "user_id" },
@@ -79599,290 +79633,25 @@ var render = function() {
             _vm._v(" "),
             _vm.payReady
               ? _c("div", { staticClass: "pay-enable row" }, [
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\paypal.png",
-                        alt: "paypal icon"
-                      },
-                      on: { click: _vm.submitAction }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\liqpay.png",
-                        alt: "liqpay icon"
-                      },
-                      on: { click: _vm.loadLiqForm }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { domProps: { innerHTML: _vm._s(_vm.payments) } })
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "col-md-3" },
-                    [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\yandex.png",
-                          alt: "yandex icon",
-                          id: "show-modal"
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.showModal = true
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("transition", { attrs: { name: "modal" } }, [
-                        _vm.showModal
-                          ? _c("div", { staticClass: "modal-mask" }, [
-                              _c("div", { staticClass: "modal-wrapper" }, [
-                                _c("div", { staticClass: "modal-container" }, [
-                                  _c(
-                                    "form",
-                                    {
-                                      attrs: {
-                                        action:
-                                          "https://demomoney.yandex.ru/eshop.xml",
-                                        method: "post"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "modal-header" },
-                                        [
-                                          _c(
-                                            "h3",
-                                            {
-                                              staticClass: "mt-0 text-warning"
-                                            },
-                                            [
-                                              _vm._v(
-                                                "Subscribe form for yandex"
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass: "close",
-                                              attrs: {
-                                                type: "button",
-                                                "aria-label": "Close"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.showModal = false
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "span",
-                                                {
-                                                  attrs: {
-                                                    "aria-hidden": "true"
-                                                  }
-                                                },
-                                                [_vm._v("×")]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "modal-body" }, [
-                                        _c("input", {
-                                          attrs: {
-                                            name: "shopId",
-                                            value: "151",
-                                            type: "hidden"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          attrs: {
-                                            name: "scid",
-                                            value: "363",
-                                            type: "hidden"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "form-group" },
-                                          [
-                                            _c(
-                                              "label",
-                                              { attrs: { for: "cnumber" } },
-                                              [_vm._v("Customer Number:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("input", {
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "text",
-                                                name: "customerNumber",
-                                                value: "100500",
-                                                id: "cnumber"
-                                              }
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "form-group" },
-                                          [
-                                            _c(
-                                              "label",
-                                              { attrs: { for: "sum" } },
-                                              [_vm._v("Sum:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("input", {
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "text",
-                                                name: "sum",
-                                                value: "100",
-                                                id: "sum"
-                                              }
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(
-                                          "\n                                            Способ оплаты:"
-                                        ),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "radio" }, [
-                                          _c("label", [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "radio",
-                                                name: "paymentType",
-                                                value: "PC"
-                                              }
-                                            }),
-                                            _vm._v(
-                                              "Оплата из кошелька в Яндекс.Деньгах"
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "radio" }, [
-                                          _c("label", [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "radio",
-                                                name: "paymentType",
-                                                value: "AC"
-                                              }
-                                            }),
-                                            _vm._v(
-                                              "Оплата с произвольной банковской карты"
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "radio" }, [
-                                          _c("label", [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "radio",
-                                                name: "paymentType",
-                                                value: "GP"
-                                              }
-                                            }),
-                                            _vm._v(
-                                              "Оплата наличными через кассы и терминалы"
-                                            )
-                                          ])
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "modal-footer" },
-                                        [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-lg btn-warning modal-default-button",
-                                              attrs: { type: "submit" }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                                Pay\n                                            "
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ])
-                              ])
-                            ])
-                          : _vm._e()
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\stripe.png",
-                        alt: "stripe icon"
-                      },
+                    "button",
+                    {
+                      staticClass: "btn btn-lg btn-success",
                       on: {
                         click: function($event) {
-                          _vm.stripeShow = true
+                          $event.preventDefault()
+                          _vm.payClick()
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "form",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.stripeShow,
-                            expression: "stripeShow"
-                          }
-                        ],
-                        attrs: { action: "stripe/subscription", method: "POST" }
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "stipeButton",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.checkout($event)
-                              }
-                            }
-                          },
-                          [_vm._v("Pay with Card")]
-                        )
-                      ]
-                    )
-                  ])
+                    },
+                    [_vm._v("PAY SUBSCRIBE")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", {
+                    staticStyle: { display: "none" },
+                    attrs: { id: "liq-pay" },
+                    domProps: { innerHTML: _vm._s(_vm.payments) }
+                  })
                 ])
               : _vm._e()
           ])

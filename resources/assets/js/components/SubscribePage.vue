@@ -5,7 +5,7 @@
                 <h4 class="card-title">Subscription</h4>
                 <form action="your-server-side-code" method="POST" id="asdasd">
                 </form>
-                <form action="paypal/pay" method="POST" class="paypal-form">
+                <form action="paypal/pay" method="POST" id="paypal-form">
                     <div class="form-group">
                         <label for="subscriptionPlan">Select subscription plan:</label>
                         <select
@@ -22,113 +22,43 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="monthPlan">Select month plan:</label>
+                        <label for="pay-type">Select payment service:</label>
+                        <select
+                            v-model="form.payService"
+                            class="form-control"
+                            id="pay-type"
+                            v-on:change="form.monthPlan=0"
+                        >
+                            <option value='' selected disabled>Select pay service</option>
+                            <option value='paypal'>PayPal</option>
+                            <option value='liqpay'>Liqpay</option>
+                            <option value='stripe'>Stripe</option>
+                            <option value='yandex'>Yandex</option>
+                        </select>
+                    </div>
+                    <div class="form-group" v-if="form.payService !=''">
+                        <label for="monthPlan">Select your discount:</label>
                         <select
                                 v-model="form.monthPlan"
                                 class="form-control"
                                 name="month_plan_id"
                                 id="monthPlan">
-                            <option value=0 selected disabled>Select months</option>
-                            <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id" :key="monthPlan.id">>
-                                months {{monthPlan.monthes}} discount {{monthPlan.percent}} %
+                            <option value=0 selected disabled>Select discount</option>
+                            <option 
+                                v-for="monthPlan in monthPlans" :key="monthPlan.id"
+                                v-bind:value="monthPlan.id"
+                                v-if="monthPlan.monthes == 1 || monthPlan.monthes == 12 || form.payService == 'stripe' || form.payService == 'paypal'"
+                            >
+                                {{monthPlan.monthes}} monthes subscription. Discount {{monthPlan.percent}} %
                             </option>
                         </select>
                     </div>
                     <input type="hidden" v-bind:value="currentStreamer.user_id" name="user_id">
                     <input type="hidden" value="subscription" name="type">
-                    <div v-if="!payReady" class="pay-disable row">
-                        <div class="col-md-3">
-                            <img src="\images\paypal.png" alt="paypal icon">
-                        </div>
-                        <div class="col-md-3">
-                            <img src="\images\liqpay.png" alt="liqpay icon">
-                        </div>
-                        <div class="col-md-3">
-                            <img src="\images\yandex.png" alt="yandex icon">
-                        </div>
-                        <div class="col-md-3">
-                            <img src="\images\stripe.png" alt="stripe icon">
-                        </div>
-                    </div>
                 </form>
                 <div v-if="payReady" class="pay-enable row">
-                    <div class="col-md-3">
-                        <img @click="submitAction" src="\images\paypal.png" alt="paypal icon">
-                    </div>
-                    <div class="col-md-3">
-                        <img @click="loadLiqForm" src="\images\liqpay.png" alt="liqpay icon">
-                        <div v-html="payments"></div>
-                    </div>
-                    <div class="col-md-3">
-                        <img src="\images\yandex.png"
-                             alt="yandex icon"
-                             id="show-modal"
-                             @click="showModal = true">
-                        <transition name="modal">
-                            <div class="modal-mask"
-                                 v-if="showModal">
-                                <div class="modal-wrapper">
-                                    <div class="modal-container">
-                                        <form action="https://demomoney.yandex.ru/eshop.xml" method="post">
-
-                                            <div class="modal-header">
-                                                <h3 class="mt-0 text-warning">Subscribe form for yandex</h3>
-                                                <button type="button"
-                                                        class="close"
-                                                        aria-label="Close"
-                                                        @click="showModal = false">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-
-                                            <div class="modal-body">
-                                                <!-- Обязательные поля -->
-                                                <input name="shopId" value="151" type="hidden"/>
-                                                <input name="scid" value="363" type="hidden"/>
-                                                <div class="form-group">
-                                                    <label for="cnumber">Customer Number:</label>
-                                                    <input type="text" name="customerNumber" value="100500" class="form-control" id="cnumber">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="sum">Sum:</label>
-                                                    <input type="text" name="sum" value="100" class="form-control" id="sum">
-                                                </div>
-                                                Способ оплаты:<br>
-                                                <div class="radio">
-                                                    <label><input type="radio" name="paymentType" value="PC">Оплата из кошелька в Яндекс.Деньгах</label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label><input type="radio" name="paymentType" value="AC">Оплата с произвольной банковской карты</label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label><input type="radio" name="paymentType" value="GP">Оплата наличными через кассы и терминалы</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button class="btn btn-lg btn-warning modal-default-button"
-                                                        type="submit">
-                                                    Pay
-                                                </button>
-
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </transition>
-                    </div>
-                    <div class="col-md-3">
-                        <img src="\images\stripe.png"
-                             alt="stripe icon"
-                             @click="stripeShow = true">
-                        <form action="stripe/subscription" method="POST" v-show="stripeShow">
-                            <!--this is form will submit to your action with any params what you need-->
-                            <button type="button"
-                                    class="stipeButton"
-                                    @click.prevent="checkout">Pay with Card</button>
-                        </form>
-                    </div>
+                    <button class="btn btn-lg btn-success" @click.prevent="payClick()">PAY SUBSCRIBE</button>
+                    <div v-html="payments" id="liq-pay" style="display:none"></div>
                 </div>
             </div>
         </div>
@@ -161,6 +91,10 @@
     .pay-enable div img {
         cursor: pointer;
         width: 100px;
+    }
+    .pay-enable>button {
+        display: block;
+        margin: 10px auto;
     }
     .stipeButton{
         display: block;
@@ -250,9 +184,8 @@
         form : {
           subscriptionPlan : 0,
           monthPlan : 0,
+          payService : '',
         },
-        showModal:false,
-        stripeShow:false,
         // configure for stipe button
         handler : StripeCheckout.configure({
           key: 'pk_test_rYqZCPeTboW9LwXQUqToYR9Q',
@@ -264,30 +197,13 @@
             if(token){
               let csrf = document.head.querySelector('meta[name="csrf-token"]').content;
               let user_id = this.profileData.id;
-
-              let discount = null;
-              switch (this.monthPlans[this.form.monthPlan -1].monthes) {
-                case 3:
-                  discount = 'three-month';
-                  break;
-                case 6:
-                  discount = 'six-month';
-                  break;
-                case 12:
-                  discount = 'year';
-                  break;
-                default:
-                  discount = null;
-              }
-
-              let plan = this.subscriptionPlans[this.form.subscriptionPlan - 1].name;
               axios
                 .post('stripe/subscribe',{
                   user_id,
                   'X-CSRF-TOKEN':csrf,
                   token,
-                  discount,
-                  plan
+                  discount : this.monthPlan,
+                  plan : this.subscriptionPlan,
                 }).then(
                 success => {
                   console.log(success);
@@ -309,6 +225,12 @@
       window.addEventListener('popstate', function() {
         this.handler.close();
       });
+      setInterval(function(){
+          const liqForm = document.querySelector('#liq-pay>form');
+          if (liqForm) {
+              liqForm.submit();
+          }
+        }, 1000);
     },
     methods: {
       yandexSubstr(){
@@ -318,14 +240,14 @@
         let amount = parseFloat((this.amount.toFixed(2) + '').replace('.',''))
         this.handler.open({
           name: 'Subscription',
-          description:`Pay for ${this.monthPlans[this.form.monthPlan -1].monthes} month`,
+          description:`Pay for Gamificator platform`,
           email:this.profileData.email,
           amount
         });
       },
       submitAction() {
         if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-          document.getElementsByClassName('paypal-form')[0].submit();
+          document.getElementById('paypal-form').submit();
         }
       },
       loadLiqForm() {
@@ -338,37 +260,54 @@
           };
           this.$store.dispatch('getLiqFormAction', data);
         }
-      }
+      },
+        payClick() { // main pay button
+            if (this.form.payService == 'paypal') {
+                document.getElementById('paypal-form').submit();
+            }
+            if (this.form.payService == 'liqpay') {
+                this.loadLiqForm();
+                if (this.$store.getters.payments.liqForm != '') {
+                    document.querySelector('#liq-pay>form').submit();
+                }
+            }
+            if (this.form.payService == 'yandex') {
+                alert('to be anonced');
+            }
+            if (this.form.payService == 'stripe') {
+                this.checkout();
+            }
+        },
     },
     computed: {
-      ...mapGetters(['profileData']),
-      checkToken () {
-        return this.$store.getters.checkToken;
-      },
-      currentStreamer () {
-        return this.$store.getters.currentStreamer;
-      },
-      subscriptionPlans () {
-        return this.$store.getters.subscriptionPlans;
-      },
-      monthPlans () {
-        return this.$store.getters.monthPlans;
-      },
-      payReady () {
-        if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      payments () {
-        return this.$store.getters.payments.liqForm;
-      },
-      amount(){
-        let costMonthes = this.subscriptionPlans[this.form.subscriptionPlan-1].cost * this.monthPlans[this.form.monthPlan -1].monthes;
-        let precent = (costMonthes * this.monthPlans[this.form.monthPlan -1].percent) / 100;
-        return (costMonthes -precent) ;
-      }
+        ...mapGetters(['profileData']),
+        checkToken () {
+            return this.$store.getters.checkToken;
+        },
+        currentStreamer () {
+            return this.$store.getters.currentStreamer;
+        },
+        subscriptionPlans () {
+            return this.$store.getters.subscriptionPlans;
+        },
+        monthPlans () {
+            return this.$store.getters.monthPlans;
+        },
+        payReady () {
+            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+                return true;
+            } 
+            return false;
+        },
+        payments () {
+            return this.$store.getters.payments.liqForm;
+        },
+        amount(){
+            let costMonthes = this.subscriptionPlans[this.form.subscriptionPlan-1].cost * this.monthPlans[this.form.monthPlan -1].monthes;
+            let precent = (costMonthes * this.monthPlans[this.form.monthPlan -1].percent) / 100;
+            return (costMonthes -precent) ;
+        },
+        
     },
   }
 
