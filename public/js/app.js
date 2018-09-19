@@ -4866,8 +4866,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
               user_id: user_id,
               'X-CSRF-TOKEN': csrf,
               token: _token,
-              discount: _this.monthPlan,
-              plan: _this.subscriptionPlan
+              discount: _this.form.monthPlan,
+              plan: _this.form.subscriptionPlan
             }).then(function (success) {
               console.log(success);
             }, function (err) {

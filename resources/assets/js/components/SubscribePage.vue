@@ -202,8 +202,8 @@
                   user_id,
                   'X-CSRF-TOKEN':csrf,
                   token,
-                  discount : this.monthPlan,
-                  plan : this.subscriptionPlan,
+                  discount : this.form.monthPlan,
+                  plan : this.form.subscriptionPlan,
                 }).then(
                 success => {
                   console.log(success);
