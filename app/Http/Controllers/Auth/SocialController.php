@@ -103,7 +103,7 @@ class SocialController extends Controller
 
                 $user->profile()->save($profile);
                 $viewer = new Viewer();
-                // $user->twitch_id = 
+                // $user->twitch_id =
                 $user->save();
 
                 // save viewer and streamer
@@ -178,7 +178,7 @@ class SocialController extends Controller
             // 'Accept'    => 'application/vnd.twitchtv.v3+json',
             'Client-ID' => $clientId,
             'Authorization' => 'OAuth ' . $accessToken,
-            ] ]);
+        ] ]);
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         // $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $statusSode = (string) $result->getStatusCode();

@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\FakeStreamersCommand',
         'App\Console\Commands\DailyWinerCommand',
         'App\Console\Commands\StartWSCommand',
+        'App\Console\Commands\StripeCreatePlansCommand',
     ];
 
     /**

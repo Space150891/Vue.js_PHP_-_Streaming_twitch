@@ -4685,6 +4685,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -4757,60 +4760,247 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            form: {
-                subscriptionPlan: 0,
-                monthPlan: 0
-            }
-        };
-    },
-    mounted: function mounted() {
-        this.$store.dispatch('getSubscribeData');
-    },
+  data: function data() {
+    var _this = this;
 
-    methods: {
-        submitAction: function submitAction(event) {
-            if (this.form.subscriptionPlan == 0 || this.form.monthPlan == 0) {
-                event.preventDefault();
-            }
-        },
-        loadLiqForm: function loadLiqForm() {
-            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-                var data = {
-                    subscriptionPlan: subscriptionPlan,
-                    monthPlan: monthPlan
-                };
-                this.$store.dispatch('getLiqFormAction', data);
-            }
+    return {
+      form: {
+        subscriptionPlan: 0,
+        monthPlan: 0,
+        payService: ''
+      },
+      // configure for stipe button
+      handler: StripeCheckout.configure({
+        key: 'pk_test_rYqZCPeTboW9LwXQUqToYR9Q',
+        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        locale: 'auto',
+        token: function token(_token) {
+          // You can access the token ID with `token.id`.
+          // Get the token ID to your server-side code for use.
+          if (_token) {
+            var csrf = document.head.querySelector('meta[name="csrf-token"]').content;
+            var user_id = _this.profileData.id;
+            axios.post('stripe/subscribe', {
+              user_id: user_id,
+              'X-CSRF-TOKEN': csrf,
+              token: _token,
+              discount: _this.form.monthPlan,
+              plan: _this.form.subscriptionPlan
+            }).then(function (success) {
+              console.log(success);
+            }, function (err) {
+              console.log(err);
+            });
+          }
         }
+      })
+    };
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('getSubscribeData');
+    this.$store.commit('loadProfile');
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function () {
+      this.handler.close();
+    });
+    setInterval(function () {
+      var liqForm = document.querySelector('#liq-pay>form');
+      if (liqForm) {
+        liqForm.submit();
+      }
+    }, 1000);
+  },
+
+  methods: {
+    yandexSubstr: function yandexSubstr() {
+      alert('to be announced');
     },
-    computed: {
-        checkToken: function checkToken() {
-            return this.$store.getters.checkToken;
-        },
-        currentStreamer: function currentStreamer() {
-            return this.$store.getters.currentStreamer;
-        },
-        subscriptionPlans: function subscriptionPlans() {
-            return this.$store.getters.subscriptionPlans;
-        },
-        monthPlans: function monthPlans() {
-            return this.$store.getters.monthPlans;
-        },
-        payReady: function payReady() {
-            if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-        payments: function payments() {
-            return this.$store.getters.payments;
+    checkout: function checkout() {
+      var amount = parseFloat((this.amount.toFixed(2) + '').replace('.', ''));
+      this.handler.open({
+        name: 'Subscription',
+        description: 'Pay for Gamificator platform',
+        email: this.profileData.email,
+        amount: amount
+      });
+    },
+    submitAction: function submitAction() {
+      if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+        document.getElementById('paypal-form').submit();
+      }
+    },
+    loadLiqForm: function loadLiqForm() {
+      if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+        var _ref = [this.form.subscriptionPlan, this.form.monthPlan],
+            subscriptionPlan = _ref[0],
+            monthPlan = _ref[1];
+
+        var data = {
+          subscriptionPlan: subscriptionPlan,
+          monthPlan: monthPlan,
+          user_id: this.currentStreamer.user_id,
+          amount: this.amount
+        };
+        this.$store.dispatch('getLiqFormAction', data);
+      }
+    },
+    payClick: function payClick() {
+      // main pay button
+      if (this.form.payService == 'paypal') {
+        document.getElementById('paypal-form').submit();
+      }
+      if (this.form.payService == 'liqpay') {
+        this.loadLiqForm();
+        if (this.$store.getters.payments.liqForm != '') {
+          document.querySelector('#liq-pay>form').submit();
         }
+      }
+      if (this.form.payService == 'yandex') {
+        alert('to be anonced');
+      }
+      if (this.form.payService == 'stripe') {
+        this.checkout();
+      }
     }
+  },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['profileData']), {
+    checkToken: function checkToken() {
+      return this.$store.getters.checkToken;
+    },
+    currentStreamer: function currentStreamer() {
+      return this.$store.getters.currentStreamer;
+    },
+    subscriptionPlans: function subscriptionPlans() {
+      return this.$store.getters.subscriptionPlans;
+    },
+    monthPlans: function monthPlans() {
+      return this.$store.getters.monthPlans;
+    },
+    payReady: function payReady() {
+      if (this.form.subscriptionPlan > 0 && this.form.monthPlan > 0) {
+        return true;
+      }
+      return false;
+    },
+    payments: function payments() {
+      return this.$store.getters.payments.liqForm;
+    },
+    amount: function amount() {
+      var costMonthes = this.subscriptionPlans[this.form.subscriptionPlan - 1].cost * this.monthPlans[this.form.monthPlan - 1].monthes;
+      var precent = costMonthes * this.monthPlans[this.form.monthPlan - 1].percent / 100;
+      return costMonthes - precent;
+    }
+  })
 });
 
 /***/ }),
@@ -24076,7 +24266,7 @@ exports.push([module.i, "\nbody {\n  overflow: hidden;\n}\n.midle-price {\n  wid
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -24084,7 +24274,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.pay-disable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-disable > img{\n    width: 100px;\n}\n.pay-enable {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n}\n.pay-enable>div {\n    width: 100px;\n}\n.pay-enable>div img {\n    cursor: pointer;\n    width: 100%;\n} \n\n", ""]);
+exports.push([module.i, "\n.pay-disable div[data-v-3e91dc5c] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n}\n.pay-disable img[data-v-3e91dc5c] {\n  width: 100px;\n  -webkit-filter: grayscale(100%);\n  filter: grayscale(100%);\n}\n.pay-enable div[data-v-3e91dc5c] {\n  z-index: 10000;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n}\n.pay-enable div img[data-v-3e91dc5c] {\n  cursor: pointer;\n  width: 100px;\n}\n.pay-enable > button[data-v-3e91dc5c] {\n  display: block;\n  margin: 10px auto;\n}\n.stipeButton[data-v-3e91dc5c] {\n  display: block;\n  min-height: 30px;\n  position: relative;\n  padding: 0 12px;\n  height: 30px;\n  line-height: 30px;\n  background: #1275ff;\n  background-image: -webkit-gradient(linear, left top, left bottom, from(#7dc5ee), color-stop(85%, #008cdd), to(#30a2e4));\n  background-image: linear-gradient(#7dc5ee, #008cdd 85%, #30a2e4);\n  font-size: 14px;\n  color: #fff;\n  font-weight: bold;\n  font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n  border-radius: 4px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  border: 1px solid #1275ff;\n}\n\n/* modal style */\n.modal-header button.close[data-v-3e91dc5c] {\n  top: 10px;\n  right: 10px;\n  position: absolute;\n}\n.modal-mask[data-v-3e91dc5c] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease;\n}\n.modal-wrapper[data-v-3e91dc5c] {\n  display: table-cell;\n  vertical-align: middle;\n  position: relative;\n}\n.modal-container[data-v-3e91dc5c] {\n  width: 400px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\ndiv.modal-body[data-v-3e91dc5c] {\n  margin: 20px 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: start;\n      -ms-flex-align: start;\n          align-items: start;\n}\n.modal-default-button[data-v-3e91dc5c] {\n  float: right;\n}\n.modal-enter[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-3e91dc5c] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-3e91dc5c],\n.modal-leave-active .modal-container[data-v-3e91dc5c] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n", ""]);
 
 // exports
 
@@ -79184,7 +79374,7 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79195,192 +79385,277 @@ var render = function() {
     ? _c("div", { staticClass: "cabinet-page" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [_vm._v("Subscription")]),
+            _c("h4", { staticClass: "card-title" }, [_vm._v("Subscription")]),
             _vm._v(" "),
-            _c("form", { attrs: { action: "paypal/pay", method: "POST" } }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.subscriptionPlan,
-                      expression: "form.subscriptionPlan"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "subscription_plan_id" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "subscriptionPlan",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { value: "0" } }, [
-                    _vm._v("Select subscription plan")
+            _c("form", {
+              attrs: {
+                action: "your-server-side-code",
+                method: "POST",
+                id: "asdasd"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: {
+                  action: "paypal/pay",
+                  method: "POST",
+                  id: "paypal-form"
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "subscriptionPlan" } }, [
+                    _vm._v("Select subscription plan:")
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
-                    return _c(
-                      "option",
-                      {
-                        key: subscriptionPlan.id,
-                        domProps: { value: subscriptionPlan.id }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(subscriptionPlan.name) +
-                            " cost " +
-                            _vm._s(subscriptionPlan.price) +
-                            "\n                    "
-                        )
-                      ]
-                    )
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
+                  _c(
+                    "select",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.monthPlan,
-                      expression: "form.monthPlan"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "month_plan_id" },
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.form,
-                          "monthPlan",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      },
-                      function($event) {
-                        _vm.loadLiqForm()
-                      }
-                    ]
-                  }
-                },
-                [
-                  _c("option", { attrs: { value: "0" } }, [
-                    _vm._v("Select months")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.monthPlans, function(monthPlan) {
-                    return _c(
-                      "option",
-                      { key: monthPlan.id, domProps: { value: monthPlan.id } },
-                      [
-                        _vm._v(
-                          ">\n                        months " +
-                            _vm._s(monthPlan.monthes) +
-                            " discount " +
-                            _vm._s(monthPlan.percent) +
-                            " %\n                    "
-                        )
-                      ]
-                    )
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "hidden", name: "user_id" },
-                domProps: { value: _vm.currentStreamer.user_id }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "hidden", value: "subscription", name: "type" }
-              }),
-              _vm._v(" "),
-              !_vm.payReady
-                ? _c("div", { staticClass: "pay-disable" }, [
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\paypal_bw.png",
-                        alt: "paypal icon"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      attrs: {
-                        src: "\\images\\liqpay_bw.png",
-                        alt: "liqpay icon"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      attrs: { src: "\\images\\qiwi_bw.png", alt: "qiwi icon" }
-                    })
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.payReady
-                ? _c("div", { staticClass: "pay-enable" }, [
-                    _c("div", [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\paypal.png",
-                          alt: "paypal icon"
-                        },
-                        on: { click: _vm.submitAction }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [
-                      _c("img", {
-                        attrs: {
-                          src: "\\images\\liqpay.png",
-                          alt: "liqpay icon"
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.subscriptionPlan,
+                          expression: "form.subscriptionPlan"
                         }
-                      }),
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.payments.liqForm) +
-                          "\n                    "
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        name: "subscription_plan_id",
+                        id: "subscriptionPlan"
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "subscriptionPlan",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "0", selected: "", disabled: "" } },
+                        [_vm._v("Select subscription plan")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.subscriptionPlans, function(subscriptionPlan) {
+                        return _c(
+                          "option",
+                          {
+                            key: subscriptionPlan.id,
+                            domProps: { value: subscriptionPlan.id }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(subscriptionPlan.name) +
+                                " cost " +
+                                _vm._s(subscriptionPlan.cost) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "pay-type" } }, [
+                    _vm._v("Select payment service:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.payService,
+                          expression: "form.payService"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "pay-type" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "payService",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.form.monthPlan = 0
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "", selected: "", disabled: "" } },
+                        [_vm._v("Select pay service")]
+                      ),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "paypal" } }, [
+                        _vm._v("PayPal")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "liqpay" } }, [
+                        _vm._v("Liqpay")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "stripe" } }, [
+                        _vm._v("Stripe")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "yandex" } }, [
+                        _vm._v("Yandex")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.form.payService != ""
+                  ? _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "monthPlan" } }, [
+                        _vm._v("Select your discount:")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.monthPlan,
+                              expression: "form.monthPlan"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { name: "month_plan_id", id: "monthPlan" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "monthPlan",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { value: "0", selected: "", disabled: "" }
+                            },
+                            [_vm._v("Select discount")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.monthPlans, function(monthPlan) {
+                            return monthPlan.monthes == 1 ||
+                              monthPlan.monthes == 12 ||
+                              _vm.form.payService == "stripe" ||
+                              _vm.form.payService == "paypal"
+                              ? _c(
+                                  "option",
+                                  {
+                                    key: monthPlan.id,
+                                    domProps: { value: monthPlan.id }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            " +
+                                        _vm._s(monthPlan.monthes) +
+                                        " monthes subscription. Discount " +
+                                        _vm._s(monthPlan.percent) +
+                                        " %\n                        "
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          })
+                        ],
+                        2
                       )
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(0)
-                  ])
-                : _vm._e()
-            ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "user_id" },
+                  domProps: { value: _vm.currentStreamer.user_id }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", value: "subscription", name: "type" }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _vm.payReady
+              ? _c("div", { staticClass: "pay-enable row" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-lg btn-success",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.payClick()
+                        }
+                      }
+                    },
+                    [_vm._v("PAY SUBSCRIBE")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", {
+                    staticStyle: { display: "none" },
+                    attrs: { id: "liq-pay" },
+                    domProps: { innerHTML: _vm._s(_vm.payments) }
+                  })
+                ])
+              : _vm._e()
           ])
         ])
       ])
@@ -79388,16 +79663,7 @@ var render = function() {
         _vm._v("\n    Please login\n")
       ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", { attrs: { src: "\\images\\qiwi.png", alt: "qiwi icon" } })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -85646,23 +85912,23 @@ if(false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("04f04824", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("3de81a82", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SubscribePage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -100236,19 +100502,19 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3e91dc5c\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubscribePage.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubscribePage.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3e91dc5c\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubscribePage.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-3e91dc5c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -100745,10 +101011,7 @@ var actions = {
         var commit = _ref5.commit,
             state = _ref5.state;
 
-        if (state.currentViewer.points >= 10) {
-            state.roulette.channelsCount = totalChannels;
-            commit('getRandomChannels', totalChannels);
-        }
+        state.roulette.channelsCount = totalChannels;
     },
     nextRouletteAction: function nextRouletteAction(_ref6) {
         var commit = _ref6.commit,
@@ -101800,9 +102063,11 @@ var mutations = {
     },
     getLiqForm: function getLiqForm(state, data) {
         var formData = new FormData();
-        formData.append('token', state.token);
+        // formData.append('_token', state.token);
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
+        formData.append('amount', data.amount);
+        formData.append('user_id', data.user_id);
         fetch('liqpay/getform', {
             method: "POST",
             credentials: 'omit',
@@ -101819,6 +102084,8 @@ var mutations = {
             } else {
                 state.payments.liqForm = jsonResp.data.form;
             }
+        }).catch(function (err) {
+            return err;
         });
     },
     getMultistreamCheck: function getMultistreamCheck(state) {

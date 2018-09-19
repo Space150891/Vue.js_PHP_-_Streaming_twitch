@@ -52,6 +52,15 @@ class PayPalController extends Controller
                 'service'    => 'paypal'
             ];
             $payment->details = json_encode($data);
+            $payment->user_id = $userId;
+            $payment->type = $request->type;
+            $payment->status = "draft";
+            $payment->save();
+            $subscribeButtons = config('paypal.buttons');
+            $subscriptionPlan = SubscriptionPlan::find($request->subscription_plan_id);
+            $monthPlan = MonthPlan::find($request->month_plan_id);
+            $name = substr($subscriptionPlan->name, 0, 1) . $monthPlan->monthes;
+            return redirect($subscribeButtons[$name]);
         }
         $payment->user_id = $userId;
         $payment->type = $request->type;
@@ -165,7 +174,7 @@ class PayPalController extends Controller
         }
     }
 
-    
+
 
     /**
      * Parse PayPal IPN.

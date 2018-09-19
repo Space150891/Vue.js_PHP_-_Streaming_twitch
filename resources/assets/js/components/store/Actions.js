@@ -102,10 +102,7 @@ export const actions = {
         context.commit('checkCode', code);
     },
     startWatchingRouletteAction({commit, state}, totalChannels) {
-        if (state.currentViewer.points >= 10) {
-            state.roulette.channelsCount = totalChannels;
-            commit('getRandomChannels', totalChannels);
-        }
+        state.roulette.channelsCount = totalChannels;
     },
     nextRouletteAction({commit, state}) {
         commit('getRandomChannels', state.roulette.channelsCount);
