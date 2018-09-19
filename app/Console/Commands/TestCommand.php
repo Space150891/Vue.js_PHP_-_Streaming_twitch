@@ -42,8 +42,15 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $this->stripeCreatePlans();
-
+        $public_key = env('LIQPAY_PUBLIC_KEY');
+        $private_key = env('LIQPAY_PRIVATE_KEY');
+        $liqpay = new LiqPay($public_key, $private_key);
+        $res = $liqpay->api("request", array(
+            'action'        => 'status',
+            'version'       => '3',
+            'order_id'      => '6'
+            ));
+        var_dump($res);
     }
 
     private function stripeCreatePlans()

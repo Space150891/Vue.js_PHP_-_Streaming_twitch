@@ -11,7 +11,7 @@ return [
     ],
     1   =>  [
         'id'                => 'basic-3',
-        'amount'            => 899,
+        'amount'            => 2697,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 3,
@@ -19,7 +19,7 @@ return [
     ],
     2   =>  [
         'id'                => 'basic-6',
-        'amount'            => 799,
+        'amount'            => 4794,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 6,
@@ -27,7 +27,7 @@ return [
     ],
     3   =>  [
         'id'                => 'basic-12',
-        'amount'            => 499,
+        'amount'            => 5988,
         'currency'          => 'usd',
         'interval'          => 'year',
         'interval_count'    => 1,
@@ -43,7 +43,7 @@ return [
     ],
     5   =>  [
         'id'                => 'advanced-3',
-        'amount'            => 1799,
+        'amount'            => 5397,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 3,
@@ -51,7 +51,7 @@ return [
     ],
     6   =>  [
         'id'                => 'advanced-6',
-        'amount'            => 1599,
+        'amount'            => 9595,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 6,
@@ -59,7 +59,7 @@ return [
     ],
     7   =>  [
         'id'                => 'advanced-12',
-        'amount'            => 999,
+        'amount'            => 11994,
         'currency'          => 'usd',
         'interval'          => 'year',
         'interval_count'    => 1,
@@ -75,7 +75,7 @@ return [
     ],
     9   =>  [
         'id'                => 'golden-3',
-        'amount'            => 4499,
+        'amount'            => 13497,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 3,
@@ -83,7 +83,7 @@ return [
     ],
     10   =>  [
         'id'                => 'golden-6',
-        'amount'            => 3999,
+        'amount'            => 23995,
         'currency'          => 'usd',
         'interval'          => 'month',
         'interval_count'    => 6,
@@ -91,7 +91,7 @@ return [
     ],
     11   =>  [
         'id'                => 'golden-12',
-        'amount'            => 2499,
+        'amount'            => 29994,
         'currency'          => 'usd',
         'interval'          => 'year',
         'interval_count'    => 1,

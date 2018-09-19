@@ -4839,20 +4839,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4935,6 +4921,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         var data = {
           subscriptionPlan: subscriptionPlan,
           monthPlan: monthPlan,
+          user_id: this.currentStreamer.user_id,
           amount: this.amount
         };
         this.$store.dispatch('getLiqFormAction', data);
@@ -79615,19 +79602,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("input", {
                   attrs: { type: "hidden", value: "subscription", name: "type" }
-                }),
-                _vm._v(" "),
-                !_vm.payReady
-                  ? _c("div", { staticClass: "pay-disable row" }, [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _vm._m(2),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ])
-                  : _vm._e()
+                })
               ]
             ),
             _vm._v(" "),
@@ -79661,40 +79636,7 @@ var render = function() {
         _vm._v("\n    Please login\n")
       ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\paypal.png", alt: "paypal icon" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\liqpay.png", alt: "liqpay icon" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\yandex.png", alt: "yandex icon" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", { attrs: { src: "\\images\\stripe.png", alt: "stripe icon" } })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -102088,6 +102030,7 @@ var mutations = {
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
         formData.append('amount', data.amount);
+        formData.append('user_id', data.user_id);
         fetch('liqpay/getform', {
             method: "POST",
             credentials: 'omit',

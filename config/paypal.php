@@ -26,4 +26,18 @@ return [
     'notify_url'     => '', // Change this accordingly for your application.
     'locale'         => '', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
     'validate_ssl'   => true, // Validate SSL when creating api client.
+    'buttons'       => [
+        'b1'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SKX3QQBP6RXTA',
+        'b3'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N3HRX4MHNFRB8',
+        'b6'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F3EBVZERHWQ3U',
+        'b12'       => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GHK3WH6A2NR7E',
+        'a1'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=U468E6XJNQZ4A',
+        'a3'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBBVHNHBH7V6U',
+        'a6'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QQJHGH269AEEU',
+        'a12'       => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QQJHGH269AEEU',
+        'g1'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=49RUQXPRFP2T2',
+        'g3'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBBVHNHBH7V6U',
+        'g6'        => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XZLKNJVA42NQC',
+        'g12'       => 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BAMKD3BTKFFSJ',
+    ]
 ];

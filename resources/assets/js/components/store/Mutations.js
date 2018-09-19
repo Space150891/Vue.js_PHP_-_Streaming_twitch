@@ -715,6 +715,7 @@ export const mutations = {
         formData.append('subscription_plan_id', data.subscriptionPlan);
         formData.append('month_plan_id', data.monthPlan);
         formData.append('amount', data.amount);
+        formData.append('user_id', data.user_id);
         fetch('liqpay/getform',
             {
                 method: "POST",

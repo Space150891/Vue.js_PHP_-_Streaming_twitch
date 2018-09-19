@@ -256,6 +256,7 @@
           const data = {
             subscriptionPlan,
             monthPlan,
+            user_id: this.currentStreamer.user_id,
             amount: this.amount
           };
           this.$store.dispatch('getLiqFormAction', data);
