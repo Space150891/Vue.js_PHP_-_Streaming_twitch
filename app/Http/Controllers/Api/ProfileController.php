@@ -246,6 +246,7 @@ class ProfileController extends Controller
                 'hide_fields'   => $viewer->hide_fields ? $viewer->hide_fields : [],
                 'stream_token'  => $streamer->stream_token,
                 'prize_alert'   => $streamer->prize_alert,
+                'streamlabs'    => is_null($streamer->streamlabs_access) ? false : true,
                 'fields'        => [
                     [
                         'name'      => 'current_points',

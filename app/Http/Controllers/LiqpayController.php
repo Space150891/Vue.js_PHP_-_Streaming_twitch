@@ -67,6 +67,10 @@ class LiqpayController extends Controller
         if ($testSignature === $signature) {
             $data = json_decode($data, true);
             $payment = Payment::find($data['order_id']);
+            if (!$payment) {
+                \Log::info('payment not fuund id=' . $data['order_id']);
+                return;
+            }
             $payment->status = 'Done';
             $payment->save();
             $user = User::find($payment->user_id);
@@ -74,10 +78,19 @@ class LiqpayController extends Controller
             $details = json_decode($payment->details, true);
             $sPlanId = $details['subscription_plan_id'];
             $mPlanId = $details['month_plan_id'];
-            $subscribed = new SubscribedStreamers();
-            $subscribed->streamer_id = $streamer->id;
-            $subscribed->subscription_plan_id = $sPlanId;
-            $subscribed->month_plan_id = $mPlanId;
+            $subscriptionPlan = SubscriptionPlan::find($sPlanId);
+            $monthPlan = MonthPlan::find($mPlanId);
+            $subscribed = SubscribedStreamers::where([
+                ['streamer_id', '=', $streamer->id],
+                ['subscription_plan_id', '=', $sPlanId],
+                ['month_plan_id', '=', $mPlanId],
+            ])->first();
+            if (!$subscribed) {
+                $subscribed = new SubscribedStreamers();
+                $subscribed->streamer_id = $streamer->id;
+                $subscribed->subscription_plan_id = $sPlanId;
+                $subscribed->month_plan_id = $mPlanId;
+            }
             $subscribed->valid_from = Carbon::today()->toDateTimeString();
             $toDate = new Carbon($subscribed->valid_from);
             $toDate->addMonths($monthPlan->monthes);

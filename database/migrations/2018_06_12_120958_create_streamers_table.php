@@ -30,6 +30,8 @@ class CreateStreamersTable extends Migration
             $table->string('image')->nullable();
             $table->integer('viewers_count')->default(0);
             $table->integer('followers_count')->default(0);
+            $table->string('streamlabs_access', 255)->nullable();
+            $table->string('streamlabs_refresh', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

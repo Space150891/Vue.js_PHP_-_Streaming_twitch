@@ -16,16 +16,6 @@ class StripeController extends Controller
         $subscriptionPlan = SubscriptionPlan::find($request->plan);
         $monthPlan = MonthPlan::find($request->discount);
         $stripeId = $subscriptionPlan->name . '-' . $monthPlan->monthes;
-        $planName = false;
-        foreach (config('stripe') as $plan) {
-            if ($plan['id'] == $stripeId) {
-                $planName = $plan['name'];
-            }
-        }
-        if (!$planName) {
-            \Log::info('did dot find stripe plan id = ' . $stripeId);
-            return response()->json(['error' => 'stripe id not found!'], 500);
-        }
         $res = $user->newSubscription('main', $stripeId)
                 ->create($request->token['id']);
         $payment = new Payment();

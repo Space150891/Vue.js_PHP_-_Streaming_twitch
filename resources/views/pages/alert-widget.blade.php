@@ -180,7 +180,7 @@
                     }, 2000); // 2 seconds
                     setTimeout(() => {
                         document.getElementById('stream-widget').innerHTML = "";
-                    }, 4000); // two seconds
+                    }, 4000); // 4 seconds
 
                 }
             };

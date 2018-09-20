@@ -161,3 +161,6 @@ Route::post('liqpay/subscribe', 'LiqpayController@acceptSubscribe');
 
 Route::post('stripe/subscribe', 'StripeController@subscribe');
 
+Route::get('streamlabs/login', 'StreamlabsController@Login');
+Route::get('streamlabs/oauth', 'StreamlabsController@Oauth');
+

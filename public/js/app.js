@@ -1949,6 +1949,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -78013,6 +78015,23 @@ var render = function() {
                       },
                       [_vm._v("Customize achivements page")]
                     ),
+                    _vm._v(" "),
+                    !_vm.profileData.streamlabs
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: { href: "streamlabs/login" }
+                          },
+                          [_vm._v("Connect Streamlabs")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.profileData.streamlabs
+                      ? _c("span", { staticClass: "btn btn-warning" }, [
+                          _vm._v("Streamlabs connected")
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _vm.profileData.prizes && _vm.profileData.prizes.length > 0
                       ? _c(
