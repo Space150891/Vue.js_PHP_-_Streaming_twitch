@@ -190,11 +190,13 @@ class PayPalController extends Controller
 
         $request->merge(['cmd' => '_notify-validate']);
         $post = $request->all();
-
+        
         $response = (string) $this->provider->verifyIPN($post);
-
-        $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
-        Storage::disk('local')->put($logFile, $response);
+        if ($response === 'VERIFIED') {
+            \Log::info('viewer ' . $post->payer_email . ' donate to streamer ' . $post->receiver_email . ' USD ' . $post->mc_gross);
+        }
+        // $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
+        // Storage::disk('local')->put($logFile, $response);
     }
 
     /**
