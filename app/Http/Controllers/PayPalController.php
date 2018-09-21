@@ -241,4 +241,12 @@ class PayPalController extends Controller
         return $data;
     }
 
+    public function notify2(Request $request)
+    {
+        $bodyContent = $request->getContent();
+        \Log::info('NOTIFY BODY');
+        \Log::info(json_encode($bodyContent));
+        return $bodyContent;
+    }
+
 }
