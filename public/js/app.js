@@ -1951,6 +1951,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -1965,7 +1996,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             code: '',
             smsSended: false,
             openAlertModal: false,
-            prizeAlert: 30
+            prizeAlert: 30,
+            SeModal: false,
+            SeStatus: '',
+            SeWait: false,
+            SeToken: ''
         };
     },
     mounted: function mounted() {
@@ -1991,6 +2026,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         savePrizeAlert: function savePrizeAlert() {
             this.$store.dispatch('savePrizeAlertAction', this.prizeAlert);
+        },
+        CheckSeToken: function CheckSeToken() {
+            if (this.SeToken == '') {
+                this.SeStatus = 'JWT token empty!';
+            } else {
+                this.SeStatus = 'waiting reply...';
+                this.SeWait = true;
+                var myHeaders = new Headers({
+                    "Authorization": "Bearer " + this.SeToken.trim()
+                });
+                var _this = this;
+                fetch('https://api.streamelements.com/kappa/v2/channels/me', {
+                    method: "GET",
+                    credentials: 'omit',
+                    mode: 'cors',
+                    headers: myHeaders
+                }).then(function (res) {
+
+                    if (res.ok) {
+                        _this.SeStatus = 'token checked successful';
+                        _this.saveSeToken();
+                    } else {
+                        _this.SeWait = false;
+                        _this.SeStatus = 'token false';
+                    }
+                });
+            }
+        },
+        saveSeToken: function saveSeToken() {
+            var _this = this;
+            var formData = new FormData();
+            formData.append('token', this.$store.state.token);
+            formData.append('se_token', this.SeToken.trim());
+            fetch('api/streamers/savesetoken', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                console.log(jsonResp);
+                if (jsonResp.message) {
+                    _this.SeStatus = 'token save successful';
+                    _this.profileData.streamelements = true;
+                } else {
+                    _this.SeStatus = 'token save error';
+                    _this.SeWait = false;
+                }
+            });
         }
     },
     computed: {
@@ -24202,6 +24287,21 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 // module
 exports.push([module.i, "\n@media (max-width: 1262px) {\n.nav-chat {\n    margin-bottom: 1%;\n}\n.chat-item a {\n    width: 77%;\n    padding: 2px;\n}\n}\n@media (max-height: 840px) {\n.video-iframe-item iframe {\n    height: 250px;\n}\n}\n@media (max-width: 767px) {\nh3 {\n    margin-top: 20px;\n}\n.toggle-block .social {\n    bottom: 80px;\n    right: 30px;\n}\n.nav-chat {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    text-align: center;\n}\n.video-iframe-chat iframe {\n    height: 450px;\n    margin: 0 2px;\n}\n.rightPart-main {\n    width: 100%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n.rightPart {\n    width: 50%;\n}\n.rightPart-item {\n    width: 100%;\n}\n.rightPart-img {\n    width: 45%;\n}\n.rightPart-img img {\n      width: 100%;\n      height: 100%;\n}\n.rightPart-mainText {\n    width: 55%;\n}\n.rightPart-mainText h1 {\n      font-size: 20px;\n}\n.rightPart-mainText p {\n      font-size: 15px;\n}\n.navbar {\n    position: fixed;\n    width: 100%;\n    z-index: 100;\n}\n.navbar-toggler {\n    margin-right: 10px;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/CabinetPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.se-modal {\n    position: fixed; top:0; left:0; width:100%; height: 100%; background: rgb(1,1,1, .5);\n}\n.se-modal > div {\n    position:absolute;  left:50%; top:300px; margin-left:-150px; width:300px; background:#fff;  padding:15px;  border-radius:10px;\n}\n.se-modal > div >div:after{\n    content: ''; display:block; clear:both;\n}\n.se-modal > div textarea {\n    width: 100%; height: 200px; margin-bottom: 10px;\n}\n", ""]);
 
 // exports
 
@@ -78016,22 +78116,118 @@ var render = function() {
                       [_vm._v("Customize achivements page")]
                     ),
                     _vm._v(" "),
-                    !_vm.profileData.streamlabs
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-warning",
-                            attrs: { href: "streamlabs/login" }
-                          },
-                          [_vm._v("Connect Streamlabs")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.profileData.streamlabs
-                      ? _c("span", { staticClass: "btn btn-warning" }, [
-                          _vm._v("Streamlabs connected")
-                        ])
-                      : _vm._e(),
+                    _c("div", [
+                      _c("h5", [_vm._v("Donation alerts")]),
+                      _vm._v(" "),
+                      !_vm.profileData.streamlabs
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-warning",
+                              attrs: { href: "streamlabs/login" }
+                            },
+                            [_vm._v("Connect Streamlabs")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.profileData.streamlabs
+                        ? _c("span", { staticClass: "btn btn-secondary" }, [
+                            _vm._v("Streamlabs connected")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.profileData.streamelements
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-warning",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.SeModal = true
+                                }
+                              }
+                            },
+                            [_vm._v("Connect Streamelements")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.SeModal
+                        ? _c("div", { staticClass: "se-modal" }, [
+                            _c("div", [
+                              _c("label", { attrs: { for: "se-textarea" } }, [
+                                _vm._v(
+                                  "Enter JTW token from your Streamelements accaunt page"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.SeToken,
+                                    expression: "SeToken"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { id: "se-textarea" },
+                                domProps: { value: _vm.SeToken },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.SeToken = $event.target.value
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("div", [
+                                _vm.SeWait == false
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-success pull-left",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.CheckSeToken()
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Check token")]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-warning pull-right",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.SeModal = false
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Close")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("h5", [_vm._v(_vm._s(_vm.SeStatus))])
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.profileData.streamelements
+                        ? _c("span", { staticClass: "btn btn-secondary" }, [
+                            _vm._v("Streamelements connected")
+                          ])
+                        : _vm._e()
+                    ]),
                     _vm._v(" "),
                     _vm.profileData.prizes && _vm.profileData.prizes.length > 0
                       ? _c(
@@ -85813,6 +86009,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1014e1a0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StreamChatTabsComponent.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1014e1a0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StreamChatTabsComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/CabinetPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/CabinetPage.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("9076a98c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CabinetPage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CabinetPage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -99067,6 +99290,10 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-18c1e520\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/CabinetPage.vue")
+}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CabinetPage.vue")
@@ -99075,7 +99302,7 @@ var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/templa
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */

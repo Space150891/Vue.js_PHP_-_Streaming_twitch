@@ -195,6 +195,25 @@ class StreamersController extends Controller
         ]);
     }
 
+    public function saveSeToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'se_token'       => 'required|min:150',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $user = auth()->user();
+        $streamer = $user->streamer()->first();
+        $streamer->streamelements_access = $request->se_token;
+        $streamer->save();
+        return response()->json([
+            'message' => 'streamelements token saved',
+        ]);
+    }
+
     private function deleteFile($path) {
         if (!empty($path)) {
             Storage::delete('public/' . $path);
