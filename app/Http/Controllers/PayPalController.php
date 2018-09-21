@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
 use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement};
+use GuzzleHttp\Client as Guzzle;
 
 class PayPalController extends Controller
 {
@@ -243,10 +244,19 @@ class PayPalController extends Controller
 
     public function notify2(Request $request)
     {
-        $bodyContent = $request->getContent();
+        $all = $request->all();
         \Log::info('NOTIFY BODY');
-        \Log::info(json_encode($bodyContent));
-        return $bodyContent;
+        \Log::info(json_encode($all));
+        $client = new Guzzle();
+        
+        $response = $client->post('https://ipnpb.sandbox.paypal.com/cgi-bin/webscr', [
+            'form_params' => $all
+        ]);
+        $result = (string)$response->getBody();
+        \Log::info('ANSWER=' . $result);
+        return response('OK', 200);
+
+        
     }
 
 }
