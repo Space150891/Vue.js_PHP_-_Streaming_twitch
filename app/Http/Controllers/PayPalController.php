@@ -193,7 +193,9 @@ class PayPalController extends Controller
         
         $response = (string) $this->provider->verifyIPN($post);
         if ($response === 'VERIFIED') {
-            \Log::info('viewer ' . $post->payer_email . ' donate to streamer ' . $post->receiver_email . ' USD ' . $post->mc_gross);
+            \Log::info('VERIFIED!!!');
+            \Log::info(json_encode($post));
+            \Log::info('viewer ' . $post['payer_email'] . ' donate to streamer ' . $post['receiver_email'] . ' USD ' . $post['mc_gross']);
         }
         // $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
         // Storage::disk('local')->put($logFile, $response);
