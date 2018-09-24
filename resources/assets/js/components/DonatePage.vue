@@ -23,7 +23,17 @@
                         sum USD
                         <input v-model="sum" type="number"  class="form-control">
                     </label>
-                    <button @click.prevent="dotate()" class="btn btn-success form-control">DONATE</button>
+                    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                        <input type="hidden" name="business"  v-model="streamer.paypal">
+                        <input type="hidden" name="cmd" value="_donations">
+                        <input type="hidden" name="amount" v-model="sum">
+                        <input type="hidden" name="item_name" v-model="comment">
+                        <input type="hidden" name="item_number" value="Gamificator">
+                        <input type="hidden" name="currency_code" value="RUB">
+                        <input type="hidden" name="notify_url" value="http://dev.streamcases.tv/paypal/notify">
+                        <input type="submit" name="DONATE" class="btn btn-success form-control">
+                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -67,8 +77,6 @@
             dotate() {
                 const text = 'From: ' + this.donater + ' Comment: ' + this.comment;
                 const link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
-                this.$store.commit('pushAchivement', {name: 'Donate100Achievement', points: this.sum});
-                this.$store.commit('pushAchivement', {name: 'FirstDonateAchievement'});
                 window.location = link;
             },
         },

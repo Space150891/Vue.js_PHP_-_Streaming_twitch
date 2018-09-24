@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
-use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond, Viewer};
+use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement, Donate100Achievement, FirstDonateAchievement};
 use GuzzleHttp\Client as Guzzle;
 
 class PayPalController extends Controller
@@ -193,12 +193,35 @@ class PayPalController extends Controller
         
         $response = (string) $this->provider->verifyIPN($post);
         if ($response === 'VERIFIED') {
-            \Log::info('VERIFIED!!!');
-            \Log::info(json_encode($post));
             \Log::info('viewer ' . $post['payer_email'] . ' donate to streamer ' . $post['receiver_email'] . ' USD ' . $post['mc_gross']);
+            $user_streamer = User::where('email', $post['receiver_email']);
+            if (!$user_streamer) {
+                \Log::info('user not found email=' . $post['receiver_email']);
+                exit();
+            }
+            $streamer = $user_streamer->streamer()->first();
+            $user_viewer = User::where('email', $post['payer_email']);
+            if (!$user_viewer) {
+                \Log::info('user not found email=' . $post['receiver_email']);
+                exit();
+            }
+            $user_viewer->addProgress(new FirstDonateAchievement(), 1);
+            $user_viewer->addProgress(new Donate100Achievement(), $post['mc_gross']);
+            $viewer = $user_viewer->viewer()->first();
+            $client = new Guzzle();
+            $response = $client->post('https://streamlabs.com/api/v1.0/donations', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $streamer->streamlabs_access,
+                ],
+                'form_params' => [
+                    "name"          => $viewer->name,
+                    "message"       => "new donation!!!",
+                    "identifier"    => $post['payer_email'],
+                    "amount"        => $post['mc_gross'],
+                    "currency"      => "USD",
+                ]
+            ]);
         }
-        // $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
-        // Storage::disk('local')->put($logFile, $response);
     }
 
     /**

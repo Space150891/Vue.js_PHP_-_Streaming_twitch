@@ -42,77 +42,61 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $public_key = env('LIQPAY_PUBLIC_KEY');
-        $private_key = env('LIQPAY_PRIVATE_KEY');
-        $liqpay = new LiqPay($public_key, $private_key);
-        $res = $liqpay->api("request", array(
-            'action'        => 'status',
-            'version'       => '3',
-            'order_id'      => '6'
-            ));
-        var_dump($res);
+        $this->sl();
     }
 
-    private function stripeCreatePlans()
+    private function se()
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $plans = \Stripe\Plan::all();
-        foreach ($plans->data as $plan) {
-            $plan->delete();
-        }
-        $this->stripeShowPlansList();
-        $data = config('stripe');
-        foreach ($data as $d) {
-            $this->stripePlanCreate($d);
-        }
-        $this->stripeShowPlansList();
-    }
-
-    private function stripeShowPlansList()
-    {
-        $res = \Stripe\Plan::all(array("limit" => 10));
-        foreach ($res->data as $r) {
-            echo "\n id={$r->id}, active {$r->active}, {$r->amount}, {$r->interval} - {$r->interval_count}";
-        }
-    }
-
-    private function stripePlanCreate($data)
-    {
-        $res = \Stripe\Plan::create([
-            "amount"            => $data['amount'],
-            "interval"          => $data['interval'],
-            "interval_count"    =>  $data['interval_count'],
-            "product"           => [
-                "name" => $data['name'],
-            ],
-            "currency"          => $data['currency'],
-            "id"                => $data['id'],
+        $client = new Guzzle();
+        $streamer = Streamer::find(103);
+        $response = $client->get('https://api.streamelements.com/kappa/v2/channels/me', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+            ]
         ]);
-        return $res;
+        $result = json_decode((string)$response->getBody(), true);
+        $channelId = $result['_id'];
+        // dd($channelId);
+
+        $response = $client->post('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+            ],
+            'form_params' => [
+                'currency'      => 'USD',
+                "pay_fees"       => 'true',
+                "user" => [
+                    "username"  => "viewer",
+                    "email"     => "viewer@mail.com"
+                ],
+                "amount"        => 100,
+                "message"       => "Donation",
+                "imported"      => 'true',
+            ],
+        ]);
+        $result = json_decode((string)$response->getBody(), true);
+        var_dump($result);
+        // $result = (string)$response->getBody();
     }
 
-    private function liq()
+    private function sl()
     {
-        $public_key = env('LIQPAY_PUBLIC_KEY');
-        $private_key = env('LIQPAY_PRIVATE_KEY');
-        $sandbox = env('LIQPAY_SANDBOX') ? '1' : null;
-        $liqpay = new LiqPay($public_key, $private_key);
-        $html = $liqpay->cnb_form(array(
-            'version'=>'3',
-            'action'         => 'subscribe',
-            'amount'         => '33', // сумма заказа
-            'currency'       => 'UAH',
-            'description'    => 'Оплата заказа № 3', 
-            'order_id'       => '3',
-            'subscribe'            => '1',
-            'subscribe_date_start' => '2015-03-31 00:00:00',
-            'subscribe_periodicity'=> 'month',
-            'result_url'	=>	'http://mydomain.site/thank_you_page/',
-            'server_url'	=>	'http://mydomain.site/liqpay_status/',
-            'language'		=>	'ru', // uk, en
-            'sandbox'=> $sandbox
-            ));
-        var_dump($html);
+        $streamer = Streamer::find(103);
+        $client = new Guzzle();
+        $response = $client->post('https://streamlabs.com/api/v1.0/donations', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $streamer->streamlabs_access,
+            ],
+            'form_params' => [
+                "name"          => "Fishstickslol",
+                "message"       => "new donation!!!",
+                "identifier"    => "streamer@mail.ru",
+                "amount"        => 10,
+                "currency"      => "USD",
+            ]
+        ]);
+        $result = json_decode((string)$response->getBody(), true);
+        var_dump($result);
     }
 
 }

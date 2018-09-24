@@ -18,7 +18,7 @@ class StreamelementsController extends Controller
             'response_type' => 'code',
             'client_id'     => $clientId,
             'redirect_uri'  => $redirect,
-            'scope'         => 'donations.read',
+            'scope'         => 'donations.create',
           ]);
           
         $url = "https://www.streamlabs.com/api/v1.0/authorize?{$query}";

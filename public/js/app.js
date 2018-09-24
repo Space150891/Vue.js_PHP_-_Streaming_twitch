@@ -2479,6 +2479,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2510,8 +2520,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         dotate: function dotate() {
             var text = 'From: ' + this.donater + ' Comment: ' + this.comment;
             var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
-            this.$store.commit('pushAchivement', { name: 'Donate100Achievement', points: this.sum });
-            this.$store.commit('pushAchivement', { name: 'FirstDonateAchievement' });
             window.location = link;
         }
     },
@@ -82414,17 +82422,110 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c(
-                "button",
+                "form",
                 {
-                  staticClass: "btn btn-success form-control",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.dotate()
-                    }
+                  attrs: {
+                    action: "https://www.sandbox.paypal.com/cgi-bin/webscr",
+                    method: "post"
                   }
                 },
-                [_vm._v("DONATE")]
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.streamer.paypal,
+                        expression: "streamer.paypal"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "business" },
+                    domProps: { value: _vm.streamer.paypal },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.streamer, "paypal", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "hidden", name: "cmd", value: "_donations" }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.sum,
+                        expression: "sum"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "amount" },
+                    domProps: { value: _vm.sum },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.sum = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.comment,
+                        expression: "comment"
+                      }
+                    ],
+                    attrs: { type: "hidden", name: "item_name" },
+                    domProps: { value: _vm.comment },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.comment = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "item_number",
+                      value: "Gamificator"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "currency_code",
+                      value: "RUB"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      type: "hidden",
+                      name: "notify_url",
+                      value: "http://dev.streamcases.tv/paypal/notify"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "btn btn-success form-control",
+                    attrs: { type: "submit", name: "DONATE" }
+                  })
+                ]
               )
             ])
           ])
