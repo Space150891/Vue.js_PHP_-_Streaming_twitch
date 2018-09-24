@@ -29,7 +29,7 @@
                         <input type="hidden" name="amount" v-model="sum">
                         <input type="hidden" name="item_name" v-model="comment">
                         <input type="hidden" name="item_number" value="Gamificator">
-                        <input type="hidden" name="currency_code" value="RUB">
+                        <input type="hidden" name="currency_code" value="USD">
                         <input type="hidden" name="notify_url" value="http://dev.streamcases.tv/paypal/notify">
                         <input type="submit" name="DONATE" class="btn btn-success form-control">
                     </form>
