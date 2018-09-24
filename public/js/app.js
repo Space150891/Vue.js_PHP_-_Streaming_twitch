@@ -2518,9 +2518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         dotate: function dotate() {
-            var text = 'From: ' + this.donater + ' Comment: ' + this.comment;
-            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
-            window.location = link;
+            console.log('donate');
         }
     },
     computed: {
@@ -82523,7 +82521,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("input", {
                     staticClass: "btn btn-success form-control",
-                    attrs: { type: "submit", name: "DONATE" }
+                    attrs: { type: "submit", name: "DONATE" },
+                    on: {
+                      click: function($event) {
+                        _vm.donate()
+                      }
+                    }
                   })
                 ]
               )

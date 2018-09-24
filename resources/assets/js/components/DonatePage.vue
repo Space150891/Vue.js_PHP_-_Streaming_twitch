@@ -74,11 +74,6 @@
             
         },
         methods: {
-            dotate() {
-                const text = 'From: ' + this.donater + ' Comment: ' + this.comment;
-                const link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
-                window.location = link;
-            },
         },
         computed: {
             checkToken: function () {
