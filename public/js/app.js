@@ -82509,7 +82509,7 @@ var render = function() {
                     attrs: {
                       type: "hidden",
                       name: "currency_code",
-                      value: "RUB"
+                      value: "USD"
                     }
                   }),
                   _vm._v(" "),
@@ -101784,6 +101784,7 @@ var getters = {
 var mutations = {
     signUp: function signUp(state) {
         state.token = localStorage.getItem("userToken");
+        state.twitchRefresh = localStorage.getItem("twitchRefresh");
         document.cookie = "token=" + state.token;
     },
     loadCurrentViewer: function loadCurrentViewer(state) {
@@ -102462,6 +102463,7 @@ var mutations = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return state; });
 var state = {
     token: false,
+    twitchRefresh: false,
     currentViewer: {
         diamonds: 0,
         points: 0,

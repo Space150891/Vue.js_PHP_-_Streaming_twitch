@@ -37,8 +37,10 @@
             if(pageUrl == "/twitch/callback") {
                 @if (isset($access_token))
                     window.access_token = "{{($access_token)}}";
+                    window.twitch_refresh_token = "{{($twitch_refresh_token)}}";
                 @endif
                 localStorage.setItem('userToken', window.access_token);
+                localStorage.setItem('twitchRefresh', window.twitch_refresh_token);
                 // window.location.replace("http://localhost:8081/");
                 window.location = '/';
             }

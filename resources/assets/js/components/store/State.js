@@ -1,5 +1,6 @@
 export const state = {
     token: false,
+    twitchRefresh: false,
     currentViewer: {
         diamonds: 0,
         points: 0,
