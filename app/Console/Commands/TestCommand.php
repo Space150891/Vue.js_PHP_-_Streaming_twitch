@@ -42,7 +42,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $this->sl();
+        $this->se();
     }
 
     private function se()
@@ -57,28 +57,41 @@ class TestCommand extends Command
         $result = json_decode((string)$response->getBody(), true);
         $channelId = $result['_id'];
         // dd($channelId);
-
-        $response = $client->post('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
+        ///
+        $response = $client->get('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $streamer->streamelements_access,
-            ],
-            'form_params' => [
-                'currency'      => 'USD',
-                "pay_fees"       => 'true',
-                "user" => [
-                    "username"  => "viewer",
-                    "email"     => "viewer@mail.com"
-                ],
-                "amount"        => 100,
-                "message"       => "Donation",
-                "imported"      => 'true',
             ],
         ]);
         $result = json_decode((string)$response->getBody(), true);
         var_dump($result);
+        ///
+        try {
+            $response = $client->post('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+                ],
+                'form_params' => [
+                    'currency'      => 'USD',
+                    "payFees"       => false,
+                    "user" => [
+                        "username"  => "viewer",
+                        "email"     => "viewer@mail.com"
+                    ],
+                    "amount"        => 100.00,
+                    "message"       => "Donation",
+                    "imported"      => 'true',
+                ],
+            ]);
+        } catch(\Exception $e) {
+            exit($e->getMessage());
+        }
+
+        $result = json_decode((string)$response->getBody(), true);
+        var_dump($result);
         // $result = (string)$response->getBody();
     }
-
+    
     private function sl()
     {
         $streamer = Streamer::find(103);

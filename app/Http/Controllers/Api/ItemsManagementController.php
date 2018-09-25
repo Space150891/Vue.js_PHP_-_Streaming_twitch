@@ -10,7 +10,7 @@ use Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\{Item, ItemType};
+use App\Models\{Item, ItemType, RarityClass};
 
 class itemsManagementController extends Controller
 {
@@ -35,6 +35,8 @@ class itemsManagementController extends Controller
         $items = Item::all();
         for ($i = 0; $i < count($items); $i++) {
             $items[$i]->type = $items[$i]->type()->first()->name;
+            $rarityClass = RarityClass::find($items[$i]->rarity_class_id);
+            $items[$i]->rarity_class = $rarityClass ? $rarityClass->name : 'not defined';
         }
         return response()->json(['data' => [
             'items' => $items,
@@ -54,6 +56,7 @@ class itemsManagementController extends Controller
             [
                 'title'          => 'required|max:255',
                 'item_type_id'   => 'required|numeric',
+                'rarity_class_id'=> 'required|numeric',
                 'description'    => 'max:255',
                 'worth'          => 'numeric',
             ]
@@ -74,6 +77,7 @@ class itemsManagementController extends Controller
         $item = new Item();
         $item->title = $request->title;
         $item->item_type_id = $request->item_type_id;
+        $item->rarity_class_id = $request->rarity_class_id;
         $item->description = $request->description;
         $item->worth = $request->worth;
         $item->icon = $request->icon;   // upload ?
@@ -142,6 +146,7 @@ class itemsManagementController extends Controller
             'id'             => 'required|numeric',
             'title'          => 'required|max:255',
             'item_type_id'   => 'required|numeric',
+            'rarity_class_id'=> 'required|numeric',
             'description'    => 'max:255',
             'worth'          => 'numeric',
         ]);
@@ -161,6 +166,7 @@ class itemsManagementController extends Controller
         }
         $item->title = $request->title;
         $item->item_type_id = $request->item_type_id;
+        $item->rarity_class_id = $request->rarity_class_id;
         $item->description = $request->description;
         $item->worth = $request->worth;
         $item->save();

@@ -174,6 +174,7 @@ class SocialController extends Controller
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
         $accessToken = $body['access_token'];
+        $refreshToken = $body['refresh_token'];
         $guzzle = new Guzzle([ 'headers' => [
             // 'Accept'    => 'application/vnd.twitchtv.v3+json',
             'Client-ID' => $clientId,
@@ -259,9 +260,10 @@ class SocialController extends Controller
         }
         $token = auth()->login($user);
         $data = [
-            'access_token'  => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'access_token'          => $token,
+            'twitch_refresh_token'  => $refreshToken,
+            'token_type'            => 'bearer',
+            'expires_in'            => auth()->factory()->getTTL() * 60
         ];
         return view('layouts.app', $data);
     }

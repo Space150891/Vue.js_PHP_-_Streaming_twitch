@@ -1,6 +1,7 @@
 export const mutations = {
     signUp(state) {
         state.token = localStorage.getItem("userToken");
+        state.twitchRefresh = localStorage.getItem("twitchRefresh");
         document.cookie = "token=" + state.token;
     },
     loadCurrentViewer(state) {

@@ -215,6 +215,9 @@ Route::group([
     Route::post('subscription/points/create', 'Api\SubscriptionBonusesController@store');
     Route::post('subscription/points/update', 'Api\SubscriptionBonusesController@update');
     Route::post('subscription/points/delete', 'Api\SubscriptionBonusesController@delete');
+
+    Route::post('rarity/class/get', 'Api\RaritiesClassController@index');
+    Route::post('rarity/class/all', 'Api\RaritiesClassController@all');
 });
 
 // bot routes

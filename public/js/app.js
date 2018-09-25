@@ -2516,13 +2516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
 
-    methods: {
-        dotate: function dotate() {
-            var text = 'From: ' + this.donater + ' Comment: ' + this.comment;
-            var link = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + this.streamer.paypal + "&item_name=" + text + "&amount=" + this.sum + '&currency_code=USD';
-            window.location = link;
-        }
-    },
+    methods: {},
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
@@ -82509,7 +82503,7 @@ var render = function() {
                     attrs: {
                       type: "hidden",
                       name: "currency_code",
-                      value: "RUB"
+                      value: "USD"
                     }
                   }),
                   _vm._v(" "),
@@ -101784,6 +101778,7 @@ var getters = {
 var mutations = {
     signUp: function signUp(state) {
         state.token = localStorage.getItem("userToken");
+        state.twitchRefresh = localStorage.getItem("twitchRefresh");
         document.cookie = "token=" + state.token;
     },
     loadCurrentViewer: function loadCurrentViewer(state) {
@@ -102462,6 +102457,7 @@ var mutations = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return state; });
 var state = {
     token: false,
+    twitchRefresh: false,
     currentViewer: {
         diamonds: 0,
         points: 0,
