@@ -3482,6 +3482,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -3497,6 +3504,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 worth: 0,
                 image: null,
                 icon: null,
+                rarity_class_id: 0,
                 id: 0
             },
             deletingItem: {
@@ -3540,6 +3548,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             this.editItem.image = null;
             this.editItem.icon = null;
             this.editItem.id = item.id;
+            this.editItem.rarity_class_id = item.rarity_class_id;
             this.editMode = true;
         },
         createAction: function createAction() {
@@ -3558,6 +3567,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 this.editItem.item_type_id = 0;
                 this.editItem.image = null;
                 this.editItem.icon = null;
+                this.editItem.rarity_class_id = 0;
             } else {
                 this.openAlertModal = true;
             }
@@ -3583,6 +3593,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 this.editItem.icon = null;
                 this.editItem.id = 0;
                 this.editMode = false;
+                this.editItem.rarity_class_id = 0;
                 this.$store.commit('getItemsList');
             } else {
                 this.openAlertModal = true;
@@ -3598,7 +3609,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             this.editItem.icon = file;
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items', 'itemsLoaded', 'itemsSaved']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'itemTypes', 'items', 'itemsLoaded', 'itemsSaved', 'rarityClasses']))
 });
 
 /***/ }),
@@ -45417,7 +45428,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.caseTypes, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
@@ -46030,7 +46041,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.items, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.title))]),
@@ -46044,6 +46055,8 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.worth))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.rarity_class))]),
                       _vm._v(" "),
                       _c("td", [
                         item.image
@@ -46172,6 +46185,57 @@ var render = function() {
                             domProps: { value: itemType.id }
                           },
                           [_vm._v(_vm._s(itemType.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.rarity_class_id,
+                          expression: "editItem.rarity_class_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editItem,
+                            "rarity_class_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Select ratity class")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.rarityClasses, function(rarityClass) {
+                        return _c(
+                          "option",
+                          {
+                            key: rarityClass.id,
+                            domProps: { value: rarityClass.id }
+                          },
+                          [_vm._v(_vm._s(rarityClass.name))]
                         )
                       })
                     ],
@@ -46345,6 +46409,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Description")]),
         _vm._v(" "),
         _c("th", [_vm._v("Worth")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rarity class")]),
         _vm._v(" "),
         _c("th", [_vm._v("Image")]),
         _vm._v(" "),
@@ -66867,6 +66933,7 @@ var actions = {
     getItemsListAction: function getItemsListAction(context) {
         context.commit('getItemsList');
         context.commit('getItemTypesList');
+        context.commit('loadRarityClasses');
     },
     createItemAction: function createItemAction(_ref7, data) {
         var commit = _ref7.commit,
@@ -66878,6 +66945,7 @@ var actions = {
         formData.append('token', state.token);
         formData.append('title', data.title);
         formData.append('item_type_id', data.item_type_id);
+        formData.append('rarity_class_id', data.rarity_class_id);
         formData.append('description', data.description);
         formData.append('worth', data.worth);
         if (data.image) {
@@ -66931,6 +66999,7 @@ var actions = {
         formData.append('id', data.id);
         formData.append('title', data.title);
         formData.append('item_type_id', data.item_type_id);
+        formData.append('rarity_class_id', data.rarity_class_id);
         formData.append('description', data.description);
         formData.append('worth', data.worth);
         if (data.image) {
@@ -67860,7 +67929,11 @@ var getters = {
     },
     subscriptionBonusPointsLoaded: function subscriptionBonusPointsLoaded(state) {
         return state.subscriptionBonusPoints.loaded;
+    },
+    rarityClasses: function rarityClasses(state) {
+        return state.rarityClasses.list;
     }
+
 };
 
 /***/ }),
@@ -68577,6 +68650,50 @@ var mutations = {
             state.subscriptionBonusPoints.list = jsonResp.data ? jsonResp.data.points : [];
             state.subscriptionBonusPoints.loaded = true;
         });
+    },
+    loadRarityClasses: function loadRarityClasses(state) {
+        state.rarityClasses.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/rarity/class/get', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.rarityClasses.list = jsonResp.data ? jsonResp.data.rarity_classes : [];
+            state.rarityClasses.loaded = true;
+        });
+    },
+    loadAllRarityClasses: function loadAllRarityClasses(state) {
+        state.rarityClasses.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/rarity/class/all', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.rarityClasses.list = jsonResp.data ? jsonResp.data.rarity_classes : [];
+            state.rarityClasses.loaded = true;
+        });
     }
 };
 
@@ -68680,6 +68797,10 @@ var state = {
         loaded: false
     },
     subscriptionBonusPoints: {
+        list: [],
+        loaded: false
+    },
+    rarityClasses: {
         list: [],
         loaded: false
     }

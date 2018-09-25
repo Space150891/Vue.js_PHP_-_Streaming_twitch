@@ -2516,11 +2516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
 
-    methods: {
-        dotate: function dotate() {
-            console.log('donate');
-        }
-    },
+    methods: {},
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
@@ -82521,12 +82517,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("input", {
                     staticClass: "btn btn-success form-control",
-                    attrs: { type: "submit", name: "DONATE" },
-                    on: {
-                      click: function($event) {
-                        _vm.donate()
-                      }
-                    }
+                    attrs: { type: "submit", name: "DONATE" }
                   })
                 ]
               )

@@ -137,4 +137,8 @@ export const getters = {
     subscriptionBonusPointsLoaded: state => {
         return state.subscriptionBonusPoints.loaded;
     },
+    rarityClasses: state => {
+        return state.rarityClasses.list;
+    },
+    
 }

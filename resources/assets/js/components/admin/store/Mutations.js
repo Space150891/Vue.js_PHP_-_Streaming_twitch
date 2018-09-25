@@ -793,4 +793,54 @@ export const mutations = {
             state.subscriptionBonusPoints.loaded = true;
         });
     },
+    loadRarityClasses(state) {
+        state.rarityClasses.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/rarity/class/get',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.rarityClasses.list = jsonResp.data ? jsonResp.data.rarity_classes : [];
+            state.rarityClasses.loaded = true;
+        });
+    },
+    loadAllRarityClasses(state) {
+        state.rarityClasses.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/rarity/class/all',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.rarityClasses.list = jsonResp.data ? jsonResp.data.rarity_classes : [];
+            state.rarityClasses.loaded = true;
+        });
+    },
 }

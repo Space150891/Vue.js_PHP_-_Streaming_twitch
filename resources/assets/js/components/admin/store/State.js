@@ -94,4 +94,8 @@ export const state = {
         list: [],
         loaded: false,
     },
+    rarityClasses: {
+        list: [],
+        loaded: false,
+    }
 }

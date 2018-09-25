@@ -140,6 +140,7 @@ export const actions = {
     getItemsListAction(context) {
         context.commit('getItemsList');
         context.commit('getItemTypesList');
+        context.commit('loadRarityClasses');
     },
     createItemAction({commit, state}, data) {
         var formData = new FormData();
@@ -148,6 +149,7 @@ export const actions = {
         formData.append('token', state.token);
         formData.append('title', data.title);
         formData.append('item_type_id', data.item_type_id);
+        formData.append('rarity_class_id', data.rarity_class_id);
         formData.append('description', data.description);
         formData.append('worth', data.worth);
         if (data.image) {
@@ -200,6 +202,7 @@ export const actions = {
         formData.append('id', data.id);
         formData.append('title', data.title);
         formData.append('item_type_id', data.item_type_id);
+        formData.append('rarity_class_id', data.rarity_class_id);
         formData.append('description', data.description);
         formData.append('worth', data.worth);
         if (data.image) {
