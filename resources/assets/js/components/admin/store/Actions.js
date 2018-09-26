@@ -944,4 +944,43 @@ export const actions = {
             commit('loadSubscriptionBonusPoints', data.selectedPlan);
         });
     },
+    getAchievements(context) {
+        context.commit('loadAchievements');
+        context.commit('loadAllRarityClasses');
+    },
+    achievementSaveAction({commit, state}, data) {
+        state.achievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('steps', data.steps);
+        formData.append('level_points', data.level_points);
+        formData.append('diamonds', data.diamonds);
+        formData.append('case_rarity_id', data.case_rarity_id);
+        formData.append('card_rarity_id', data.card_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'achivements/admin/save',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors) {
+            }
+            if (jsonResp.message) {
+            }
+            commit('loadAchievements');
+        });
+    },
 }

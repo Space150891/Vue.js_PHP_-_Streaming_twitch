@@ -191,7 +191,10 @@
                     this.errors.push('item title empty');
                 }
                 if (this.editItem.item_type_id == 0) {
-                    this.errors.push('select item type id');
+                    this.errors.push('select item type');
+                }
+                if (this.editItem.rarity_class_id == 0) {
+                    this.errors.push('select rarity class');
                 }
                 if (this.errors.length == 0) {
                     this.$store.dispatch('ItemSaveAction', this.editItem);

@@ -843,4 +843,29 @@ export const mutations = {
             state.rarityClasses.loaded = true;
         });
     },
+    loadAchievements(state) {
+        state.achievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/admin/list',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.achievements.list = jsonResp.data ? jsonResp.data.achievements : [];
+            state.achievements.loaded = true;
+        });
+    },
 }

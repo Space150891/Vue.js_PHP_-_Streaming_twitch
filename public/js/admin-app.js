@@ -2024,11 +2024,254 @@ exports.default = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AchievementPage.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var config = __webpack_require__("./resources/assets/js/components/config/config.json");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            editMode: false,
+            editItem: {
+                name: '',
+                description: '',
+                steps: 0,
+                level_points: 0,
+                diamonds: 0,
+                case_rarity_id: 0,
+                card_rarity_id: 0,
+                frame_rarity_id: 0,
+                hero_rarity_id: 0,
+                image: null,
+                id: 0
+            },
+            errors: [],
+            openAlertModal: false,
+            image: false,
+            styleImage: {
+                width: "100px",
+                border: "1px #888 solid",
+                borderRadius: "2px"
+            },
+            imagesUrl: config.baseUrl + '/storage/'
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+        }
+    },
+
+    methods: {
+        editAction: function editAction(item) {
+            this.editItem.id = item.id;
+            this.editItem.name = item.name;
+            this.editItem.description = item.description;
+            this.editItem.steps = item.steps;
+            this.editItem.level_points = item.level_points;
+            this.editItem.diamonds = item.diamonds;
+            this.editItem.case_rarity_id = item.case_rarity_id;
+            this.editItem.card_rarity_id = item.card_rarity_id;
+            this.editItem.frame_rarity_id = item.frame_rarity_id;
+            this.editItem.hero_rarity_id = item.hero_rarity_id;
+            this.editMode = true;
+        },
+        getList: function getList() {
+            // this.$store.dispatch('getCaseTypesListAction');
+            this.$store.dispatch('getAchievements');
+        },
+        saveAction: function saveAction() {
+            this.$store.dispatch('achievementSaveAction', this.editItem);
+            this.clear();
+            this.editMode = false;
+        },
+        cancelAction: function cancelAction() {
+            this.clear();
+            this.editMode = false;
+        },
+        clear: function clear() {
+            this.editItem.id = 0;
+            this.editItem.name = '';
+            this.editItem.description = '';
+            this.editItem.steps = 0;
+            this.editItem.level_points = 0;
+            this.editItem.diamonds = 0;
+            this.editItem.case_rarity_id = 0;
+            this.editItem.card_rarity_id = 0;
+            this.editItem.frame_rarity_id = 0;
+            this.editItem.hero_rarity_id = 0;
+        },
+        uploadImage: function uploadImage(file) {
+            this.editItem.image = file;
+        }
+    },
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'rarityClasses', 'Achievements', 'AchievementsLoaded', 'AchievementsSaved']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AdminMenu.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -3581,7 +3824,10 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 this.errors.push('item title empty');
             }
             if (this.editItem.item_type_id == 0) {
-                this.errors.push('select item type id');
+                this.errors.push('select item type');
+            }
+            if (this.editItem.rarity_class_id == 0) {
+                this.errors.push('select rarity class');
             }
             if (this.errors.length == 0) {
                 this.$store.dispatch('ItemSaveAction', this.editItem);
@@ -9498,6 +9744,21 @@ __webpack_require__("./node_modules/core-js/library/modules/_object-sap.js")('ke
     return $keys(toObject(it));
   };
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/admin/AchievementPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.edit-modal {\n    position: fixed; top:0; left:0; width:100%; height: 100%; background: rgb(1,1,1, .5);\n    border-radius: 0;\n}\n.edit-modal > div {\n    position:absolute;  left:50%; top:100px; margin-left:-200px; width:400px; background:#fff;  padding:15px;  border-radius:10px;\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -46432,6 +46693,651 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3709c6f7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AchievementPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("admin-menu", { attrs: { page: "/achievements" } }),
+      _vm._v(" "),
+      _vm.checkToken && _vm.AchievementsLoaded
+        ? _c(
+            "div",
+            [
+              _c("h5", [_vm._v("Achievements")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.Achievements, function(item) {
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.steps))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.level_points))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.diamonds))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.card))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.case))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.frame))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.hero))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        item.image
+                          ? _c("img", {
+                              style: _vm.styleImage,
+                              attrs: {
+                                src: _vm.imagesUrl + item.image,
+                                alt: "achievement image"
+                              }
+                            })
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs btn-warning",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.editAction(item)
+                              }
+                            }
+                          },
+                          [_vm._v("edit")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _vm.editMode
+                ? _c("div", { staticClass: "edit-modal" }, [
+                    _c(
+                      "div",
+                      [
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.name,
+                                expression: "editItem.name"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", placeholder: "Name.." },
+                            domProps: { value: _vm.editItem.name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(2),
+                          _vm._v(" "),
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.description,
+                                expression: "editItem.description"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            domProps: { value: _vm.editItem.description },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "description",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(3),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.steps,
+                                expression: "editItem.steps"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "number", placeholder: "Steps.." },
+                            domProps: { value: _vm.editItem.steps },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "steps",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(4),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.diamonds,
+                                expression: "editItem.diamonds"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              placeholder: "Diamonds.."
+                            },
+                            domProps: { value: _vm.editItem.diamonds },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "diamonds",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(5),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editItem.level_points,
+                                expression: "editItem.level_points"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "number", placeholder: "Points.." },
+                            domProps: { value: _vm.editItem.level_points },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.editItem,
+                                  "level_points",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(6),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.editItem.case_rarity_id,
+                                  expression: "editItem.case_rarity_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.editItem,
+                                    "case_rarity_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("no")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.rarityClasses, function(rClass) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: rClass.id,
+                                    domProps: { value: rClass.id }
+                                  },
+                                  [_vm._v(_vm._s(rClass.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(7),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.editItem.card_rarity_id,
+                                  expression: "editItem.card_rarity_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.editItem,
+                                    "card_rarity_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("no")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.rarityClasses, function(rClass) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: rClass.id,
+                                    domProps: { value: rClass.id }
+                                  },
+                                  [_vm._v(_vm._s(rClass.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(8),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.editItem.frame_rarity_id,
+                                  expression: "editItem.frame_rarity_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.editItem,
+                                    "frame_rarity_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("no")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.rarityClasses, function(rClass) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: rClass.id,
+                                    domProps: { value: rClass.id }
+                                  },
+                                  [_vm._v(_vm._s(rClass.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _vm._m(9),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.editItem.hero_rarity_id,
+                                  expression: "editItem.hero_rarity_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.editItem,
+                                    "hero_rarity_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("no")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.rarityClasses, function(rClass) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: rClass.id,
+                                    domProps: { value: rClass.id }
+                                  },
+                                  [_vm._v(_vm._s(rClass.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("upload-image", {
+                          attrs: {
+                            title: "achievement image",
+                            fileName: _vm.editItem.image
+                          },
+                          on: {
+                            "upload-file": function($event) {
+                              _vm.uploadImage($event)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success pull-left",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.saveAction()
+                                }
+                              }
+                            },
+                            [_vm._v("SAVE")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning pull-right",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.cancelAction()
+                                }
+                              }
+                            },
+                            [_vm._v("Close")]
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("modal-alert", {
+                attrs: {
+                  AlertType: "warning",
+                  messages: _vm.errors,
+                  opened: _vm.openAlertModal
+                },
+                on: {
+                  "close-alert-modal": function($event) {
+                    _vm.openAlertModal = false
+                  }
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.checkToken && !_vm.AchievementsLoaded
+        ? _c("div", { staticClass: "v-loading" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.checkToken ? _c("h5", [_vm._v("login first")]) : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Steps")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Points")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Diamonds")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Case")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Card")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Frame")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Hero")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Image")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Name")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Description")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Steps")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Diamonds")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Points")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Case")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Card")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Frame")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("Hero")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3709c6f7", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-43f1191f\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/StockPrizesPage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46971,6 +47877,20 @@ var render = function() {
                         attrs: { href: "#/bonus-points" }
                       },
                       [_vm._v("Subscripton Bonuses")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      {
+                        class: {
+                          "nav-link": true,
+                          active: _vm.page == "/achievements"
+                        },
+                        attrs: { href: "#/achievements" }
+                      },
+                      [_vm._v("Achievements")]
                     )
                   ]),
                   _vm._v(" "),
@@ -48228,7 +49148,9 @@ var render = function() {
             _vm._v(" "),
             _vm._l(_vm.messages, function(mes) {
               return _vm.messages
-                ? _c("p", { style: _vm.styleMessage }, [_vm._v(_vm._s(mes))])
+                ? _c("p", { key: mes, style: _vm.styleMessage }, [
+                    _vm._v(_vm._s(mes))
+                  ])
                 : _vm._e()
             }),
             _vm._v(" "),
@@ -53172,6 +54094,33 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ __webpack_exports__["a"] = (VueRouter);
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/admin/AchievementPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/admin/AchievementPage.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("6896d15f", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AchievementPage.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AchievementPage.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 
@@ -65532,9 +66481,10 @@ var DiamondsPage = __webpack_require__("./resources/assets/js/components/admin/D
 var StatisticPage = __webpack_require__("./resources/assets/js/components/admin/StatisticPage.vue");
 var CustomAchivementsPage = __webpack_require__("./resources/assets/js/components/admin/CustomAchivementsPage.vue");
 var SubscriptionBonusPointsPage = __webpack_require__("./resources/assets/js/components/admin/SubscriptionBonusPointsPage.vue");
+var AchievementPage = __webpack_require__("./resources/assets/js/components/admin/AchievementPage.vue");
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }, { path: '/statistic', component: StatisticPage }, { path: '/custom-achivements', component: CustomAchivementsPage }, { path: '/bonus-points', component: SubscriptionBonusPointsPage }]
+    routes: [{ path: '/', component: LoginPage }, { path: '/login', component: LoginPage }, { path: '/item-types', component: ItemTypesPage }, { path: '/rarities', component: RaritiesPage }, { path: '/items', component: ItemsPage }, { path: '/case-types', component: CaseTypesPage }, { path: '/cases', component: CasesPage }, { path: '/logout', component: LogoutPage }, { path: '/streamers', component: StreamersPage }, { path: '/promoted', component: PromotedPage }, { path: '/main-streamers', component: MainStreamersPage }, { path: '/main-content', component: MainContentPage }, { path: '/users', component: AllUsersPage }, { path: '/stock-prizes', component: StockPrizesPage }, { path: '/diamonds', component: DiamondsPage }, { path: '/statistic', component: StatisticPage }, { path: '/custom-achivements', component: CustomAchivementsPage }, { path: '/bonus-points', component: SubscriptionBonusPointsPage }, { path: '/achievements', component: AchievementPage }]
 });
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
@@ -65627,6 +66577,58 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   cluster: "eu",
   encrypted: true
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/admin/AchievementPage.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3709c6f7\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/admin/AchievementPage.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/admin/AchievementPage.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3709c6f7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/admin/AchievementPage.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/AchievementPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3709c6f7", Component.options)
+  } else {
+    hotAPI.reload("data-v-3709c6f7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -67750,6 +68752,43 @@ var actions = {
             if (jsonResp.message) {}
             commit('loadSubscriptionBonusPoints', data.selectedPlan);
         });
+    },
+    getAchievements: function getAchievements(context) {
+        context.commit('loadAchievements');
+        context.commit('loadAllRarityClasses');
+    },
+    achievementSaveAction: function achievementSaveAction(_ref39, data) {
+        var commit = _ref39.commit,
+            state = _ref39.state;
+
+        state.achievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('steps', data.steps);
+        formData.append('level_points', data.level_points);
+        formData.append('diamonds', data.diamonds);
+        formData.append('case_rarity_id', data.case_rarity_id);
+        formData.append('card_rarity_id', data.card_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        if (data.image) {
+            formData.append('image', data.image);
+        }
+        fetch(state.apiUrl + 'achivements/admin/save', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors) {}
+            if (jsonResp.message) {}
+            commit('loadAchievements');
+        });
     }
 };
 
@@ -67932,8 +68971,16 @@ var getters = {
     },
     rarityClasses: function rarityClasses(state) {
         return state.rarityClasses.list;
+    },
+    Achievements: function Achievements(state) {
+        return state.achievements.list;
+    },
+    AchievementsLoaded: function AchievementsLoaded(state) {
+        return state.achievements.loaded;
+    },
+    AchievementsSaved: function AchievementsSaved(state) {
+        return state.achievements.saved;
     }
-
 };
 
 /***/ }),
@@ -68694,6 +69741,28 @@ var mutations = {
             state.rarityClasses.list = jsonResp.data ? jsonResp.data.rarity_classes : [];
             state.rarityClasses.loaded = true;
         });
+    },
+    loadAchievements: function loadAchievements(state) {
+        state.achievements.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        fetch('api/achivements/admin/list', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.achievements.list = jsonResp.data ? jsonResp.data.achievements : [];
+            state.achievements.loaded = true;
+        });
     }
 };
 
@@ -68803,6 +69872,11 @@ var state = {
     rarityClasses: {
         list: [],
         loaded: false
+    },
+    achievements: {
+        list: [],
+        loaded: false,
+        saves: false
     }
 };
 

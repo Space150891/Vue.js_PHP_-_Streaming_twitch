@@ -16,7 +16,7 @@
         </span>
       </h5>
       <p v-if="message.length > 0" v-bind:style="styleMessage">{{ message }}</p>
-      <p v-if="messages" v-for="mes in messages" v-bind:style="styleMessage">{{ mes }}</p>
+      <p v-if="messages" v-for="mes in messages" v-bind:style="styleMessage" :key="mes">{{ mes }}</p>
       <div class="text-center">
         <button v-on:click="$emit('close-alert-modal')"  class="btn btn-primary btn-xs">OK</button>
       </div>

@@ -97,5 +97,10 @@ export const state = {
     rarityClasses: {
         list: [],
         loaded: false,
-    }
+    },
+    achievements: {
+        list: [],
+        loaded: false,
+        saves: false,
+    },
 }

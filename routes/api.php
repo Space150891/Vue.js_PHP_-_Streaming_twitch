@@ -218,6 +218,9 @@ Route::group([
 
     Route::post('rarity/class/get', 'Api\RaritiesClassController@index');
     Route::post('rarity/class/all', 'Api\RaritiesClassController@all');
+
+    Route::post('achivements/admin/list', 'Api\AchivementsManagementController@list');
+    Route::post('achivements/admin/save', 'Api\AchivementsManagementController@update');
 });
 
 // bot routes

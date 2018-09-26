@@ -140,5 +140,13 @@ export const getters = {
     rarityClasses: state => {
         return state.rarityClasses.list;
     },
-    
+    Achievements: state => {
+        return state.achievements.list;
+    },
+    AchievementsLoaded: state => {
+        return state.achievements.loaded;
+    },
+    AchievementsSaved: state => {
+        return state.achievements.saved;
+    },
 }

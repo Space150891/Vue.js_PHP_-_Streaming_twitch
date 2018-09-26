@@ -81497,7 +81497,9 @@ var render = function() {
             _vm._v(" "),
             _vm._l(_vm.messages, function(mes) {
               return _vm.messages
-                ? _c("p", { style: _vm.styleMessage }, [_vm._v(_vm._s(mes))])
+                ? _c("p", { key: mes, style: _vm.styleMessage }, [
+                    _vm._v(_vm._s(mes))
+                  ])
                 : _vm._e()
             }),
             _vm._v(" "),
