@@ -19,7 +19,8 @@ use App\Models\{
     CaseType,
     CustomAchievement,
     ViewerCase,
-    LootCase
+    LootCase,
+    Achievement
 };
 
 class ProfileController extends Controller
@@ -161,7 +162,7 @@ class ProfileController extends Controller
                 $achievement = CustomAchievement::find($currentCard->achivement_id);
                 $card->achievement = $achievement->text;
             } else {
-                $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+                $achievement = Achievement::find($currentCard->achivement_id);
                 $card->achievement = $achievement->description;
             }
         }
@@ -200,7 +201,7 @@ class ProfileController extends Controller
                 $achievement = CustomAchievement::find($currentCard->achivement_id);
                 $card->achievement = $achievement->text;
             } else {
-                $achievement = \DB::table('achievement_details')->find($currentCard->achivement_id);
+                $achievement = Achievement::find($currentCard->achivement_id);
                 $card->achievement = $achievement->description;
             }
         }

@@ -2,14 +2,15 @@
     <div v-if="checkToken" class="cabinet-page" >
         <h1 class="text-center">Achivements</h1>
         <div class="row">
-            <div class="col-md-4 achivement-block" v-for="achivement in achivements" >
+            <div class="col-md-4 achivement-block" v-for="achivement in achivements" :key="achivement.id">
                 <div class="achivement-panel">
-                    <div class="avatar"></div>
+                    <img v-if="achivement.image" v-bind:src="'storage/' + achivement.image">
+                    <div v-if="!achivement.image" class="avatar"></div>
                     <h4>{{achivement.description}}</h4>
-                    <h5>unlocked {{achivement.unlocked_at.date.substr(0, 10)}}</h5>
+                    <h5>unlocked {{achivement.unlocked_at.substr(0, 10)}}</h5>
                 </div>
             </div>
-            <div class="col-md-4 achivement-block" v-for="achivement in customAchivements" >
+            <div class="col-md-4 achivement-block" v-for="achivement in customAchivements"  :key="achivement.id">
                 <div class="achivement-panel">
                     <img v-bind:src="achivement.image">
                     <h4>{{achivement.text}}</h4>

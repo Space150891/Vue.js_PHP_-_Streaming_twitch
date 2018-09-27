@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Notification, Card, CustomAchievement, UserCustomAchievement, Streamer};
+use App\Models\{Notification, Card, CustomAchievement, UserCustomAchievement, Streamer, Achievement, AchievementProgres};
 
 class AchivementsController extends Controller
 {
@@ -27,16 +27,16 @@ class AchivementsController extends Controller
     public function list()
     {
         $user = auth()->user();
-        $achievements  = $user->unlockedAchievements();
-        $list = [];
-        foreach ($achievements as $achievement) {
-            $details = \DB::table('achievement_details')->find($achievement->achievement_id);
-            $details->unlocked_at = $achievement->unlocked_at;
-            $list[] = $details;
+        $achievements = AchievementProgres::where('user_id', $user->id)->get();
+        foreach ($achievements as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            
         }
         $customs = [];
         $customs = UserCustomAchievement::where('user_id', $user->id)->get();
-        for ($i = 0; $i <count($customs); $i++) {
+        for ($i = 0; $i < count($customs); $i++) {
             $achievement = $customs[$i]->achievement()->first();
             $streamer = $achievement->streamer()->first();
             $user = $streamer->user()->first();
@@ -44,7 +44,7 @@ class AchivementsController extends Controller
             $customs[$i]->text = $achievement->text;
         }
         return response()->json(['data' => [
-            'achivements' => $list,
+            'achivements' => $achievements,
             'customs'      => $customs,
         ]]);
     }
@@ -54,7 +54,14 @@ class AchivementsController extends Controller
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         // get all achievements
-        $achievements  = $user->unlockedAchievements();
+        //$achievements  = $user->unlockedAchievements();
+        $achievements = AchievementProgres::where('user_id', $user->id)->get();
+        foreach ($achievements as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            $achievement->id = $ach->id;
+        }
         $customs = UserCustomAchievement::where('user_id', $user->id)->get();
         // get achievements in cards
         $cards = Card::where('viewer_id', $viewer->id)->get();
@@ -75,9 +82,12 @@ class AchivementsController extends Controller
                 }
             }
             if ($find === false) {
-                $details = \DB::table('achievement_details')->find($achievement->achievement_id);
-                $details->unlocked_at = $achievement->unlocked_at;
-                $list[] = $details;
+                // $details = \DB::table('achievement_details')->find($achievement->achievement_id);
+                // $details->unlocked_at = $achievement->unlocked_at;
+                // $list[] = $details;
+                $ach = Achievement::find($achievement->achievement_id);
+                $achievement->name = $ach->description;
+                $list[] = $achievement;
             }
         }
         // select custom achievements not in cards

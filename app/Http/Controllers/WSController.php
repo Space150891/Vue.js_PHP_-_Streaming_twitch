@@ -18,6 +18,7 @@ use App\Models\{
     SubscriptionPoint,
     Card,
     CustomAchievement,
+    Achievement,
     Item,
     Afiliate
 };
@@ -209,7 +210,7 @@ class WSController extends Controller implements MessageComponentInterface {
                         $achievement = CustomAchievement::find($card->achivement_id);
                         $ach = $achievement->text;
                     } else {
-                        $achievement = \DB::table('achievement_details')->find($card->achivement_id);
+                        $achievement = Achievement::find($card->achivement_id);
                         $ach = $achievement->description;
                     }
                     $alert['card'] = [

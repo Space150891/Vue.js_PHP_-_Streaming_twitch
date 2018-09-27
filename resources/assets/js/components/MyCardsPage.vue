@@ -3,7 +3,7 @@
         <h1 class="text-center">My cards</h1>
         <div class="cards">
             <div
-                v-for="myCard in myCards"
+                v-for="myCard in myCards" :key="myCard.id"
             >
                 <viewer-card
                     v-bind:frame="myCard.frame"
@@ -31,6 +31,7 @@
                 <h3 class="text-center">frames</h3>
                 <label
                     v-for="item in myItems"
+                    :key="item.id"
                     v-if="item.type=='frame'"
                 >
                     <img v-bind:src="'storage/' + item.icon" v-bind:alt="item.title">
@@ -43,6 +44,7 @@
                 <h3 class="text-center">heroes</h3>
                 <label
                     v-for="item in myItems"
+                    :key="item.id"
                     v-if="item.type=='hero'"
                 >
                     <img v-bind:src="'storage/' + item.icon" v-bind:alt="item.title">
@@ -55,6 +57,7 @@
                 <h3 class="text-center">achivements</h3>
                 <label
                     v-for="achivement in achivements"
+                    :key="achivement.id"
                 >
                     <p>{{achivement.name}}</p>
                     <input type="radio" name="achivement" v-bind:value="achivement.id"  v-model="newCard.achivement_id" v-on:change="previewCard.achievement=achivement.name">

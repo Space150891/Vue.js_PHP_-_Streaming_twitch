@@ -1662,6 +1662,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -82742,36 +82743,59 @@ var render = function() {
           { staticClass: "row" },
           [
             _vm._l(_vm.achivements, function(achivement) {
-              return _c("div", { staticClass: "col-md-4 achivement-block" }, [
-                _c("div", { staticClass: "achivement-panel" }, [
-                  _c("div", { staticClass: "avatar" }),
-                  _vm._v(" "),
-                  _c("h4", [_vm._v(_vm._s(achivement.description))]),
-                  _vm._v(" "),
-                  _c("h5", [
-                    _vm._v(
-                      "unlocked " +
-                        _vm._s(achivement.unlocked_at.date.substr(0, 10))
-                    )
+              return _c(
+                "div",
+                {
+                  key: achivement.id,
+                  staticClass: "col-md-4 achivement-block"
+                },
+                [
+                  _c("div", { staticClass: "achivement-panel" }, [
+                    achivement.image
+                      ? _c("img", {
+                          attrs: { src: "storage/" + achivement.image }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !achivement.image
+                      ? _c("div", { staticClass: "avatar" })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v(_vm._s(achivement.description))]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v(
+                        "unlocked " +
+                          _vm._s(achivement.unlocked_at.substr(0, 10))
+                      )
+                    ])
                   ])
-                ])
-              ])
+                ]
+              )
             }),
             _vm._v(" "),
             _vm._l(_vm.customAchivements, function(achivement) {
-              return _c("div", { staticClass: "col-md-4 achivement-block" }, [
-                _c("div", { staticClass: "achivement-panel" }, [
-                  _c("img", { attrs: { src: achivement.image } }),
-                  _vm._v(" "),
-                  _c("h4", [_vm._v(_vm._s(achivement.text))]),
-                  _vm._v(" "),
-                  _c("h5", [
-                    _vm._v(
-                      "unlocked " + _vm._s(achivement.updated_at.substr(0, 10))
-                    )
+              return _c(
+                "div",
+                {
+                  key: achivement.id,
+                  staticClass: "col-md-4 achivement-block"
+                },
+                [
+                  _c("div", { staticClass: "achivement-panel" }, [
+                    _c("img", { attrs: { src: achivement.image } }),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v(_vm._s(achivement.text))]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v(
+                        "unlocked " +
+                          _vm._s(achivement.updated_at.substr(0, 10))
+                      )
+                    ])
                   ])
-                ])
-              ])
+                ]
+              )
             })
           ],
           2

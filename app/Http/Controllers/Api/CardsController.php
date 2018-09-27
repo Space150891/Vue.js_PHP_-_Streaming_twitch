@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, Card, CardItem, ViewerItem, CustomAchievement};
+use App\Models\{Viewer, Item, Card, CardItem, ViewerItem, CustomAchievement, Achievement};
 
 class CardsController extends Controller
 {
@@ -46,7 +46,8 @@ class CardsController extends Controller
                 $achievement = CustomAchievement::find($card->achivement_id);
                 $c->achievement = $achievement->text;
             } else {
-                $achievement = \DB::table('achievement_details')->find($card->achivement_id);
+                $achievement = Achievement::find($card->achivement_id);
+                // \DB::table('achievement_details')->find($card->achivement_id);
                 $c->achievement = $achievement->description;
             }
             $c->promoted = ($viewer->promoted_gamecard_id == $c->id) ? true : false;
