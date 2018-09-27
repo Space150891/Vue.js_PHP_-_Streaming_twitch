@@ -19,6 +19,7 @@ class CreateCasesTypes extends Migration
             $table->integer('price');
             $table->integer('diamonds');
             $table->string('image')->nullable();
+            $table->unsignedInteger('rarity_class_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

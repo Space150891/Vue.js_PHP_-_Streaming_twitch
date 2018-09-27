@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\CaseType;
+use App\Models\{CaseType, RarityClass};
 
 class CaseTypesManagementController extends Controller
 {
@@ -32,6 +32,16 @@ class CaseTypesManagementController extends Controller
     public function index()
     {
         $caseTypes = CaseType::all();
+
+        $rarityClasses = RarityClass::all();
+        $classes = [];
+        foreach ($rarityClasses as $rarityClass) {
+            $classes[$rarityClass->id] = $rarityClass->name;
+        }
+        $classes[0] = 'not defined';
+        foreach ($caseTypes as &$caseType) {
+            $caseType->rarity_class = $classes[$caseType->rarity_class_id];
+        }
         return response()->json(['data' => [
             'caseTypes' => $caseTypes,
         ]]);
@@ -51,6 +61,7 @@ class CaseTypesManagementController extends Controller
                 'name'     => 'required|max:255|unique:case_types',
                 'price'    => 'required|numeric',
                 'diamonds' => 'required|numeric',
+                'rarity_class_id' => 'required|numeric',
             ]
         );
 
@@ -64,6 +75,7 @@ class CaseTypesManagementController extends Controller
         $caseType->name = $request->name;
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
+        $caseType->rarity_class_id = $request->rarity_class_id;
         $caseType->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -121,6 +133,7 @@ class CaseTypesManagementController extends Controller
             'name'     => 'required|max:255',
             'price'    => 'required|numeric',
             'diamonds' => 'required|numeric',
+            'rarity_class_id' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -140,6 +153,7 @@ class CaseTypesManagementController extends Controller
         $caseType->name = $request->name;
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
+        $caseType->rarity_class_id = $request->rarity_class_id;
         $caseType->save();
 
         if ($request->hasFile('image')) {

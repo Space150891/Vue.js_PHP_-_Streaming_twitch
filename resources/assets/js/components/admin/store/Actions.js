@@ -231,6 +231,7 @@ export const actions = {
     // case types
     getCaseTypesListAction(context) {
         context.commit('getCaseTypesList');
+        context.commit('loadRarityClasses');
     },
     createCaseTypeAction({commit, state}, data) {
         var formData = new FormData();
@@ -240,6 +241,7 @@ export const actions = {
         formData.append('name', data.name);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -288,6 +290,7 @@ export const actions = {
         formData.append('name', data.name);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }

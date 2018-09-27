@@ -10,6 +10,7 @@
 					<th>Name</th>
                     <th>Coins</th>
                     <th>Diamonds</th>
+                    <th>Class</th>
                     <th>Image</th>
 					<th>Actions</th>
 				</tr>
@@ -20,6 +21,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }}</td>
                     <td>{{ item.diamonds }}</td>
+                    <td>{{ item.rarity_class }}</td>
                     <td>
                         <img 
                           v-if="item.image"
@@ -39,6 +41,10 @@
 				<input class="form-control" placeholder="Name..." v-model="editItem.name" type="text">
                 <input class="form-control" placeholder="Price..." v-model="editItem.price" type="number">
                 <input class="form-control" placeholder="Diamonds..." v-model="editItem.diamonds" type="number">
+                <select v-model="editItem.rarity_class_id" class="form-control">
+                    <option value="0">Select ratity class</option>
+                    <option v-for="rarityClass in rarityClasses" v-bind:value="rarityClass.id" :key="rarityClass.id">{{ rarityClass.name }}</option>
+                </select>
                 <div v-if="editMode">
 				    <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
 				    <button @click.prevent="editCancelAction()" class="btn btn-default">cancel</button>
@@ -84,7 +90,8 @@
                 price: 0,
                 diamonds: 0,
                 image: null,
-				id: 0,
+                id: 0,
+                rarity_class_id: 0,
 			},
 			deletingItem: {
 				name: '',
@@ -122,7 +129,8 @@
                 this.editItem.price = item.price;
                 this.editItem.diamonds = item.diamonds;
                 this.editItem.image = null;
-				this.editItem.id = item.id;
+                this.editItem.id = item.id;
+                this.editItem.rarity_class_id = item.rarity_class_id;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -142,6 +150,7 @@
                     this.editItem.price = 0;
                     this.editItem.diamonds = 0;
                     this.editItem.image = null;
+                    this.editItem.rarity_class_id = 0;
                     this.$store.commit('getCaseTypesList');
                 } else {
                     this.openAlertModal = true;
@@ -156,7 +165,8 @@
                 this.editItem.price = 0;
                 this.editItem.diamonds = 0;
                 this.editItem.image = null;
-				this.editItem.id = 0;
+                this.editItem.id = 0;
+                this.editItem.rarity_class_id = 0;
 				this.editMode = false;
 			},
 			createCancelAction: function() {
@@ -172,6 +182,7 @@
 				'caseTypes',
                 'caseTypesLoaded',
                 'caseTypesSaved',
+                'rarityClasses',
 			]),
     }
   }

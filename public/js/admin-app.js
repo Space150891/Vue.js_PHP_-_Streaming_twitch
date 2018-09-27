@@ -2735,6 +2735,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -2748,7 +2754,8 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         price: 0,
         diamonds: 0,
         image: null,
-        id: 0
+        id: 0,
+        rarity_class_id: 0
       },
       deletingItem: {
         name: '',
@@ -2788,6 +2795,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       this.editItem.diamonds = item.diamonds;
       this.editItem.image = null;
       this.editItem.id = item.id;
+      this.editItem.rarity_class_id = item.rarity_class_id;
       this.editMode = true;
     },
     createAction: function createAction() {
@@ -2807,6 +2815,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         this.editItem.price = 0;
         this.editItem.diamonds = 0;
         this.editItem.image = null;
+        this.editItem.rarity_class_id = 0;
         this.$store.commit('getCaseTypesList');
       } else {
         this.openAlertModal = true;
@@ -2822,6 +2831,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       this.editItem.diamonds = 0;
       this.editItem.image = null;
       this.editItem.id = 0;
+      this.editItem.rarity_class_id = 0;
       this.editMode = false;
     },
     createCancelAction: function createCancelAction() {
@@ -2831,7 +2841,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       this.editItem.image = file;
     }
   },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded', 'caseTypesSaved']))
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded', 'caseTypesSaved', 'rarityClasses']))
 });
 
 /***/ }),
@@ -45698,6 +45708,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.diamonds))]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.rarity_class))]),
+                      _vm._v(" "),
                       _c("td", [
                         item.image
                           ? _c("img", {
@@ -45812,6 +45824,57 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.rarity_class_id,
+                          expression: "editItem.rarity_class_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editItem,
+                            "rarity_class_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Select ratity class")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.rarityClasses, function(rarityClass) {
+                        return _c(
+                          "option",
+                          {
+                            key: rarityClass.id,
+                            domProps: { value: rarityClass.id }
+                          },
+                          [_vm._v(_vm._s(rarityClass.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
                   _vm.editMode
                     ? _c("div", [
                         _c(
@@ -45920,6 +45983,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Coins")]),
         _vm._v(" "),
         _c("th", [_vm._v("Diamonds")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Class")]),
         _vm._v(" "),
         _c("th", [_vm._v("Image")]),
         _vm._v(" "),
@@ -68028,6 +68093,7 @@ var actions = {
     // case types
     getCaseTypesListAction: function getCaseTypesListAction(context) {
         context.commit('getCaseTypesList');
+        context.commit('loadRarityClasses');
     },
     createCaseTypeAction: function createCaseTypeAction(_ref10, data) {
         var commit = _ref10.commit,
@@ -68040,6 +68106,7 @@ var actions = {
         formData.append('name', data.name);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -68089,6 +68156,7 @@ var actions = {
         formData.append('name', data.name);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }
