@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Cashier\Billable;
 use Gstt\Achievements\Achiever;
+use App\Models\{Achievement, AchievementProgres, Viewer, Notification, RarityClass, Item, ItemType, ViewerItem, Card};
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -137,4 +138,86 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne('App\Models\Streamer');
     }
+
+    public function addAchievement($achievementName, $steps = 1)
+    {
+        $userId = $this->id;
+        $achievement = Achievement::where('class_name', $achievementName)->first();
+        $progress = AchievementProgres::where([
+            ['user_id', '=',  $userId],
+            ['achievement_id', '=',  $achievement->id],
+        ])->first();
+        if (!$progress) {
+            $progress = new AchievementProgres();
+            $progress->user_id = $userId;
+            $progress->achievement_id = $achievement->id;
+            $progress->steps = 0;
+        }
+        if (!is_null($progress->unlocked_at)) {
+            return;
+        }
+        $progress->steps += $steps;
+        if ($progress->steps >= $achievement->steps) {
+            $progress->unlocked_at = date('Y-m-d H:i:s');
+            $viewer = Viewer::where('user_id', $userId)->first();
+            $viewer->level_points += $achievement->level_points;
+            $viewer->current_points += $achievement->level_points;
+            $viewer->diamonds += $achievement->diamonds;
+            $viewer->save();
+            if ($achievement->card_rarity_id > 0) {
+                $frameId = $this->give($achievement->card_rarity_id, 'frame');
+                $heroId = $this->give($achievement->card_rarity_id, 'hero');
+                if ($frameId > 0 && $heroId > 0) {
+                    $card = new Card();
+                    $card->viewer_id = $viewer->id;
+                    $card->frame_id = $frameId;
+                    $card->hero_id = $heroId;
+                    $card->achivement_id = $achievement->id;
+                    $card->save();
+                }
+            }
+            if ($achievement->frame_rarity_id > 0) {
+                $this->give($achievement->frame_rarity_id, 'frame');
+            }
+            if ($achievement->hero_rarity_id > 0) {
+                $this->give($achievement->hero_rarity_id, 'hero');
+            }
+            // cases
+            // end cases
+            $notify = new Notification();
+            $notify->user_id = $userId;
+            $notify->event_type = 'user_message';
+            $notify->message = 'New Achivement! ' . $achievement->description;
+            $notify->save();
+        }
+        $progress->save();
+    }
+
+    private function give($rarity_id, $itemType)
+    {
+        $rarityClass = RarityClass::find($rarity_id);
+        if (!$rarityClass) {
+            return 0;
+        }
+        $type = ItemType::where('name', $itemType)->first();
+        if ($rarityClass->name == 'random') {
+            $items = Item::where('item_type_id ', $type->id)->get();
+        } else {
+            $items = Item::where([
+                ['item_type_id', '=', $type->id],
+                ['rarity_class_id', '=', $rarity_id],
+            ])->get();
+        }
+        if (count($items) > 0) {
+            $viewer = Viewer::where('user_id', $this->id)->first();
+            $item = $items[round(rand(0, count($items) - 1))];
+            $vItem = new ViewerItem();
+            $vItem->viewer_id = $viewer->id;
+            $vItem->item_id = $item->id;
+            $vItem->save();
+            return $vItem->id;
+        }
+        return 0;
+    }
+
 }

@@ -245,6 +245,7 @@ class AchievementsSeeder extends Seeder
                 'level_points'  =>  10,
             ],
             [
+                'class_name'    =>  'FirstPostFB',
                 'name'          =>  'Speak about StreamCases.tv',
                 'description'   =>  'First post on Facebook',
                 'steps'         =>  1,
@@ -252,6 +253,7 @@ class AchievementsSeeder extends Seeder
                 'diamonds'      =>  10,
             ],
             [
+                'class_name'    =>  'OpenFirstCase2',
                 'name'          =>  'Tier 2',
                 'description'   =>  'Open a Tier 2 StreamCase for the first time',
                 'steps'         =>  1,
@@ -259,6 +261,7 @@ class AchievementsSeeder extends Seeder
                 'diamonds'      =>  2,
             ],
             [
+                'class_name'    =>  'OpenFirstCase3',
                 'name'          =>  'Tier 3',
                 'description'   =>  'Open a Tier 3 StreamCase for the first time',
                 'steps'         =>  1,
@@ -266,6 +269,7 @@ class AchievementsSeeder extends Seeder
                 'diamonds'      =>  5,
             ],
             [
+                'class_name'    =>  'OpenFirstCase4',
                 'name'          =>  'Tier 4',
                 'description'   =>  'Open a Tier 4 StreamCase for the first time',
                 'steps'         =>  1,
@@ -273,6 +277,7 @@ class AchievementsSeeder extends Seeder
                 'diamonds'      =>  10,
             ],
             [
+                'class_name'    =>  'OpenFirstCase5',
                 'name'          =>  'Tier 5',
                 'description'   =>  'Open a Tier 5 StreamCase for the first time',
                 'steps'         =>  1,
@@ -281,6 +286,7 @@ class AchievementsSeeder extends Seeder
                 'card_rarity_id' => $classes['plain'],
             ],
             [
+                'class_name'    =>  'OpenFirstCaseAll',
                 'name'          =>  'I am very curious',
                 'description'   =>  'Open at least one StreamCase from each Tier 1 to Tier 5',
                 'steps'         =>  1,
@@ -289,6 +295,7 @@ class AchievementsSeeder extends Seeder
                 'card_rarity_id' => $classes['random'],
             ],
             [
+                'class_name'    =>  'Donate10',
                 'name'          =>  'Even more generous',
                 'description'   =>  'Your Total Donations (Globally) equals at least 10 USD',
                 'steps'         =>  10,
@@ -298,6 +305,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['plain'],
             ],
             [
+                'class_name'    =>  'Donate20',
                 'name'          =>  'Yet another generous moment',
                 'description'   =>  'Your Total Donations (Globally) equals at least 20 USD',
                 'steps'         =>  1,
@@ -307,6 +315,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['rare'],
             ],
             [
+                'class_name'    =>  'Donate50',
                 'name'          =>  'I like donating',
                 'description'   =>  'Your Total Donations (Globally) equals at least 50 USD',
                 'steps'         =>  50,
@@ -316,6 +325,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['rare'],
             ],
             [
+                'class_name'    =>  'Donate200',
                 'name'          =>  'My new Hobby: Donating!',
                 'description'   =>  'Your Total Donations (Globally) equals at least 200 USD',
                 'steps'         =>  200,
@@ -325,6 +335,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['epic'],
             ],
             [
+                'class_name'    =>  'Donate500',
                 'name'          =>  'Can not stop donating',
                 'description'   =>  'Your Total Donations (Globally) equals at least 500 USD',
                 'steps'         =>  500,
@@ -334,6 +345,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['legendary'],
             ],
             [
+                'class_name'    =>  'Subscribe2Channels',
                 'name'          =>  'Faithful as a Dog',
                 'description'   =>  'Subscribe to 2 Channels',
                 'steps'         =>  2,
@@ -342,6 +354,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['rare'],
             ],
             [
+                'class_name'    =>  'Subscribe5Channels',
                 'name'          =>  'Faithful as a Penguine',
                 'description'   =>  'Subscribe to 5 Channels',
                 'steps'         =>  5,
@@ -351,6 +364,7 @@ class AchievementsSeeder extends Seeder
                 'case_rarity_id' => $classes['epic'],
             ],
             [
+                'class_name'    =>  'Subscribe10Channels',
                 'name'          =>  'Faithful as a Penguine',
                 'description'   =>  'Subscribe to 10 Channels',
                 'steps'         =>  10,

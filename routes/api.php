@@ -116,6 +116,8 @@ Route::group([
     Route::post('cases/buy', 'Api\CasesManagementController@buy');
     Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
     Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
+    Route::post('cases/open', 'Api\CasesManagementController@open');
+
     Route::post('statistic/get', 'Api\StatisticController@index');
     // custom achivements
     Route::post('achivements/custom/store', 'Api\CustomAchievementsController@store');

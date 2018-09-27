@@ -112,7 +112,7 @@
                         <a  v-if="!profileData.streamelements" @click.prevent="SeModal=true" href="#" class="btn btn-warning">Connect Streamelements</a>
                         <div v-if="SeModal" class="se-modal">
                             <div>
-                                <label for="se-textarea">Enter JTW token from your Streamelements accaunt page</label>
+                                <label for="se-textarea">Enter JWT token from your Streamelements accaunt page</label>
                                 <textarea class="form-control" id="se-textarea" v-model="SeToken"></textarea>
                                 <div>
                                     <button v-if="SeWait==false" class="btn btn-success pull-left" @click.prevent="CheckSeToken()">Check token</button>
@@ -123,7 +123,97 @@
                         </div>
                         <span  v-if="profileData.streamelements" class="btn btn-secondary">Streamelements connected</span>
                     </div>
-                    
+                    <div class="my-cases row" v-if="profileData.cases">
+                        <div v-for="lootCase in profileData.cases.closed" :key="lootCase.id" class="col-md-1">
+                            <img v-bind:src="'storage/' + lootCase.image" alt="case">
+                            <button @click="openCase(lootCase.id)" class="btn btn-sm btn-primary">open</button>
+                        </div>
+                        <div v-for="lootCase in profileData.cases.opened" :key="lootCase.id" class="col-md-1">
+                            <img v-bind:src="'storage/' + lootCase.image" alt="case">
+                            <span class="badge badge-secondary">opened</span>
+                        </div>
+                    </div>
+                    <div v-if="boxOpened" class="shop-modal">
+                        <div class="shop-box items-box">
+                            <h3 v-if="winedItems.length > 0">Win items:</h3>
+                            <div v-for="item in winedItems" :key="item.id">
+                                <img v-bind:src="'storage/' + item.icon" v-bind:alt="item.title">
+                                <h5>{{ item.title }}</h5>
+                            </div>
+                            <h3 v-if="winedPrizes.length > 0">Win prizes:</h3>
+                            <div v-for="item in winedPrizes"  :key="item.id">
+                                <img v-bind:src="'storage/' + item.image" v-bind:alt="item.name">
+                                <h5>{{ item.name }}</h5>
+                                
+                            </div>
+                            <section v-if="winedPrizes.length > 0" class="">
+                                <p>To receive your prize please confirm your contacts</p>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="contact-country">Country:</span>
+                                    </div>
+                                    <input v-model="currentViewer.contacts.country" type="text" class="form-control" aria-label="Country..." aria-describedby="contact-country">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="contact-city">City:</span>
+                                    </div>
+                                    <input v-model="currentViewer.contacts.city" type="text" class="form-control" aria-label="City..." aria-describedby="contact-city">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="contact-zip">Zip-code</span>
+                                    </div>
+                                    <input v-model="currentViewer.contacts.zip_code" type="text" class="form-control" aria-label="Zip-code..." aria-describedby="contact-zip">
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="contact-address">Local address</span>
+                                    </div>
+                                    <input v-model="currentViewer.contacts.local_address" type="text" class="form-control" aria-label="Local address..." aria-describedby="contact-address">
+                                </div>
+                                <div v-if="!profileData.verified">
+                                <div v-if="!smsSended" class="form-inline">
+                                    <input
+                                        v-model="phone"
+                                        placeholder="Phone..."
+                                        class="form-control"
+                                    >
+                                    <button
+                                        @click.prevent="sendSMS()"
+                                        placeholder="Code..."
+                                        class="btn btn-success"
+                                    >
+                                        send SMS
+                                    </button>
+                                </div>
+                                <div
+                                    v-if="smsSended"
+                                    class="form-inline"
+                                >
+                                    <input
+                                        v-model="code"
+                                        class="form-control"
+                                    >
+                                    <button
+                                        @click.prevent="checkCode()"
+                                        class="btn btn-success"
+                                    >
+                                        check Code
+                                    </button>
+                                </div>
+                                <modal-alert
+                                    v-if="checkedCode==='false'"
+                                    AlertType="warning"
+                                    v-bind:messages="['code wrong']"
+                                    v-bind:opened="openAlertModal"
+                                    v-on:close-alert-modal="openAlertModal=false"
+                                ></modal-alert>
+                            </div>
+                            </section>
+                            <button @click.prevent="getModalItems()" class="btn btn-success">GET</button>
+                        </div>
+                    </div>
                     <div v-if="profileData.prizes && profileData.prizes.length > 0" class="cabinet-prizes">
                         <h2>Winned prizes:</h2>
                         <div v-for="prize in profileData.prizes" :key="prize.id">
@@ -200,6 +290,15 @@
 .se-modal > div textarea {
     width: 100%; height: 200px; margin-bottom: 10px;
 }
+.my-cases {
+    margin-top:10px; margin-bottom:10px;
+}
+.my-cases > div > img {
+    width:100%;
+}
+.my-cases > div> button {
+    display:block; margin: 0 auto;
+}
 </style>
 <script>
     export default {
@@ -220,6 +319,15 @@
                 SeStatus: '',
                 SeWait: false,
                 SeToken: '',
+                boxOpened: false,
+                boxName: '',
+                boxImage: '',
+                phone: '',
+                smsSended: false,
+                openAlertModal: false,
+                winItems: false,
+                winedItems: [],
+                winedPrizes: [],
             }
         },
         mounted() {
@@ -274,6 +382,32 @@
                     });
                 }
             },
+            openCase(caseId) {
+                let _this = this;
+                let formData = new FormData();
+                formData.append('token', this.$store.state.token);
+                formData.append('viewer_case_id', caseId);
+                fetch('api/cases/open',
+                {
+                    method: "POST",
+                    credentials: 'omit',
+                    mode: 'cors',
+                    body: formData,
+                })
+                .then(function(res){
+                    return res.json();
+                })
+                .then(function(jsonResp){
+                    if (jsonResp.data) {
+                        _this.winedItems = jsonResp.data.items;
+                        _this.winedPrizes = jsonResp.data.prizes;
+                        if ((jsonResp.data.items.length + jsonResp.data.prizes.length) > 0) {
+                            _this.winItems = true;
+                        }
+                        _this.boxOpened = true;
+                    }
+                });
+            },
             saveSeToken() {
                 let _this = this;
                 let formData = new FormData();
@@ -299,6 +433,40 @@
                         _this.SeWait = false;
                     }
                 });
+            },
+            sendSMS() {
+               this.$store.commit('sendSMS', this.phone);
+               this.smsSended = true;
+            },
+            checkCode() {
+                this.$store.dispatch('checkCodeAction', this.code);
+            },
+            getModalItems() {
+                if (this.winedPrizes.length > 0) {
+                    let canSave = true;
+                    if (this.currentViewer.contacts.country == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.city == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.zip_code == '') {
+                        canSave = false;
+                    }
+                    if (this.currentViewer.contacts.local_address == '') {
+                        canSave = false;
+                    }
+                    if (!this.profileData.verified) {
+                        canSave = false;
+                    }
+                    if (canSave) {
+                        this.$store.dispatch('updateViewerContacts', this.currentViewer.contacts);
+                        this.boxOpened = false;
+                    }
+                } else {
+                    this.boxOpened = false;
+                }
+                this.$store.commit('loadProfile', this.userId);
             },
         },
         computed: {
@@ -327,6 +495,10 @@
             customAchievementsLoaded: function () {
                 return this.$store.getters.customAchievementsLoaded;
             },
+            currentViewer: function () {
+                return this.$store.getters.currentViewer;
+            },
+            
         },
     }
 </script>

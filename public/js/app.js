@@ -1779,6 +1779,109 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1991,7 +2094,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     data: function data() {
-        return {
+        var _ref;
+
+        return _ref = {
             phone: '',
             code: '',
             smsSended: false,
@@ -2000,14 +2105,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             SeModal: false,
             SeStatus: '',
             SeWait: false,
-            SeToken: ''
-        };
+            SeToken: '',
+            boxOpened: false,
+            boxName: '',
+            boxImage: ''
+        }, _defineProperty(_ref, 'phone', ''), _defineProperty(_ref, 'smsSended', false), _defineProperty(_ref, 'openAlertModal', false), _defineProperty(_ref, 'winItems', false), _defineProperty(_ref, 'winedItems', []), _defineProperty(_ref, 'winedPrizes', []), _ref;
     },
     mounted: function mounted() {
         this.$store.commit('loadProfile', this.userId);
     },
 
-    methods: {
+    methods: (_methods = {
         sendSMS: function sendSMS() {
             this.$store.commit('sendSMS', this.phone);
             this.smsSended = true;
@@ -2054,6 +2162,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
+        openCase: function openCase(caseId) {
+            var _this = this;
+            var formData = new FormData();
+            formData.append('token', this.$store.state.token);
+            formData.append('viewer_case_id', caseId);
+            fetch('api/cases/open', {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData
+            }).then(function (res) {
+                return res.json();
+            }).then(function (jsonResp) {
+                if (jsonResp.data) {
+                    _this.winedItems = jsonResp.data.items;
+                    _this.winedPrizes = jsonResp.data.prizes;
+                    if (jsonResp.data.items.length + jsonResp.data.prizes.length > 0) {
+                        _this.winItems = true;
+                    }
+                    _this.boxOpened = true;
+                }
+            });
+        },
         saveSeToken: function saveSeToken() {
             var _this = this;
             var formData = new FormData();
@@ -2077,7 +2208,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         }
-    },
+    }, _defineProperty(_methods, 'sendSMS', function sendSMS() {
+        this.$store.commit('sendSMS', this.phone);
+        this.smsSended = true;
+    }), _defineProperty(_methods, 'checkCode', function checkCode() {
+        this.$store.dispatch('checkCodeAction', this.code);
+    }), _defineProperty(_methods, 'getModalItems', function getModalItems() {
+        if (this.winedPrizes.length > 0) {
+            var canSave = true;
+            if (this.currentViewer.contacts.country == '') {
+                canSave = false;
+            }
+            if (this.currentViewer.contacts.city == '') {
+                canSave = false;
+            }
+            if (this.currentViewer.contacts.zip_code == '') {
+                canSave = false;
+            }
+            if (this.currentViewer.contacts.local_address == '') {
+                canSave = false;
+            }
+            if (!this.profileData.verified) {
+                canSave = false;
+            }
+            if (canSave) {
+                this.$store.dispatch('updateViewerContacts', this.currentViewer.contacts);
+                this.boxOpened = false;
+            }
+        } else {
+            this.boxOpened = false;
+        }
+        this.$store.commit('loadProfile', this.userId);
+    }), _methods),
     computed: {
         checkToken: function checkToken() {
             return this.$store.getters.checkToken;
@@ -2103,7 +2265,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         customAchievementsLoaded: function customAchievementsLoaded() {
             return this.$store.getters.customAchievementsLoaded;
+        },
+        currentViewer: function currentViewer() {
+            return this.$store.getters.currentViewer;
         }
+
     }
 });
 
@@ -4391,83 +4557,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -4482,7 +4571,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 open: false,
                 title: ''
             },
-            boxOpened: false,
+            boxOpened: true,
             boxName: '',
             boxImage: '',
             phone: '',
@@ -4510,43 +4599,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         buy: function buy() {
             this.modal.open = false;
             this.$store.dispatch('buyCaseAction', this.buying);
-        },
-        openBox: function openBox() {
-            this.boxOpened = true;
-            this.$store.dispatch('flashWinItems');
-        },
-        getModalItems: function getModalItems() {
-            if (this.winedPrizes.length > 0) {
-                var canSave = true;
-                if (this.currentViewer.contacts.country == '') {
-                    canSave = false;
-                }
-                if (this.currentViewer.contacts.city == '') {
-                    canSave = false;
-                }
-                if (this.currentViewer.contacts.zip_code == '') {
-                    canSave = false;
-                }
-                if (this.currentViewer.contacts.local_address == '') {
-                    canSave = false;
-                }
-                if (!this.profileData.verified) {
-                    canSave = false;
-                }
-                if (canSave) {
-                    this.$store.dispatch('updateViewerContacts', this.currentViewer.contacts);
-                    this.boxOpened = false;
-                }
-            } else {
-                this.boxOpened = false;
-            }
-        },
-        sendSMS: function sendSMS() {
-            this.$store.commit('sendSMS', this.phone);
-            this.smsSended = true;
-        },
-        checkCode: function checkCode() {
-            this.$store.dispatch('checkCodeAction', this.code);
         }
     },
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'diamonds', 'diamondsLoaded', 'caseTypes', 'caseTypesLoaded', 'winItems', 'winedItems', 'winedPrizes', 'currentViewer']), {
@@ -24303,7 +24355,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.se-modal {\n    position: fixed; top:0; left:0; width:100%; height: 100%; background: rgb(1,1,1, .5);\n}\n.se-modal > div {\n    position:absolute;  left:50%; top:300px; margin-left:-150px; width:300px; background:#fff;  padding:15px;  border-radius:10px;\n}\n.se-modal > div >div:after{\n    content: ''; display:block; clear:both;\n}\n.se-modal > div textarea {\n    width: 100%; height: 200px; margin-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.se-modal {\n    position: fixed; top:0; left:0; width:100%; height: 100%; background: rgb(1,1,1, .5);\n}\n.se-modal > div {\n    position:absolute;  left:50%; top:300px; margin-left:-150px; width:300px; background:#fff;  padding:15px;  border-radius:10px;\n}\n.se-modal > div >div:after{\n    content: ''; display:block; clear:both;\n}\n.se-modal > div textarea {\n    width: 100%; height: 200px; margin-bottom: 10px;\n}\n.my-cases {\n    margin-top:10px; margin-bottom:10px;\n}\n.my-cases > div > img {\n    width:100%;\n}\n.my-cases > div> button {\n    display:block; margin: 0 auto;\n}\n", ""]);
 
 // exports
 
@@ -78160,7 +78212,7 @@ var render = function() {
                             _c("div", [
                               _c("label", { attrs: { for: "se-textarea" } }, [
                                 _vm._v(
-                                  "Enter JTW token from your Streamelements accaunt page"
+                                  "Enter JWT token from your Streamelements accaunt page"
                                 )
                               ]),
                               _vm._v(" "),
@@ -78230,6 +78282,449 @@ var render = function() {
                           ])
                         : _vm._e()
                     ]),
+                    _vm._v(" "),
+                    _vm.profileData.cases
+                      ? _c(
+                          "div",
+                          { staticClass: "my-cases row" },
+                          [
+                            _vm._l(_vm.profileData.cases.closed, function(
+                              lootCase
+                            ) {
+                              return _c(
+                                "div",
+                                { key: lootCase.id, staticClass: "col-md-1" },
+                                [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "storage/" + lootCase.image,
+                                      alt: "case"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-primary",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.openCase(lootCase.id)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("open")]
+                                  )
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _vm._l(_vm.profileData.cases.opened, function(
+                              lootCase
+                            ) {
+                              return _c(
+                                "div",
+                                { key: lootCase.id, staticClass: "col-md-1" },
+                                [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "storage/" + lootCase.image,
+                                      alt: "case"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "badge badge-secondary" },
+                                    [_vm._v("opened")]
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.boxOpened
+                      ? _c("div", { staticClass: "shop-modal" }, [
+                          _c(
+                            "div",
+                            { staticClass: "shop-box items-box" },
+                            [
+                              _vm.winedItems.length > 0
+                                ? _c("h3", [_vm._v("Win items:")])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.winedItems, function(item) {
+                                return _c("div", { key: item.id }, [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "storage/" + item.icon,
+                                      alt: item.title
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v(_vm._s(item.title))])
+                                ])
+                              }),
+                              _vm._v(" "),
+                              _vm.winedPrizes.length > 0
+                                ? _c("h3", [_vm._v("Win prizes:")])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.winedPrizes, function(item) {
+                                return _c("div", { key: item.id }, [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "storage/" + item.image,
+                                      alt: item.name
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("h5", [_vm._v(_vm._s(item.name))])
+                                ])
+                              }),
+                              _vm._v(" "),
+                              _vm.winedPrizes.length > 0
+                                ? _c("section", {}, [
+                                    _c("p", [
+                                      _vm._v(
+                                        "To receive your prize please confirm your contacts"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(0),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.currentViewer.contacts
+                                                .country,
+                                            expression:
+                                              "currentViewer.contacts.country"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "text",
+                                          "aria-label": "Country...",
+                                          "aria-describedby": "contact-country"
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.currentViewer.contacts.country
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.currentViewer.contacts,
+                                              "country",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(1),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.currentViewer.contacts.city,
+                                            expression:
+                                              "currentViewer.contacts.city"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "text",
+                                          "aria-label": "City...",
+                                          "aria-describedby": "contact-city"
+                                        },
+                                        domProps: {
+                                          value: _vm.currentViewer.contacts.city
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.currentViewer.contacts,
+                                              "city",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(2),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.currentViewer.contacts
+                                                .zip_code,
+                                            expression:
+                                              "currentViewer.contacts.zip_code"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "text",
+                                          "aria-label": "Zip-code...",
+                                          "aria-describedby": "contact-zip"
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.currentViewer.contacts.zip_code
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.currentViewer.contacts,
+                                              "zip_code",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "input-group" }, [
+                                      _vm._m(3),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value:
+                                              _vm.currentViewer.contacts
+                                                .local_address,
+                                            expression:
+                                              "currentViewer.contacts.local_address"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "text",
+                                          "aria-label": "Local address...",
+                                          "aria-describedby": "contact-address"
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.currentViewer.contacts
+                                              .local_address
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.currentViewer.contacts,
+                                              "local_address",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ]),
+                                    _vm._v(" "),
+                                    !_vm.profileData.verified
+                                      ? _c(
+                                          "div",
+                                          [
+                                            !_vm.smsSended
+                                              ? _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "form-inline"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.phone,
+                                                          expression: "phone"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        placeholder: "Phone..."
+                                                      },
+                                                      domProps: {
+                                                        value: _vm.phone
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.phone =
+                                                            $event.target.value
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-success",
+                                                        attrs: {
+                                                          placeholder: "Code..."
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            _vm.sendSMS()
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        send SMS\n                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.smsSended
+                                              ? _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "form-inline"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.code,
+                                                          expression: "code"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      domProps: {
+                                                        value: _vm.code
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.code =
+                                                            $event.target.value
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-success",
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            _vm.checkCode()
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                        check Code\n                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.checkedCode === "false"
+                                              ? _c("modal-alert", {
+                                                  attrs: {
+                                                    AlertType: "warning",
+                                                    messages: ["code wrong"],
+                                                    opened: _vm.openAlertModal
+                                                  },
+                                                  on: {
+                                                    "close-alert-modal": function(
+                                                      $event
+                                                    ) {
+                                                      _vm.openAlertModal = false
+                                                    }
+                                                  }
+                                                })
+                                              : _vm._e()
+                                          ],
+                                          1
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.getModalItems()
+                                    }
+                                  }
+                                },
+                                [_vm._v("GET")]
+                              )
+                            ],
+                            2
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _vm.profileData.prizes && _vm.profileData.prizes.length > 0
                       ? _c(
@@ -78380,7 +78875,56 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-country" } },
+        [_vm._v("Country:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-city" } },
+        [_vm._v("City:")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-zip" } },
+        [_vm._v("Zip-code")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        { staticClass: "input-group-text", attrs: { id: "contact-address" } },
+        [_vm._v("Local address")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -80035,54 +80579,58 @@ var render = function() {
                     _c("h2", [_vm._v("Diamonds")]),
                     _vm._v(" "),
                     _vm._l(_vm.diamonds, function(diamond) {
-                      return _c("div", { staticClass: "diamonds" }, [
-                        _c("span", [
-                          _c("i", { staticClass: "fa fa-diamond" }),
-                          _vm._v(
-                            "\n                        x " +
-                              _vm._s(diamond.amount) +
-                              " = " +
-                              _vm._s(diamond.cost) +
-                              " $\n                    "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "form",
-                          { attrs: { method: "POST", action: "paypal/pay" } },
-                          [
-                            _c("input", {
-                              attrs: {
-                                type: "hidden",
-                                name: "diamonds_set_id"
-                              },
-                              domProps: { value: diamond.id }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              attrs: { type: "hidden", name: "user_id" },
-                              domProps: { value: _vm.currentViewer.user_id }
-                            }),
-                            _vm._v(" "),
-                            _c("input", {
-                              attrs: {
-                                type: "hidden",
-                                value: "buy_diamonds",
-                                name: "type"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success",
-                                attrs: { type: "submit" }
-                              },
-                              [_vm._v("buy")]
+                      return _c(
+                        "div",
+                        { key: diamond.id, staticClass: "diamonds" },
+                        [
+                          _c("span", [
+                            _c("i", { staticClass: "fa fa-diamond" }),
+                            _vm._v(
+                              "\n                        x " +
+                                _vm._s(diamond.amount) +
+                                " = " +
+                                _vm._s(diamond.cost) +
+                                " $\n                    "
                             )
-                          ]
-                        )
-                      ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "form",
+                            { attrs: { method: "POST", action: "paypal/pay" } },
+                            [
+                              _c("input", {
+                                attrs: {
+                                  type: "hidden",
+                                  name: "diamonds_set_id"
+                                },
+                                domProps: { value: diamond.id }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                attrs: { type: "hidden", name: "user_id" },
+                                domProps: { value: _vm.currentViewer.user_id }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                attrs: {
+                                  type: "hidden",
+                                  value: "buy_diamonds",
+                                  name: "type"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success",
+                                  attrs: { type: "submit" }
+                                },
+                                [_vm._v("buy")]
+                              )
+                            ]
+                          )
+                        ]
+                      )
                     })
                   ],
                   2
@@ -80095,62 +80643,66 @@ var render = function() {
                     _c("h2", [_vm._v("Cases")]),
                     _vm._v(" "),
                     _vm._l(_vm.caseTypes, function(caseType) {
-                      return _c("div", { staticClass: "cases" }, [
-                        _c("img", {
-                          attrs: {
-                            src: "storage/" + caseType.image,
-                            alt: caseType.name
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                _vm.showConfirmModal(caseType, "coins")
-                              }
+                      return _c(
+                        "div",
+                        { key: caseType.id, staticClass: "cases" },
+                        [
+                          _c("img", {
+                            attrs: {
+                              src: "storage/" + caseType.image,
+                              alt: caseType.name
                             }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(caseType.price) +
-                                "\n                        "
-                            ),
-                            _c("i", { staticClass: "fa fa-copyright" }),
-                            _vm._v(
-                              "\n                        buy\n                    "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                _vm.showConfirmModal(caseType, "diamonds")
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.showConfirmModal(caseType, "coins")
+                                }
                               }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(caseType.diamonds) +
-                                "\n                        "
-                            ),
-                            _c("i", { staticClass: "fa fa-diamond" }),
-                            _vm._v(
-                              "\n                        buy\n                    "
-                            )
-                          ]
-                        )
-                      ])
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(caseType.price) +
+                                  "\n                        "
+                              ),
+                              _c("i", { staticClass: "fa fa-copyright" }),
+                              _vm._v(
+                                "\n                        buy\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.showConfirmModal(caseType, "diamonds")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(caseType.diamonds) +
+                                  "\n                        "
+                              ),
+                              _c("i", { staticClass: "fa fa-diamond" }),
+                              _vm._v(
+                                "\n                        buy\n                    "
+                              )
+                            ]
+                          )
+                        ]
+                      )
                     })
                   ],
                   2
@@ -80167,7 +80719,7 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _vm.winItems
+              _vm.winItems && _vm.boxOpened
                 ? _c("div", { staticClass: "shop-modal" }, [
                     _c("div", { staticClass: "shop-box case-box" }, [
                       _c("h2", [_vm._v(_vm._s(_vm.boxName))]),
@@ -80179,373 +80731,35 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.openBox()
-                            }
-                          }
-                        },
-                        [_vm._v("open case")]
-                      )
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.boxOpened
-                ? _c("div", { staticClass: "shop-modal" }, [
-                    _c(
-                      "div",
-                      { staticClass: "shop-box items-box" },
-                      [
-                        _vm.winedItems.length > 0
-                          ? _c("h3", [_vm._v("Win items:")])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm._l(_vm.winedItems, function(item) {
-                          return _c("div", [
-                            _c("img", {
-                              attrs: {
-                                src: "storage/" + item.icon,
-                                alt: item.title
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("h5", [_vm._v(_vm._s(item.title))])
-                          ])
-                        }),
-                        _vm._v(" "),
-                        _vm.winedPrizes.length > 0
-                          ? _c("h3", [_vm._v("Win prizes:")])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm._l(_vm.winedPrizes, function(item) {
-                          return _c("div", [
-                            _c("img", {
-                              attrs: {
-                                src: "storage/" + item.image,
-                                alt: item.name
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("h5", [_vm._v(_vm._s(item.name))])
-                          ])
-                        }),
-                        _vm._v(" "),
-                        _vm.winedPrizes.length > 0
-                          ? _c("section", {}, [
-                              _c("p", [
-                                _vm._v(
-                                  "To receive your prize please confirm your contacts"
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(0),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.currentViewer.contacts.country,
-                                      expression:
-                                        "currentViewer.contacts.country"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    "aria-label": "Country...",
-                                    "aria-describedby": "contact-country"
-                                  },
-                                  domProps: {
-                                    value: _vm.currentViewer.contacts.country
-                                  },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.currentViewer.contacts,
-                                        "country",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(1),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.currentViewer.contacts.city,
-                                      expression: "currentViewer.contacts.city"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    "aria-label": "City...",
-                                    "aria-describedby": "contact-city"
-                                  },
-                                  domProps: {
-                                    value: _vm.currentViewer.contacts.city
-                                  },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.currentViewer.contacts,
-                                        "city",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(2),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value:
-                                        _vm.currentViewer.contacts.zip_code,
-                                      expression:
-                                        "currentViewer.contacts.zip_code"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    "aria-label": "Zip-code...",
-                                    "aria-describedby": "contact-zip"
-                                  },
-                                  domProps: {
-                                    value: _vm.currentViewer.contacts.zip_code
-                                  },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.currentViewer.contacts,
-                                        "zip_code",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "input-group" }, [
-                                _vm._m(3),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value:
-                                        _vm.currentViewer.contacts
-                                          .local_address,
-                                      expression:
-                                        "currentViewer.contacts.local_address"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    type: "text",
-                                    "aria-label": "Local address...",
-                                    "aria-describedby": "contact-address"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.currentViewer.contacts.local_address
-                                  },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.currentViewer.contacts,
-                                        "local_address",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              !_vm.profileData.verified
-                                ? _c(
-                                    "div",
-                                    [
-                                      !_vm.smsSended
-                                        ? _c(
-                                            "div",
-                                            { staticClass: "form-inline" },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: _vm.phone,
-                                                    expression: "phone"
-                                                  }
-                                                ],
-                                                staticClass: "form-control",
-                                                attrs: {
-                                                  placeholder: "Phone..."
-                                                },
-                                                domProps: { value: _vm.phone },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.phone =
-                                                      $event.target.value
-                                                  }
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-success",
-                                                  attrs: {
-                                                    placeholder: "Code..."
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      $event.preventDefault()
-                                                      _vm.sendSMS()
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                            send SMS\n                        "
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.smsSended
-                                        ? _c(
-                                            "div",
-                                            { staticClass: "form-inline" },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: _vm.code,
-                                                    expression: "code"
-                                                  }
-                                                ],
-                                                staticClass: "form-control",
-                                                domProps: { value: _vm.code },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.code =
-                                                      $event.target.value
-                                                  }
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-success",
-                                                  on: {
-                                                    click: function($event) {
-                                                      $event.preventDefault()
-                                                      _vm.checkCode()
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                            check Code\n                        "
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.checkedCode === "false"
-                                        ? _c("modal-alert", {
-                                            attrs: {
-                                              AlertType: "warning",
-                                              messages: ["code wrong"],
-                                              opened: _vm.openAlertModal
-                                            },
-                                            on: {
-                                              "close-alert-modal": function(
-                                                $event
-                                              ) {
-                                                _vm.openAlertModal = false
-                                              }
-                                            }
-                                          })
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
+                      _c("p", [
+                        _vm._v("You can open case in your personal cabinet")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-primary pull-left",
+                            attrs: { href: "#/cabinet" }
+                          },
+                          [_vm._v("go to cabinet")]
+                        ),
                         _vm._v(" "),
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-success",
+                            staticClass: "btn btn-success pull-right",
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                _vm.getModalItems()
+                                _vm.boxOpened = false
                               }
                             }
                           },
-                          [_vm._v("GET")]
+                          [_vm._v("OK")]
                         )
-                      ],
-                      2
-                    )
+                      ])
+                    ])
                   ])
                 : _vm._e()
             ],
@@ -80564,56 +80778,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c(
-        "span",
-        { staticClass: "input-group-text", attrs: { id: "contact-country" } },
-        [_vm._v("Country:")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c(
-        "span",
-        { staticClass: "input-group-text", attrs: { id: "contact-city" } },
-        [_vm._v("City:")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c(
-        "span",
-        { staticClass: "input-group-text", attrs: { id: "contact-zip" } },
-        [_vm._v("Zip-code")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-prepend" }, [
-      _c(
-        "span",
-        { staticClass: "input-group-text", attrs: { id: "contact-address" } },
-        [_vm._v("Local address")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

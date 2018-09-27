@@ -16460,7 +16460,7 @@ div[data-toggle="buttons"] label.active {
   margin-left: 20px;
 }
 
-.shop .shop-modal {
+.shop-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -16469,7 +16469,7 @@ div[data-toggle="buttons"] label.active {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.shop .shop-modal .shop-box {
+.shop-modal .shop-box {
   position: fixed;
   top: 150px;
   left: 50%;
@@ -16480,29 +16480,29 @@ div[data-toggle="buttons"] label.active {
   border-radius: 20px;
 }
 
-.shop .shop-modal .shop-box h2,
-.shop .shop-modal .shop-box h3,
-.shop .shop-modal .shop-box h5 {
+.shop-modal .shop-box h2,
+.shop-modal .shop-box h3,
+.shop-modal .shop-box h5 {
   text-align: center;
 }
 
-.shop .shop-modal .shop-box button {
+.shop-modal .shop-box button {
   display: block;
   margin: 10px auto;
 }
 
-.shop .shop-modal .case-box > img {
+.shop-modal .case-box > img {
   display: block;
   margin: 0 auto;
   width: 400px;
 }
 
-.shop .shop-modal .items-box > div {
+.shop-modal .items-box > div {
   display: inline-block;
   width: 100px;
 }
 
-.shop .shop-modal .items-box > div > img {
+.shop-modal .items-box > div > img {
   width: 100px;
 }
 

@@ -61,11 +61,12 @@ class MainStreamersManagementController extends Controller
             if (count($subscribed) > 0) {
                 $num = round(rand(0, count($subscribed) - 1));
                 $streamer = Streamer::find($subscribed[$num]->id);
-                $stream = $streamer->name;
                 break;
             }
         }
-        if (!$stream) {
+        if ($streamer) {
+            $stream = $streamer->name;
+        } else {
             $allStreamers = Streamer::all();
             $num = round(rand(0, count($allStreamers) - 1));
             $stream = $allStreamers[$num]->name;

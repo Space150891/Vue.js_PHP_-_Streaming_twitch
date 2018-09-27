@@ -9,7 +9,22 @@ use Illuminate\Http\Response;
 use Validator;
 // use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\{User, CaseType, LootCase, ItemCase, Item, ItemType, Raritie, Notification, StockPrize, ViewerItem, ViewerPrize, BuyedCaseType};
+use App\Models\{
+    User,
+    CaseType,
+    LootCase,
+    ItemCase,
+    Item,
+    ItemType,
+    Raritie,
+    Notification,
+    StockPrize,
+    ViewerItem,
+    ViewerPrize,
+    BuyedCaseType,
+    ViewerCase,
+    Viewer
+};
 use App\Achievements\{
     BuyFirstCaseAchievement,
     OpenFirstCaseAchievement,
@@ -369,9 +384,51 @@ class CasesManagementController extends Controller
         $case = $cases[round(rand(0, count($cases) - 1))];
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $winItems = [];
+        // $viewerCase = new ViewerCase();
+        // $viewerCase->viewer_id = $viewer->id;
+        // $viewerCase->case_id = $case->id;
+        // $viewerCase->save();
         $notify = new Notification();
         $notify->user_id = $user->id;
+        if ($request->valute == 'coins') {
+            if ($viewer->current_points >= $caseType->price) {
+                $viewer->current_points = $viewer->current_points - $caseType->price;
+                $notify->event_type = 'user_message';
+                $notify->message = 'Buyed new case! ' . $caseType->name;
+                $viewerCase = new ViewerCase();
+                $viewerCase->viewer_id = $viewer->id;
+                $viewerCase->case_id = $case->id;
+                $viewerCase->save();
+                $this->storeBuyedType($user, $caseType->id);
+            } else {
+                $notify->event_type = 'user_message';
+                $notify->message = 'You no not have money for ' . $caseType->name;
+            }
+        }
+        if ($request->valute == 'diamonds') {
+            if ($viewer->diamonds >= $caseType->diamonds) {
+                $viewer->diamonds = $viewer->diamonds - $caseType->diamonds;
+                $notify->event_type = 'user_message';
+                $notify->message = 'Buyed new case! ' . $caseType->name;
+                $viewerCase = new ViewerCase();
+                $viewerCase->viewer_id = $viewer->id;
+                $viewerCase->case_id = $case->id;
+                $viewerCase->save();
+                $this->storeBuyedType($user, $caseType->id);
+            } else {
+                $notify->event_type = 'user_message';
+                $notify->message = 'You no not have diamonds for ' . $caseType->name;
+            }
+        }
+        $notify->save();
+        $viewer->save();
+        
+        return response()->json([
+            'message' => $notify->message,
+        ]);
+        //// remove to OPEN
+        $winItems = [];
+        
         $prizes = [];
         if ($request->valute == 'coins') {
             if ($viewer->current_points >= $caseType->price) {
@@ -417,6 +474,53 @@ class CasesManagementController extends Controller
             'message' => $notify->message,
             'items'   => $winItems,
             'prizes'  => $prizes,
+        ]);
+    }
+
+    public function open(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'viewer_case_id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $viewerCase = ViewerCase::find($request->viewer_case_id);
+        if (!$viewerCase || !is_null($viewerCase->opened_at)) {
+            return response()->json([
+                'errors' => ['case type id not found'],
+            ]);
+        }
+        $viewer = Viewer::find($viewerCase->viewer_id);
+        $case = LootCase::find($viewerCase->case_id);
+        $caseType = CaseType::find($case->case_type_id);
+        $user = auth()->user();
+        $winItems = [];
+        $prizes = [];
+        $winItems = $this->win($case);
+        $prizes = $this->getItems($viewer->id, $winItems);
+        $this->storeBuyedType($user, $caseType->id);
+        $winItems = $this->removePrizes($winItems);
+        if (count($winItems) > 0 || count($prizes) > 0) {
+            $user->addProgress(new FirstWinAchievement(), 1);
+        }
+        foreach ($winItems as $item) {
+            $user->addProgress(new FirstNonPriceWinAchievement(), 1);
+            $user->addProgress(new NNonPricesWinAchievement(), 1);
+        }
+        foreach ($prizes as $prize) {
+            $user->addProgress(new FirstPriceWinAchievement(), 1);
+            $user->addProgress(new NPricesWinAchievement(), 1);
+        }
+        $viewerCase->opened_at = date('Y-m-d H:i:s');
+        $viewerCase->save();
+        return response()->json([
+            'data'  => [
+                'items'   => $winItems,
+                'prizes'  => $prizes,
+            ],
         ]);
     }
 

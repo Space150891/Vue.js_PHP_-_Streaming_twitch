@@ -17,7 +17,9 @@ use App\Models\{
     ViewerItem,
     BuyedCaseType,
     CaseType,
-    CustomAchievement
+    CustomAchievement,
+    ViewerCase,
+    LootCase
 };
 
 class ProfileController extends Controller
@@ -230,6 +232,20 @@ class ProfileController extends Controller
             $streamer->stream_token = $this->genCode();
             $streamer->save();
         }
+        //
+        $closedCases = ViewerCase::where('viewer_id', $viewer->id)->whereNull('opened_at')->get();
+        $openedCases = ViewerCase::where('viewer_id', $viewer->id)->whereNotNull('opened_at')->get();
+        foreach ($closedCases as &$viewerCase) {
+            $case = LootCase::find($viewerCase->case_id);
+            $caseType = CaseType::find($case->case_type_id);
+            $viewerCase->image = $caseType->image;
+        }
+        foreach ($openedCases as &$viewerCase) {
+            $case = LootCase::find($viewerCase->case_id);
+            $caseType = CaseType::find($case->case_type_id);
+            $viewerCase->image = $caseType->image;
+        }
+        //
         return response()->json([
             'data' => [
                 'id'            => $user->id,
@@ -289,6 +305,10 @@ class ProfileController extends Controller
                         'alias'     => 'Inventory',
                         'value'     => ViewerItem::where('viewer_id', $viewer->id)->count(),
                     ],
+                ],
+                'cases' => [
+                    'opened'    =>  $openedCases,
+                    'closed'    =>  $closedCases,
                 ],
             ],
         ]);
