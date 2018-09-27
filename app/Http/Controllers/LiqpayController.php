@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Http\Requests\LiqpayFormRequest;
 use Illuminate\Http\Request;
 use LiqPay;
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond, Achievement, AchievementProgres};
 use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement};
 
 class LiqpayController extends Controller

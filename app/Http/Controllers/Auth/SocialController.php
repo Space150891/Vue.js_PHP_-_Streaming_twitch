@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate, Game};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate, Game, Achievement, AchievementProgres};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -251,12 +251,12 @@ class SocialController extends Controller
         }
         $streamer->save();
         ////
-        $user->addProgress(new FirstLoginAchievement(), 1);
-        if (!$this->alreadyToday('Login10daysAchievement', $user)) {
-            $user->addProgress(new Login10daysAchievement(), 1);
+        $user->addAchievement('App\Achievements\FirstLoginAchievement');
+        if (!$this->alreadyToday('App\Achievements\Login10daysAchievement', $user->id)) {
+            $user->addAchievement('App\Achievements\Login10daysAchievement');
         }
-        if (!$this->alreadyToday('Login20daysAchievement', $user)) {
-            $user->addProgress(new Login20daysAchievement(), 1);
+        if (!$this->alreadyToday('App\Achievements\Login20daysAchievement', $user->id)) {
+            $user->addAchievement('App\Achievements\Login20daysAchievement');
         }
         $token = auth()->login($user);
         $data = [
@@ -287,33 +287,19 @@ class SocialController extends Controller
         return view('pages.getjwt', $data);
     }
 
-    private function alreadyToday($achivementName, $user)
+    private function alreadyToday($achivementClass, $userId)
     {
-        if ($this->isFirst($achivementName)) {
+        \Log::info('searching achievement ' . $achivementClass);
+        $achievement = Achievement::where('class_name', $achivementClass)->first();
+        $achievementProgres = AchievementProgres::where([
+            ['user_id', '=', $userId],
+            ['achievement_id', '=', $achievement->id],
+        ])->first();
+        if (!$achievementProgres) {
             return false;
         }
-        $class = $this->getClass($achivementName);
-        $achivement = $user->achievements($class)->first();
-        if  (!$achivement) {
-            return false;
-        }
-        $updated   = $achivement->updated_at->toDateString();
         $now = new Carbon;
-        $today = $now->toDateString();
-        return ($today === $updated);
-    }
-
-    private function getClass($achivementName)
-    {
-        $class = "\App\Achievements\\" . $achivementName;
-        return new $class;
-    }
-
-    private function isFirst($achivementName)
-    {
-        $class = "App\Achievements\\" . $achivementName;
-        $count = \DB::table('achievement_details')->where('class_name', $class)->count();
-        return ($count === 0);
+        return ($achievementProgres->updated_at->toDateString() === $now->toDateString());
     }
 
     private function getImage($url, $width, $heigth)

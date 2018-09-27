@@ -23,7 +23,9 @@ use App\Models\{
     ViewerPrize,
     BuyedCaseType,
     ViewerCase,
-    Viewer
+    Viewer,
+    Achievement,
+    AchievementProgres
 };
 use App\Achievements\{
     BuyFirstCaseAchievement,
@@ -460,15 +462,15 @@ class CasesManagementController extends Controller
         $viewer->save();
         $winItems = $this->removePrizes($winItems);
         if (count($winItems) > 0 || count($prizes) > 0) {
-            $user->addProgress(new FirstWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstWinAchievement');
         }
         foreach ($winItems as $item) {
-            $user->addProgress(new FirstNonPriceWinAchievement(), 1);
-            $user->addProgress(new NNonPricesWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstNonPriceWinAchievement');
+            $user->addAchievement('App\Achievements\NNonPricesWinAchievement');
         }
         foreach ($prizes as $prize) {
-            $user->addProgress(new FirstPriceWinAchievement(), 1);
-            $user->addProgress(new NPricesWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstPriceWinAchievement');
+            $user->addAchievement('App\Achievements\NPricesWinAchievement');
         }
         return response()->json([
             'message' => $notify->message,
@@ -504,15 +506,15 @@ class CasesManagementController extends Controller
         $this->storeBuyedType($user, $caseType->id);
         $winItems = $this->removePrizes($winItems);
         if (count($winItems) > 0 || count($prizes) > 0) {
-            $user->addProgress(new FirstWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstWinAchievement');
         }
         foreach ($winItems as $item) {
-            $user->addProgress(new FirstNonPriceWinAchievement(), 1);
-            $user->addProgress(new NNonPricesWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstNonPriceWinAchievement');
+            $user->addAchievement('App\Achievements\NNonPricesWinAchievement');
         }
         foreach ($prizes as $prize) {
-            $user->addProgress(new FirstPriceWinAchievement(), 1);
-            $user->addProgress(new NPricesWinAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstPriceWinAchievement');
+            $user->addAchievement('App\Achievements\NPricesWinAchievement');
         }
         $viewerCase->opened_at = date('Y-m-d H:i:s');
         $viewerCase->save();
@@ -615,11 +617,11 @@ class CasesManagementController extends Controller
         }
         $buyedCase->total++;
         $buyedCase->save();
-        $user->addProgress(new BuyFirstCaseAchievement(), 1);
-        $user->addProgress(new OpenFirstCaseAchievement(), 1);
-        $user->addProgress(new Open2CasesAchievement(), 1);
-        $user->addProgress(new Open3CasesAchievement(), 1);
-        $user->addProgress(new Open5CasesAchievement(), 1);
+        $user->addAchievement('App\Achievements\BuyFirstCaseAchievement');
+        $user->addAchievement('App\Achievements\OpenFirstCaseAchievement');
+        $user->addAchievement('App\Achievements\Open2CasesAchievement');
+        $user->addAchievement('App\Achievements\Open3CasesAchievement');
+        $user->addAchievement('App\Achievements\Open5CasesAchievement');
     }
 
 }

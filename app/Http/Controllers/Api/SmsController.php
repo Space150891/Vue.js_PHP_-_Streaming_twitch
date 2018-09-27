@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{User, SmsCode, Afiliate};
+use App\Models\{User, SmsCode, Afiliate, Achievement, AchievementProgres};
 use App\Achievements\{AccountVerifiedAchievement, FirstReferViewerAchievement, Refer100ViewersAchievement};
 
 class SmsController extends Controller
@@ -84,14 +84,14 @@ class SmsController extends Controller
         $viewer = $user->viewer()->first();
         $viewer->phone_verified = 1;
         $viewer->save();
-        $user->addProgress(new AccountVerifiedAchievement(), 1);
+        $user->addAchievement('App\Achievements\AccountVerifiedAchievement');
         $afiliate = Afiliate::where('afiliate_id', $user->id)->whereNull('confirm_at')->first();
         if ($afiliate) {
             $afiliate->confirm_at = Carbon::now()->toDateTimeString();
             $afiliate->save();
             $userReferal = User::find($afiliate->user_id);
-            $userReferal->addProgress(new FirstReferViewerAchievement(), 1);
-            $userReferal->addProgress(new Refer100ViewersAchievement(), 1);
+            $user->addAchievement('App\Achievements\FirstReferViewerAchievement');
+            $user->addAchievement('App\Achievements\Refer100ViewersAchievement');
             $viewerReferal = $userReferal->viewer()->first();
             $viewerReferal->current_points = $viewerReferal->current_points + 10;
             $viewerReferal->level_points = $viewerReferal->level_points + 10;

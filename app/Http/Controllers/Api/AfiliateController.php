@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 use App\Models\{User, Afiliate};
-// use App\Achievements\{FirstReferViewerAchievement, Refer100ViewersAchievement};
 
 class AfiliateController extends Controller
 {
@@ -44,8 +43,6 @@ class AfiliateController extends Controller
                 $affiliate->user_id = $user->id;
                 $affiliate->ip_address = $ip;
                 $affiliate->save();
-                // $user->addProgress(new FirstReferViewerAchievement(), 1);
-                // $user->addProgress(new Refer100ViewersAchievement(), 1);
             }
         }
         return redirect('/');

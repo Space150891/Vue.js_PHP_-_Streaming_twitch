@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond, Viewer};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond, Viewer, Achievement, AchievementProgres};
 use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement, Donate100Achievement, FirstDonateAchievement};
 use GuzzleHttp\Client as Guzzle;
 
@@ -139,8 +139,8 @@ class PayPalController extends Controller
                     $set = Diamond::find($details['diamonds_set_id']);
                     $viewer->diamonds += $set->amount;
                     $viewer->save();
-                    $user->addProgress(new BuyFirstDiamondsAchievement(), 1);
-                    $user->addProgress(new Buy100DiamondsAchievement(), $set->amount);
+                    $user->addAchievement('App\Achievements\BuyFirstDiamondsAchievement');
+                    $user->addAchievement('App\Achievements\Buy100DiamondsAchievement', $set->amount);
                     return redirect('/#/shop');
                 }
                 if ($payment->type == 'subscription') {
@@ -205,8 +205,8 @@ class PayPalController extends Controller
                 \Log::info('user not found email=' . $post['receiver_email']);
                 exit();
             }
-            $user_viewer->addProgress(new FirstDonateAchievement(), 1);
-            $user_viewer->addProgress(new Donate100Achievement(), $post['mc_gross']);
+            $user->addAchievement('App\Achievements\FirstDonateAchievement');
+            $user->addAchievement('App\Achievements\Donate100Achievement', $post['mc_gross']);
             $viewer = $user_viewer->viewer()->first();
             $client = new Guzzle();
             $response = $client->post('https://streamlabs.com/api/v1.0/donations', [

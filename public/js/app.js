@@ -1663,6 +1663,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -3128,16 +3129,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, 2000);
         },
         sendFBAchivement: function sendFBAchivement() {
-            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB50likeAchievement' });
         },
         sendTWAchivement: function sendTWAchivement() {
-            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet50Achievement' });
         }
     }
 });
@@ -3957,6 +3958,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
 //
 //
 //
@@ -5278,16 +5282,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         sendFBAchivement: function sendFBAchivement() {
-            this.$store.commit('pushAchivement', { name: 'FirstFBlikeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB10likeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB20likeAchievement' });
-            this.$store.commit('pushAchivement', { name: 'FB50likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FirstFBlikeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB10likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB20likeAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FB50likeAchievement' });
         },
         sendTWAchivement: function sendTWAchivement() {
-            this.$store.commit('pushAchivement', { name: 'FirstTweetAchievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet10Achievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet20Achievement' });
-            this.$store.commit('pushAchivement', { name: 'Tweet50Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\FirstTweetAchievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet10Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet20Achievement' });
+            this.$store.commit('pushAchivement', { name: 'App\\Achievements\\Tweet50Achievement' });
         }
     },
     computed: {
@@ -81354,6 +81358,7 @@ var render = function() {
           _vm._l(_vm.myCards, function(myCard) {
             return _c(
               "div",
+              { key: myCard.id },
               [
                 _c("viewer-card", {
                   attrs: {
@@ -81414,7 +81419,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.myItems, function(item) {
                   return item.type == "frame"
-                    ? _c("label", [
+                    ? _c("label", { key: item.id }, [
                         _c("img", {
                           attrs: {
                             src: "storage/" + item.icon,
@@ -81466,7 +81471,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.myItems, function(item) {
                   return item.type == "hero"
-                    ? _c("label", [
+                    ? _c("label", { key: item.id }, [
                         _c("img", {
                           attrs: {
                             src: "storage/" + item.icon,
@@ -81519,7 +81524,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm._l(_vm.achivements, function(achivement) {
-                  return _c("label", [
+                  return _c("label", { key: achivement.id }, [
                     _c("p", [_vm._v(_vm._s(achivement.name))]),
                     _vm._v(" "),
                     _c("input", {
@@ -82742,6 +82747,7 @@ var render = function() {
           "div",
           { staticClass: "row" },
           [
+            _vm._v("\n        " + _vm._s(_vm.achivements) + "\n        "),
             _vm._l(_vm.achivements, function(achivement) {
               return _c(
                 "div",
@@ -82766,7 +82772,8 @@ var render = function() {
                     _c("h5", [
                       _vm._v(
                         "unlocked " +
-                          _vm._s(achivement.unlocked_at.substr(0, 10))
+                          _vm._s(achivement.unlocked_at.substr(0, 10)) +
+                          " "
                       )
                     ])
                   ])
@@ -82774,23 +82781,23 @@ var render = function() {
               )
             }),
             _vm._v(" "),
-            _vm._l(_vm.customAchivements, function(achivement) {
+            _vm._l(_vm.customAchivements, function(customAchivement) {
               return _c(
                 "div",
                 {
-                  key: achivement.id,
+                  key: customAchivement.id,
                   staticClass: "col-md-4 achivement-block"
                 },
                 [
                   _c("div", { staticClass: "achivement-panel" }, [
-                    _c("img", { attrs: { src: achivement.image } }),
+                    _c("img", { attrs: { src: customAchivement.image } }),
                     _vm._v(" "),
-                    _c("h4", [_vm._v(_vm._s(achivement.text))]),
+                    _c("h4", [_vm._v(_vm._s(customAchivement.text))]),
                     _vm._v(" "),
                     _c("h5", [
                       _vm._v(
                         "unlocked " +
-                          _vm._s(achivement.updated_at.substr(0, 10))
+                          _vm._s(customAchivement.updated_at.substr(0, 10))
                       )
                     ])
                   ])

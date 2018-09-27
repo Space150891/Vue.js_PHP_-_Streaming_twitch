@@ -27,7 +27,7 @@ class AchivementsController extends Controller
     public function list()
     {
         $user = auth()->user();
-        $achievements = AchievementProgres::where('user_id', $user->id)->get();
+        $achievements = AchievementProgres::where('user_id', $user->id)->whereNotNull('unlocked_at')->get();
         foreach ($achievements as &$achievement) {
             $ach = Achievement::find($achievement->achievement_id);
             $achievement->image = $ach->image;
@@ -55,7 +55,7 @@ class AchivementsController extends Controller
         $viewer = $user->viewer()->first();
         // get all achievements
         //$achievements  = $user->unlockedAchievements();
-        $achievements = AchievementProgres::where('user_id', $user->id)->get();
+        $achievements = AchievementProgres::where('user_id', $user->id)->whereNotNull('unlocked_at')->get();
         foreach ($achievements as &$achievement) {
             $ach = Achievement::find($achievement->achievement_id);
             $achievement->image = $ach->image;
@@ -82,9 +82,6 @@ class AchivementsController extends Controller
                 }
             }
             if ($find === false) {
-                // $details = \DB::table('achievement_details')->find($achievement->achievement_id);
-                // $details->unlocked_at = $achievement->unlocked_at;
-                // $list[] = $details;
                 $ach = Achievement::find($achievement->achievement_id);
                 $achievement->name = $ach->description;
                 $list[] = $achievement;
@@ -130,56 +127,49 @@ class AchivementsController extends Controller
         $error = false;
         switch ($achivementName) {
             case 'Tweet10Achievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
                 break;
             case 'Tweet20Achievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
             break;
                 case 'Tweet50Achievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
                 break;
             case 'FB10likeAchievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
                 break;
             case 'FB20likeAchievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
             break;
                 case 'FB50likeAchievement':
-                $achivement = $this->getClass($achivementName);
                 if (!$this->alreadyToday($achivementName)) {
-                    $user->addProgress($achivement, 1);
+                    $user->addAchievement($achivementName);
                 } else {
                     $error = 'you already twitch today';
                 }
                 break;
             default:
-                $achivement = $this->getClass($achivementName);
-                $user->addProgress($achivement, $points);
+                $user->addAchievement($achivementName, $points);
                 break;
         }
         if ($error) {
@@ -196,30 +186,20 @@ class AchivementsController extends Controller
         ]);
     }
 
-    private function alreadyToday($achivementName)
+    private function alreadyToday($achivementClass)
     {
-        if ($this->isFirst($achivementName)) {
+        \Log::info($achivementClass);
+        $user = auth()->user();
+        $achievement = Achievement::where('class_name', $achivementClass)->first();
+        $achievementProgres = AchievementProgres::where([
+            ['user_id', '=', $user->id],
+            ['achievement_id', '=', $achievement->id],
+        ])->first();
+        if (!$achievementProgres) {
             return false;
         }
-        $user = auth()->user();
-        $class = $this->getClass($achivementName);
-        $updated   = $user->achievements($class)->first()->updated_at->toDateString();
         $now = new Carbon;
-        $today = $now->toDateString();
-        return ($today === $updated);
+        return ($achievementProgres->updated_at->toDateString() === $now->toDateString());
     }
-
-    private function getClass($achivementName)
-    {
-        $class = "\App\Achievements\\" . $achivementName;
-        return new $class;
-    }
-
-    private function isFirst($achivementName)
-    {
-        $class = "App\Achievements\\" . $achivementName;
-        $count = \DB::table('achievement_details')->where('class_name', $class)->count();
-        return ($count === 0);
-    }
- 
+     
 }

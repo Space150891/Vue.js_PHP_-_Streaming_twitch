@@ -47,7 +47,6 @@ class CardsController extends Controller
                 $c->achievement = $achievement->text;
             } else {
                 $achievement = Achievement::find($card->achivement_id);
-                // \DB::table('achievement_details')->find($card->achivement_id);
                 $c->achievement = $achievement->description;
             }
             $c->promoted = ($viewer->promoted_gamecard_id == $c->id) ? true : false;

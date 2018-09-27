@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{User, Viewer, Streamer, SignedViewer};
+use App\Models\{User, Viewer, Streamer, SignedViewer, Achievement, AchievementProgres};
 use App\Achievements\{FirstStreamerSubscribeAchievement, Streamer100SubscribeAchievement};
 
 class SignedViewersController extends Controller
@@ -68,8 +68,8 @@ class SignedViewersController extends Controller
         $signedViewer->viewer_id = $viewer->id;
         $signedViewer->streamer_id = $streamer->id;
         $signedViewer->save();
-        $user->addProgress(new FirstStreamerSubscribeAchievement(), 1);
-        $user->addProgress(new Streamer100SubscribeAchievement(), 1);
+        $user->addAchievement('App\Achievements\FirstStreamerSubscribeAchievement');
+        $user->addAchievement('App\Achievements\Streamer100SubscribeAchievement');
         return response()->json([
             'message' => 'streamer added successful',
             'data' => [
