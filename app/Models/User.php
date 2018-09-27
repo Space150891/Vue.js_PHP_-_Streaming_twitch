@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Cashier\Billable;
 use Gstt\Achievements\Achiever;
-use App\Models\{Achievement, AchievementProgres, Viewer, Notification, RarityClass, Item, ItemType, ViewerItem, Card};
+use App\Models\{Achievement, AchievementProgres, Viewer, Notification, RarityClass, Item, ItemType, ViewerItem, Card, LootCase, CaseType, ViewerCase};
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -182,8 +182,20 @@ class User extends Authenticatable implements JWTSubject
             if ($achievement->hero_rarity_id > 0) {
                 $this->give($achievement->hero_rarity_id, 'hero');
             }
-            // cases
-            // end cases
+            if ($achievement->case_rarity_id > 0) {
+                $rarityClass = RarityClass::find($achievement->case_rarity_id);
+                if ($rarityClass) {
+                    $caseType = CaseType::where('rarity_class_id', $achievement->case_rarity_id)->first();
+                    $cases = LootCase::where('case_type_id', $caseType->id)->get();
+                    if (count($cases) > 0) {
+                        $case = $cases[round(rand(0, count($cases) - 1))];
+                        $viewerCase = new ViewerCase();
+                        $viewerCase->viewer_id = $viewer->id;
+                        $viewerCase->case_id = $case->id;
+                        $viewerCase->save();
+                    }
+                }
+            }
             $notify = new Notification();
             $notify->user_id = $userId;
             $notify->event_type = 'user_message';

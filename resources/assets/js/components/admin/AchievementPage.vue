@@ -26,8 +26,8 @@
                     <td>{{ item.steps }}</td>
                     <td>{{ item.level_points }}</td>
                     <td>{{ item.diamonds }}</td>
-                    <td>{{ item.card }}</td>
                     <td>{{ item.case }}</td>
+                    <td>{{ item.card }}</td>
                     <td>{{ item.frame }}</td>
                     <td>{{ item.hero }}</td>
                     <td>
