@@ -70,6 +70,9 @@ class SignedViewersController extends Controller
         $signedViewer->save();
         $user->addAchievement('App\Achievements\FirstStreamerSubscribeAchievement');
         $user->addAchievement('App\Achievements\Streamer100SubscribeAchievement');
+        $user->addAchievement('Subscribe2Channels');
+        $user->addAchievement('Subscribe5Channels');
+        $user->addAchievement('Subscribe10Channels');
         return response()->json([
             'message' => 'streamer added successful',
             'data' => [

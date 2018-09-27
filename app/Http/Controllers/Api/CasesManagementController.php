@@ -25,7 +25,8 @@ use App\Models\{
     ViewerCase,
     Viewer,
     Achievement,
-    AchievementProgres
+    AchievementProgres,
+    RarityClass
 };
 use App\Achievements\{
     BuyFirstCaseAchievement,
@@ -498,6 +499,35 @@ class CasesManagementController extends Controller
         $viewer = Viewer::find($viewerCase->viewer_id);
         $case = LootCase::find($viewerCase->case_id);
         $caseType = CaseType::find($case->case_type_id);
+        $rarityClass = RarityClass::find($caseType->rarity_class_id)->first();
+        if ($rarityClass) {
+            switch ($rarityClass->name) {
+                case 'plain':
+                    $user->addAchievement('OpenFirstCase1');
+                    break;
+                case 'uncommon':
+                    $user->addAchievement('OpenFirstCase2');
+                    break;
+                case 'rare':
+                    $user->addAchievement('OpenFirstCase3');
+                    break;
+                case 'epic':
+                    $user->addAchievement('OpenFirstCase4');
+                    break;
+                case 'legendary':
+                    $user->addAchievement('OpenFirstCase5');
+                    break;
+            }
+            if (
+                $user->hasAchievement('OpenFirstCase1')
+                && $user->hasAchievement('OpenFirstCase2')
+                && $user->hasAchievement('OpenFirstCase3')
+                && $user->hasAchievement('OpenFirstCase4')
+                && $user->hasAchievement('OpenFirstCase5')
+            ){
+                $user->addAchievement('OpenFirstCaseAll');
+            }
+        }
         $user = auth()->user();
         $winItems = [];
         $prizes = [];

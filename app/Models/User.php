@@ -205,6 +205,16 @@ class User extends Authenticatable implements JWTSubject
         $progress->save();
     }
 
+    public function hasAchievement($achievementName)
+    {
+        $achievement = Achievement::where('class_name', $achievementName)->first();
+        $progress = AchievementProgres::where([
+            ['user_id', '=',  $this->id],
+            ['achievement_id', '=',  $achievement->id],
+        ])->whereNotNull('unlocked_at')->first();
+        return $progress ? true : false;
+    }
+
     private function give($rarity_id, $itemType)
     {
         $rarityClass = RarityClass::find($rarity_id);

@@ -22,6 +22,7 @@
             <a
               v-if="links.length > 1"
               v-for="link in links"
+              :key="link"
               class="dropdown-item"
               href="#"
               @click.prevent="linkClick(link)"

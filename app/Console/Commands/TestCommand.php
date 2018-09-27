@@ -43,7 +43,8 @@ class TestCommand extends Command
     public function handle()
     {
         $user = User::find(105);
-        $user->addAchievement('App\Achievements\FB50likeAchievement', 50);
+        $has = $user->hasAchievement('OpenFirstCaseAll');
+        var_dump($has);
     }
 
     private function se()
