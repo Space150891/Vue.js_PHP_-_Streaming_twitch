@@ -44,7 +44,8 @@ class SubscribeController extends Controller
         ]);
     }
 
-    public function adminSubscribe(Request $request) {
+    public function adminSubscribe(Request $request)
+    {
         $validator = Validator::make($request->all(),
             [
                 'user_id'   =>  'required|numeric|min:1',
@@ -90,6 +91,70 @@ class SubscribeController extends Controller
                 'subscription created',
             ],
         ]);
-        
     }
+
+    public function getPaggList(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'         => 'required|numeric|min:1',
+            'on_page'      => 'required|numeric|min:1',
+            'period'      => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        switch ($request->period) {
+            case 'day':
+                $now = new Carbon();
+                $start = $now->startOfDay()->toDateTimeString();
+                $end = $now->endOfDay()->toDateTimeString();
+                break;
+            case 'week':
+                $now = new Carbon();
+                $start = $now->startOfWeek()->toDateTimeString();
+                $end = $now->endOfWeek()->toDateTimeString();
+                break;
+            case 'month':
+                $now = new Carbon();
+                $start = $now->startOfMonth()->toDateTimeString();
+                $end = $now->endOfMonth()->toDateTimeString();
+                break;
+            case 'year':
+                $now = new Carbon();
+                $start = $now->startOfYear()->toDateTimeString();
+                $end = $now->endOfYear()->toDateTimeString();
+                break;
+        }
+        if ($request->period == 'all') {
+            $subscriptions = SubscribedStreamers::all();
+        } else {
+            $subscriptions = SubscribedStreamers::where([
+                ['created_at', '>=', $start],
+                ['created_at', '<=', $end],
+            ])->get();
+        }
+        $total = count($subscriptions);
+        $data = [];
+        $pages = $total > 0 ? ceil($total / $request->on_page) : 1;
+        foreach ($subscriptions as $subscription) {
+            $streamer = Streamer::find($subscription->streamer_id);
+            $plan = SubscriptionPlan::find($subscription->subscription_plan_id);
+            $data[] = [
+                'id'            => $subscription->id,
+                'name'          => $streamer->name,
+                'plan'          => $plan->name,
+                'valid_from'    => $subscription->valid_from,
+                'valid_until'    => $subscription->valid_until,
+            ];
+        }
+        return response()->json([
+            'data' => [
+                'subscriptions'     => $data,
+                'pages'             => $pages,
+            ],
+        ]);
+    }
+
 }

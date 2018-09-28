@@ -103,4 +103,10 @@ export const state = {
         loaded: false,
         saves: false,
     },
+    subscriptions: {
+        list: [],
+        loaded: false,
+        saves: false,
+        pages: 0,
+    },
 }

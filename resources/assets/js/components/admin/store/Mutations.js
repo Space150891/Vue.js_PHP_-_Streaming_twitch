@@ -868,4 +868,32 @@ export const mutations = {
             state.achievements.loaded = true;
         });
     },
+    getPaggSubscribeList(state, data) {
+        state.subscriptions.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('page', data.page);
+        formData.append('on_page', data.onPage);
+        formData.append('period', data.period);
+        fetch('api/subscribed/pagglist',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData,
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {
+                // state.alerts = state.alerts.concat(jsonResp.message);
+            }
+            state.subscriptions.list = jsonResp.data ? jsonResp.data.subscriptions : [];
+            state.subscriptions.loaded = true;
+        });
+    },
 }

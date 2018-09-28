@@ -42,9 +42,10 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $user = User::find(105);
-        $has = $user->hasAchievement('OpenFirstCaseAll');
-        var_dump($has);
+        $now = new Carbon();
+        $start = $now->startOfDay()->toDateTimeString();
+        //$now = 
+        var_dump($start);
     }
 
     private function se()

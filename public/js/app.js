@@ -1663,7 +1663,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -2814,6 +2813,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -79934,6 +79934,7 @@ var render = function() {
                           ? _c(
                               "a",
                               {
+                                key: link,
                                 staticClass: "dropdown-item",
                                 attrs: { href: "#" },
                                 on: {
@@ -82747,7 +82748,6 @@ var render = function() {
           "div",
           { staticClass: "row" },
           [
-            _vm._v("\n        " + _vm._s(_vm.achivements) + "\n        "),
             _vm._l(_vm.achivements, function(achivement) {
               return _c(
                 "div",

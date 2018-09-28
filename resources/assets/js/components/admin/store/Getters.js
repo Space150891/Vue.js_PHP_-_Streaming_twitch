@@ -149,4 +149,7 @@ export const getters = {
     AchievementsSaved: state => {
         return state.achievements.saved;
     },
+    subscriptions: state => {
+        return state.subscriptions;
+    },
 }

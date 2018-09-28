@@ -17,7 +17,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in users">
+				<tr v-for="item in users" :key="item.id">
                     <td>{{item.name}}</td>
 					<td>{{item.email}}</td>
                     <td>{{item.twitch_id}}</td>
@@ -50,7 +50,7 @@
                     <h5>existing subscriptions:</h5>
                     <ul class="list-group">
                         <li
-                            v-for="s in editUser.subscriptions"
+                            v-for="s in editUser.subscriptions" :key="s.id"
                             class="list-group-item disabled"
                         >
                             <strong>{{s.subscription}}</strong>
@@ -64,13 +64,13 @@
                 <h5>create:</h5>
                 <select v-model="form.subscriptionPlan" class="form-control" name="subscription_plan_id">
                     <option value=0>Select subscription plan</option>
-                    <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id">
+                    <option v-for="subscriptionPlan in subscriptionPlans" v-bind:value="subscriptionPlan.id" :key="subscriptionPlan.id">
                         {{subscriptionPlan.name}} cost {{subscriptionPlan.price}}
                     </option>
                 </select>
                 <select  v-model="form.monthPlan" class="form-control" name="month_plan_id">
                     <option value=0>Select months</option>
-                    <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id">
+                    <option v-for="monthPlan in monthPlans" v-bind:value="monthPlan.id" :key="monthPlan.id">
                         months {{monthPlan.monthes}} discount {{monthPlan.percent}} %
                     </option>
                 </select>
