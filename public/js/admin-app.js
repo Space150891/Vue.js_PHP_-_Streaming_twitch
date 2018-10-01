@@ -46266,7 +46266,7 @@ var render = function() {
               "ul",
               { staticClass: "nav nav-tabs" },
               _vm._l(_vm.tables, function(tableName) {
-                return _c("li", { staticClass: "nav-item" }, [
+                return _c("li", { key: tableName, staticClass: "nav-item" }, [
                   tableName == _vm.filter.table
                     ? _c(
                         "a",
@@ -46343,7 +46343,9 @@ var render = function() {
                       }
                     },
                     _vm._l(_vm.periods, function(period) {
-                      return _c("option", [_vm._v(_vm._s(period))])
+                      return _c("option", { key: period }, [
+                        _vm._v(_vm._s(period))
+                      ])
                     })
                   )
                 ])
@@ -46358,7 +46360,7 @@ var render = function() {
                         _c(
                           "tr",
                           _vm._l(_vm.statistic.fields, function(field) {
-                            return _c("th", [
+                            return _c("th", { key: field }, [
                               _vm._v(
                                 "\n                        " +
                                   _vm._s(field) +
@@ -46374,8 +46376,9 @@ var render = function() {
                         _vm._l(_vm.statistic.values, function(item) {
                           return _c(
                             "tr",
+                            { key: item.id },
                             _vm._l(_vm.statistic.fields, function(field) {
-                              return _c("td", [
+                              return _c("td", { key: field }, [
                                 _vm._v(
                                   "\n                        " +
                                     _vm._s(item[field]) +

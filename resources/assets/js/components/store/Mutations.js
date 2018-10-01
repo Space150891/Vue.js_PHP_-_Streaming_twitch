@@ -454,10 +454,11 @@ export const mutations = {
     clearWatchingStreams(state) {
         state.wachingStreamers = [];
     },
-    viewingChannel(state, channel) { // delete later
+    viewingChannel(state, data) {
+        console.log('in mudator', data);
         var formData = new FormData();
         formData.append('token', state.token);
-        formData.append('channel', channel);
+        formData.append('channels', data.channels);
         fetch('api/activity/update',
             {
                 method: "POST",

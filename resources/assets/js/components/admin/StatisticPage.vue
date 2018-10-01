@@ -3,7 +3,7 @@
     <admin-menu page="/statistic"></admin-menu>
     <div v-if="checkToken">
         <ul class="nav nav-tabs">
-            <li class="nav-item" v-for="tableName in tables">
+            <li class="nav-item" v-for="tableName in tables" :key="tableName">
                 <a v-if="tableName == filter.table" class="nav-link active" href="#">{{ tableName }}</a>
                 <a v-else @click.prevent="selectTable(tableName)" class="nav-link" href="#">{{ tableName }}</a>
             </li>
@@ -15,21 +15,21 @@
             <label class="form-group">
                 period:
                 <select v-model="filter.period" v-on:change="loadTable()" class="form-control">
-                    <option v-for="period in periods">{{period}}</option>
+                    <option v-for="period in periods" :key="period">{{period}}</option>
                 </select>
             </label>
         </div>
 		<table v-if="statistic.loaded" class="table table-striped table-condenced">
 		    <thead>
 				<tr>
-					<th v-for="field in statistic.fields">
+					<th v-for="field in statistic.fields" :key="field">
                         {{field}}
                     </th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in statistic.values">
-                    <td v-for="field in statistic.fields">
+				<tr v-for="item in statistic.values" :key="item.id">
+                    <td v-for="field in statistic.fields" :key="field">
                         {{item[field]}}
                     </td>
                 </tr>

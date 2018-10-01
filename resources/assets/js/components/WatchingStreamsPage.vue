@@ -47,32 +47,11 @@ const config = require('./config/config.json');
         },
         methods: {
             startConnection() {
-                this.connect = new WebSocket(config.ws_server);
-                const ws = this.connect;
-                ws.onopen = () => {
-                     const mess = {
-                        role: 'viewer',
-                        token:  this.token,
-                        streams: this.wachingStreamers,
-                    }
-                    ws.send(JSON.stringify(mess));
-                    this.timer = setInterval(() => {
-                        const data = {
-                            role: 'viewer',
-                            action: 'add_points'
-                        }
-                        ws.send(JSON.stringify(data));
-                    this.$store.commit('loadCurrentViewer');
-                    }, 1000 * 60); // one minute 
-                };
-                ws.onmessage = (event) => {
-                    console.log('from WS server', event.data);
-                };
+                this.timer = setInterval(() => {
+                this.$store.commit('viewingChannel', {'channels' : this.wachingStreamers});
+                }, 1000 * 60); // one minute 
            },
            closeAll() {
-                if (this.connect) {
-                    this.connect.close();
-                }
                 if (this.timer) {
                     clearInterval(this.timer);
                 }

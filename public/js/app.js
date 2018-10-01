@@ -5510,32 +5510,11 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
         startConnection: function startConnection() {
             var _this = this;
 
-            this.connect = new WebSocket(config.ws_server);
-            var ws = this.connect;
-            ws.onopen = function () {
-                var mess = {
-                    role: 'viewer',
-                    token: _this.token,
-                    streams: _this.wachingStreamers
-                };
-                ws.send(JSON.stringify(mess));
-                _this.timer = setInterval(function () {
-                    var data = {
-                        role: 'viewer',
-                        action: 'add_points'
-                    };
-                    ws.send(JSON.stringify(data));
-                    _this.$store.commit('loadCurrentViewer');
-                }, 1000 * 60); // one minute 
-            };
-            ws.onmessage = function (event) {
-                console.log('from WS server', event.data);
-            };
+            this.timer = setInterval(function () {
+                _this.$store.commit('viewingChannel', { 'channels': _this.wachingStreamers });
+            }, 1000 * 60); // one minute 
         },
         closeAll: function closeAll() {
-            if (this.connect) {
-                this.connect.close();
-            }
             if (this.timer) {
                 clearInterval(this.timer);
             }
@@ -102371,11 +102350,11 @@ var mutations = {
     clearWatchingStreams: function clearWatchingStreams(state) {
         state.wachingStreamers = [];
     },
-    viewingChannel: function viewingChannel(state, channel) {
-        // delete later
+    viewingChannel: function viewingChannel(state, data) {
+        console.log('in mudator', data);
         var formData = new FormData();
         formData.append('token', state.token);
-        formData.append('channel', channel);
+        formData.append('channels', data.channels);
         fetch('api/activity/update', {
             method: "POST",
             credentials: 'omit',

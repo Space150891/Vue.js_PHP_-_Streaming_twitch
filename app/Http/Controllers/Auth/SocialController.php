@@ -240,7 +240,7 @@ class SocialController extends Controller
             $streamer->viewers_count = isset($streamData['views']) ? $streamData['views'] : 0;
             $streamer->followers_count = isset($streamData['followers']) ? $streamData['followers'] : 0;
             $streamer->save();
-            $game = Game::find($gameData['id']);
+            $game = Game::where('twitch_id', $gameData['id'])->first();
             if (!$game) {
                 $game = new Game();
                 $game->name = $gameData['name'];
