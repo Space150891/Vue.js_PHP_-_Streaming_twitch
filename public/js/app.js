@@ -2929,6 +2929,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = (_data$methods$mounted = {
@@ -2964,6 +2965,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     },
     mounted: function mounted() {
         this.$store.commit('getPromotedList');
+        this.$store.commit('getTranslate', { page: 'home' });
     }
 }, _defineProperty(_data$methods$mounted, 'methods', {
     watchStream: function watchStream(streamerName) {
@@ -2973,6 +2975,9 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 }), _defineProperty(_data$methods$mounted, 'computed', {
     promotedStreamers: function promotedStreamers() {
         return this.$store.getters.promotedStreamers;
+    },
+    translate: function translate() {
+        return this.$store.getters.translate;
     }
 }), _data$methods$mounted);
 
@@ -82046,10 +82051,13 @@ var render = function() {
       [
         _c("h2", [_vm._v("Promoted Streamers")]),
         _vm._v(" "),
+        _c("h2", [_vm._v(_vm._s(_vm.translate.home.promoted_streamers))]),
+        _vm._v(" "),
         _vm._l(_vm.promotedStreamers, function(item) {
           return _c(
             "a",
             {
+              key: item.id,
               attrs: { href: "#/profile/" + item.user_id },
               on: {
                 click: function($event) {
@@ -101942,6 +101950,9 @@ var getters = {
     },
     checkMultistream: function checkMultistream(state) {
         return state.multistream;
+    },
+    translate: function translate(state) {
+        return state.translate;
     }
 };
 
@@ -102622,6 +102633,28 @@ var mutations = {
                 console.log('MULTISTREAM=', state.multistream);
             }
         });
+    },
+    getTranslate: function getTranslate(state, data) {
+        var formData = new FormData();
+        formData.append('locale', state.locale);
+        formData.append('page', data.page);
+        fetch('api/translate', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+            body: formData
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            if (jsonResp.errors) {} else {
+                state.translate[data.page] = jsonResp.data;
+            }
+        }).catch(function (err) {
+            return err;
+        });
     }
 };
 
@@ -102751,7 +102784,11 @@ var state = {
     payments: {
         liqForm: ''
     },
-    multistream: false
+    multistream: false,
+    locale: 'ru',
+    translate: {
+        home: {}
+    }
 };
 
 /***/ }),

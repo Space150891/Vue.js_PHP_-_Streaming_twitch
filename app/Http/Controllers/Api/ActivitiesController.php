@@ -30,7 +30,7 @@ class ActivitiesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['update']]);
+        $this->middleware('auth:api', ['except' => []]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 

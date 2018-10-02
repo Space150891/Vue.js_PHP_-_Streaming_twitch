@@ -118,4 +118,8 @@ export const state = {
         liqForm: '',
     },
     multistream: false,
+    locale: 'en',
+    translate: {
+        home : {}
+    },
 }

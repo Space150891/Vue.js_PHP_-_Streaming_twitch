@@ -128,6 +128,7 @@ Route::group([
     Route::post('multistream/check', 'Api\ContentManagementController@checkMultistream');
     
     Route::post('subscribed/pagglist', 'Api\SubscribeController@getPaggList');
+    Route::post('translate', 'Api\LocalizeController@translate');
 });
 
 

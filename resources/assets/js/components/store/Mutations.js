@@ -759,5 +759,31 @@ export const mutations = {
                 console.log('MULTISTREAM=', state.multistream);
             }
         });
-    }
+    },
+    getTranslate(state, data) {
+        var formData = new FormData();
+        formData.append('locale', state.locale);
+        formData.append('page', data.page);
+        fetch('api/translate',
+            {
+                method: "POST",
+                credentials: 'omit',
+                mode: 'cors',
+                body: formData,
+            })
+            .then(res =>{return res.json()})
+            .then(function(jsonResp){
+                if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                    state.token = false;
+                }
+                if (jsonResp.errors) {
+                    
+                } else {
+                    state.translate[data.page] = jsonResp.data;
+                }
+
+            })
+            .catch(err => err);
+
+    },
 }

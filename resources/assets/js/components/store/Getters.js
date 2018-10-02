@@ -134,4 +134,7 @@ export const getters = {
     checkMultistream: state => {
         return state.multistream;
     },
+    translate: state => {
+        return state.translate;
+    }
 }
