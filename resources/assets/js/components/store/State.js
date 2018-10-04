@@ -120,6 +120,6 @@ export const state = {
     multistream: false,
     locale: 'en',
     translate: {
-        home : {}
+        left_menu : {}
     },
 }

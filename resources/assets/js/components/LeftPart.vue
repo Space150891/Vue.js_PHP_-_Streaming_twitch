@@ -2,7 +2,7 @@
 <div class="leftPart-main">
     <div class="scroll-item btn-up" @click.prevent="scrollUp()"><span class="leftPart-scroll"> > </span></div>
     <div class="leftPart">
-        <h2>{{ translate.home.promoted_streamers }}</h2>
+        <h2>{{ translate.left_menu.promoted_streamers }}</h2>
         <a 
           v-for="(item) in promotedStreamers" :key="item.id"
           v-bind:href="'#/profile/' + item.user_id"
@@ -65,7 +65,7 @@ var config = require('./config/config.json');
         },
         mounted() {
             this.$store.commit('getPromotedList');
-            this.$store.commit('getTranslate', {page: 'home'});
+            this.$store.commit('getTranslate', {page: 'left_menu'});
 		},
         methods: {
             watchStream(streamerName) {

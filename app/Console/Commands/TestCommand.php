@@ -55,7 +55,8 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        
+        $streamer = Streamer::find(103);
+        echo $streamer->getOnlineViewers();
     }
 
     private function se()

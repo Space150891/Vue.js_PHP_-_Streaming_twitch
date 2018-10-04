@@ -2929,7 +2929,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 /* harmony default export */ __webpack_exports__["default"] = (_data$methods$mounted = {
@@ -2965,7 +2964,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     },
     mounted: function mounted() {
         this.$store.commit('getPromotedList');
-        this.$store.commit('getTranslate', { page: 'home' });
+        this.$store.commit('getTranslate', { page: 'left_menu' });
     }
 }, _defineProperty(_data$methods$mounted, 'methods', {
     watchStream: function watchStream(streamerName) {
@@ -82049,9 +82048,7 @@ var render = function() {
       "div",
       { staticClass: "leftPart" },
       [
-        _c("h2", [_vm._v("Promoted Streamers")]),
-        _vm._v(" "),
-        _c("h2", [_vm._v(_vm._s(_vm.translate.home.promoted_streamers))]),
+        _c("h2", [_vm._v(_vm._s(_vm.translate.left_menu.promoted_streamers))]),
         _vm._v(" "),
         _vm._l(_vm.promotedStreamers, function(item) {
           return _c(
@@ -102785,9 +102782,9 @@ var state = {
         liqForm: ''
     },
     multistream: false,
-    locale: 'ru',
+    locale: 'en',
     translate: {
-        home: {}
+        left_menu: {}
     }
 };
 
