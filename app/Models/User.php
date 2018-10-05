@@ -10,7 +10,24 @@ use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Cashier\Billable;
 use Gstt\Achievements\Achiever;
-use App\Models\{Achievement, AchievementProgres, Viewer, Notification, RarityClass, Item, ItemType, ViewerItem, Card, LootCase, CaseType, ViewerCase};
+use Illuminate\Support\Carbon;
+use App\Models\{
+    Achievement,
+    AchievementProgres,
+    Card,
+    CaseType,
+    Item,
+    ItemType,
+    LootCase,
+    Notification,
+    RarityClass,
+    Streamer,
+    SubscribedStreamers,
+    SubscriptionPlan,
+    Viewer,
+    ViewerItem,
+    ViewerCase
+};
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -240,6 +257,17 @@ class User extends Authenticatable implements JWTSubject
             return $vItem->id;
         }
         return 0;
+    }
+
+    public function isSubscribed()
+    {
+        $streamer = Streamer::where('user_id', $this->id)->first();
+        $subscription = SubscribedStreamers::where('streamer_id', $streamer->id)->whereDate('valid_until', '>', Carbon::today()->toDateTimeString())->first();
+        if ($subscription) {
+            $plan = $subscription->subscriptionPlan()->first();
+            return $plan->name;
+        }
+        return false;
     }
 
 }

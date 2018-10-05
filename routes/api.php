@@ -129,6 +129,8 @@ Route::group([
     
     Route::post('subscribed/pagglist', 'Api\SubscribeController@getPaggList');
     Route::post('translate', 'Api\LocalizeController@translate');
+
+    Route::post('myfollowed', 'Api\FollowedController@get');
 });
 
 

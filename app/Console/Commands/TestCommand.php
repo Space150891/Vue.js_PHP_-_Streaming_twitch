@@ -8,11 +8,13 @@ use Stripe\Stripe;
 use App\Models\{
     Achievement,
     Activity,
+    ActiveStreamer,
     Item,
     Game,
     Notification,
     Profile,
     RarityClass,
+    SignedViewer,
     Streamer,
     SubscribedStreamers,
     User,
@@ -55,8 +57,27 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $streamer = Streamer::find(103);
-        echo $streamer->getOnlineViewers();
+        $user = User::find(105);
+        $viewer = $user->viewer()->first();
+        $followed = SignedViewer::where('viewer_id', $viewer->id)->get();
+        $online = [];
+        $offline = [];
+        foreach ($followed as $f) {
+            $streamer = Streamer::find($f->streamer_id);
+            $isActive = ActiveStreamer::where('streamer_id', $streamer->id)->first();
+            if ($isActive) {
+                $online[] = [
+                    'id'       =>  $streamer->id,
+                    'name'     =>  $streamer->name,
+                    'viewers'  =>  $streamer->getOnlineViewers(),
+                ];
+            } else {
+                $offline[] = [
+                    'id'       =>  $streamer->id,
+                    'name'     =>  $streamer->name,
+                ];
+            }
+        }
     }
 
     private function se()
