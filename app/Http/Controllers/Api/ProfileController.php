@@ -265,6 +265,7 @@ class ProfileController extends Controller
                 'prize_alert'   => $streamer->prize_alert,
                 'streamlabs'    => is_null($streamer->streamlabs_access) ? false : true,
                 'streamelements'    => is_null($streamer->streamelements_access) ? false : true,
+                'subscription'    => $user->isSubscribed(),
                 'fields'        => [
                     [
                         'name'      => 'current_points',
