@@ -36,7 +36,7 @@ class CaseTypesManagementController extends Controller
         $rarityClasses = RarityClass::all();
         $classes = [];
         foreach ($rarityClasses as $rarityClass) {
-            $classes[$rarityClass->id] = $rarityClass->name;
+            $classes[$rarityClass->id] = $rarityClass->name . ($rarityClass->special == 1 ? ' special' : '');
         }
         $classes[0] = 'not defined';
         foreach ($caseTypes as &$caseType) {
@@ -44,6 +44,27 @@ class CaseTypesManagementController extends Controller
         }
         return response()->json(['data' => [
             'caseTypes' => $caseTypes,
+        ]]);
+    }
+
+    public function front()
+    {
+        $caseTypes = CaseType::all();
+
+        $rarityClasses = RarityClass::where('special', 0)->get();
+        $classes = [];
+        foreach ($rarityClasses as $rarityClass) {
+            $classes[$rarityClass->id] = $rarityClass->name . ($rarityClass->special == 1 ? ' special' : '');
+        }
+        $data = [];
+        foreach ($caseTypes as &$caseType) {
+            if (isset($classes[$caseType->rarity_class_id])) {
+                $caseType->rarity_class = $classes[$caseType->rarity_class_id];
+                $data[] = $caseType;
+            }
+        }
+        return response()->json(['data' => [
+            'caseTypes' => $data,
         ]]);
     }
 
@@ -58,9 +79,9 @@ class CaseTypesManagementController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'name'     => 'required|max:255|unique:case_types',
-                'price'    => 'required|numeric',
-                'diamonds' => 'required|numeric',
+                'description'   => 'required|max:255|unique:case_types',
+                'price'         => 'required|numeric',
+                'diamonds'      => 'required|numeric',
                 'rarity_class_id' => 'required|numeric',
             ]
         );
@@ -72,7 +93,7 @@ class CaseTypesManagementController extends Controller
         }
 
         $caseType = new CaseType();
-        $caseType->name = $request->name;
+        $caseType->description = $request->description;
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
         $caseType->rarity_class_id = $request->rarity_class_id;
@@ -129,10 +150,10 @@ class CaseTypesManagementController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id'       => 'required|numeric',
-            'name'     => 'required|max:255',
-            'price'    => 'required|numeric',
-            'diamonds' => 'required|numeric',
+            'id'            => 'required|numeric',
+            'description'   => 'required|max:255',
+            'price'         => 'required|numeric',
+            'diamonds'      => 'required|numeric',
             'rarity_class_id' => 'required|numeric',
         ]);
 
@@ -150,7 +171,7 @@ class CaseTypesManagementController extends Controller
             ]);
         }
 
-        $caseType->name = $request->name;
+        $caseType->description = $request->description;
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
         $caseType->rarity_class_id = $request->rarity_class_id;
@@ -169,6 +190,13 @@ class CaseTypesManagementController extends Controller
         return response()->json([
             'message' => 'case type update successful',
         ]);
+    }
+
+
+    public function lastBoxes(Request $request)
+    {
+        $count = 15;
+        
     }
 
     /**

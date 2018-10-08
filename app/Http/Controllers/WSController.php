@@ -128,8 +128,11 @@ class WSController extends Controller implements MessageComponentInterface {
                     }
                 }
                 if ($time >= 60 - 5) {
-                    $viewer->level_points =  $viewer->level_points + $points;
-                    $viewer->current_points =  $viewer->current_points + $points;
+                    $viewer->addPoints([
+                        'points'    => $points,
+                        'title'     => 'Stream',
+                        'description'   => 'View stream',
+                    ]);
                     $viewer->save();
                 }
                 $act->updated_at = $updateTime;
@@ -141,8 +144,11 @@ class WSController extends Controller implements MessageComponentInterface {
             if ($afiliate) {
                 $userReferal = User::find($afiliate->user_id);
                 $viewerReferal = $userReferal->viewer()->first();
-                $viewerReferal->current_points = $viewerReferal->current_points + 1;
-                $viewerReferal->level_points = $viewerReferal->level_points + 1;
+                $viewerReferal->addPoints([
+                    'points'    => 1,
+                    'title'     => 'Referal',
+                    'description'   => 'Referal view stream',
+                ]);
                 $viewerReferal->save();
             }
             $data = [

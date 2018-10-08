@@ -111,11 +111,11 @@ Route::group([
     Route::post('sms/code/get', 'Api\SmsController@getSms');
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
     Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
-    Route::post('diamonds/list', 'Api\DiamondsController@index');
+    Route::post('diamonds/list', 'Api\DiamondsController@index');//////
     Route::post('cases/list', 'Api\CasesManagementController@index');
     Route::post('cases/buy', 'Api\CasesManagementController@buy');
     Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
-    Route::post('cases/types/list', 'Api\CaseTypesManagementController@index');
+    Route::post('cases/types/list', 'Api\CaseTypesManagementController@front');
     Route::post('cases/open', 'Api\CasesManagementController@open');
 
     Route::post('statistic/get', 'Api\StatisticController@index');

@@ -177,8 +177,11 @@ class User extends Authenticatable implements JWTSubject
         if ($progress->steps >= $achievement->steps) {
             $progress->unlocked_at = date('Y-m-d H:i:s');
             $viewer = Viewer::where('user_id', $userId)->first();
-            $viewer->level_points += $achievement->level_points;
-            $viewer->current_points += $achievement->level_points;
+            $viewer->addPoints([
+                'points'    => $achievement->level_points,
+                'title'     => 'Achievement',
+                'description'   => $achievement->description,
+            ]);
             $viewer->diamonds += $achievement->diamonds;
             $viewer->save();
             if ($achievement->card_rarity_id > 0) {

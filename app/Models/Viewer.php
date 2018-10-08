@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\HistoryPoint;
 
 class Viewer extends Model
 {
@@ -53,5 +54,20 @@ class Viewer extends Model
             return $level + 1;
         }
         return $level;
+    }
+
+    public function addPoints(array $data)
+    {
+        $history = new HistoryPoint();
+        $history->viewer_id = $this->id;
+        $history->points = $data['points'];
+        $history->title = $data['title'];
+        $history->description = $data['description'];
+        if (isset($data['info'])) {
+            $history->info = $data['info'];
+        }
+        $history->save();
+        $this->level_points += $data['points'];
+        $this->current_points += $data['points'];
     }
 }

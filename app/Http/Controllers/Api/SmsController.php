@@ -93,8 +93,11 @@ class SmsController extends Controller
             $user->addAchievement('App\Achievements\FirstReferViewerAchievement');
             $user->addAchievement('App\Achievements\Refer100ViewersAchievement');
             $viewerReferal = $userReferal->viewer()->first();
-            $viewerReferal->current_points = $viewerReferal->current_points + 10;
-            $viewerReferal->level_points = $viewerReferal->level_points + 10;
+            $viewerReferal->addPoints([
+                'points'    => 10,
+                'title'     => 'Referals',
+                'description'   => 'Referal virified',
+            ]);
             $viewerReferal->save();
         }
         return response()->json([

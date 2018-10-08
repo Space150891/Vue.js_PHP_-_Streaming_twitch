@@ -7,7 +7,7 @@
 		  <thead>
 				<tr>
 					<th>id</th>
-					<th>Name</th>
+					<th>Description</th>
                     <th>Coins</th>
                     <th>Diamonds</th>
                     <th>Class</th>
@@ -18,7 +18,7 @@
 			<tbody>
 				<tr v-for="item in caseTypes" :key="item.id">
 					<td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
                     <td>{{ item.price }}</td>
                     <td>{{ item.diamonds }}</td>
                     <td>{{ item.rarity_class }}</td>
@@ -38,7 +38,7 @@
 		</table>
 		<div>
             <form class="form form-inline">
-				<input class="form-control" placeholder="Name..." v-model="editItem.name" type="text">
+				<input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
                 <input class="form-control" placeholder="Price..." v-model="editItem.price" type="number">
                 <input class="form-control" placeholder="Diamonds..." v-model="editItem.diamonds" type="number">
                 <select v-model="editItem.rarity_class_id" class="form-control">
@@ -53,7 +53,7 @@
 			</form>
 		</div>
 		<modal-delete 
-			v-bind:name="deletingItem.name"
+			v-bind:name="deletingItem.description"
 			v-bind:opened="deletingItem.openModal"
 			v-on:close-delete-modal="deletingItem.openModal=false"
 			v-on:confirm-delete="deleteAction"
@@ -86,7 +86,7 @@
       return {
 			editMode: false,
 			editItem: {
-				name: '',
+				description: '',
                 price: 0,
                 diamonds: 0,
                 image: null,
@@ -116,7 +116,7 @@
 		},
     methods: {
 			confirmDeleteAction: function (item) {
-				this.deletingItem.name = item.name;
+				this.deletingItem.name = item.description;
 				this.deletingItem.id = item.id;
 				this.deletingItem.openModal = true;
 			},
@@ -125,7 +125,7 @@
 				this.deletingItem.openModal = false;
 			},
 			editAction: function (item) {
-				this.editItem.name = item.name;
+				this.editItem.description = item.description;
                 this.editItem.price = item.price;
                 this.editItem.diamonds = item.diamonds;
                 this.editItem.image = null;
@@ -135,8 +135,8 @@
 			},
 			createAction: function () {
                 this.errors = [];
-                if (this.editItem.name == '') {
-                    this.errors.push('name empty');
+                if (this.editItem.description == '') {
+                    this.errors.push('description empty');
                 }
                 if (this.editItem.price == 0) {
                     this.errors.push('set price');
@@ -146,7 +146,7 @@
                 }
                 if (this.errors.length == 0) {
                     this.$store.dispatch('createCaseTypeAction', this.editItem);
-                    this.editItem.name = '';
+                    this.editItem.description = '';
                     this.editItem.price = 0;
                     this.editItem.diamonds = 0;
                     this.editItem.image = null;
@@ -161,7 +161,7 @@
 			},
 			saveAction: function() {
 				this.$store.dispatch('CaseTypeSaveAction', this.editItem);
-                this.editItem.name = '';
+                this.editItem.description = '';
                 this.editItem.price = 0;
                 this.editItem.diamonds = 0;
                 this.editItem.image = null;

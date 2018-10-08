@@ -213,8 +213,11 @@ class PayPalController extends Controller
             $user_viewer->addAchievement('Donate200', $post['mc_gross']);
             $user_viewer->addAchievement('Donate500', $post['mc_gross']);
             $viewer = $user_viewer->viewer()->first();
-            $viewer->level_points = $post['mc_gross'] * 1000;
-            $viewer->current_points = $post['mc_gross'] * 1000;
+            $viewer->addPoints([
+                'points'    => $post['mc_gross'] * 1000,
+                'title'     => 'Donate',
+                'description'   => 'maked donation ' . $post['mc_gross'] . ' USD',
+            ]);
             $viewer->save();
             $client = new Guzzle();
             $response = $client->post('https://streamlabs.com/api/v1.0/donations', [

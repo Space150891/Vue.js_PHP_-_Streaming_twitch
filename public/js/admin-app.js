@@ -2753,7 +2753,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     return {
       editMode: false,
       editItem: {
-        name: '',
+        description: '',
         price: 0,
         diamonds: 0,
         image: null,
@@ -2784,7 +2784,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
 
   methods: {
     confirmDeleteAction: function confirmDeleteAction(item) {
-      this.deletingItem.name = item.name;
+      this.deletingItem.name = item.description;
       this.deletingItem.id = item.id;
       this.deletingItem.openModal = true;
     },
@@ -2793,7 +2793,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       this.deletingItem.openModal = false;
     },
     editAction: function editAction(item) {
-      this.editItem.name = item.name;
+      this.editItem.description = item.description;
       this.editItem.price = item.price;
       this.editItem.diamonds = item.diamonds;
       this.editItem.image = null;
@@ -2803,8 +2803,8 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     },
     createAction: function createAction() {
       this.errors = [];
-      if (this.editItem.name == '') {
-        this.errors.push('name empty');
+      if (this.editItem.description == '') {
+        this.errors.push('description empty');
       }
       if (this.editItem.price == 0) {
         this.errors.push('set price');
@@ -2814,7 +2814,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
       }
       if (this.errors.length == 0) {
         this.$store.dispatch('createCaseTypeAction', this.editItem);
-        this.editItem.name = '';
+        this.editItem.description = '';
         this.editItem.price = 0;
         this.editItem.diamonds = 0;
         this.editItem.image = null;
@@ -2829,7 +2829,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
     },
     saveAction: function saveAction() {
       this.$store.dispatch('CaseTypeSaveAction', this.editItem);
-      this.editItem.name = '';
+      this.editItem.description = '';
       this.editItem.price = 0;
       this.editItem.diamonds = 0;
       this.editItem.image = null;
@@ -3399,6 +3399,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3407,10 +3415,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		return {
 			editMode: false,
 			newItem: {
+				name: '',
+				description: '',
 				cost: 0,
 				amount: 0
 			},
 			editItem: {
+				name: '',
+				description: '',
 				cost: 0,
 				amount: 0
 			},
@@ -3431,7 +3443,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 	methods: {
 		confirmDeleteAction: function confirmDeleteAction(item) {
-			this.deletingItem.name = "Diamonds set " + item.amount + ':' + item.cost;
+			this.deletingItem.name = item.name;
 			this.deletingItem.id = item.id;
 			this.deletingItem.openModal = true;
 		},
@@ -3442,6 +3454,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		editAction: function editAction(item) {
 			this.editItem.cost = item.cost;
 			this.editItem.amount = item.amount;
+			this.editItem.name = item.name;
+			this.editItem.description = item.description;
 			this.editItem.id = item.id;
 			this.editMode = true;
 		},
@@ -3453,10 +3467,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			if (this.newItem.amount <= 0) {
 				this.errors.push('set amount');
 			}
+			if (this.newItem.name.trim() == '') {
+				this.errors.push('name empty');
+			}
+			if (this.newItem.description.trim() == '') {
+				this.errors.push('description empty');
+			}
 			if (this.errors.length == 0) {
 				this.$store.dispatch('DiamondsCreateAction', this.newItem);
 				this.newItem.cost = 0;
-				this.newItem.amount = 0;;
+				this.newItem.amount = 0;
+				this.newItem.name = '';
+				this.newItem.description = '';
 			} else {
 				this.openAlertModal = true;
 			}
@@ -3472,11 +3494,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			if (this.editItem.amount <= 0) {
 				this.errors.push('set amount');
 			}
+			if (this.editItem.name.trim() == '') {
+				this.errors.push('name empty');
+			}
+			if (this.editItem.description.trim() == '') {
+				this.errors.push('description empty');
+			}
 			if (this.errors.length == 0) {
 				this.$store.dispatch('DiamondsSaveAction', this.editItem);
 				this.editItem.cost = 0;
 				this.editItem.diamonds = 0;
 				this.editItem.id = 0;
+				this.editItem.name = '';
+				this.editItem.description = '';
 				this.editMode = false;
 			} else {
 				this.openAlertModal = true;
@@ -45794,7 +45824,7 @@ var render = function() {
                     return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.price))]),
                       _vm._v(" "),
@@ -45855,19 +45885,23 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.editItem.name,
-                        expression: "editItem.name"
+                        value: _vm.editItem.description,
+                        expression: "editItem.description"
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.editItem.name },
+                    attrs: { placeholder: "Description...", type: "text" },
+                    domProps: { value: _vm.editItem.description },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.editItem, "name", $event.target.value)
+                        _vm.$set(
+                          _vm.editItem,
+                          "description",
+                          $event.target.value
+                        )
                       }
                     }
                   }),
@@ -46015,7 +46049,7 @@ var render = function() {
               _vm._v(" "),
               _c("modal-delete", {
                 attrs: {
-                  name: _vm.deletingItem.name,
+                  name: _vm.deletingItem.description,
                   opened: _vm.deletingItem.openModal
                 },
                 on: {
@@ -46070,7 +46104,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("id")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Description")]),
         _vm._v(" "),
         _c("th", [_vm._v("Coins")]),
         _vm._v(" "),
@@ -50010,7 +50044,11 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.diamonds, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
+                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.amount))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.cost))]),
@@ -50052,6 +50090,54 @@ var render = function() {
               _c("div", [
                 _vm.editMode
                   ? _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.name,
+                            expression: "editItem.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Name...", type: "test" },
+                        domProps: { value: _vm.editItem.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.editItem, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.description,
+                            expression: "editItem.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Description...", type: "test" },
+                        domProps: { value: _vm.editItem.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -50129,6 +50215,54 @@ var render = function() {
                       )
                     ])
                   : _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.name,
+                            expression: "newItem.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Name...", type: "test" },
+                        domProps: { value: _vm.newItem.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.newItem, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.description,
+                            expression: "newItem.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Description...", type: "test" },
+                        domProps: { value: _vm.newItem.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newItem,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -50236,6 +50370,10 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
         _vm._v(" "),
         _c("th", [_vm._v("Cost")]),
         _vm._v(" "),
@@ -68419,7 +68557,7 @@ var actions = {
         state.caseTypes.saved = false;
         state.caseTypes.loaded = false;
         formData.append('token', state.token);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
@@ -68469,7 +68607,7 @@ var actions = {
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('id', data.id);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
@@ -68894,6 +69032,8 @@ var actions = {
         state.diamonds.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         fetch(state.apiUrl + 'diamonds/store', {
@@ -68920,6 +69060,8 @@ var actions = {
         formData.append('id', data.id);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         fetch(state.apiUrl + 'diamonds/update', {
             method: "POST",
             body: formData,

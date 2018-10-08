@@ -7,20 +7,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
-
+use Carbon\Carbon;
 use App\Models\{
-    User,
-    Card,
-    Item,
-    ViewerPrize,
-    StockPrize,
-    ViewerItem,
+    Achievement,
     BuyedCaseType,
+    Card,
     CaseType,
     CustomAchievement,
-    ViewerCase,
+    Item,
+    HistoryPoint,
     LootCase,
-    Achievement
+    StockPrize,
+    User,
+    ViewerPrize,
+    ViewerItem,
+    ViewerCase
 };
 
 class ProfileController extends Controller
@@ -246,6 +247,11 @@ class ProfileController extends Controller
             $caseType = CaseType::find($case->case_type_id);
             $viewerCase->image = $caseType->image;
         }
+        $now = new Carbon;
+        $now->subSeconds(60);
+        $updateTime = $now->toDateTimeString();
+        $historyPoints = HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->get();
+        $lastPoints = (integer)HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->sum('points');
         //
         return response()->json([
             'data' => [
@@ -266,6 +272,8 @@ class ProfileController extends Controller
                 'streamlabs'    => is_null($streamer->streamlabs_access) ? false : true,
                 'streamelements'    => is_null($streamer->streamelements_access) ? false : true,
                 'subscription'    => $user->isSubscribed(),
+                'history_points' => $historyPoints,
+                'last_points' => $lastPoints,
                 'fields'        => [
                     [
                         'name'      => 'current_points',

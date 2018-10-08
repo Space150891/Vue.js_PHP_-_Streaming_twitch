@@ -10,7 +10,7 @@ use Validator;
 use Carbon\Carbon;
 use GuzzleHttp\Client as Guzzle;
 
-use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem};
+use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem, HistoryPoint};
 
 class ViewersController extends Controller
 {
@@ -73,6 +73,11 @@ class ViewersController extends Controller
             $notification->save();
         }
         $card = false;
+        $now = new Carbon;
+        $now->subSeconds(60);
+        $updateTime = $now->toDateTimeString();
+        $historyPoints = HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->get();
+        $lastPoints = (integer)HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->sum('points');
         return response()->json([
             'data' => [
                 'name'      => $viewer->name,
@@ -82,6 +87,8 @@ class ViewersController extends Controller
                 'messages'  => $messages,
                 'card'      => $card,
                 'user_id'   => $user->id,
+                'history_points' => $historyPoints,
+                'last_points' => $lastPoints,
                 'contacts'  => [
                     'country'       => $viewer->country,
                     'city'          => $viewer->city,
@@ -123,8 +130,11 @@ class ViewersController extends Controller
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $viewer->current_points = $viewer->current_points + 10;
-        $viewer->level_points = $viewer->level_points + 10;
+        $viewer->addPoints([
+            'points'    => 10,
+            'title'     => 'Stream',
+            'description'   => 'watching roulette',
+        ]);
         $viewer->save();
         return response()->json([
             'message' => 'points redeemed',
