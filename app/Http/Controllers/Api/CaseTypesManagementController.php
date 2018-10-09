@@ -83,6 +83,16 @@ class CaseTypesManagementController extends Controller
                 'price'         => 'required|numeric',
                 'diamonds'      => 'required|numeric',
                 'rarity_class_id' => 'required|numeric',
+                'hero_rarity_id' => 'required|numeric|min:0',
+                'frame_rarity_id' => 'required|numeric|min:0',
+                'prize_cost' => 'required|numeric|min:0',
+                'points_count' => 'required|numeric|min:0',
+                'diamonds_count' => 'required|numeric|min:0',
+                'hero_percent' => 'required|numeric|min:0|max:99',
+                'frame_percent' => 'required|numeric|min:0|max:99',
+                'prize_percent' => 'required|numeric|min:0|max:99',
+                'points_percent' => 'required|numeric|min:0|max:99',
+                'diamonds_percent' => 'required|numeric|min:0|max:99',
             ]
         );
 
@@ -97,6 +107,16 @@ class CaseTypesManagementController extends Controller
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
         $caseType->rarity_class_id = $request->rarity_class_id;
+        $caseType->hero_rarity_id = $request->hero_rarity_id;
+        $caseType->frame_rarity_id = $request->frame_rarity_id;
+        $caseType->prize_cost = $request->prize_cost;
+        $caseType->points_count = $request->points_count;
+        $caseType->diamonds_count = $request->diamonds_count;
+        $caseType->hero_percent = $request->hero_percent;
+        $caseType->frame_percent = $request->frame_percent;
+        $caseType->prize_percent = $request->prize_percent;
+        $caseType->points_percent = $request->points_percent;
+        $caseType->diamonds_percent = $request->diamonds_percent;
         $caseType->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -152,9 +172,19 @@ class CaseTypesManagementController extends Controller
         $validator = Validator::make($request->all(), [
             'id'            => 'required|numeric',
             'description'   => 'required|max:255',
-            'price'         => 'required|numeric',
-            'diamonds'      => 'required|numeric',
-            'rarity_class_id' => 'required|numeric',
+            'price'         => 'required|numeric|min:1',
+            'diamonds'      => 'required|numeric|min:1',
+            'rarity_class_id' => 'required|numeric|min:0',
+            'hero_rarity_id' => 'required|numeric|min:0',
+            'frame_rarity_id' => 'required|numeric|min:0',
+            'prize_cost' => 'required|numeric|min:0',
+            'points_count' => 'required|numeric|min:0',
+            'diamonds_count' => 'required|numeric|min:0',
+            'hero_percent' => 'required|numeric|min:0|max:99',
+            'frame_percent' => 'required|numeric|min:0|max:99',
+            'prize_percent' => 'required|numeric|min:0|max:99',
+            'points_percent' => 'required|numeric|min:0|max:99',
+            'diamonds_percent' => 'required|numeric|min:0|max:99',
         ]);
 
         if ($validator->fails()) {
@@ -175,6 +205,16 @@ class CaseTypesManagementController extends Controller
         $caseType->price = $request->price;
         $caseType->diamonds = $request->diamonds;
         $caseType->rarity_class_id = $request->rarity_class_id;
+        $caseType->hero_rarity_id = $request->hero_rarity_id;
+        $caseType->frame_rarity_id = $request->frame_rarity_id;
+        $caseType->prize_cost = $request->prize_cost;
+        $caseType->points_count = $request->points_count;
+        $caseType->diamonds_count = $request->diamonds_count;
+        $caseType->hero_percent = $request->hero_percent;
+        $caseType->frame_percent = $request->frame_percent;
+        $caseType->prize_percent = $request->prize_percent;
+        $caseType->points_percent = $request->points_percent;
+        $caseType->diamonds_percent = $request->diamonds_percent;
         $caseType->save();
 
         if ($request->hasFile('image')) {

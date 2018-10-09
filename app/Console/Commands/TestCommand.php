@@ -9,8 +9,10 @@ use App\Models\{
     Achievement,
     Activity,
     ActiveStreamer,
+    CaseType,
     Item,
     Game,
+    HistoryBox,
     Notification,
     Profile,
     RarityClass,
@@ -57,14 +59,10 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $user = User::find(105);
-        $viewer = $user->viewer()->first();
-        $viewer->addPoints([
-            'points'    => 100,
-            'title'     => 'ach 1',
-            'description'   => 'you have new achievements',
-            'info'  => 'play more',
-        ]);
+        $boxes = HistoryBox::all();
+        foreach ($boxes as $box) {
+            var_dump($box->getDetails());
+        }
     }
 
     private function se()

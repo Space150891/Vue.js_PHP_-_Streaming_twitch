@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ViewerCase extends Model
+class HistoryBoxItemType extends Model
 {
-    
+    //
 }

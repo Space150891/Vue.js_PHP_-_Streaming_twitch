@@ -76,7 +76,7 @@ Vue.component('chat-tabs', require('./components/StreamChatTabsComponent.vue'));
 Vue.component('chat-part', require('./components/StreamChatTabs.vue'));
 Vue.component('menu-block', require('./components/MenuBlock.vue'));
 Vue.component('left-part', require('./components/LeftPart.vue'));
-Vue.component('right-part', require('./components/RighrPart.vue'));
+Vue.component('right-part', require('./components/RightPart.vue'));
 Vue.component('midle-part-home', require('./components/MidlePartHome.vue'));
 Vue.component('midle-part-price', require('./components/MidlePricesPart.vue'));
 Vue.component('midle-part-directory', require('./components/MidleDirectoryPart.vue'));
