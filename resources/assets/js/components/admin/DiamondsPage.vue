@@ -7,12 +7,16 @@
 		  <thead>
 				<tr>
 					<th>Amount</th>
+					<th>Name</th>
+					<th>Description</th>
                     <th>Cost</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in diamonds">
+				<tr v-for="item in diamonds" :key="item.id">
+					<td>{{item.name}}</td>
+					<td>{{item.description}}</td>
 					<td>{{item.amount}}</td>
                     <td>{{item.cost}}</td>
 					<td>
@@ -24,12 +28,16 @@
 		</table>
 		<div>
 			<form v-if="editMode" class="form form-inline">
+				<input class="form-control" placeholder="Name..." v-model="editItem.name" type="test">
+				<input class="form-control" placeholder="Description..." v-model="editItem.description" type="test">
                 <input class="form-control" placeholder="Amount..." v-model="editItem.amount" type="number">
                 <input class="form-control" placeholder="Cost..." v-model="editItem.cost" type="number">
 				<button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
 				<button @click.prevent="createCancelAction()" class="btn btn-default">cancel</button>
 			</form>
 			<form v-else class="form form-inline">
+				<input class="form-control" placeholder="Name..." v-model="newItem.name" type="test">
+				<input class="form-control" placeholder="Description..." v-model="newItem.description" type="test">
                 <input class="form-control" placeholder="Amount..." v-model="newItem.amount" type="number">
                 <input class="form-control" placeholder="Cost..." v-model="newItem.cost" type="number">
 				<button @click.prevent="createAction()" class="btn btn-success">Create new</button>
@@ -62,10 +70,14 @@
       return {
 			editMode: false,
 			newItem: {
+				name: '',
+				description: '',
 				cost: 0,
                 amount: 0,
 			},
 			editItem: {
+				name: '',
+				description: '',
 				cost: 0,
                 amount: 0,
 			},
@@ -85,7 +97,7 @@
 		},
     methods: {
             confirmDeleteAction: function (item) {
-				this.deletingItem.name = "Diamonds set " + item.amount + ':' + item.cost;
+				this.deletingItem.name = item.name;
 				this.deletingItem.id = item.id;
 				this.deletingItem.openModal = true;
 			},
@@ -95,7 +107,9 @@
 			},
 			editAction: function (item) {
                 this.editItem.cost = item.cost;
-                this.editItem.amount = item.amount;
+				this.editItem.amount = item.amount;
+				this.editItem.name = item.name;
+				this.editItem.description = item.description;
 				this.editItem.id = item.id;
 				this.editMode = true;
 			},
@@ -106,11 +120,19 @@
                 }
                 if (this.newItem.amount <= 0) {
                     this.errors.push('set amount');
+				}
+				if (this.newItem.name.trim() == '') {
+                    this.errors.push('name empty');
+				}
+				if (this.newItem.description.trim() == '') {
+                    this.errors.push('description empty');
                 }
                 if (this.errors.length == 0) {
                     this.$store.dispatch('DiamondsCreateAction', this.newItem);
 					this.newItem.cost = 0
-                    this.newItem.amount = 0;;
+					this.newItem.amount = 0;
+					this.newItem.name = '';
+					this.newItem.description = '';
                 } else {
                     this.openAlertModal = true;
                 }
@@ -125,12 +147,20 @@
                 }
                 if (this.editItem.amount <= 0) {
                     this.errors.push('set amount');
+				}
+				 if (this.editItem.name.trim() == '') {
+                    this.errors.push('name empty');
+				}
+				if (this.editItem.description.trim() == '') {
+                    this.errors.push('description empty');
                 }
                 if (this.errors.length == 0) {
                     this.$store.dispatch('DiamondsSaveAction', this.editItem);
 					this.editItem.cost = 0;
                     this.editItem.diamonds = 0;
 					this.editItem.id = 0;
+					this.editItem.name = '';
+					this.editItem.description = '';
 					this.editMode = false;
                 } else {
                     this.openAlertModal = true;

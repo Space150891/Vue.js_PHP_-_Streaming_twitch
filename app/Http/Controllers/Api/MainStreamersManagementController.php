@@ -9,7 +9,17 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{PromoutedStreamer, Streamer, User, MainStreamer, SubscriptionPlan, MonthPlan, SubscribedStreamers};
+use App\Models\{
+    Activity,
+    MainStreamer,
+    MonthPlan,
+    PromoutedStreamer,
+    Streamer, 
+    SubscriptionPlan,
+    SubscribedStreamers,
+    SubscriptionPoint,
+    User,
+};
 
 class MainStreamersManagementController extends Controller
 {
@@ -45,7 +55,7 @@ class MainStreamersManagementController extends Controller
             $promouted = $mainStreamer->promouted()->first();
             $streamer = $promouted->streamer()->first();
             return response()->json([
-                'data' => $streamer->name,
+                'data' => $this->prepareMainStreamer($streamer),
             ]);
         }
         
@@ -65,14 +75,14 @@ class MainStreamersManagementController extends Controller
             }
         }
         if ($streamer) {
-            $stream = $streamer->name;
+            $stream = $streamer;
         } else {
             $allStreamers = Streamer::all();
             $num = round(rand(0, count($allStreamers) - 1));
-            $stream = $allStreamers[$num]->name;
+            $stream = $allStreamers[$num];
         }
         return response()->json([
-            'data' => $stream,
+            'data' => $this->prepareMainStreamer($stream),
         ]);
     }
 
@@ -254,6 +264,17 @@ class MainStreamersManagementController extends Controller
 
     private function duration($timeStart, $timeEnd) {
         return $this->timeToStamp($timeEnd) - $this->timeToStamp($timeStart);
+    }
+
+    private function prepareMainStreamer($streamer)
+    {
+        $data = [
+            'id'        => $streamer->id,
+            'name'      => $streamer->name,
+            'viewers'   => $streamer->getOnlineViewers(),
+            'points'    => $streamer->calculatePoints(),
+        ];
+        return $data;
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
 <div class="rightPart-main">
     <div class="rightPart">
-        <div v-for="(item) in lastPrizes" class="rightPart-item" >
+        <div v-for="(item) in lastPrizes" class="rightPart-item" :key="item.id">
             <div class="rightPart-img">
                 <img v-bind:src="'storage/' + item.image" v-bind:alt="item.name">
             </div>

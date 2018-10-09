@@ -1,7 +1,7 @@
 <template>
   <div v-if="alerts.length > 0">
     <div
-      v-for="alert in alerts"
+      v-for="alert in alerts" :key="alert.message"
       class="alert alert-primary" role="alert"
     >
         {{alert.message}}

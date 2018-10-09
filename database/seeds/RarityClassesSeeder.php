@@ -13,16 +13,42 @@ class RarityClassesSeeder extends Seeder
     public function run()
     {
         $data = [
-            'plain',
-            'default',
-            'uncommon',
-            'rare',
-            'epic',
-            'legendary',
-            'default',
-            'twitter',
-            'facebook',
-            'random',
+            [
+                'name'      =>  'common',
+                'special'   =>  0
+            ],
+            [
+                'name'      =>  'uncommon',
+                'special'   =>  0
+            ],
+            [
+                'name'      =>  'rare',
+                'special'   =>  0
+            ],
+            [
+                'name'      =>  'epic',
+                'special'   =>  0
+            ],
+            [
+                'name'      =>  'legendary',
+                'special'   =>  0
+            ],
+            [
+                'name'      =>  'default',
+                'special'   =>  1
+            ],
+            [
+                'name'      =>  'twitter',
+                'special'   =>  1
+            ],
+            [
+                'name'      =>  'facebook',
+                'special'   =>  1
+            ],
+            [
+                'name'      =>  'random',
+                'special'   =>  1
+            ],
         ];
         foreach ($data as $d) {
             $find = RarityClass::where('name', $d)->first();

@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="lootCase in cases">
+				<tr v-for="lootCase in cases" :key="lootCase.id">
 					<td>{{ lootCase.id }}</td>
                     <td>{{ lootCase.name }}</td>
 					<td>{{ lootCase.type }}</td>
@@ -30,7 +30,7 @@
 				<input class="form-control" placeholder="Name..." v-model="editCase.name" type="text">
                 <select v-model="editCase.case_type_id" class="form-control">
                     <option value="0">Select case type</option>
-                    <option v-for="caseType in caseTypes" v-bind:value="caseType.id">{{ caseType.name + ' cost ' + caseType.price }}</option>
+                    <option v-for="caseType in caseTypes" v-bind:value="caseType.id" :key="caseType.id">{{ caseType.name + ' cost ' + caseType.price }}</option>
                 </select>
                 <div v-if="editMode">
 				    <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>

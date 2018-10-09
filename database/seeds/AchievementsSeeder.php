@@ -133,7 +133,7 @@ class AchievementsSeeder extends Seeder
                 'description'   =>  'Subscribe to a Channel for the first time / 1 Channel',
                 'steps'         =>  1,
                 'level_points'  =>  5000,
-                'card_rarity_id' => $classes['plain'],
+                'card_rarity_id' => $classes['common'],
                 'case_rarity_id' => $classes['uncommon'],
             ],
             [
@@ -283,7 +283,7 @@ class AchievementsSeeder extends Seeder
                 'steps'         =>  1,
                 'level_points'  =>  0,
                 'diamonds'      =>  20,
-                'card_rarity_id' => $classes['plain'],
+                'card_rarity_id' => $classes['common'],
             ],
             [
                 'class_name'    =>  'OpenFirstCaseAll',
@@ -302,7 +302,7 @@ class AchievementsSeeder extends Seeder
                 'level_points'  =>  10000,
                 'diamonds'      =>  10,
                 'frame_rarity_id' => $classes['random'],
-                'case_rarity_id' => $classes['plain'],
+                'case_rarity_id' => $classes['common'],
             ],
             [
                 'class_name'    =>  'Donate20',
@@ -350,7 +350,7 @@ class AchievementsSeeder extends Seeder
                 'description'   =>  'Subscribe to 2 Channels',
                 'steps'         =>  2,
                 'level_points'  =>  5000,
-                'card_rarity_id' => $classes['plain'],
+                'card_rarity_id' => $classes['common'],
                 'case_rarity_id' => $classes['rare'],
             ],
             [

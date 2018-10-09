@@ -238,10 +238,21 @@ export const actions = {
         state.caseTypes.saved = false;
         state.caseTypes.loaded = false;
         formData.append('token', state.token);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
+        
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('prize_cost', data.prize_cost);
+        formData.append('points_count', data.points_count);
+        formData.append('diamonds_count', data.diamonds_count);
+        formData.append('hero_percent', data.hero_percent);
+        formData.append('frame_percent', data.frame_percent);
+        formData.append('prize_percent', data.prize_percent);
+        formData.append('points_percent', data.points_percent);
+        formData.append('diamonds_percent', data.diamonds_percent);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -287,10 +298,20 @@ export const actions = {
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('id', data.id);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('prize_cost', data.prize_cost);
+        formData.append('points_count', data.points_count);
+        formData.append('diamonds_count', data.diamonds_count);
+        formData.append('hero_percent', data.hero_percent);
+        formData.append('frame_percent', data.frame_percent);
+        formData.append('prize_percent', data.prize_percent);
+        formData.append('points_percent', data.points_percent);
+        formData.append('diamonds_percent', data.diamonds_percent);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -699,6 +720,8 @@ export const actions = {
         state.diamonds.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         fetch(state.apiUrl + 'diamonds/store',
@@ -725,6 +748,8 @@ export const actions = {
         formData.append('id', data.id);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         fetch(state.apiUrl + 'diamonds/update',
         {
             method: "POST",

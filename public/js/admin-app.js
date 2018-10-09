@@ -2744,107 +2744,303 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      editMode: false,
-      editItem: {
-        name: '',
-        price: 0,
-        diamonds: 0,
-        image: null,
-        id: 0,
-        rarity_class_id: 0
-      },
-      deletingItem: {
-        name: '',
-        id: 0,
-        openModal: false
-      },
-      errors: [],
-      openAlertModal: false,
-      image: false,
-      styleImage: {
-        width: "100px",
-        border: "1px #888 solid",
-        borderRadius: "2px"
-      },
-      imagesUrl: config.baseUrl + '/storage/'
-    };
-  },
-  mounted: function mounted() {
-    if (this.checkToken) {
-      this.getList();
-    }
-  },
+    data: function data() {
+        return {
+            editMode: false,
+            editItem: {
+                description: '',
+                price: 0,
+                diamonds: 0,
+                image: null,
+                id: 0,
+                rarity_class_id: 0,
+                hero_rarity_id: 0,
+                frame_rarity_id: 0,
+                prize_cost: 0,
+                points_count: 0,
+                diamonds_count: 0,
+                hero_percent: 0,
+                frame_percent: 0,
+                prize_percent: 0,
+                points_percent: 0,
+                diamonds_percent: 0
+            },
+            deletingItem: {
+                name: '',
+                id: 0,
+                openModal: false
+            },
+            errors: [],
+            openAlertModal: false,
+            image: false,
+            styleImage: {
+                width: "100px",
+                border: "1px #888 solid",
+                borderRadius: "2px"
+            },
+            imagesUrl: config.baseUrl + '/storage/'
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+        }
+    },
 
-  methods: {
-    confirmDeleteAction: function confirmDeleteAction(item) {
-      this.deletingItem.name = item.name;
-      this.deletingItem.id = item.id;
-      this.deletingItem.openModal = true;
+    methods: {
+        confirmDeleteAction: function confirmDeleteAction(item) {
+            this.deletingItem.name = item.description;
+            this.deletingItem.id = item.id;
+            this.deletingItem.openModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.$store.dispatch('CaseTypeDeleteAction', this.deletingItem.id);
+            this.deletingItem.openModal = false;
+        },
+        editAction: function editAction(item) {
+            this.editItem.description = item.description;
+            this.editItem.price = item.price;
+            this.editItem.diamonds = item.diamonds;
+            this.editItem.image = null;
+            this.editItem.id = item.id;
+            this.editItem.rarity_class_id = item.rarity_class_id;
+            this.editItem.hero_rarity_id = item.hero_rarity_id;
+            this.editItem.frame_rarity_id = item.frame_rarity_id;
+            this.editItem.prize_cost = item.prize_cost;
+            this.editItem.points_count = item.points_count;
+            this.editItem.diamonds_count = item.diamonds_count;
+            this.editItem.hero_percent = item.hero_percent;
+            this.editItem.frame_percent = item.frame_percent;
+            this.editItem.prize_percent = item.prize_percent;
+            this.editItem.points_percent = item.points_percent;
+            this.editItem.diamonds_percent = item.diamonds_percent;
+            this.editMode = true;
+        },
+        createAction: function createAction() {
+            this.errors = [];
+            if (this.editItem.description == '') {
+                this.errors.push('description empty');
+            }
+            if (this.editItem.price == 0) {
+                this.errors.push('set price');
+            }
+            if (this.editItem.diamonds == 0) {
+                this.errors.push('set diamonds');
+            }
+            if (this.editItem.prize_cost < 0) {
+                this.errors.push('wrong prize cost');
+            }
+            if (this.editItem.prize_cost < 0) {
+                this.errors.push('wrong prize cost');
+            }
+            if (this.editItem.points_count < 0) {
+                this.errors.push('wrong points count');
+            }
+            if (this.editItem.diamonds_count < 0) {
+                this.errors.push('wrong diamonds count');
+            }
+            if (this.editItem.hero_percent < 0 || this.editItem.hero_percent > 99) {
+                this.errors.push('wrong hero percent');
+            }
+            if (this.editItem.frame_percent < 0 || this.editItem.frame_percent > 99) {
+                this.errors.push('wrong frame percent');
+            }
+            if (this.editItem.prize_percent < 0 || this.editItem.prize_percent > 99) {
+                this.errors.push('wrong prize percent');
+            }
+            if (this.editItem.points_percent < 0 || this.editItem.points_percent > 99) {
+                this.errors.push('wrong points percent');
+            }
+            if (this.editItem.diamonds_percent < 0 || this.editItem.diamonds_percent > 99) {
+                this.errors.push('wrong diamonds percent');
+            }
+            if (this.errors.length == 0) {
+                this.$store.dispatch('createCaseTypeAction', this.editItem);
+                this.$store.commit('getCaseTypesList');
+                this.editCancelAction();
+            } else {
+                this.openAlertModal = true;
+            }
+        },
+        getList: function getList() {
+            this.$store.dispatch('getCaseTypesListAction');
+        },
+        saveAction: function saveAction() {
+            this.$store.dispatch('CaseTypeSaveAction', this.editItem);
+            this.editCancelAction();
+        },
+        editCancelAction: function editCancelAction() {
+            this.editItem.description = '';
+            this.editItem.price = 0;
+            this.editItem.diamonds = 0;
+            this.editItem.image = null;
+            this.editItem.id = 0;
+            this.editItem.rarity_class_id = 0;
+            this.editItem.hero_rarity_id = 0;
+            this.editItem.frame_rarity_id = 0;
+            this.editItem.prize_cost = 0;
+            this.editItem.points_count = 0;
+            this.editItem.diamonds_count = 0;
+            this.editItem.hero_percent = 0;
+            this.editItem.frame_percent = 0;
+            this.editItem.prize_percent = 0;
+            this.editItem.points_percent = 0;
+            this.editItem.diamonds_percent = 0;
+            this.editMode = false;
+        },
+        uploadImage: function uploadImage(file) {
+            this.editItem.image = file;
+        },
+        getRarityById: function getRarityById(rarityId) {
+            var rarity = 'NO';
+            for (var index = 0; index < this.rarityClasses.length; index++) {
+                var rarityClass = this.rarityClasses[index];
+                if (this.rarityClasses[index].id == rarityId) {
+                    rarity = this.rarityClasses[index].name;
+                }
+            }
+            return rarity;
+        }
     },
-    deleteAction: function deleteAction() {
-      this.$store.dispatch('CaseTypeDeleteAction', this.deletingItem.id);
-      this.deletingItem.openModal = false;
-    },
-    editAction: function editAction(item) {
-      this.editItem.name = item.name;
-      this.editItem.price = item.price;
-      this.editItem.diamonds = item.diamonds;
-      this.editItem.image = null;
-      this.editItem.id = item.id;
-      this.editItem.rarity_class_id = item.rarity_class_id;
-      this.editMode = true;
-    },
-    createAction: function createAction() {
-      this.errors = [];
-      if (this.editItem.name == '') {
-        this.errors.push('name empty');
-      }
-      if (this.editItem.price == 0) {
-        this.errors.push('set price');
-      }
-      if (this.editItem.diamonds == 0) {
-        this.errors.push('set diamonds');
-      }
-      if (this.errors.length == 0) {
-        this.$store.dispatch('createCaseTypeAction', this.editItem);
-        this.editItem.name = '';
-        this.editItem.price = 0;
-        this.editItem.diamonds = 0;
-        this.editItem.image = null;
-        this.editItem.rarity_class_id = 0;
-        this.$store.commit('getCaseTypesList');
-      } else {
-        this.openAlertModal = true;
-      }
-    },
-    getList: function getList() {
-      this.$store.dispatch('getCaseTypesListAction');
-    },
-    saveAction: function saveAction() {
-      this.$store.dispatch('CaseTypeSaveAction', this.editItem);
-      this.editItem.name = '';
-      this.editItem.price = 0;
-      this.editItem.diamonds = 0;
-      this.editItem.image = null;
-      this.editItem.id = 0;
-      this.editItem.rarity_class_id = 0;
-      this.editMode = false;
-    },
-    createCancelAction: function createCancelAction() {
-      this.editMode = false;
-    },
-    uploadImage: function uploadImage(file) {
-      this.editItem.image = file;
-    }
-  },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded', 'caseTypesSaved', 'rarityClasses']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'caseTypes', 'caseTypesLoaded', 'caseTypesSaved', 'rarityClasses']), {
+        calculateZero: function calculateZero() {
+            return 100 - this.editItem.hero_percent - this.editItem.frame_percent - this.editItem.prize_percent - this.editItem.points_percent - this.editItem.diamonds_percent;
+        }
+    })
 });
 
 /***/ }),
@@ -3399,6 +3595,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3407,10 +3611,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		return {
 			editMode: false,
 			newItem: {
+				name: '',
+				description: '',
 				cost: 0,
 				amount: 0
 			},
 			editItem: {
+				name: '',
+				description: '',
 				cost: 0,
 				amount: 0
 			},
@@ -3431,7 +3639,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 	methods: {
 		confirmDeleteAction: function confirmDeleteAction(item) {
-			this.deletingItem.name = "Diamonds set " + item.amount + ':' + item.cost;
+			this.deletingItem.name = item.name;
 			this.deletingItem.id = item.id;
 			this.deletingItem.openModal = true;
 		},
@@ -3442,6 +3650,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		editAction: function editAction(item) {
 			this.editItem.cost = item.cost;
 			this.editItem.amount = item.amount;
+			this.editItem.name = item.name;
+			this.editItem.description = item.description;
 			this.editItem.id = item.id;
 			this.editMode = true;
 		},
@@ -3453,10 +3663,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			if (this.newItem.amount <= 0) {
 				this.errors.push('set amount');
 			}
+			if (this.newItem.name.trim() == '') {
+				this.errors.push('name empty');
+			}
+			if (this.newItem.description.trim() == '') {
+				this.errors.push('description empty');
+			}
 			if (this.errors.length == 0) {
 				this.$store.dispatch('DiamondsCreateAction', this.newItem);
 				this.newItem.cost = 0;
-				this.newItem.amount = 0;;
+				this.newItem.amount = 0;
+				this.newItem.name = '';
+				this.newItem.description = '';
 			} else {
 				this.openAlertModal = true;
 			}
@@ -3472,11 +3690,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			if (this.editItem.amount <= 0) {
 				this.errors.push('set amount');
 			}
+			if (this.editItem.name.trim() == '') {
+				this.errors.push('name empty');
+			}
+			if (this.editItem.description.trim() == '') {
+				this.errors.push('description empty');
+			}
 			if (this.errors.length == 0) {
 				this.$store.dispatch('DiamondsSaveAction', this.editItem);
 				this.editItem.cost = 0;
 				this.editItem.diamonds = 0;
 				this.editItem.id = 0;
+				this.editItem.name = '';
+				this.editItem.description = '';
 				this.editMode = false;
 			} else {
 				this.openAlertModal = true;
@@ -45794,7 +46020,96 @@ var render = function() {
                     return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("p", [
+                          _vm._v(
+                            "\n                            Hero\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-primary" }, [
+                            _vm._v(
+                              _vm._s(_vm.getRarityById(item.hero_rarity_id))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(_vm._s(item.hero_percent) + " %")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                            Frame\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-primary" }, [
+                            _vm._v(
+                              _vm._s(_vm.getRarityById(item.frame_rarity_id))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(_vm._s(item.frame_percent) + " %")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                            Prize\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-primary" }, [
+                            _vm._v(_vm._s(item.prize_cost) + " points")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(_vm._s(item.prize_percent) + " %")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                            Points\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-primary" }, [
+                            _vm._v(_vm._s(item.points_count))
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(_vm._s(item.points_percent) + " %")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                            Diamonds\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-primary" }, [
+                            _vm._v(_vm._s(item.diamonds_count) + " pcs.")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(_vm._s(item.diamonds_percent) + " %")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v(
+                            "\n                            win nothing\n                            "
+                          ),
+                          _c("span", { staticClass: "badge badge-warning" }, [
+                            _vm._v(
+                              _vm._s(
+                                100 -
+                                  item.hero_percent -
+                                  item.frame_percent -
+                                  item.prize_percent -
+                                  item.points_percent -
+                                  item.diamonds_percent
+                              )
+                            )
+                          ])
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.price))]),
                       _vm._v(" "),
@@ -45849,123 +46164,559 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", [
-                _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.name,
-                        expression: "editItem.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.editItem.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.price,
-                        expression: "editItem.price"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Price...", type: "number" },
-                    domProps: { value: _vm.editItem.price },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "price", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.diamonds,
-                        expression: "editItem.diamonds"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Diamonds...", type: "number" },
-                    domProps: { value: _vm.editItem.diamonds },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "diamonds", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
+                _c("form", [
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.editItem.rarity_class_id,
-                          expression: "editItem.rarity_class_id"
+                          value: _vm.editItem.description,
+                          expression: "editItem.description"
                         }
                       ],
                       staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Description...",
+                        type: "text",
+                        id: "edit-description"
+                      },
+                      domProps: { value: _vm.editItem.description },
                       on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
                           _vm.$set(
                             _vm.editItem,
-                            "rarity_class_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            "description",
+                            $event.target.value
                           )
                         }
                       }
-                    },
-                    [
-                      _c("option", { attrs: { value: "0" } }, [
-                        _vm._v("Select ratity class")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.rarityClasses, function(rarityClass) {
-                        return _c(
-                          "option",
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.price,
+                          expression: "editItem.price"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Price...",
+                        type: "number",
+                        id: "edit-price"
+                      },
+                      domProps: { value: _vm.editItem.price },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.editItem, "price", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.diamonds,
+                          expression: "editItem.diamonds"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Diamonds...",
+                        type: "number",
+                        id: "edit-diamonds"
+                      },
+                      domProps: { value: _vm.editItem.diamonds },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "diamonds",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
                           {
-                            key: rarityClass.id,
-                            domProps: { value: rarityClass.id }
-                          },
-                          [_vm._v(_vm._s(rarityClass.name))]
-                        )
-                      })
-                    ],
-                    2
-                  ),
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.rarity_class_id,
+                            expression: "editItem.rarity_class_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "edit-rarity-class" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.editItem,
+                              "rarity_class_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Select ratity class")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.rarityClasses, function(rarityClass) {
+                          return _c(
+                            "option",
+                            {
+                              key: rarityClass.id,
+                              domProps: { value: rarityClass.id }
+                            },
+                            [_vm._v(_vm._s(rarityClass.name))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.hero_rarity_id,
+                            expression: "editItem.hero_rarity_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "edit-hero-rarity" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.editItem,
+                              "hero_rarity_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
+                        _vm._v(" "),
+                        _vm._l(_vm.rarityClasses, function(rarityClass) {
+                          return _c(
+                            "option",
+                            {
+                              key: rarityClass.id,
+                              domProps: { value: rarityClass.id }
+                            },
+                            [_vm._v(_vm._s(rarityClass.name))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.frame_rarity_id,
+                            expression: "editItem.frame_rarity_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "edit-frame-rarity" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.editItem,
+                              "frame_rarity_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [_vm._v("No")]),
+                        _vm._v(" "),
+                        _vm._l(_vm.rarityClasses, function(rarityClass) {
+                          return _c(
+                            "option",
+                            {
+                              key: rarityClass.id,
+                              domProps: { value: rarityClass.id }
+                            },
+                            [_vm._v(_vm._s(rarityClass.name))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.prize_cost,
+                          expression: "editItem.prize_cost"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Prize cost...",
+                        type: "number",
+                        id: "edit-prize-cost"
+                      },
+                      domProps: { value: _vm.editItem.prize_cost },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "prize_cost",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.points_count,
+                          expression: "editItem.points_count"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Points count...",
+                        type: "number",
+                        id: "edit-points-count",
+                        min: "0"
+                      },
+                      domProps: { value: _vm.editItem.points_count },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "points_count",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.diamonds_count,
+                          expression: "editItem.diamonds_count"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        placeholder: "Points count...",
+                        type: "number",
+                        id: "edit-diamonds-count",
+                        min: "0"
+                      },
+                      domProps: { value: _vm.editItem.diamonds_count },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "diamonds_count",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.hero_percent,
+                          expression: "editItem.hero_percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "edit-hero-percent",
+                        min: "0",
+                        max: "99"
+                      },
+                      domProps: { value: _vm.editItem.hero_percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "hero_percent",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.frame_percent,
+                          expression: "editItem.frame_percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "edit-frame-percent",
+                        min: "0",
+                        max: "99"
+                      },
+                      domProps: { value: _vm.editItem.frame_percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "frame_percent",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(12),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.prize_percent,
+                          expression: "editItem.prize_percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "edit-prize-percent",
+                        min: "0",
+                        max: "99"
+                      },
+                      domProps: { value: _vm.editItem.prize_percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "prize_percent",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(13),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.points_percent,
+                          expression: "editItem.points_percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "edit-points-percent",
+                        min: "0",
+                        max: "99"
+                      },
+                      domProps: { value: _vm.editItem.points_percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "points_percent",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(14),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.diamonds_percent,
+                          expression: "editItem.diamonds_percent"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        id: "edit-diamonds-percent",
+                        min: "0",
+                        max: "99"
+                      },
+                      domProps: { value: _vm.editItem.diamonds_percent },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editItem,
+                            "diamonds_percent",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group mb-3" }, [
+                    _vm._m(15),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-control" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.calculateZero) +
+                          " %\n                    "
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
                   _vm.editMode
                     ? _c("div", [
@@ -46015,7 +46766,7 @@ var render = function() {
               _vm._v(" "),
               _c("modal-delete", {
                 attrs: {
-                  name: _vm.deletingItem.name,
+                  name: _vm.deletingItem.description,
                   opened: _vm.deletingItem.openModal
                 },
                 on: {
@@ -46070,7 +46821,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("id")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("WIN")]),
         _vm._v(" "),
         _c("th", [_vm._v("Coins")]),
         _vm._v(" "),
@@ -46082,6 +46835,216 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        { staticClass: "input-group-text", attrs: { for: "edit-description" } },
+        [_vm._v("Description")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        { staticClass: "input-group-text", attrs: { for: "edit-price" } },
+        [_vm._v("Box cost (points)")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        { staticClass: "input-group-text", attrs: { for: "edit-diamonds" } },
+        [_vm._v("Box cost (diamonds)")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-rarity-class" }
+        },
+        [_vm._v("Box Rarity class")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        { staticClass: "input-group-text", attrs: { for: "edit-hero-rarity" } },
+        [_vm._v("WIN Hero rarity")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-frame-rarity" }
+        },
+        [_vm._v("WIN Frame rarity")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        { staticClass: "input-group-text", attrs: { for: "edit-prize-cost" } },
+        [_vm._v("WIN Prize $")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-points-count" }
+        },
+        [_vm._v("WIN Points count")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-diamonds-count" }
+        },
+        [_vm._v("WIN Diamonds count")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-hero-percent" }
+        },
+        [_vm._v("WIN Hero %")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-frame-percent" }
+        },
+        [_vm._v("WIN Frame %")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-prize-percent" }
+        },
+        [_vm._v("WIN Prize %")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-points-percent" }
+        },
+        [_vm._v("WIN Points %")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-diamonds-percent" }
+        },
+        [_vm._v("WIN Diamonds %")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "edit-diamonds-percent" }
+        },
+        [_vm._v("WIN nothing %")]
+      )
     ])
   }
 ]
@@ -48605,7 +49568,7 @@ var render = function() {
               _c(
                 "tbody",
                 _vm._l(_vm.caseItems, function(item) {
-                  return _c("tr", [
+                  return _c("tr", { key: item.id }, [
                     _c("td", [_vm._v(_vm._s(item.title))]),
                     _vm._v(" "),
                     _c("td", [
@@ -48684,13 +49647,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.items, function(item) {
-                      return _c("option", { domProps: { value: item.id } }, [
-                        _vm._v(
-                          _vm._s(
-                            item.title + " " + item.type + " " + item.worth
+                      return _c(
+                        "option",
+                        { key: item.id, domProps: { value: item.id } },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              item.title + " " + item.type + " " + item.worth
+                            )
                           )
-                        )
-                      ])
+                        ]
+                      )
                     })
                   ],
                   2
@@ -48734,9 +49701,15 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _vm._l(_vm.rarities, function(rarity) {
-                      return _c("option", { domProps: { value: rarity.id } }, [
-                        _vm._v(_vm._s(rarity.name + " " + rarity.percent + "%"))
-                      ])
+                      return _c(
+                        "option",
+                        { key: rarity.id, domProps: { value: rarity.id } },
+                        [
+                          _vm._v(
+                            _vm._s(rarity.name + " " + rarity.percent + "%")
+                          )
+                        ]
+                      )
                     })
                   ],
                   2
@@ -48902,7 +49875,11 @@ var render = function() {
           _vm._l(_vm.alerts, function(alert) {
             return _c(
               "div",
-              { staticClass: "alert alert-primary", attrs: { role: "alert" } },
+              {
+                key: alert.message,
+                staticClass: "alert alert-primary",
+                attrs: { role: "alert" }
+              },
               [_vm._v("\n      " + _vm._s(alert.message) + "\n  ")]
             )
           }),
@@ -50010,7 +50987,11 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.diamonds, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
+                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.amount))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.cost))]),
@@ -50052,6 +51033,54 @@ var render = function() {
               _c("div", [
                 _vm.editMode
                   ? _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.name,
+                            expression: "editItem.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Name...", type: "test" },
+                        domProps: { value: _vm.editItem.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.editItem, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.description,
+                            expression: "editItem.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Description...", type: "test" },
+                        domProps: { value: _vm.editItem.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -50129,6 +51158,54 @@ var render = function() {
                       )
                     ])
                   : _c("form", { staticClass: "form form-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.name,
+                            expression: "newItem.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Name...", type: "test" },
+                        domProps: { value: _vm.newItem.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.newItem, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItem.description,
+                            expression: "newItem.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Description...", type: "test" },
+                        domProps: { value: _vm.newItem.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newItem,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -50237,6 +51314,10 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Amount")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Cost")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
@@ -50280,7 +51361,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.itemTypes, function(itemType) {
-                    return _c("tr", [
+                    return _c("tr", { key: itemType.id }, [
                       _c("td", [_vm._v(_vm._s(itemType.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(itemType.name))]),
@@ -51027,7 +52108,7 @@ var render = function() {
                           _c(
                             "tbody",
                             _vm._l(_vm.customAchievements, function(item) {
-                              return _c("tr", [
+                              return _c("tr", { key: item.id }, [
                                 _c("td", [
                                   _vm._v(
                                     "\n                            " +
@@ -51392,7 +52473,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.cases, function(lootCase) {
-                    return _c("tr", [
+                    return _c("tr", { key: lootCase.id }, [
                       _c("td", [_vm._v(_vm._s(lootCase.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(lootCase.name))]),
@@ -51511,7 +52592,10 @@ var render = function() {
                       _vm._l(_vm.caseTypes, function(caseType) {
                         return _c(
                           "option",
-                          { domProps: { value: caseType.id } },
+                          {
+                            key: caseType.id,
+                            domProps: { value: caseType.id }
+                          },
                           [
                             _vm._v(
                               _vm._s(caseType.name + " cost " + caseType.price)
@@ -68419,10 +69503,21 @@ var actions = {
         state.caseTypes.saved = false;
         state.caseTypes.loaded = false;
         formData.append('token', state.token);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
+
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('prize_cost', data.prize_cost);
+        formData.append('points_count', data.points_count);
+        formData.append('diamonds_count', data.diamonds_count);
+        formData.append('hero_percent', data.hero_percent);
+        formData.append('frame_percent', data.frame_percent);
+        formData.append('prize_percent', data.prize_percent);
+        formData.append('points_percent', data.points_percent);
+        formData.append('diamonds_percent', data.diamonds_percent);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -68469,10 +69564,20 @@ var actions = {
         var formData = new FormData();
         formData.append('token', state.token);
         formData.append('id', data.id);
-        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('diamonds', data.diamonds);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('hero_rarity_id', data.hero_rarity_id);
+        formData.append('frame_rarity_id', data.frame_rarity_id);
+        formData.append('prize_cost', data.prize_cost);
+        formData.append('points_count', data.points_count);
+        formData.append('diamonds_count', data.diamonds_count);
+        formData.append('hero_percent', data.hero_percent);
+        formData.append('frame_percent', data.frame_percent);
+        formData.append('prize_percent', data.prize_percent);
+        formData.append('points_percent', data.points_percent);
+        formData.append('diamonds_percent', data.diamonds_percent);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -68894,6 +69999,8 @@ var actions = {
         state.diamonds.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         fetch(state.apiUrl + 'diamonds/store', {
@@ -68920,6 +70027,8 @@ var actions = {
         formData.append('id', data.id);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
+        formData.append('name', data.name);
+        formData.append('description', data.description);
         fetch(state.apiUrl + 'diamonds/update', {
             method: "POST",
             body: formData,

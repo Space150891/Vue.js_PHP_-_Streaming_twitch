@@ -48,6 +48,8 @@ class DiamondsController extends Controller
             [
                 'cost'          => 'required|numeric',
                 'amount'        => 'required|numeric',
+                'name'          =>  'required',
+                'description'   =>  'required',
             ]
         );
         if ($validator->fails()) {
@@ -58,6 +60,8 @@ class DiamondsController extends Controller
         $set = new Diamond();
         $set->cost = $request->cost;
         $set->amount = $request->amount;
+        $set->name = $request->name;
+        $set->description = $request->description;
         $set->save();
         return response()->json([
             'message' => 'new diamonds set created successful',
@@ -82,6 +86,8 @@ class DiamondsController extends Controller
                 'id'            => 'required|numeric|min:1',
                 'cost'          => 'required|numeric',
                 'amount'        => 'required|numeric',
+                'name'          => 'required',
+                'description'   => 'required',
             ]
         );
         if ($validator->fails()) {
@@ -97,6 +103,8 @@ class DiamondsController extends Controller
         }
         $set->cost = $request->cost;
         $set->amount = $request->amount;
+        $set->name = $request->name;
+        $set->description = $request->description;
         $set->save();
         return response()->json([
             'message' => 'diamonds set updated successful',

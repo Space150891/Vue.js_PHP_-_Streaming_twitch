@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="itemType in itemTypes">
+				<tr v-for="itemType in itemTypes" :key="itemType.id">
 					<td>{{itemType.id}}</td>
 					<td>{{itemType.name}}</td>
 					<td>

@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in customAchievements">
+                    <tr v-for="item in customAchievements" :key="item.id">
                         <td>
                             {{item.text}}
                         </td>

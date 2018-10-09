@@ -70,8 +70,11 @@ class ActivitiesController extends Controller
                 $this->newActivity($viewer->id, $streamer->id);
             }
         }
-        $viewer->level_points += $points;
-        $viewer->current_points += $points;
+        $viewer->addPoints([
+            'points'    => $points,
+            'title'     => 'Stream watching',
+            'description'   => 'watching stream in Direct stream',
+        ]);
         $viewer->save();
         $this->giveAfiliates();
         return response()->json([
@@ -116,8 +119,11 @@ class ActivitiesController extends Controller
         if ($afiliate) {
             $userReferal = User::find($afiliate->user_id);
             $viewerReferal = $userReferal->viewer()->first();
-            $viewerReferal->current_points = $viewerReferal->current_points + 1;
-            $viewerReferal->level_points = $viewerReferal->level_points + 1;
+            $viewerReferal->addPoints([
+                'points'    => 1,
+                'title'     => 'Referals',
+                'description'   => 'Referal user watching streams',
+            ]);
             $viewerReferal->save();
         }
     }

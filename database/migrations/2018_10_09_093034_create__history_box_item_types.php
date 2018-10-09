@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RarityClasses extends Migration
+class CreateHistoryBoxItemTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class RarityClasses extends Migration
      */
     public function up()
     {
-        Schema::create('rarity_classes', function (Blueprint $table) {
+        Schema::create('history_box_item_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->boolean('special')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class RarityClasses extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rarity_classes');
+        Schema::dropIfExists('history_box_item_types');
     }
 }

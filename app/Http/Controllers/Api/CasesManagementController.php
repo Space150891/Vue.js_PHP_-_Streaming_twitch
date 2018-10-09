@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
 use Validator;
 // use jeremykenedy\LaravelRoles\Models\Role;
 
@@ -26,7 +27,9 @@ use App\Models\{
     Viewer,
     Achievement,
     AchievementProgres,
-    RarityClass
+    RarityClass,
+    HistoryBox,
+    HistoryBoxItemType,
 };
 use App\Achievements\{
     BuyFirstCaseAchievement,
@@ -50,7 +53,7 @@ class CasesManagementController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['lastList', 'lastOne']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -378,19 +381,9 @@ class CasesManagementController extends Controller
                 'errors' => ['case type id not found'],
             ]);
         }
-        $cases = LootCase::where('case_type_id', $caseType->id)->get();
-        if (count($cases) == 0) {
-            return response()->json([
-                'errors' => ['cases not found'],
-            ]);
-        }
-        $case = $cases[round(rand(0, count($cases) - 1))];
+        
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        // $viewerCase = new ViewerCase();
-        // $viewerCase->viewer_id = $viewer->id;
-        // $viewerCase->case_id = $case->id;
-        // $viewerCase->save();
         $notify = new Notification();
         $notify->user_id = $user->id;
         if ($request->valute == 'coins') {
@@ -400,9 +393,8 @@ class CasesManagementController extends Controller
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $viewerCase = new ViewerCase();
                 $viewerCase->viewer_id = $viewer->id;
-                $viewerCase->case_id = $case->id;
+                $viewerCase->case_id = $caseType->id;
                 $viewerCase->save();
-                $this->storeBuyedType($user, $caseType->id);
             } else {
                 $notify->event_type = 'user_message';
                 $notify->message = 'You no not have money for ' . $caseType->name;
@@ -415,7 +407,7 @@ class CasesManagementController extends Controller
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $viewerCase = new ViewerCase();
                 $viewerCase->viewer_id = $viewer->id;
-                $viewerCase->case_id = $case->id;
+                $viewerCase->case_id = $caseType->id;
                 $viewerCase->save();
                 $this->storeBuyedType($user, $caseType->id);
             } else {
@@ -428,55 +420,6 @@ class CasesManagementController extends Controller
         
         return response()->json([
             'message' => $notify->message,
-        ]);
-        //// remove to OPEN
-        $winItems = [];
-        
-        $prizes = [];
-        if ($request->valute == 'coins') {
-            if ($viewer->current_points >= $caseType->price) {
-                $viewer->current_points = $viewer->current_points - $caseType->price;
-                $notify->event_type = 'user_message';
-                $notify->message = 'Buyed new case! ' . $caseType->name;
-                $winItems = $this->win($case);
-                $prizes = $this->getItems($viewer->id, $winItems);
-                $this->storeBuyedType($user, $caseType->id);
-            } else {
-                $notify->event_type = 'user_message';
-                $notify->message = 'You no not have money for ' . $caseType->name;
-            }
-        }
-        if ($request->valute == 'diamonds') {
-            if ($viewer->diamonds >= $caseType->diamonds) {
-                $viewer->diamonds = $viewer->diamonds - $caseType->diamonds;
-                $notify->event_type = 'user_message';
-                $notify->message = 'Buyed new case! ' . $caseType->name;
-                $winItems = $this->win($case);
-                $prizes = $this->getItems($viewer->id, $winItems);
-                $this->storeBuyedType($user, $caseType->id);
-            } else {
-                $notify->event_type = 'user_message';
-                $notify->message = 'You no not have diamonds for ' . $caseType->name;
-            }
-        }
-        $notify->save();
-        $viewer->save();
-        $winItems = $this->removePrizes($winItems);
-        if (count($winItems) > 0 || count($prizes) > 0) {
-            $user->addAchievement('App\Achievements\FirstWinAchievement');
-        }
-        foreach ($winItems as $item) {
-            $user->addAchievement('App\Achievements\FirstNonPriceWinAchievement');
-            $user->addAchievement('App\Achievements\NNonPricesWinAchievement');
-        }
-        foreach ($prizes as $prize) {
-            $user->addAchievement('App\Achievements\FirstPriceWinAchievement');
-            $user->addAchievement('App\Achievements\NPricesWinAchievement');
-        }
-        return response()->json([
-            'message' => $notify->message,
-            'items'   => $winItems,
-            'prizes'  => $prizes,
         ]);
     }
 
@@ -496,13 +439,16 @@ class CasesManagementController extends Controller
                 'errors' => ['case type id not found'],
             ]);
         }
+        $viewerCase->opened_at = date('Y-m-d H:i:s');
+        $viewerCase->save();
+        $user = auth()->user();
         $viewer = Viewer::find($viewerCase->viewer_id);
-        $case = LootCase::find($viewerCase->case_id);
-        $caseType = CaseType::find($case->case_type_id);
+        // $case = LootCase::find($viewerCase->case_id);
+        $caseType = CaseType::find($viewerCase->case_id);
         $rarityClass = RarityClass::find($caseType->rarity_class_id)->first();
         if ($rarityClass) {
             switch ($rarityClass->name) {
-                case 'plain':
+                case 'common':
                     $user->addAchievement('OpenFirstCase1');
                     break;
                 case 'uncommon':
@@ -528,130 +474,257 @@ class CasesManagementController extends Controller
                 $user->addAchievement('OpenFirstCaseAll');
             }
         }
-        $user = auth()->user();
-        $winItems = [];
-        $prizes = [];
-        $winItems = $this->win($case);
-        $prizes = $this->getItems($viewer->id, $winItems);
-        $this->storeBuyedType($user, $caseType->id);
-        $winItems = $this->removePrizes($winItems);
-        if (count($winItems) > 0 || count($prizes) > 0) {
-            $user->addAchievement('App\Achievements\FirstWinAchievement');
+        $total = 0;
+        $win = [];
+        $win['hero'] = [
+            'from'  => 0,
+            'to'    => $caseType->hero_percent,
+        ];
+        $total += $caseType->hero_percent;
+        $win['frame'] = [
+            'from'  => $total + 1,
+            'to'    => $total + $caseType->frame_percent,
+        ];
+        $total += $caseType->frame_percent;
+        $win['prize'] = [
+            'from'  => $total + 1,
+            'to'    => $total + $caseType->prize_percent,
+        ];
+        $total += $caseType->prize_percent;
+        $win['points'] = [
+            'from'  => $total + 1,
+            'to'    => $total + $caseType->points_percent,
+        ];
+        $total += $caseType->points_percent;
+        $win['diamonds'] = [
+            'from'  => $total + 1,
+            'to'    => $total + $caseType->diamonds_percent,
+        ];
+        $total += $caseType->diamonds_percent;
+        $win['nothing'] = [
+            'from'  => $total + 1,
+            'to'    => 100,
+        ];
+        $chance = rand(0, 100);
+        foreach ($win as $k => $v) {
+            if ($chance >= $v['from'] && $chance <= $v['to']) {
+                $winner = $k;
+            }
         }
-        foreach ($winItems as $item) {
-            $user->addAchievement('App\Achievements\FirstNonPriceWinAchievement');
-            $user->addAchievement('App\Achievements\NNonPricesWinAchievement');
+        $prize = ['type' => $winner];
+        $historyBoxItemType = HistoryBoxItemType::where('name', $winner)->first();
+        switch ($winner) {
+            case 'hero':
+                $allItems = Item::where('rarity_class_id', $caseType->hero_rarity_id)->get();
+                if (count($allItems) > 0) {
+                    $chance = rand(0, count($allItems) - 1);
+                    $item = $allItems[$chance];
+                    $viewerItem = new ViewerItem();
+                    $viewerItem->viewer_id = $viewer->id;
+                    $viewerItem->item_id = $item->id;
+                    $viewerItem->save();
+                    $prize['image'] = $item->image;
+                    $prize['icon'] = $item->icon;
+                    $history = new HistoryBox();
+                    $history->viewer_box_id = $viewerCase->id;
+                    $history->viewer_id = $viewer->id;
+                    $history->box_type_id = $caseType->id;
+                    $history->item_type_id = $historyBoxItemType->id;
+                    $history->item_id = $item->id;
+                    $history->save();
+                } else {
+                    $prize['type'] = 'nothing';
+                    $this->winFailure($viewer->id, $caseType->id);
+                }
+                break;
+            case 'frame':
+                $allItems = Item::where('rarity_class_id', $caseType->frame_rarity_id)->get();
+                if (count($allItems) > 0) {
+                    $chance = rand(0, count($allItems) - 1);
+                    $item = $allItems[$chance];
+                    $viewerItem = new ViewerItem();
+                    $viewerItem->viewer_id = $viewer->id;
+                    $viewerItem->item_id = $item->id;
+                    $viewerItem->save();
+                    $prize['image'] = $item->image;
+                    $prize['icon'] = $item->icon;
+                    $history = new HistoryBox();
+                    $history->viewer_box_id = $viewerCase->id;
+                    $history->viewer_id = $viewer->id;
+                    $history->box_type_id = $caseType->id;
+                    $history->item_type_id = $historyBoxItemType->id;
+                    $history->item_id = $item->id;
+                    $history->save();
+                } else {
+                    $prize['type'] = 'nothing';
+                    $this->winFailure($viewer->id, $caseType->id);
+                }
+                
+                break;
+            case 'prize':
+                $stockPrize = StockPrize::where([
+                    ['cost', '>=', $caseType->prize_cost],
+                    ['amount', '>', 0],
+                ])->orderBy('cost', 'asc')->first();
+                if (!$stockPrize) {
+                    $stockPrize = StockPrize::where([
+                        ['amount', '>', 0],
+                    ])->orderBy('cost', 'desc')->first();
+                }
+                if (!$stockPrize) {
+                    $prize['type'] = 'nothing';
+                    $this->winFailure($viewer->id, $caseType->id);
+                } else {
+                    $prize['image'] = $stockPrize->image;
+                    $history = new HistoryBox();
+                    $history->viewer_box_id = $viewerCase->id;
+                    $history->viewer_id = $viewer->id;
+                    $history->box_type_id = $caseType->id;
+                    $history->item_type_id = $historyBoxItemType->id;
+                    $history->item_id = $stockPrize->id;
+                    $history->save();
+                }
+                break;
+            case 'points':
+                $viewer->addPoints([
+                    'points'        => $caseType->points_count,
+                    'title'         => 'open stream box',
+                    'description'   => $caseType->description,
+                ]);
+                $viewer->save();
+                $prize['count'] = $caseType->points_count;
+                $history = new HistoryBox();
+                $history->viewer_box_id = $viewerCase->id;
+                $history->viewer_id = $viewer->id;
+                $history->box_type_id = $caseType->id;
+                $history->item_type_id = $historyBoxItemType->id;
+                $history->details = $caseType->points_count;
+                $history->save();
+                break;
+            case 'diamonds':
+                $viewer->diamonds += $caseType->diamonds_count;
+                $viewer->save();
+                $prize['count'] = $caseType->diamonds_count;
+                $history = new HistoryBox();
+                $history->viewer_box_id = $viewerCase->id;
+                $history->viewer_id = $viewer->id;
+                $history->box_type_id = $caseType->id;
+                $history->item_type_id = $historyBoxItemType->id;
+                $history->details = $caseType->diamonds_count;
+                $history->save();
+                break;
+            case 'nothing':
+                $this->winFailure($viewer->id, $caseType->id);
+                break;
         }
-        foreach ($prizes as $prize) {
-            $user->addAchievement('App\Achievements\FirstPriceWinAchievement');
-            $user->addAchievement('App\Achievements\NPricesWinAchievement');
-        }
-        $viewerCase->opened_at = date('Y-m-d H:i:s');
-        $viewerCase->save();
         return response()->json([
-            'data'  => [
-                'items'   => $winItems,
-                'prizes'  => $prizes,
+            'data' => [
+                'win'   => $prize
             ],
         ]);
     }
 
-    private function getItems($viewerId, $items)
+    public function lastList(Request $request)
     {
-        $prizes = [];
-        foreach ($items as $item) {
-            $itemType = ItemType::find($item->item_type_id );
-            if ($itemType->name == "prize") {
-                $prize = $this->prizeSelect($item->worth);
-                if ($prize) {
-                    $viewerPrize = new ViewerPrize();
-                    $viewerPrize->viewer_id = $viewerId;
-                    $viewerPrize->prize_id = $prize->id;
-                    $viewerPrize->save();
-                    $prize->amount--;
-                    $prize->save();
-                    $prizes[] = $prize;
-                }
-            } else {
-                $viewerItem = new ViewerItem();
-                $viewerItem->viewer_id = $viewerId;
-                $viewerItem->item_id = $item->id;
-                $viewerItem->save();
-            }
+        $needCount = 10;
+        $count = 0;
+        $data = [];
+        $itemType = HistoryBoxItemType::where('name', 'prize')->first();
+        $cases = HistoryBox::where('item_type_id', $itemType->id)->latest()->limit($needCount)->get();
+        $count = count($cases);
+        $data = $cases;
+        if ($count < $needCount) {
+            $itemType = HistoryBoxItemType::where('name', 'hero')->first();
+            $cases = HistoryBox::where('item_type_id', $itemType->id)->latest()->limit($needCount - $count)->get();
+            $count += count($cases);
+            $data = $this->merge($data, $cases);
         }
-        return $prizes;
+        if ($count < $needCount) {
+            $itemType = HistoryBoxItemType::where('name', 'frame')->first();
+            $cases = HistoryBox::where('item_type_id', $itemType->id)->latest()->limit($needCount - $count)->get();
+            $count += count($cases);
+            $data = $this->merge($data, $cases);
+        }
+        if ($count < $needCount) {
+            $itemType = HistoryBoxItemType::where('name', 'diamonds')->first();
+            $cases = HistoryBox::where('item_type_id', $itemType->id)->latest()->limit($needCount - $count)->get();
+            $count += count($cases);
+            $data = $this->merge($data, $cases);
+        }
+        if ($count < $needCount) {
+            $itemType = HistoryBoxItemType::where('name', 'points')->first();
+            $cases = HistoryBox::where('item_type_id', $itemType->id)->latest()->limit($needCount - $count)->get();
+            $count += count($cases);
+            $data = $this->merge($data, $cases);
+        }
+        $boxes = [];
+        foreach ($data as $d) {
+            $boxes[] = $d->getDetails();
+        }
+        return response()->json([
+            'data' => [
+                'cases'   => $boxes,
+            ],
+        ]);
     }
 
-    private function win($case)
+
+
+    public function lastOne(Request $request)
     {
-        $winingItems = [];
-        $caseItems = ItemCase::where('case_id', $case->id)->get();
-        foreach ($caseItems as $item) {
-            if ($this->chance($item->rarity_id)) {
-                $winItem = Item::find($item->item_id);
-                $winingItems[] = $winItem;
-            }
+        $now = new Carbon();
+        $now->subSeconds(5);
+        $time = $now->toDateTimeString();
+        $itemType = HistoryBoxItemType::where('name', 'prize')->first();
+        $case = HistoryBox::where('item_type_id', $itemType->id)->where('updated_at', '>=', $time)->first();
+        if (!$case) {
+            $itemType = HistoryBoxItemType::where('name', 'hero')->first();
+            $case = HistoryBox::where('item_type_id', $itemType->id)->where('updated_at', '>=', $time)->first();
         }
-        return $winingItems;
+        if (!$case) {
+            $itemType = HistoryBoxItemType::where('name', 'frame')->first();
+            $case = HistoryBox::where('item_type_id', $itemType->id)->where('updated_at', '>=', $time)->first();
+        }
+        if (!$case) {
+            $itemType = HistoryBoxItemType::where('name', 'diamonds')->first();
+            $case = HistoryBox::where('item_type_id', $itemType->id)->where('updated_at', '>=', $time)->first();
+        }
+        if (!$case) {
+            $itemType = HistoryBoxItemType::where('name', 'points')->first();
+            $case = HistoryBox::where('item_type_id', $itemType->id)->where('updated_at', '>=', $time)->first();
+        }
+        $box = false;
+        if ($case) {
+            $box = $case->getDetails();
+        }
+        return response()->json([
+            'data' => [
+                'cases'   => $box,
+            ],
+        ]);
     }
 
-    private function chance($rarityId)
-    {
-        $rarity = Raritie::find($rarityId);
-        $chance = round(rand(0, 100));
-        return  $rarity->percent > $chance;
-    }
 
-    private function prizeSelect($price)
+    private function winFailure($viewerId, $boxTypeId)
     {
-        $prize = StockPrize::where([
-            ['cost', '>=', $price],
-            ['amount', '>', 0],
-        ])->orderBy('cost', 'asc')->first();
-        if (!$prize) {
-            $prize = StockPrize::where([
-                ['amount', '>', 0],
-            ])->orderBy('cost', 'desc')->first();
-        }
-        if (!$prize) {
-            return false;
-        }
-        return $prize;
+        $historyBoxItemType = HistoryBoxItemType::where('name', 'nothing')->first();
+        $history = new HistoryBox();
+        $history->viewer_box_id = $viewerCase->id;
+        $history->viewer_id = $viewerId;
+        $history->box_type_id = $boxTypeId;
+        $history->item_type_id = $historyBoxItemType->id;
+        $history->save();
     }
-
-    private function removePrizes($items)
+    
+    private function merge($array1, $array2)
     {
-        $newItems = [];
-        foreach ($items as $item) {
-            $itemType = ItemType::find($item->item_type_id);
-            if ($itemType->name !== 'prize') {
-                $newItems[] = $item;
-            }
+        $data = [];
+        foreach ($array1 as $ar1) {
+            $data[] = $ar1;
         }
-        return $newItems;
-    }
-
-    private function storeBuyedType($user, $caseTypeId)
-    {
-        $viewer = $user->viewer()->first();
-        $viewerId = $viewer->id;
-        $buyedCase = BuyedCaseType::where([
-            ['viewer_id', '=', $viewerId],
-            ['case_type_id', '=', $caseTypeId]
-        ])->first();
-        if (!$buyedCase) {
-            $buyedCase = new BuyedCaseType();
-            $buyedCase->viewer_id = $viewerId;
-            $buyedCase->case_type_id = $caseTypeId;
-            $buyedCase->total = 1;
+        foreach ($array2 as $ar2) {
+            $data[] = $ar2;
         }
-        $buyedCase->total++;
-        $buyedCase->save();
-        $user->addAchievement('App\Achievements\BuyFirstCaseAchievement');
-        $user->addAchievement('App\Achievements\OpenFirstCaseAchievement');
-        $user->addAchievement('App\Achievements\Open2CasesAchievement');
-        $user->addAchievement('App\Achievements\Open3CasesAchievement');
-        $user->addAchievement('App\Achievements\Open5CasesAchievement');
+        return $data;
     }
-
 }
