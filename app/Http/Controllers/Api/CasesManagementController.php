@@ -53,7 +53,7 @@ class CasesManagementController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['lastList', 'lastOne']]);
+        $this->middleware('auth:api', ['except' => []]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
