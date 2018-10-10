@@ -59,10 +59,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $boxes = HistoryBox::all();
-        foreach ($boxes as $box) {
-            var_dump($box->getDetails());
-        }
+        
     }
 
     private function se()
