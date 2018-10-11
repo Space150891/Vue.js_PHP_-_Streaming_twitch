@@ -14,7 +14,7 @@
 */
 
 // Homepage Route
-Route::get('/', 'WelcomeController@welcome')->name('welcome');
+Route::get('/', 'PagesController@main')->name('main');
 
 // Authentication Routes
 Auth::routes();
