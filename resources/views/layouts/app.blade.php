@@ -48,23 +48,9 @@
         </script>
     </head>
     <body>
-        <div id="app" class="container-fluid">
-            <header>
-                <up-nav></up-nav>
-                <menu-block></menu-block>
-            </header>
-            <main>
-                <router-view></router-view>
-
-            </main>
-        </div>
-
-
-
-
-        {{-- Scripts --}}
-        <script src="{{ mix('/js/app.js') }}"></script>
-
+    <main>
+        @yield('content')
+    </main>
 
 
 
