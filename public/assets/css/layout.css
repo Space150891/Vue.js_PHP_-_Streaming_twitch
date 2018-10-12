@@ -578,6 +578,20 @@ body {
 
 .sidebar-fixed .sidebar-content {
   z-index: 1041; }
+.nav-item .log-in {
+  background-color: #20AED7;
+  padding: 0.6rem;
+}
+@media screen and (max-width: 768px) {
+  .nav-item .log-in {
+    padding: 0.875rem 1.4rem;
+  }
+}
+
+
+/*.following-items-part{*/
+    /*display: none;*/
+/*}*/
 
 @media (min-width: 768px) {
   .sidebar-xs .sidebar-main {
