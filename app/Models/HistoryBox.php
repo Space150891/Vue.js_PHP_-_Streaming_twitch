@@ -11,7 +11,7 @@ use App\Models\{
     // HistoryBoxCard,
     StockPrize,
     RarityClass,
-    Viewer,
+    Viewer
 };
 
 class HistoryBox extends Model

@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Stripe\Stripe;
 use App\Models\{
     Achievement,
+    AchievementProgres,
     Activity,
     ActiveStreamer,
     CaseType,
@@ -20,6 +21,7 @@ use App\Models\{
     Streamer,
     SubscribedStreamers,
     User,
+    UserCustomAchievement,
     Viewer,
     ViewerItem
 };
@@ -59,7 +61,16 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        
+        $user = User::find(105);
+        $inProgress = AchievementProgres::where('user_id', $user->id)->whereNull('unlocked_at')->get();
+        foreach ($inProgress as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            $achievement->total = $ach->steps;
+            $this->info("{$achievement->description} {$achievement->steps} {$achievement->total}");
+        }
+
     }
 
     private function se()

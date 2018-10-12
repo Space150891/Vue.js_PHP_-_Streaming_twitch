@@ -22,7 +22,7 @@ use App\Models\{
     User,
     Viewer,
     ViewerCase,
-    ViewerItem,
+    ViewerItem
 };
 
 class EmulateCommand extends Command

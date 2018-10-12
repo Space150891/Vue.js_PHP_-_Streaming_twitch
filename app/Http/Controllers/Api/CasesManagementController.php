@@ -29,7 +29,7 @@ use App\Models\{
     AchievementProgres,
     RarityClass,
     HistoryBox,
-    HistoryBoxItemType,
+    HistoryBoxItemType
 };
 use App\Achievements\{
     BuyFirstCaseAchievement,

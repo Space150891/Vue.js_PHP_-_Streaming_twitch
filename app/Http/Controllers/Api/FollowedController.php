@@ -12,7 +12,7 @@ use App\Models\{
     Streamer,
     SignedViewer,
     User,
-    Viewer,
+    Viewer
 };
 
 class FollowedController extends Controller
