@@ -51,10 +51,11 @@ class RarityClassesSeeder extends Seeder
             ],
         ];
         foreach ($data as $d) {
-            $find = RarityClass::where('name', $d)->first();
+            $find = RarityClass::where('name', $d['name'])->first();
             if (!$find) {
                 $rarity = new RarityClass();
-                $rarity->name = $d;
+                $rarity->name = $d['name'];
+                $rarity->special = $d['special'];
                 $rarity->save();
                 echo "\n seed id=" . $rarity->id;
             }

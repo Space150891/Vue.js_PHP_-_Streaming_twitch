@@ -42,6 +42,7 @@ class MainStreamersManagementController extends Controller
         $now = $time->toTimeString();
         $allMain = MainStreamer::all();
         $mainStreamer = false;
+        $streamer = false;
         foreach ($allMain as $oneMain) {
             if (
                 $this->compareTime($now, '>=', $oneMain->promouted_start) &&

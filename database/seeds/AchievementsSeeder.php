@@ -375,7 +375,7 @@ class AchievementsSeeder extends Seeder
             ],
         ];
         foreach ($data as $d) {
-            $find = Achievement::where('name', $d)->first();
+            $find = Achievement::where('name', $d['name'])->first();
             if ($find) {
                 continue;
             }

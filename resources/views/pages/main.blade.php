@@ -1,12 +1,5 @@
 @extends('layouts.app')
 
-{{--@section('template_title')--}}
-	{{--Welcome Gamificator--}}
-{{--@endsection--}}
-
-{{--@section('head')--}}
-{{--@endsection--}}
-
 @section('content')
 
 	<!-- Main content -->
@@ -20,7 +13,7 @@
 					<!-- Basic card -->
 					<div class="card stream">
 						<div class="card-body-no-padding">
-							<div class="embed-responsive embed-responsive-16by9">
+							<div class="embed-responsive embed-responsive-16by9 iframe-wrap">
 								<iframe class="embed-responsive-item" src="http://player.twitch.tv/?channel=ur2eztv&autoplay=false"></iframe>
 							</div>
 						</div>
@@ -29,13 +22,13 @@
 							<ul class="list-inline list-inline-condensed-margin mb-0 mt-2 mt-sm-0">
 								<!-- DEV INFO VIEWER COUNT -->
 								<li class="list-inline-item pl-2">
-									<i class="icon-users"></i>
-									<span class="badge badge-pill bg-danger-800 position-static">250</span>
+									<i class="icon-users users-count"></i>
+
 								</li>
 								<!-- DEV INFO REWARD COUNT -->
 								<li class="list-inline-item pl-2">
-									<i class="icon-cube3"></i>
-									<span class="badge badge-pill bg-success-800 position-static">50</span>
+									<i class="icon-cube3 cube-count"></i>
+
 								</li>
 								<li class="list-inline-item pl-2 d-none d-md-inline">
 									<a class="navbar-toggler sidebar-main-toggle">
@@ -103,13 +96,13 @@
 				<!-- /left content -->
 				<!-- bg-transparent -->
 				<!-- Right sidebar component -->
-				<div class="sidebar sidebar-light sidebar-component sidebar-component-right order-1 order-md-2 sidebar-expand-md border-0 shadow-0">
+				<div class="sidebar sidebar-light sidebar-component sidebar-component-right order-1 order-md-2 sidebar-expand-md border-0 shadow-0 chat-main-wrap">
 					<!-- Sidebar content -->
 					<div class="sidebar-content">
 						<!-- Sidebar search -->
 						<div class="card">
-							<div class="card-body-no-padding">
-								<iframe id="chat" src="https://www.twitch.tv/embed/ur2eztv/chat" frameBorder="0"></iframe>
+							<div class="card-body-no-padding iframe-chat">
+								{{--<iframe id="chat" src="https://www.twitch.tv/embed/ur2eztv/chat" frameBorder="0"></iframe>--}}
 							</div>
 						</div>
 						<!-- /sidebar search -->
