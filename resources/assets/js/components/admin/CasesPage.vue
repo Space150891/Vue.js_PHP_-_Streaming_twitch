@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/cases"></admin-menu>
   <div v-if="checkToken && !editItemsMode && casesLoaded">
 		<h5>Cases page</h5>

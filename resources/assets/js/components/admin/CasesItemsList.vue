@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <div v-if="checkToken && caseItemsLoaded">
 		<h5>Case <strong>{{ LootCase.name }}</strong></h5>
 		<table class="table table-striped">
