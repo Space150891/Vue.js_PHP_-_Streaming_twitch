@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/promoted"></admin-menu>
   <div v-if="checkToken && promotedLoaded">
 		<h5>Promouted Streamers</h5>
@@ -14,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in promotedStreamers">
+				<tr v-for="item in promotedStreamers" :key="item.id">
 					<td>{{item.position}}</td>
           <td>{{item.name}}</td>
 					<td>{{item.game}}</td>
@@ -35,7 +35,7 @@
 			<form class="form form-inline">
 				<select v-model="streamerAddId" class="form-control">
 					<option value=0>Select streamer</option>
-					<option v-for="streamer in streamers" v-bind:value="streamer.id">{{streamer.name}}</option>
+					<option v-for="streamer in streamers" v-bind:value="streamer.id" :key="streamer.id">{{streamer.name}}</option>
 				</select>
 				<button @click.prevent="addAction()" class="btn btn-success">Add</button>
 			</form>

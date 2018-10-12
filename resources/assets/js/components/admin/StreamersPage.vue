@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/streamers"></admin-menu>
   <div v-if="checkToken && streamersLoaded">
 		<h5>Streamers</h5>
@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in streamers">
+				<tr v-for="item in streamers" :key="item.id">
 					<td>{{item.id}}</td>
                     <td>{{item.name}}</td>
 					<td>{{item.game}}</td>

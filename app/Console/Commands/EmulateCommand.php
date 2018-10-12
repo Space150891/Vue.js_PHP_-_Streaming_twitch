@@ -22,7 +22,7 @@ use App\Models\{
     User,
     Viewer,
     ViewerCase,
-    ViewerItem,
+    ViewerItem
 };
 
 class EmulateCommand extends Command
@@ -124,6 +124,7 @@ class EmulateCommand extends Command
     {
         $notification = new Notification();
         $notification->user_id = $user->id;
+        $notify->title = 'Win';
         $notification->event_type = "user_message";
         $notification->message = "test message";
         $notification->save();

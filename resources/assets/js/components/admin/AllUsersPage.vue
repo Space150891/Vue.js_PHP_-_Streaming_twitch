@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/users"></admin-menu>
   <div v-if="checkToken && usersLoaded">
 		<h5>All Users</h5>

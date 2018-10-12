@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Notification, Card, CustomAchievement, UserCustomAchievement, Streamer, Achievement, AchievementProgres};
+use App\Models\{Card, CustomAchievement, UserCustomAchievement, Streamer, Achievement, AchievementProgres};
 
 class AchivementsController extends Controller
 {
@@ -43,9 +43,17 @@ class AchivementsController extends Controller
             $customs[$i]->image = $user->avatar;
             $customs[$i]->text = $achievement->text;
         }
+        $inProgress = AchievementProgres::where('user_id', $user->id)->whereNull('unlocked_at')->get();
+        foreach ($inProgress as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            $achievement->total = $ach->steps;
+        }
         return response()->json(['data' => [
-            'achivements' => $achievements,
-            'customs'      => $customs,
+            'achivements'           => $achievements,
+            'customs'               => $customs,
+            'in_progress'           => $inProgress,
         ]]);
     }
 

@@ -19,9 +19,6 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case types</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
-          </li>
-          <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers management</a>
           </li>
           <li class="nav-item">
@@ -63,8 +60,10 @@
         </ul>
       </div>
     </nav>
-    <nav v-else>
-        <a class="navbar-brand" href="#/login">Login</a>
+    <nav v-else class="text-center">
+      <form class="form-inline">
+        <a class="btn btn-outline-info" href="#/login">Login</a>
+      </form>
     </nav>
   </div>
 </template>
