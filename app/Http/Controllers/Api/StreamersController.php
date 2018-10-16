@@ -124,13 +124,27 @@ class StreamersController extends Controller
             ]);
         }
         $streamers = Streamer::where('game', strtolower($request->game_name))->get();
-        for ($i = 0; $i < count($streamers); $i++) {
-            $user = $streamers[$i]->user()->first();
-            $streamers[$i]->avatar = $user->avatar;
+        $onlineStreamers = [];
+        foreach ($streamer as $streamer) {
+            $now = new Carbon;
+            $now->subSeconds(config('ospp.activity.valid_pause'));
+            $updateTime = $now->toDateTimeString();
+            $active = Activity::where([
+                ['streamer_id', '=', $streamer->id],
+                ['updated_at', '>', $updateTime],
+            ])->count();
+            if ($active > 0) {
+                $online = $streamer;
+                $user = $streamer->user()->first();
+                $online->avatar = $user->avatar;
+                $online->viewers_count += $active;
+                $online->points = $streamer->calculatePoints();
+                $onlineStreamers[] = $online;
+            }
         }
         return response()->json([
             'data' => [
-                'streamers' => $streamers,
+                'streamers' => $onlineStreamers,
             ],
         ]);
 
