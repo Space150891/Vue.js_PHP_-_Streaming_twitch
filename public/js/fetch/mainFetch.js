@@ -167,7 +167,84 @@
     }).then(function(res){
         return res.json();
     }).then(function(jsonResp){
-        console.log('-------------s22222s-----------', jsonResp.data)
+        const feedcontainerData = jsonResp.data.cases;
+        let elemFeedcontainer = document.getElementsByClassName('feedcontainer')[0];
+        let elemSidebarWrap = document.getElementsByClassName('sidebar-wrap')[0];
+        let parentElementHeight = elemSidebarWrap.clientHeight;
+        elemSidebarWrap.classList.remove('ps');
+        elemSidebarWrap.classList.add('sidebar-hover-wrap');
+        let num = Math.floor(parentElementHeight/64);
+
+        for (let i = 0; i < num-1; i++) {
+            let newElement = document.createElement('li');
+            newElement.classList.add('feedcontainer-item');
+            let childrenfeedcontainer = `
+                <img src="assets/images/` + feedcontainerData[i].box_image + `" height="64" alt="">
+                <div class="description">
+                    <div class="description-up">
+                        <img style="height: 32px" src="https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg" alt="">
+                        <p>` + feedcontainerData[i].viewer + `</p>
+                        <div class="description-triangle"></div>
+                    </div>
+                    <div class="description-down">
+                        <p><b>Won</b> a Headset worth <b>` + feedcontainerData[i].count + `$</b></p>
+                    </div>
+                </div>`;
+            newElement.innerHTML= childrenfeedcontainer;
+            elemFeedcontainer.appendChild(newElement);
+
+        }
+
+
     })
 
+}
+
+
+// Next element
+
+{
+
+    setInterval(function () {
+        let formData = new FormData();
+        let userToken = localStorage.getItem('userToken');
+        formData.append('token', userToken);
+        fetch('api/history/boxes/last', {
+            method: "POST",
+            credentials: 'omit',
+            body: formData,
+            mode: 'cors',
+        }).then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            let feedcontainerDataNew = jsonResp.data.cases;
+            let elemContent = '';
+
+            let newElement = document.createElement('li');
+            newElement.classList.add('feedcontainer-item');
+
+            let elemFeedcontainer = document.getElementsByClassName('feedcontainer')[0];
+            console.log(elemFeedcontainer);
+
+            if (feedcontainerDataNew) {
+
+                elemContent = `
+                    <img src="assets/images/` + feedcontainerDataNew.box_image + `" height="64" alt="">
+                    <div class="description">
+                        <div class="description-up">
+                            <img style="height: 32px" src="https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg" alt="">
+                            <p>` + feedcontainerDataNew.viewer + `</p>
+                            <div class="description-triangle"></div>
+                        </div>
+                        <div class="description-down">
+                            <p><b>Won</b> a Headset worth <b> 3030303$</b></p>
+                        </div>
+                    </div>`;
+                newElement.innerHTML= elemContent;
+                elemFeedcontainer.removeChild(elemFeedcontainer.firstChild);
+                elemFeedcontainer.appendChild(newElement);
+                // elemFeedcontainer.appendChild(newElement);
+            }
+        })
+    },5000)
 }

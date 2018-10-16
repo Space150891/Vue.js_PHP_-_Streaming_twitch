@@ -226,7 +226,7 @@
             <!-- Sidebar content -->
 
 
-            <div class="sidebar-content ">
+            <div class="sidebar-content sidebar-wrap">
                 <!-- Main navigation -->
                 <div class="card card-sidebar-mobile ">
                     <ul class="nav nav-sidebar " data-nav-type="accordion ">
@@ -246,65 +246,12 @@
 
                         <!-- DEV INFO - THIS IS JUST POC. YOU SHOULD NOT USE THIS CRAP ON PRODUCTION ENV -->
 
-                        <div class="feedcontainer ">
-                            {{--<li><img src="assets/images/StreamCases/rare.png " height="64 " alt=" " data-popup="popover-custom " data-placement="left " title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'>--}}
-																	{{--DLausch" data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/uncommon.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/rare.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/legendary.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/rare.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/uncommon.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/rare.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/legendary.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-
-                            {{--<li><img src="assets/images/StreamCases/rare.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/common.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/uncommon.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/epic.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/rare.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
-                            {{--<li><img src="assets/images/StreamCases/legendary.png" height="64" alt="" data-popup="popover-custom" data-placement="left" title="<img src='https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg' height='32'> DLausch"--}}
-                                     {{--data-html="true" id="popover-hide" data-trigger="hover" data-content="<b>Won></b> a Headset worth <b>120$</b>"></li>--}}
+                        <div class="feedcontainer">
 
                         </div>
                         <script>
+                            window.onload = function() {
+                                console.log('1');
                             var x = 0,
                                 container = $('.feedcontainer'),
                                 items = container.find('li'),
@@ -352,6 +299,7 @@
                             }, function() {
                                 init = setInterval("vertCycle()", intervalSec);
                             });
+                            }
                         </script>
 
 
