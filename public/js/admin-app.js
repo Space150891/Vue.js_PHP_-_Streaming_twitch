@@ -2872,7 +2872,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -2987,6 +2986,9 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             }
             if (this.editItem.diamonds_percent < 0 || this.editItem.diamonds_percent > 99) {
                 this.errors.push('wrong diamonds percent');
+            }
+            if (this.calculateZero < 0 || this.calculateZero > 100) {
+                this.errors.push('wrong total percents`s sum');
             }
             if (this.errors.length == 0) {
                 this.$store.dispatch('createCaseTypeAction', this.editItem);
@@ -46058,7 +46060,7 @@ var render = function() {
                             "\n                            Prize\n                            "
                           ),
                           _c("span", { staticClass: "badge badge-primary" }, [
-                            _vm._v(_vm._s(item.prize_cost) + " points")
+                            _vm._v(_vm._s(item.prize_cost) + " $")
                           ]),
                           _vm._v(" "),
                           _c("span", { staticClass: "badge badge-warning" }, [
@@ -46071,7 +46073,7 @@ var render = function() {
                             "\n                            Points\n                            "
                           ),
                           _c("span", { staticClass: "badge badge-primary" }, [
-                            _vm._v(_vm._s(item.points_count))
+                            _vm._v(_vm._s(item.points_count) + " pcs.")
                           ]),
                           _vm._v(" "),
                           _c("span", { staticClass: "badge badge-warning" }, [

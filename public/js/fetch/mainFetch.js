@@ -147,3 +147,27 @@
         elemCubeCount.innerHTML = childrenCubeCount;
     });
 }
+
+/**
+ *  RIGHT sidebar part fetch data
+ *
+ */
+
+// List of first elements
+
+{
+    let formData = new FormData();
+    let userToken = localStorage.getItem('userToken');
+    formData.append('token', userToken);
+    fetch('api/history/boxes/list', {
+        method: "POST",
+        credentials: 'omit',
+        body: formData,
+        mode: 'cors',
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        console.log('-------------s22222s-----------', jsonResp.data)
+    })
+
+}
