@@ -19,6 +19,7 @@ trait AchivementUnlockedTrait
         $user = User::find($userId);
         $notify = new Notification();
         $notify->user_id = $user->id;
+        $notify->title = 'Achievement';
         $notify->event_type = 'user_message';
         $notify->message = 'New Achivement! ' . $achivementMessage;
         $notify->save();

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/rarities"></admin-menu>
   <div v-if="checkToken && raritiesLoaded">
 		<h5>Rarities</h5>
@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in rarities">
+				<tr v-for="item in rarities" :key="item.id">
 					<td>{{item.id}}</td>
 					<td>{{item.name}}</td>
                     <td>{{item.percent}}</td>

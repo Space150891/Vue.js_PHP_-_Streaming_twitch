@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/stock-prizes"></admin-menu>
   <div v-if="checkToken && stockPrizesLoaded">
 		<h5>Stock Prizes</h5>
@@ -16,7 +16,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in stockPrizes">
+				<tr v-for="item in stockPrizes" :key="item.id">
 					<td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
 					<td>

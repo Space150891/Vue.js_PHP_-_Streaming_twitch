@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/bonus-points"></admin-menu>
   <div v-if="checkToken && subscriptionPlansLoaded">
     <h2>Subscription bonus points</h2>

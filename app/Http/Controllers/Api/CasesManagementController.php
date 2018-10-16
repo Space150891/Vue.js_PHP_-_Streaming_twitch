@@ -29,7 +29,7 @@ use App\Models\{
     AchievementProgres,
     RarityClass,
     HistoryBox,
-    HistoryBoxItemType,
+    HistoryBoxItemType
 };
 use App\Achievements\{
     BuyFirstCaseAchievement,
@@ -385,11 +385,13 @@ class CasesManagementController extends Controller
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $notify = new Notification();
+        $notify->title = 'Non enoght money';
         $notify->user_id = $user->id;
         if ($request->valute == 'coins') {
             if ($viewer->current_points >= $caseType->price) {
                 $viewer->current_points = $viewer->current_points - $caseType->price;
                 $notify->event_type = 'user_message';
+                $notify->title = 'Buy case';
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $viewerCase = new ViewerCase();
                 $viewerCase->viewer_id = $viewer->id;
@@ -403,6 +405,7 @@ class CasesManagementController extends Controller
         if ($request->valute == 'diamonds') {
             if ($viewer->diamonds >= $caseType->diamonds) {
                 $viewer->diamonds = $viewer->diamonds - $caseType->diamonds;
+                $notify->title = 'Buy case';
                 $notify->event_type = 'user_message';
                 $notify->message = 'Buyed new case! ' . $caseType->name;
                 $viewerCase = new ViewerCase();

@@ -11,7 +11,8 @@ use App\Models\{
     // HistoryBoxCard,
     StockPrize,
     RarityClass,
-    Viewer,
+    CaseType,
+    Viewer
 };
 
 class HistoryBox extends Model
@@ -20,11 +21,13 @@ class HistoryBox extends Model
     public function getDetails()
     {
         $boxItemType = HistoryBoxItemType::find($this->item_type_id);
+        $caseType = CaseType::find($this->box_type_id)->first();
         $viewer = Viewer::find($this->viewer_id);
         $data = [
             'id'        => $this->id,
             'type'      => $boxItemType->name,
             'viewer'    => $viewer->name,
+            'box_image' => $caseType->image,
         ];
         switch ($boxItemType->name) {
         case 'hero':

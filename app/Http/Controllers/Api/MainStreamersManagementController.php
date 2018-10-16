@@ -18,7 +18,7 @@ use App\Models\{
     SubscriptionPlan,
     SubscribedStreamers,
     SubscriptionPoint,
-    User,
+    User
 };
 
 class MainStreamersManagementController extends Controller

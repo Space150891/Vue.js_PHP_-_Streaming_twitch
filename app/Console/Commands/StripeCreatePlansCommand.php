@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Stripe\Stripe;
-use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem, Activity, Item, Notification, SubscribedStreamers};
+use App\Models\{Profile, User, Viewer, Streamer, Game, ViewerItem, Activity, Item, SubscribedStreamers};
 use GuzzleHttp\Client as Guzzle;
 use LiqPay;
 

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/main-content"></admin-menu>
   <div v-if="checkToken && mainContentLoaded">
         <inline-alert></inline-alert>

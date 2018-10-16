@@ -2338,7 +2338,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -2872,6 +2871,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -2907,9 +2907,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             openAlertModal: false,
             image: false,
             styleImage: {
-                width: "100px",
-                border: "1px #888 solid",
-                borderRadius: "2px"
+                width: "100px"
             },
             imagesUrl: config.baseUrl + '/storage/'
         };
@@ -45953,7 +45951,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/logout" } }),
       _vm._v(" "),
@@ -46003,7 +46000,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/case-types" } }),
       _vm._v(" "),
@@ -46025,7 +46021,7 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(item.description))]),
                       _vm._v(" "),
                       _c("td", [
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            Hero\n                            "
                           ),
@@ -46040,7 +46036,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            Frame\n                            "
                           ),
@@ -46055,7 +46051,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            Prize\n                            "
                           ),
@@ -46068,7 +46064,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            Points\n                            "
                           ),
@@ -46081,7 +46077,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            Diamonds\n                            "
                           ),
@@ -46094,7 +46090,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("p", [
+                        _c("p", { staticStyle: { margin: "0" } }, [
                           _vm._v(
                             "\n                            win nothing\n                            "
                           ),
@@ -46107,7 +46103,7 @@ var render = function() {
                                   item.prize_percent -
                                   item.points_percent -
                                   item.diamonds_percent
-                              )
+                              ) + " %"
                             )
                           ])
                         ])
@@ -47070,7 +47066,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/streamers" } }),
       _vm._v(" "),
@@ -47089,7 +47084,7 @@ var render = function() {
                   _c(
                     "tbody",
                     _vm._l(_vm.streamers, function(item) {
-                      return _c("tr", [
+                      return _c("tr", { key: item.id }, [
                         _c("td", [_vm._v(_vm._s(item.id))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.name))]),
@@ -47221,7 +47216,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/statistic" } }),
       _vm._v(" "),
@@ -47411,7 +47405,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/items" } }),
       _vm._v(" "),
@@ -47827,7 +47820,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/achievements" } }),
       _vm._v(" "),
@@ -48472,7 +48464,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/stock-prizes" } }),
       _vm._v(" "),
@@ -48488,7 +48479,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.stockPrizes, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
@@ -48857,20 +48848,6 @@ var render = function() {
                       {
                         class: {
                           "nav-link": true,
-                          active: _vm.page == "/cases"
-                        },
-                        attrs: { href: "#/cases" }
-                      },
-                      [_vm._v("Cases")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "nav-item" }, [
-                    _c(
-                      "a",
-                      {
-                        class: {
-                          "nav-link": true,
                           active: _vm.page == "/streamers"
                         },
                         attrs: { href: "#/streamers" }
@@ -49051,11 +49028,7 @@ var render = function() {
             )
           ]
         )
-      : _c("nav", [
-          _c("a", { staticClass: "navbar-brand", attrs: { href: "#/login" } }, [
-            _vm._v("Login")
-          ])
-        ])
+      : _c("nav", { staticClass: "text-center" }, [_vm._m(1)])
   ])
 }
 var staticRenderFns = [
@@ -49078,6 +49051,18 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("form", { staticClass: "form-inline" }, [
+      _c(
+        "a",
+        { staticClass: "btn btn-outline-info", attrs: { href: "#/login" } },
+        [_vm._v("Login")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -49100,7 +49085,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/login" } }),
       _vm._v(" "),
@@ -49246,7 +49230,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/promoted" } }),
       _vm._v(" "),
@@ -49262,7 +49245,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.promotedStreamers, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.position))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
@@ -49357,7 +49340,10 @@ var render = function() {
                       _vm._l(_vm.streamers, function(streamer) {
                         return _c(
                           "option",
-                          { domProps: { value: streamer.id } },
+                          {
+                            key: streamer.id,
+                            domProps: { value: streamer.id }
+                          },
                           [_vm._v(_vm._s(streamer.name))]
                         )
                       })
@@ -49554,7 +49540,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", [
     _vm.checkToken && _vm.caseItemsLoaded
       ? _c(
           "div",
@@ -49925,7 +49911,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/bonus-points" } }),
       _vm._v(" "),
@@ -50348,7 +50333,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/rarities" } }),
       _vm._v(" "),
@@ -50364,7 +50348,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.rarities, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.id))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.name))]),
@@ -50626,7 +50610,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/users" } }),
       _vm._v(" "),
@@ -50973,7 +50956,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/diamonds" } }),
       _vm._v(" "),
@@ -51347,7 +51329,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/item-types" } }),
       _vm._v(" "),
@@ -51577,7 +51558,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/subscriptions" } }),
       _vm._v(" "),
@@ -51726,7 +51706,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/main-streamers" } }),
       _vm._v(" "),
@@ -51742,7 +51721,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.mainStreamers, function(item) {
-                    return _c("tr", [
+                    return _c("tr", { key: item.id }, [
                       _c("td", [_vm._v(_vm._s(item.name))]),
                       _vm._v(" "),
                       _c("td", [
@@ -51842,7 +51821,10 @@ var render = function() {
                         _vm._l(_vm.promotedStreamers, function(streamer) {
                           return _c(
                             "option",
-                            { domProps: { value: streamer.id } },
+                            {
+                              key: streamer.id,
+                              domProps: { value: streamer.id }
+                            },
                             [_vm._v(_vm._s(streamer.name))]
                           )
                         })
@@ -51891,7 +51873,7 @@ var render = function() {
               _vm.editMode
                 ? _c("div", { staticClass: "edit-modal-back" }, [
                     _c("div", { staticClass: "edit-modal" }, [
-                      _c("h3", { attrs: { "text-center": "" } }, [
+                      _c("h3", { staticClass: "text-center" }, [
                         _vm._v(_vm._s(_vm.editItem.name))
                       ]),
                       _vm._v(" "),
@@ -52089,7 +52071,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/custom-achivements" } }),
       _vm._v(" "),
@@ -52459,7 +52440,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/cases" } }),
       _vm._v(" "),
@@ -52739,7 +52719,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
     [
       _c("admin-menu", { attrs: { page: "/main-content" } }),
       _vm._v(" "),

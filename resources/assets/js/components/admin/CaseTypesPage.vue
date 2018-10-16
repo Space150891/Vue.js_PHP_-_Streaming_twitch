@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
 <admin-menu page="/case-types"></admin-menu>
   <div v-if="checkToken && caseTypesLoaded">
 		<h5>Case types page</h5>
@@ -21,34 +21,35 @@
 					<td>{{ item.id }}</td>
                     <td>{{ item.description }}</td>
                     <td>
-                        <p>
+                        <p style="margin:0">
                             Hero
                             <span class="badge badge-primary">{{ getRarityById(item.hero_rarity_id) }}</span>
                             <span class="badge badge-warning">{{ item.hero_percent }} %</span>
                         </p>
-                        <p>
+                        <p style="margin:0">
                             Frame
                             <span class="badge badge-primary">{{ getRarityById(item.frame_rarity_id) }}</span>
                             <span class="badge badge-warning">{{ item.frame_percent }} %</span>
                         </p>
-                        <p>
+                        <p style="margin:0">
                             Prize
                             <span class="badge badge-primary">{{ item.prize_cost }} $</span>
                             <span class="badge badge-warning">{{ item.prize_percent }} %</span>
                         </p>
-                        <p>
+                        <p style="margin:0">
                             Points
                             <span class="badge badge-primary">{{ item.points_count }} pcs.</span>
                             <span class="badge badge-warning">{{ item.points_percent }} %</span>
                         </p>
-                        <p>
+                        <p style="margin:0">
                             Diamonds
                             <span class="badge badge-primary">{{ item.diamonds_count }} pcs.</span>
                             <span class="badge badge-warning">{{ item.diamonds_percent }} %</span>
                         </p>
-                        <p>
+                        <p style="margin:0">
                             win nothing
-                            <span class="badge badge-warning">{{ 100 - item.hero_percent - item.frame_percent - item.prize_percent - item.points_percent - item.diamonds_percent }}</span>
+                            <span class="badge badge-warning">{{ 100 - item.hero_percent - item.frame_percent - item.prize_percent - item.points_percent - item.diamonds_percent }} %</span>
+
                         </p>
                     </td>
                     <td>{{ item.price }}</td>
@@ -241,8 +242,6 @@
             image: false,
             styleImage: {
                 width: "100px",
-                border: "1px #888 solid",
-                borderRadius: "2px",
             },
             imagesUrl : (config.baseUrl + '/storage/'),
         }

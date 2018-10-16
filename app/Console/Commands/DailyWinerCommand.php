@@ -74,6 +74,7 @@ class DailyWinerCommand extends Command
             $notify = new Notification();
             $notify->user_id = $user->id;
             $notify->event_type = 'user_message';
+            $notify->title = 'Prize';
             $message = "You win dialy prize {$item->title} for watching streamer {$streamer->name}";
             $notify->message = $message;
             echo "viewer id={$winner}: " . $message . "\n";

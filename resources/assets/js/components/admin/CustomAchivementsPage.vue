@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/custom-achivements"></admin-menu>
     <div v-if="checkToken">
         <h1 class="text-center">Custom achivements page</h1>

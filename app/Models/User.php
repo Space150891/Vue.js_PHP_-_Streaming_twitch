@@ -218,6 +218,7 @@ class User extends Authenticatable implements JWTSubject
             }
             $notify = new Notification();
             $notify->user_id = $userId;
+            $notify->title = 'Achivement';
             $notify->event_type = 'user_message';
             $notify->message = 'New Achivement! ' . $achievement->description;
             $notify->save();
