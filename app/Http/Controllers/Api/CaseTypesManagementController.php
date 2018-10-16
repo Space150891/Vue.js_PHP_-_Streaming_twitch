@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\{CaseType, RarityClass};
+use App\Models\{CaseType, RarityClass, ViewerCase};
 
 class CaseTypesManagementController extends Controller
 {
@@ -60,6 +60,7 @@ class CaseTypesManagementController extends Controller
         foreach ($caseTypes as &$caseType) {
             if (isset($classes[$caseType->rarity_class_id])) {
                 $caseType->rarity_class = $classes[$caseType->rarity_class_id];
+                $caseType->sold = ViewerCase::where('case_id', $caseType->id)->count();
                 $data[] = $caseType;
             }
         }
