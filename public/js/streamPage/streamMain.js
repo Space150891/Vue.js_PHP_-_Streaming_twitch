@@ -93,7 +93,7 @@ window.onload = function() {
                             <ul class="media-list">
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/common.png" height="64" alt="">
+                                        <img src="assets/images/case_types/common.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -107,7 +107,7 @@ window.onload = function() {
                                 </li>
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/uncommon.png" height="64" alt="">
+                                        <img src="assets/images/case_types/uncommon.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -121,7 +121,7 @@ window.onload = function() {
                                 </li>
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/rare.png" height="64" alt="">
+                                        <img src="assets/images/case_types/rare.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -135,7 +135,7 @@ window.onload = function() {
                                 </li>
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/epic.png" height="64" alt="">
+                                        <img src="assets/images/case_types/epic.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -149,7 +149,7 @@ window.onload = function() {
                                 </li>
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/legendary.png" height="64" alt="">
+                                        <img src="assets/images/case_types/legendary.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -183,7 +183,7 @@ window.onload = function() {
                             <ul class="media-list">
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/gold_xxx.png" height="64" alt="">
+                                        <img src="assets/images/case_types/gold_xxx.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">
@@ -197,7 +197,7 @@ window.onload = function() {
                                 </li>
                                 <li class="media">
                                     <div class="mr-3 position-relative">
-                                        <img src="assets/images/StreamCases/gold_xxx.png" height="64" alt="">
+                                        <img src="assets/images/case_types/gold_xxx.png" height="64" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="media-title">

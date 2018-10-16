@@ -1180,6 +1180,48 @@ body {
 .sidebar-right {
     width: 6.575rem;
 }
+.sidebar-hover-wrap {
+  overflow: visible !important;
+}
+.feedcontainer-item {
+  position: relative;
+}
+.feedcontainer-item:hover .description{
+  display: block;
+}
+.description {
+  display: none;
+  position:absolute;top: -15px;
+  left: -215px;
+  border: 1px solid #009587;
+  border-radius: 3px;
+}
+.description-up {
+  position:relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background: #009587;
+  padding: 10px 19px;
+  color: white;
+}
+.description-triangle {
+  background: #009587;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: -3px;
+  top: 40px;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+.description-down {
+  position:relative;
+  z-index: 2;
+  padding: 13px 19px 7px 19px;
+  background: white;
+  color: #2f2f2f;
+}
 
 
 
