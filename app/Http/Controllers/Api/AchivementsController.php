@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Card, CustomAchievement, UserCustomAchievement, Streamer, Achievement, AchievementProgres};
+use App\Models\{Card, CustomAchievement, UserCustomAchievement, Achievement, AchievementProgres};
 
 class AchivementsController extends Controller
 {
