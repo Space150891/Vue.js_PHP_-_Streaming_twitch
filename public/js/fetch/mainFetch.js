@@ -169,8 +169,6 @@ function getFollowed(userToken) {
 {
 
     setInterval(function () {
-        let formData = new FormData();
-        let userToken = localStorage.getItem('userToken');
         fetch('api/history/boxes/last', {
             method: "POST",
             credentials: 'omit',
@@ -374,8 +372,9 @@ function getMainMenuContent(userToken) {
                         ${jsonResp.data.subscription ? jsonResp.data.subscription : 'Viewer'}
                         </span></a>
                         <a href="#" class="dropdown-item">Level:	&nbsp;	<span class="badge bg-success font-size-sm font-weight-bold position-static ml-auto "> ${jsonResp.data.level}  </span></a>
+                        ${jsonResp.data.subscription ? '' : '<div class="dropdown-divider"></div><a href="upgrade" class="row justify-content-center p-0 text-center"><span class="badge bg-danger font-size-sm font-weight-bold">Upgrade to Streamer</span></a>'}
                         <div class="dropdown-divider"></div>
-                        ${jsonResp.data.subscription ? '<a href="#" class="row justify-content-center p-0 text-center" ><span class="badge bg-success-800 font-size-sm font-weight-bold" data-toggle="modal" data-target="#modal_ref">Referal Link</span></a>' : '<a href="upgrade" class="row justify-content-center p-0 text-center"><span class="badge bg-danger font-size-sm font-weight-bold">Upgrade to Streamer</span></a>'}
+                        <a href="#" class="row justify-content-center p-0 text-center" ><span class="badge bg-success-800 font-size-sm font-weight-bold" data-toggle="modal" data-target="#modal_ref">Referal Link</span></a>
                         <div class="dropdown-divider"></div>
                         <a href="profile/dlausch/index.html" class="dropdown-item "><i class="icon-cog5 "></i> Account</a>
                         <a href="logout" class="dropdown-item "><i class="icon-switch2 "></i> Logout</a>

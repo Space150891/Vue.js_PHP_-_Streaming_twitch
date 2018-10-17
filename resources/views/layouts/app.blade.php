@@ -72,7 +72,7 @@
     <!-- Main navbar -->
     <div class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="navbar-brand">
-            <a href="index.html" class="d-inline-block">
+            <a href="{{asset('/')}}" class="d-inline-block">
                 <img src="assets/images/logo_sc_mini.png" alt="">
             </a>
         </div>
@@ -96,7 +96,7 @@
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="directory.html" class="navbar-nav-link navbar-font-size">
+                    <a href="{{asset('/games')}}" class="navbar-nav-link navbar-font-size">
                         Directory
                     </a>
                 </li>
@@ -567,8 +567,8 @@
         <!-- /COOKIES ALERT -->
 
         {{-- Pages js --}}
-        <script src="js/streamPage/streamMain.js"></script>
-
+        <script src="js/pages/main.js"></script>
+        @yield('footer_scripts')
 
     </body>
 </html>

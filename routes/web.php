@@ -13,8 +13,9 @@
 |
 */
 
-// Homepage Route
+// Pages Route
 Route::get('/', 'PagesController@main')->name('main');
+Route::get('/games', 'PagesController@games');
 
 // Authentication Routes
 Auth::routes();

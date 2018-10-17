@@ -10,4 +10,9 @@ class PagesController extends Controller
     {
         return view('pages.main');
     }
+
+    public function games()
+    {
+        return view('pages.games');
+    }
 }
