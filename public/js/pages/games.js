@@ -1,6 +1,5 @@
-
 window.onload = function() {
-
+    generateMainMenu();
     fetch('api/games/list', {
         method: "POST",
         credentials: 'omit',

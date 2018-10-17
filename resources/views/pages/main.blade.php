@@ -158,3 +158,7 @@
 	<!-- /welcome modal -->
 
 @endsection
+
+@section('footer_scripts')
+    <script src="js/pages/main.js"></script>
+@endsection

@@ -1,11 +1,4 @@
-/**
- * LEFT Main navigation fetch data
- *
- */
-
-// Promoted streamer list
-let Profile = false;
-{
+function getPromotedList(){
     fetch('api/streamers/promoted/list', {
     method: "POST",
     credentials: 'omit',
@@ -34,10 +27,7 @@ let Profile = false;
         }
         elemPromoted.innerHTML = childrenElPromoted;
     });
-}
-
-
-//Following list
+};
 
 function getFollowed(userToken) {
     let formData = new FormData();
@@ -92,51 +82,9 @@ function getFollowed(userToken) {
         }
         elemFollowingOffline.innerHTML = childrenElFollowingOffline;
     });
-}
+};
 
-/**
- * MIDDLE main part fetch data (stream windows + chat)
- *
- */
-
-
-// Stream windows
-
-function getMainContent() {
-    fetch('api/streamers/main/show', {
-        method: "POST",
-        credentials: 'omit',
-        mode: 'cors',
-    }).then(function(res){
-        return res.json();
-    }).then(function(jsonResp){
-        let elemIframeWrap = document.getElementsByClassName('iframe-wrap')[0];
-        let elemIframeChat = document.getElementsByClassName('iframe-chat')[0];
-        let elemChatWrap = document.getElementsByClassName('chat-main-wrap')[0];
-        let elemUsersCount = document.getElementsByClassName('users-count')[0];
-        let elemCubeCount = document.getElementsByClassName('cube-count')[0];
-        let iframeHeight = elemChatWrap.offsetHeight;
-        let iframeWidth = elemChatWrap.offsetWidth;
-        const iframeData = jsonResp.data;
-        let childrenIframeWrap = '<iframe class="embed-responsive-item" src="http://player.twitch.tv/?channel=' + iframeData.name + '&autoplay=false"></iframe>';
-        let childrenIframeChat = '<iframe id="chat" src="https://www.twitch.tv/embed/' + iframeData.name + '/chat" style="height: ' + iframeHeight + 'px; width:' +iframeWidth+ 'px;" frameBorder="0"></iframe>';
-        let childrenUsersCount = '<span class="badge badge-pill bg-danger-800 position-static">' + iframeData.viewers + '</span>';
-        let childrenCubeCount = '<span class="badge badge-pill bg-success-800 position-static">' + iframeData.points + '</span>';
-        elemIframeWrap.innerHTML = childrenIframeWrap;
-        elemIframeChat.innerHTML = childrenIframeChat;
-        elemUsersCount.innerHTML = childrenUsersCount;
-        elemCubeCount.innerHTML = childrenCubeCount;
-    });
-}
-
-/**
- *  RIGHT sidebar part fetch data
- *
- */
-
-// List of first elements
-
-{
+function getBoxTotalHistory() {
     fetch('api/history/boxes/list', {
         method: "POST",
         credentials: 'omit',
@@ -161,12 +109,12 @@ function getMainContent() {
 
     })
 
-}
+};
 
 
-// Next element
+// Next box history element
 
-{
+function getLastBoxHistory() {
 
     setInterval(function () {
         fetch('api/history/boxes/last', {
@@ -189,7 +137,7 @@ function getMainContent() {
             }
         })
     }, 5000);
-}
+};
 
 function renderHistoryBox(box) {
     let info = '';
@@ -225,7 +173,7 @@ function renderHistoryBox(box) {
             </div>
         </div>
     `;
-}
+};
 
 function getMainMenuContent(userToken) {
     let formData = new FormData();
@@ -238,7 +186,6 @@ function getMainMenuContent(userToken) {
     }).then(function(res){
         return res.json();
     }).then(function(jsonResp){
-        Profile = jsonResp.data;
         let notificationsHtml = '';
         for (let i = 0; i < jsonResp.data.notifications.length; i++ ) {
             notificationsHtml += `
@@ -388,4 +335,32 @@ function getMainMenuContent(userToken) {
         document.getElementsByClassName('auth-user')[0].innerHTML = html;
         document.getElementById('reflink').value = "http://dev.streamcases.tv/api/afiliate/" + jsonResp.data.id;
     });
-}
+};
+
+function generateMainMenu() {
+    console.log('main menu LOADED');
+    getPromotedList();
+    getBoxTotalHistory();
+    getLastBoxHistory();
+    const elemAuthUser = document.getElementsByClassName('auth-user')[0];
+    let noToken = `<li class="nav-item">
+                  <a href="twitch/redirect" class="navbar-nav-link log-in">LogIn</a>
+                  </li>`;
+    
+    let elemFollowingItems = document.getElementsByClassName('following-items-part')[0];
+    const token = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : false;
+    if (token) {
+        getFollowed(token);
+        elemFollowingItems.style.display = 'block';
+        getMainMenuContent(token);
+    } else {
+        elemFollowingItems.style.display = 'none';
+        elemAuthUser.innerHTML = noToken;
+    }
+};
+
+
+
+
+
+

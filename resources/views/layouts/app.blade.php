@@ -48,9 +48,8 @@
         {{-- Perfect Scollbar --}}
             <script src="global_assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
         {{-- FETCH --}}
-            <script src="js/fetch/mainFetch.js"></script>
         {{-- Pages js --}}
-            <script src="js/streamPage/streamMain.js"></script>
+            <script src="js/pages/mainMenu.js"></script>
 
         <script>
 
@@ -206,7 +205,7 @@
         </div>
         <!-- /main sidebar -->
 
-            @yield('content')
+        @yield('content')
 
 
         <!-- Right sidebar -->
@@ -535,17 +534,17 @@
                         <button type="button" class="btn bg-primary">Learn more</button>
                         <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                     </div>
-
-                    <script>
-                        function copyClip() {
-                    var copyText = document.getElementById("reflink");
-                copyText.select();
-            document.execCommand("copy");
-        }
-        </script>
                 </div>
             </div>
         </div>
+        <script>
+            function copyClip() {
+                var copyText = document.getElementById("reflink");
+                copyText.select();
+                document.execCommand("copy");
+            }
+        </script>
+
         <!-- /referal modal -->
 
         <!-- COOKIES ALERT -->
@@ -567,7 +566,7 @@
         <!-- /COOKIES ALERT -->
 
         {{-- Pages js --}}
-        <script src="js/pages/main.js"></script>
+        <script src="js/pages/mainMenu.js"></script>
         @yield('footer_scripts')
 
     </body>
