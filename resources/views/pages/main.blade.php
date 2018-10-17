@@ -116,4 +116,45 @@
 		<!-- /content area -->
 	</div>
 
+	<!-- welcome modal -->
+	<div id="modal_welcome" class="modal fade " tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content bg-dark">
+				<div class="modal-header bg-teal">
+					<h5 class="modal-title">Welcome to StreamCases.tv!</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<h6 class="font-weight-semibold">What is StreamCases.tv?</h6>
+					<p>StreamCases.tv is a Streamer promotion platform that helps Streamers to grow.</p>
+					<p>Users that watch Streams on StreamCases.tv get rewarded by Credits and other stuff. </p>
+					<p>Credits can be used to buy StreamCases.</p>
+					<hr>
+					<p>StreamCases can contain Credits, Diamonds, Frames, Artwork or Prices worth up to around <b>$2000!</b></p>
+					<p>Farming Credits and other stuff as a Viewer is completely free!</p>
+					<hr>
+					<p>To use this Platform as a Streamer, you have to make a subscription on StreamCases.tv!</p>
+					<hr>
+					<b>
+						<p>StreamCases.tv is in "Public Test Stage", incomplete and under heavy development!</p>
+						<p>Viewers and Streamers that try our Platform now and help us therefore in any way with testing, by reporting bugs, making suggestions etc., will get rewarded when the platform goes live!</p>
+						<hr>
+						<p>Winning of Prices is possible before the platform goes live but they are not real. It´s enabled just for demonstration and testing purpose. You can´t win prices for real and therefore also not redeeming them yet!</p>
+					</b>
+					<button type="button" class="btn bg-teal-800">More information about Testing</button>
+				</div>
+				<div class="modal-footer">
+
+					<!-- <button type="button" class="btn bg-danger-800">Learn more about Streaming</button>
+					<button type="button" class="btn bg-success-800">Learn more about Viewing</button> -->
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- /welcome modal -->
+
 @endsection

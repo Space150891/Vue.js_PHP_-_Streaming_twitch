@@ -498,6 +498,55 @@
             </div>
         </div>
         <!-- /bottom navbar -->
+            <!-- referal modal -->
+        <div id="modal_ref" class="modal fade " tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header bg-teal">
+                        <h5 class="modal-title">Invite your friends and earn extra Credits!</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <h6 class="font-weight-semibold">How it works?</h6>
+                        <p>Refer your friends using the code below and you will earn one extra Credit per Minute for each refered friend that is earning Credits in the same time as you.
+                        </p>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h6 class="font-weight-semibold">Your Referal Link:</h6>
+                                <p>
+                                    <input id="reflink" type="text"  onfocus="this.select();" onmouseup="return false;"  value="https://streamcases.tv/?ref=12345" class="form-control" readonly>
+                                </p>
+                            </div>
+
+                            <div class="col-sm-2 d-none d-md-block">
+
+                                <h6 class="font-weight-semibold">&nbsp;</h6>
+                                <p>
+                                    <i class="icon-clipboard mr-3 icon-2x" 	onclick="copyClip()"></i> </p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn bg-primary">Learn more</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <script>
+                        function copyClip() {
+                    var copyText = document.getElementById("reflink");
+                copyText.select();
+            document.execCommand("copy");
+        }
+        </script>
+                </div>
+            </div>
+        </div>
+        <!-- /referal modal -->
 
         <!-- COOKIES ALERT -->
         <div class="alert cookiealert text-center" role="alert">

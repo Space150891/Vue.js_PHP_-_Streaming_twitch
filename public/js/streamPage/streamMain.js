@@ -344,7 +344,7 @@ window.onload = function() {
         elemFollowingItems.style.display = 'none';
         elemAuthUser.innerHTML = noToken;
     }
-
+    $('#modal_welcome').modal();
 };
 
 

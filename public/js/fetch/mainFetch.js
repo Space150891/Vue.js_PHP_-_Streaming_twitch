@@ -387,5 +387,6 @@ function getMainMenuContent(userToken) {
     
         `;
         document.getElementsByClassName('auth-user')[0].innerHTML = html;
+        document.getElementById('reflink').value = "http://dev.streamcases.tv/api/afiliate/" + jsonResp.data.id;
     });
 }
