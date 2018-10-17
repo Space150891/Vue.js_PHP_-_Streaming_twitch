@@ -49,11 +49,13 @@ class FollowedController extends Controller
                 $online[] = [
                     'id'       =>  $streamer->id,
                     'name'     =>  $streamer->name,
+                    'game'     =>  $streamer->game,
                     'viewers'  =>  $streamer->getOnlineViewers(),
                 ];
             } else {
                 $offline[] = [
                     'id'       =>  $streamer->id,
+                    'game'     =>  $streamer->game,
                     'name'     =>  $streamer->name,
                 ];
             }

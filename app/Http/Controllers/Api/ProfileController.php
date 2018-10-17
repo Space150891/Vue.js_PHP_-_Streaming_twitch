@@ -17,6 +17,7 @@ use App\Models\{
     Item,
     HistoryPoint,
     HistoryBox,
+    Notification,
     StockPrize,
     RarityClass,
     User,
@@ -255,9 +256,26 @@ class ProfileController extends Controller
         $now = new Carbon;
         $now->subSeconds(60);
         $updateTime = $now->toDateTimeString();
+        // \Log::info('check updated >' . $updateTime);
         $historyPoints = HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->get();
         $lastPoints = (integer)HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->sum('points');
-        //
+        $notifications = Notification::where([
+            ['user_id', '=', $user->id],
+            ['event_type', '=', 'user_message'],
+        ])->whereNull('view_at')->get();
+        foreach ($notifications as $notification) {
+            $notification->view_at = $updateTime;
+            $notification->save();
+        }
+        $boxTypes = CaseType::all();
+        $aviableBoxes = [];
+        foreach ($boxTypes as $boxType) {
+            $rarityClass = RarityClass::find($boxType->rarity_class_id);
+            if ($rarityClass->special == 0) {
+                $boxType->rarity_class = ucfirst($rarityClass->name);
+                $aviableBoxes[] = $boxType;
+            }
+        }
         return response()->json([
             'data' => [
                 'id'            => $user->id,
@@ -279,6 +297,11 @@ class ProfileController extends Controller
                 'subscription'    => $user->isSubscribed(),
                 'history_points' => $historyPoints,
                 'last_points' => $lastPoints,
+                'points'        => $viewer->current_points,
+                'diamonds'      => $viewer->diamonds,
+                'notifications' => $notifications,
+                'level'     => $viewer->getLevel(),
+                'case_types'    => $aviableBoxes,
                 'fields'        => [
                     [
                         'name'      => 'current_points',

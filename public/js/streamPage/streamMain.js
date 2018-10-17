@@ -2,7 +2,6 @@
 window.onload = function() {
 
     // MAIN NAVBAR
-
     const elemAuthUser = document.getElementsByClassName('auth-user')[0];
     let noToken = `<li class="nav-item">
                   <a href="twitch/redirect" class="navbar-nav-link log-in">LogIn</a>
@@ -10,7 +9,7 @@ window.onload = function() {
     let isToken = `<li class="nav-item dropdown">
                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
                    <i class="icon-stats-growth"></i>
-                   <span class="badge badge-pill bg-danger-800 position-static ml-auto ml-md-1"></span>
+                   <span class="badge badge-pill bg-danger-800 position-static ml-auto ml-md-1"> </span>
                     </a>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
@@ -332,14 +331,19 @@ window.onload = function() {
                     &nbsp;
                 </li>
     
-    `
-localStorage.getItem('userToken')? elemAuthUser.innerHTML=isToken:elemAuthUser.innerHTML=noToken;
+    `;
 
-
-    // FOLLOWING LIST
-
-    const elemFollowingItems = document.getElementsByClassName('following-items-part')[0];
-    localStorage.getItem('userToken')? elemFollowingItems.style.display='block':elemFollowingItems.style.display='none';
+    let elemFollowingItems = document.getElementsByClassName('following-items-part')[0];
+    const token = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : false;
+    if (token) {
+        getFollowed(token);
+        elemFollowingItems.style.display = 'block';
+        // elemAuthUser.innerHTML = isToken;
+        getMainMenuContent(token);
+    } else {
+        elemFollowingItems.style.display = 'none';
+        elemAuthUser.innerHTML = noToken;
+    }
 
 };
 

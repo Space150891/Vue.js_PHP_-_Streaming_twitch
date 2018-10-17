@@ -1192,7 +1192,7 @@ body {
 .description {
   display: none;
   position:absolute;top: -15px;
-  left: -215px;
+  right: 70px;
   border: 1px solid #009587;
   border-radius: 3px;
 }
