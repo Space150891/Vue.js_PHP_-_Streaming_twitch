@@ -112,6 +112,34 @@
 				<!-- /right sidebar component -->
 			</div>
 			<!-- /inner container -->
+
+			<div class="card">
+				<div class="card-header bg-white">
+					<h6 class="card-title">
+						Recent Loots
+					</h6>
+				</div>
+				<div class="card-body">
+					<div class="row"  id="winned-prizes">
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card">
+				<div class="card-header bg-white">
+					<h6 class="card-title">
+						Recently added Prices
+				</h6>
+			</div>
+			<div class="card-body">
+				<div class="row" id="new-prizes">
+
+					
+				</div>
+			</div>
+		</div>
 		</div>
 		<!-- /content area -->
 	</div>

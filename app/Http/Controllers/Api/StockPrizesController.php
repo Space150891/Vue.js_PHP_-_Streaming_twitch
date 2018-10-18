@@ -19,7 +19,7 @@ class StockPrizesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['newPrizes']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -166,6 +166,27 @@ class StockPrizesController extends Controller
         ]);
     }
 
+    public function newPrizes(Request $request)
+    {
+        $count = 4;
+        $stockPrizes = StockPrize::orderBy('created_at', 'desc')->limit($count)->get();
+        $prizes = [];
+        for ($i = 0; $i < count($stockPrizes); $i++) {
+            $stockPrize = $stockPrizes[$i];
+            $prize = [];
+            $prize['id']  = $i;
+            $prize['name'] = $stockPrize->name;
+            $prize['description'] = $stockPrize->description;
+            $prize['image'] = $stockPrize->image;
+            $prize['cost']  = $stockPrize->cost;
+            $prizes[] = $prize;
+        }
+        return response()->json([
+            'data' => [
+                'prizes'    =>  $prizes,
+            ],
+        ]);
+    }
 
     private function generateFileName($ext) {
         do {

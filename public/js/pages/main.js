@@ -25,9 +25,85 @@ function getMainContent() {
     });
 }
 
+function getLastPrizes() {
+    fetch(baseUrl + 'api/prizes/last', {
+        method: "POST",
+        credentials: 'omit',
+        mode: 'cors',
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        let html = '';
+        for (let i=0; i<jsonResp.data.prizes.length; i++) {
+            let prize = jsonResp.data.prizes[i];
+            html += `
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-img-actions mx-1 mt-1">
+                            <img class="card-img img-fluid" src="${baseUrl + 'storage/' + prize.image}" alt="prize">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-start flex-nowrap">
+                                <div>
+                                    <h6 class="font-weight-semibold mr-2">Winner: ${prize.viewer}</h6>
+                                    <h6 class="font-weight-semibold mr-2">${prize.description}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex align-items-start flex-nowrap">
+                                <div>
+                                    <h6 class="font-weight-semibold mr-2">Worth ${prize.cost}$</h6>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        document.getElementById('winned-prizes').innerHTML = html;
+    });
+}
+
+function getNewPrizes() {
+    fetch(baseUrl + 'api/prizes/new', {
+        method: "POST",
+        credentials: 'omit',
+        mode: 'cors',
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        let html = '';
+        for (let i=0; i<jsonResp.data.prizes.length; i++) {
+            let prize = jsonResp.data.prizes[i];
+            html += `
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-img-actions mx-1 mt-1">
+                            <img class="card-img img-fluid" src="${baseUrl + 'storage/' + prize.image}" alt="">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-start flex-nowrap">
+                                <div>
+                                    <h6 class="font-weight-semibold mr-2">${prize.name}</h6>
+                                    <span>${prize.description}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        document.getElementById('new-prizes').innerHTML = html;
+    });
+}
+
 window.onload = function() {
     generateMainMenu();
     getMainContent();
+    getLastPrizes();
+    getNewPrizes();
     $('#modal_welcome').modal();
 };
 
