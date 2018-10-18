@@ -100,8 +100,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="prices.html" class="navbar-nav-link navbar-font-size">
-                        Prices
+                    <a href="{{asset('/prizes')}}" class="navbar-nav-link navbar-font-size">
+                        Prizes
                     </a>
                 </li>
                 <li class="nav-item">

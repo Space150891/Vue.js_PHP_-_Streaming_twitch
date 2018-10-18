@@ -25,4 +25,9 @@ class PagesController extends Controller
     {
         return view('pages.watchStream', ['streamName'   => $streamName]);
     }
+
+    public function allPrizes()
+    {
+        return view('pages.allPrizes');
+    }
 }

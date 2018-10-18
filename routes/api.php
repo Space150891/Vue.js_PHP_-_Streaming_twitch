@@ -74,6 +74,7 @@ Route::group([
     Route::post('viewer/items/delete', 'Api\ViewerItemsController@destroy');
     Route::post('prizes/last', 'Api\ViewerItemsController@lastPrizes');
     Route::post('prizes/new', 'Api\StockPrizesController@newPrizes');
+    Route::post('prizes/all', 'Api\StockPrizesController@allPrizes');
 
     Route::post('viewer/cases/list', 'Api\ViewerCaseTypesController@index');
     Route::post('viewer/cases/add', 'Api\ViewerCaseTypesController@store');

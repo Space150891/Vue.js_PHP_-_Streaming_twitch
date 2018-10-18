@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\{StockPrize};
+use App\Models\{StockPrize, ViewerPrize};
 
 class StockPrizesController extends Controller
 {
@@ -19,7 +19,7 @@ class StockPrizesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['newPrizes']]);
+        $this->middleware('auth:api', ['except' => ['newPrizes', 'allPrizes']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -184,6 +184,41 @@ class StockPrizesController extends Controller
         return response()->json([
             'data' => [
                 'prizes'    =>  $prizes,
+            ],
+        ]);
+    }
+
+    public function allPrizes(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'      => 'required|numeric|min:1',
+            'on_page'   => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+        $offset = $request->on_page * ($request->page - 1);
+        $stockPrizes = StockPrize::orderBy('created_at', 'desc')->skip($offset)->take($request->on_page)->get();
+
+        $prizes = [];
+        for ($i = 0; $i < count($stockPrizes); $i++) {
+            $stockPrize = $stockPrizes[$i];
+            $prize = [];
+            $prize['id']  = $i;
+            $prize['name'] = $stockPrize->name;
+            $prize['description'] = $stockPrize->description;
+            $prize['image'] = $stockPrize->image;
+            $prize['cost']  = $stockPrize->cost;
+            $prize['winned']  = ViewerPrize::where('prize_id', $stockPrize->id)->count();
+            $prizes[] = $prize;
+        }
+        return response()->json([
+            'data' => [
+                'prizes'    =>  $prizes,
+                'page'      =>  (int)$request->page,
+                'pages'     =>  (int)ceil(StockPrize::all()->count() / $request->on_page),
             ],
         ]);
     }

@@ -15,7 +15,7 @@
         <span class="page-link">Previous</span>
     </li>
     <li
-      v-for="pagg in paggData"
+      v-for="pagg in paggData" v-bind:key="pagg"
       v-bind:class="(pagg == page) ? 'page-item active': 'page-item'"
     >
         <a
