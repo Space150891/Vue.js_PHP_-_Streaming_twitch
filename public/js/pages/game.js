@@ -17,7 +17,7 @@ window.onload = function() {
             html += `
                 <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
                     <div class="card">
-                        <a href="${baseUrl + 'stream/watch/' + streamer.name}">
+                        <a href="${baseUrl + 'stream-watch/' + streamer.name}">
                             <img class="card-img-top img-fluid" src="${avatar}" alt="avatar">
                         </a>
                         <h5 class=" mt-2 ml-1">${streamer.name}</h5>

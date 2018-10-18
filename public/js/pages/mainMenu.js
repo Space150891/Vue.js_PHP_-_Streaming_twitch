@@ -338,13 +338,12 @@ function getMainMenuContent(userToken) {
 };
 
 function generateMainMenu() {
-    console.log('main menu LOADED');
     getPromotedList();
     getBoxTotalHistory();
     getLastBoxHistory();
     const elemAuthUser = document.getElementsByClassName('auth-user')[0];
     let noToken = `<li class="nav-item">
-                  <a href="twitch/redirect" class="navbar-nav-link log-in">LogIn</a>
+                  <a href="${baseUrl + 'twitch/redirect'}" class="navbar-nav-link log-in">LogIn</a>
                   </li>`;
     
     let elemFollowingItems = document.getElementsByClassName('following-items-part')[0];

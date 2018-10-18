@@ -20,4 +20,9 @@ class PagesController extends Controller
     {
         return view('pages.game', ['gameName'   => $gameName]);
     }
+
+    public function watchStream($streamName)
+    {
+        return view('pages.watchStream', ['streamName'   => $streamName]);
+    }
 }

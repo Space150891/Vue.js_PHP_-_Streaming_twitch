@@ -17,6 +17,7 @@
 Route::get('/', 'PagesController@main')->name('main');
 Route::get('/games', 'PagesController@games');
 Route::get('/game/{gameName}', 'PagesController@game');
+Route::get('/stream-watch/{streamName}', 'PagesController@watchStream');
 
 // Authentication Routes
 Auth::routes();

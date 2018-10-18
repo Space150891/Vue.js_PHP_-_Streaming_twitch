@@ -10,7 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
-use App\Models\{Activity, Streamer, User, PromoutedStreamer};
+use App\Models\{Activity, ActiveStreamer, Streamer, User, PromoutedStreamer};
 
 class StreamersController extends Controller
 {
@@ -130,9 +130,9 @@ class StreamersController extends Controller
             $now = new Carbon;
             $now->subSeconds(config('ospp.activity.valid_pause'));
             $updateTime = $now->toDateTimeString();
-            $active = Activity::where([
+            $active = ActiveStreamer::where([
                 ['streamer_id', '=', $streamer->id],
-                ['updated_at', '>', $updateTime],
+                // ['updated_at', '>', $updateTime],
             ])->count();
             if ($active > 0) {
                 $online = $streamer;
@@ -146,7 +146,6 @@ class StreamersController extends Controller
         return response()->json([
             'data' => [
                 'streamers' => $onlineStreamers,
-                // 'streamers' => $streamers,
             ],
         ]);
 

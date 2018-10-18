@@ -26,7 +26,6 @@ function getMainContent() {
 }
 
 window.onload = function() {
-    console.log('main js');
     generateMainMenu();
     getMainContent();
     $('#modal_welcome').modal();
