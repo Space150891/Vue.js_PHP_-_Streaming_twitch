@@ -1,5 +1,5 @@
 function getMainContent() {
-    fetch('api/streamers/main/show', {
+    fetch(baseUrl + 'api/streamers/main/show', {
         method: "POST",
         credentials: 'omit',
         mode: 'cors',

@@ -8,8 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
-use App\Models\{Streamer, User, PromoutedStreamer};
+use App\Models\{Activity, Streamer, User, PromoutedStreamer};
 
 class StreamersController extends Controller
 {
@@ -125,7 +126,7 @@ class StreamersController extends Controller
         }
         $streamers = Streamer::where('game', strtolower($request->game_name))->get();
         $onlineStreamers = [];
-        foreach ($streamer as $streamer) {
+        foreach ($streamers as $streamer) {
             $now = new Carbon;
             $now->subSeconds(config('ospp.activity.valid_pause'));
             $updateTime = $now->toDateTimeString();
@@ -145,6 +146,7 @@ class StreamersController extends Controller
         return response()->json([
             'data' => [
                 'streamers' => $onlineStreamers,
+                // 'streamers' => $streamers,
             ],
         ]);
 

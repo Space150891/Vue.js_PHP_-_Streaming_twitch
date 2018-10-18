@@ -15,4 +15,9 @@ class PagesController extends Controller
     {
         return view('pages.games');
     }
+
+    public function game($gameName)
+    {
+        return view('pages.game', ['gameName'   => $gameName]);
+    }
 }

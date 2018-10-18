@@ -9,47 +9,47 @@
 
         <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ config('app.name', Lang::get('titles.app')) }}</title>
         <meta name="description" content="">
-        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="shortcut icon" href="{{asset('/favicon.ico')}}">
         {{-- Global stylesheets --}}
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-        <link href="global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/bootstrap_limitless.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/components.min.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/colors.min.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/easywheel.css" rel="stylesheet" type="text/css">
-        <link href="assets/css/cookiealert.css" rel="stylesheet" type="text/css">
+        <link href="{{ asset('global_assets/css/icons/icomoon/styles.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/bootstrap_limitless.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/layout.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/components.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/colors.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/easywheel.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/cookiealert.css')}}" rel="stylesheet" type="text/css">
 
 
         {{-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --}}
-        <!--[if lt IE 9]>
+        <!--[if lt IE 9]-->
             <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
             <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
         <![endif]-->
 
         {{-- Main JS Block -- }}
         {{-- Core JS files --}}
-            <script src="global_assets/js/main/jquery.min.js"></script>
-            <script src="global_assets/js/main/bootstrap.bundle.min.js"></script>
-            <script src="global_assets/js/plugins/loaders/blockui.min.js"></script>
+            <script src="{{ asset('global_assets/js/main/jquery.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/loaders/blockui.min.js')}}"></script>
         {{-- Theme JS files --}}
-            <script src="global_assets/js/plugins/forms/styling/uniform.min.js"></script>
-            <script src="global_assets/js/plugins/ui/prism.min.js"></script>
-            <script src="global_assets/js/plugins/media/fancybox.min.js"></script>
-            <script src="global_assets/js/plugins/notifications/bootbox.min.js"></script>
-            <script src="assets/js/components_popups.js"></script>
-            <script src="global_assets/js/demo_pages/components_modals.js"></script>
-            <script src="global_assets/js/plugins/loaders/progressbar.min.js"></script>
-            <script src="global_assets/js/plugins/forms/selects/select2.min.js"></script>
-            <script src="assets/js/app.js"></script>
+            <script src="{{ asset('global_assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/ui/prism.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/media/fancybox.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/notifications/bootbox.min.js')}}"></script>
+            <script src="{{ asset('assets/js/components_popups.js')}}"></script>
+            <script src="{{ asset('global_assets/js/demo_pages/components_modals.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/loaders/progressbar.min.js')}}"></script>
+            <script src="{{ asset('global_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
+            <script src="{{ asset('assets/js/app.js')}}"></script>
         {{-- DEV INFO ALL JS AFTER HERE GETS EXECUTED AFTER PAGE COMPLETELY LOADED BY APP.JS BEFORE --}}
-            <script src="assets/js/components_progress.js"></script>
+            <script src="{{ asset('assets/js/components_progress.js')}}"></script>
         {{-- Perfect Scollbar --}}
-            <script src="global_assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
+            <script src="{{ asset('global_assets/js/plugins/ui/perfect_scrollbar.min.js')}}"></script>
         {{-- FETCH --}}
         {{-- Pages js --}}
-            <script src="js/pages/mainMenu.js"></script>
+            <script src="{{ asset('js/pages/mainMenu.js')}}"></script>
 
         <script>
 
@@ -72,7 +72,7 @@
     <div class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="navbar-brand">
             <a href="{{asset('/')}}" class="d-inline-block">
-                <img src="assets/images/logo_sc_mini.png" alt="">
+                <img src="{{asset('assets/images/logo_sc_mini.png')}}" alt="">
             </a>
         </div>
         <div class="d-md-none">
@@ -489,9 +489,9 @@
                 </ul>
 
                 <ul class="list-inline list-inline-condensed mb-0">
-                    <li class="list-inline-item"><a href="http://twitch.tv/streamcases" target="_blank"> <img src="assets/images/SuperTinyIcons/svg/twitch.svg" height="20" title="Twitch"></a>
+                    <li class="list-inline-item"><a href="http://twitch.tv/streamcases" target="_blank"> <img src="{{asset('assets/images/SuperTinyIcons/svg/twitch.svg')}}" height="20" title="Twitch"></a>
                         <!-- <li class="list-inline-item"><a href="http://youtube.com/" target="_blank"> <img src="assets/images/SuperTinyIcons/svg/youtube.svg" height="20" title="YouTube"></a> -->
-                    <li class="list-inline-item"><a href="http://twitter.com/streamcases" target="_blank"> <img src="assets/images/SuperTinyIcons/svg/twitter.svg" height="20" title="Twitter"></a>
+                    <li class="list-inline-item"><a href="http://twitter.com/streamcases" target="_blank"> <img src="{{asset('assets/images/SuperTinyIcons/svg/twitter.svg')}}" height="20" title="Twitter"></a>
 
                 </ul>
             </div>
@@ -566,7 +566,10 @@
         <!-- /COOKIES ALERT -->
 
         {{-- Pages js --}}
-        <script src="js/pages/mainMenu.js"></script>
+        <script>
+            const baseUrl = "{{ env('APP_URL') }}/";
+        </script>
+        <script src="{{asset('js/pages/mainMenu.js')}}"></script>
         @yield('footer_scripts')
 
     </body>

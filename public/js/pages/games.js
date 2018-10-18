@@ -1,6 +1,6 @@
 window.onload = function() {
     generateMainMenu();
-    fetch('api/games/list', {
+    fetch(baseUrl + 'api/games/list', {
         method: "POST",
         credentials: 'omit',
         mode: 'cors',
@@ -14,7 +14,7 @@ window.onload = function() {
             gamesHtml += `
             <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
                 <div class="card">
-                    <a href="#">
+                    <a href="/game/${game.name}">
                     <img class="card-img-top img-fluid" src="${game.avatar}" alt="">
                     </a>
                     <h5 class=" mt-2 ml-1">${game.name}</h5>

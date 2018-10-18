@@ -1,5 +1,5 @@
 function getPromotedList(){
-    fetch('api/streamers/promoted/list', {
+    fetch(baseUrl + 'api/streamers/promoted/list', {
     method: "POST",
     credentials: 'omit',
     mode: 'cors'
@@ -32,7 +32,7 @@ function getPromotedList(){
 function getFollowed(userToken) {
     let formData = new FormData();
     formData.append('token', userToken);
-    fetch('api/myfollowed', {
+    fetch(baseUrl + 'api/myfollowed', {
         method: "POST",
         body: formData,
         credentials: 'omit',
@@ -85,7 +85,7 @@ function getFollowed(userToken) {
 };
 
 function getBoxTotalHistory() {
-    fetch('api/history/boxes/list', {
+    fetch(baseUrl + 'api/history/boxes/list', {
         method: "POST",
         credentials: 'omit',
         mode: 'cors',
@@ -117,7 +117,7 @@ function getBoxTotalHistory() {
 function getLastBoxHistory() {
 
     setInterval(function () {
-        fetch('api/history/boxes/last', {
+        fetch(baseUrl + 'api/history/boxes/last', {
             method: "POST",
             credentials: 'omit',
             mode: 'cors',
@@ -161,7 +161,7 @@ function renderHistoryBox(box) {
             break;
     }
     return `
-        <img src="storage/` + box.box_image + `" height="64" alt="">
+        <img src="${baseUrl}storage/` + box.box_image + `" height="64" alt="">
         <div class="description">
             <div class="description-up">
                 <img style="height: 32px" src="https://static-cdn.jtvnw.net/jtv_user_pictures/dlausch-profile_image-66f5f33b0872138a-70x70.jpeg" alt="">
@@ -178,7 +178,7 @@ function renderHistoryBox(box) {
 function getMainMenuContent(userToken) {
     let formData = new FormData();
     formData.append('token', userToken);
-    fetch('api/profile/current', {
+    fetch(baseUrl + 'api/profile/current', {
         method: "POST",
         body: formData,
         credentials: 'omit',
