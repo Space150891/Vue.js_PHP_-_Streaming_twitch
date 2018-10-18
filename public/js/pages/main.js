@@ -22,6 +22,22 @@ function getMainContent() {
         elemIframeChat.innerHTML = childrenIframeChat;
         elemUsersCount.innerHTML = childrenUsersCount;
         elemCubeCount.innerHTML = childrenCubeCount;
+        document.getElementById('main-stream-name').innerHTML = `Stream of ${iframeData.name}`;
+        document.getElementById('main-twitch-link').innerHTML = `
+                                            <a href="http://twitch.tv/${iframeData.name}" target="_blank">
+                                                <i class="mr-1"></i>
+                                                <img src="assets/images/SuperTinyIcons/svg/twitch.svg" height="20" title="Twitch">
+                                            </a>
+        `;
+        document.getElementById('main-twitch-subscribe').innerHTML = `
+        <a href="http://www.twitch.tv/${iframeData.name}/subscribe" target="_blank" type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-play"></i></b> Subscribe</a>
+        `;
+        document.getElementById('main-twitch-donate').innerHTML = `
+        <a href="${baseUrl + 'dotate/' + iframeData.name}" target="_blank" type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-cash2"></i></b> Donate</a>
+        `;
+        document.getElementById('main-twitch-follow').innerHTML = `
+        <a href="${baseUrl + 'follow/' + iframeData.name}" target="_blank" type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-heart5"></i></b> Follow</a>
+        `;
     });
 }
 

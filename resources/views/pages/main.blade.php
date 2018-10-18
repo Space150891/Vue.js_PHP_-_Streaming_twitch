@@ -18,7 +18,7 @@
 							</div>
 						</div>
 						<div class="card-footer bg-dark d-sm-flex justify-content-sm-between align-items-sm-center py-sm-2">
-							<h4 class="font-weight-semibold">Stream of Ur2EzTv</h4>
+							<h4 class="font-weight-semibold" id="main-stream-name">Stream of Ur2EzTv</h4>
 							<ul class="list-inline list-inline-condensed-margin mb-0 mt-2 mt-sm-0">
 								<!-- DEV INFO VIEWER COUNT -->
 								<li class="list-inline-item pl-2">
@@ -39,7 +39,7 @@
 						</div>
 						<div class="card-footer bg-dark d-sm-flex justify-content-sm-between align-items-sm-center py-sm-2">
 							<ul class="list-inline list-inline-condensed-margin-social mb-0">
-								<li class="list-inline-item">
+								<li class="list-inline-item" id="main-twitch-link">
 									<a href="http://twitch.tv/ur2eztv" target="_blank">
 										<i class="mr-1"></i>
 										<img src="assets/images/SuperTinyIcons/svg/twitch.svg" height="20" title="Twitch">
@@ -52,7 +52,7 @@
 									</a>
 								</li>
 								<li class="list-inline-item">
-									<a href="https://twitter.com/ur2eztv" target="_blank">
+									<a href="https://twitter.com/" target="_blank">
 										<i class="mr-1"></i>
 										<img src="assets/images/SuperTinyIcons/svg/twitter.svg" height="20" title="Twitter">
 									</a>
@@ -67,14 +67,14 @@
 
 							<ul class="list-inline list-inline-condensed-margin mb-0 mt-2 mt-sm-0 d-none d-md-block">
 
-								<li class="list-inline-item">
+								<li class="list-inline-item" id="main-twitch-follow">
 									<button type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left">
 										<b><i class="icon-heart5"></i></b> Follow</button>
 								</li>
-								<li class="list-inline-item">
+								<li class="list-inline-item" id="main-twitch-subscribe">
 									<a href="http://www.twitch.tv/ur2eztv/subscribe" target="_blank" type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-play"></i></b> Subscribe</a>
 								</li>
-								<li class="list-inline-item ">
+								<li class="list-inline-item " id="main-twitch-donate">
 									<button type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-cash2"></i></b> Donate</button>
 								</li>
 							</ul>
@@ -85,7 +85,7 @@
 								<li class="list-inline-item">
 									<a href="http://www.twitch.tv/ur2eztv/subscribe" target="_blank" type="button" class="btn btn-success bg-success-800">Subscribe</a>
 								</li>
-								<li class="list-inline-item ">
+								<li class="list-inline-item">
 									<button type="button" class="btn btn-success bg-success-800">Donate</button>
 								</li>
 							</ul>
