@@ -20,7 +20,7 @@ class CaseTypesManagementController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['front']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -59,7 +59,7 @@ class CaseTypesManagementController extends Controller
         $data = [];
         foreach ($caseTypes as &$caseType) {
             if (isset($classes[$caseType->rarity_class_id])) {
-                $caseType->rarity_class = $classes[$caseType->rarity_class_id];
+                $caseType->rarity_class = ucfirst($classes[$caseType->rarity_class_id]);
                 $caseType->sold = ViewerCase::where('case_id', $caseType->id)->count();
                 $data[] = $caseType;
             }

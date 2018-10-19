@@ -30,4 +30,9 @@ class PagesController extends Controller
     {
         return view('pages.allPrizes');
     }
+
+    public function shop()
+    {
+        return view('pages.shop');
+    }
 }
