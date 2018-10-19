@@ -31,8 +31,8 @@ class PagesController extends Controller
         return view('pages.allPrizes');
     }
 
-    public function shop()
+    public function shop($caseId = 0)
     {
-        return view('pages.shop');
+        return view('pages.shop', ['caseId'    =>  $caseId]);
     }
 }

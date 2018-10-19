@@ -228,11 +228,11 @@ function getMainMenuContent(userToken) {
             boxTypes += `
                 <li class="media">
                     <div class="mr-3 position-relative">
-                        <img src="storage/${jsonResp.data.case_types[i].image}" height="64" alt="">
+                        <img src="${baseUrl + 'storage/' + jsonResp.data.case_types[i].image}" height="64" alt="">
                     </div>
                     <div class="media-body">
                         <div class="media-title">
-                            <a href="" data-toggle="modal" data-target="#modal_iconified">
+                            <a href="${baseUrl + 'store/' + jsonResp.data.case_types[i].id}">
                                 <span class="font-weight-semibold">${jsonResp.data.case_types[i].rarity_class} StreamCase</span>
                                 <span class="text-muted float-right font-size-sm">${jsonResp.data.case_types[i].price}</span>
                             </a>
@@ -328,7 +328,7 @@ function getMainMenuContent(userToken) {
                         <a href="#" class="row justify-content-center p-0 text-center" ><span class="badge bg-success-800 font-size-sm font-weight-bold" data-toggle="modal" data-target="#modal_ref">Referal Link</span></a>
                         <div class="dropdown-divider"></div>
                         <a href="profile/dlausch/index.html" class="dropdown-item "><i class="icon-cog5 "></i> Account</a>
-                        <a href="logout" class="dropdown-item "><i class="icon-switch2 "></i> Logout</a>
+                        <a href="#" class="dropdown-item" onclick="logout()"><i class="icon-switch2 "></i> Logout</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -340,6 +340,11 @@ function getMainMenuContent(userToken) {
         document.getElementById('reflink').value = "http://dev.streamcases.tv/api/afiliate/" + jsonResp.data.id;
     });
 };
+
+function logout() {
+    localStorage.removeItem('userToken');
+    location.reload();
+}
 
 function generateMainMenu() {
     getPromotedList();

@@ -1,4 +1,4 @@
-let caseId = 0;
+// let caseId = 0;
 
 function getCases() {
     fetch(baseUrl + 'api/cases/types/list', {
@@ -10,11 +10,18 @@ function getCases() {
     }).then(function(jsonResp){
         console.log('CASES', jsonResp);
         let html = `<div class="row">`;
+        let selectedClass = '';
         for (let i=0; i<jsonResp.data.caseTypes.length; i++) {
             html += generateCase(jsonResp.data.caseTypes[i]);
+            if (caseId > 0 && jsonResp.data.caseTypes[i].id == caseId) {
+                selectedClass = jsonResp.data.caseTypes[i].rarity_class;
+            }
         }
         html += `</div>`;
         document.getElementById('streamcases').innerHTML = html;
+        if (caseId > 0 && selectedClass!='') {
+            modalBuy(selectedClass, caseId);
+        }
     });
 }
 
@@ -66,7 +73,6 @@ function modalBuy(rarityClass, id) {
 }
 
 function buyCase() {
-    // console.log('buying case' + caseId);
     var formData = new FormData();
     const token = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : false;
     formData.append('id', caseId);
@@ -101,7 +107,6 @@ function buyCase() {
 window.onload = function() {
     generateMainMenu();
     getCases();
-
 };
 
 

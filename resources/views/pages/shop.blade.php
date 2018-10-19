@@ -6,7 +6,6 @@
 
 <!-- Content area -->
 <div class="content">
-
 <!-- Rounded basic tabs -->
 <div class="row">
     <div class="col-md-12">
@@ -81,7 +80,7 @@
 
 @endsection
 <script>
-    
+    let caseId = {{$caseId}};
 </script>
 @section('footer_scripts')
     <script src="{{asset('js/pages/shop.js')}}"></script>
