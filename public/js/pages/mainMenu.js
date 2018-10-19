@@ -11,7 +11,7 @@ function getPromotedList(){
         let childrenElPromoted = '';
         for (let i = 0; i < promotedData.length; i++) {
             childrenElPromoted += '<li class="nav-item">' +
-                '<a href="/watch-streams/' + promotedData[i].twitch_id + '" class="nav-link">' +
+                '<a href="/stream-watch/' + promotedData[i].name + '" class="nav-link">' +
                 '<i>' +
                 '<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png " width="32 " height="32 " class="rounded-circle " alt=" ">' +
                 '</i>' +
@@ -46,12 +46,12 @@ function getFollowed(userToken) {
         let childrenElFollowingOnline = '';
         for (let i = 0; i < followingOnlineData.length; i++) {
             childrenElFollowingOnline += '<li class="nav-item">' +
-                '<a href="/watch-streams/' + (followingOnlineData.id || i) + '" class="nav-link">' +
+                '<a href="/stream-watch/' + (followingOnlineData[i].name) + '" class="nav-link">' +
                 '<i>' +
                 '<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png " width="32 " height="32 " class="rounded-circle " alt=" ">' +
                 '</i>' +
                 '<span class="truncate">' +
-                (followingOnlineData.name || "James Sunderland") +
+                (followingOnlineData[i].name) +
                 '<span class="d-block font-weight-normal opacity-50 truncate">' + followingOnlineData[i].game + '</span>' +
                 '</span>' +
                 '<span class="ml-3 align-self-center ">' +
@@ -67,12 +67,12 @@ function getFollowed(userToken) {
         let childrenElFollowingOffline = '';
         for (let i = 0; i < followingOfflineData.length; i++) {
             childrenElFollowingOffline += '<li class="nav-item">' +
-                '<a href="/watch-streams/' + (followingOfflineData.id || i) + '" class="nav-link">' +
+                '<a href="/stream-watch/' + (followingOfflineData[i].name) + '" class="nav-link">' +
                 '<i>' +
                 '<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png " width="32 " height="32 " class="rounded-circle " alt=" ">' +
                 '</i>' +
                 '<span class="truncate">' +
-                (followingOfflineData.name || "Dr. Hill") +
+                (followingOfflineData[i].name) +
                 '<span class="d-block font-weight-normal opacity-50 truncate">' + followingOfflineData[i].game + '</span>' +
                 '</span>' +
                 '<span class="ml-3 align-self-center ">' +

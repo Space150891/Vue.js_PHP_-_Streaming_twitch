@@ -101,6 +101,7 @@ function buyCase() {
                 document.getElementById('buy-case-body').innerHTML = html;
             }
         }
+        setTimeout(function(){ $('#modal_buy_case').modal("hide"); }, 1500);
     });
 }
 
