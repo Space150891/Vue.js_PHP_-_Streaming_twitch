@@ -4930,110 +4930,136 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      editMode: false,
-      editItem: {
-        name: '',
-        description: '',
-        cost: 0,
-        amount: 0,
-        image: null,
-        id: 0
-      },
-      deletingItem: {
-        name: '',
-        id: 0,
-        openModal: false
-      },
-      errors: [],
-      openAlertModal: false,
-      image: false,
-      styleImage: {
-        width: "100px",
-        border: "1px #888 solid",
-        borderRadius: "2px"
-      },
-      imagesUrl: config.baseUrl + '/storage/'
-    };
-  },
-  mounted: function mounted() {
-    if (this.checkToken) {
-      this.getList();
-    }
-  },
+    data: function data() {
+        return {
+            editMode: false,
+            editItem: {
+                name: '',
+                description: '',
+                cost: 0,
+                amount: 0,
+                image: null,
+                rarity_class_id: 0,
+                id: 0
+            },
+            deletingItem: {
+                name: '',
+                id: 0,
+                openModal: false
+            },
+            errors: [],
+            openAlertModal: false,
+            image: false,
+            styleImage: {
+                width: "100px",
+                border: "1px #888 solid",
+                borderRadius: "2px"
+            },
+            imagesUrl: config.baseUrl + '/storage/'
+        };
+    },
+    mounted: function mounted() {
+        if (this.checkToken) {
+            this.getList();
+        }
+    },
 
-  methods: {
-    confirmDeleteAction: function confirmDeleteAction(item) {
-      this.deletingItem.name = item.name;
-      this.deletingItem.id = item.id;
-      this.deletingItem.openModal = true;
+    methods: {
+        confirmDeleteAction: function confirmDeleteAction(item) {
+            this.deletingItem.name = item.name;
+            this.deletingItem.id = item.id;
+            this.deletingItem.openModal = true;
+        },
+        deleteAction: function deleteAction() {
+            this.$store.dispatch('StockPrizeDeleteAction', this.deletingItem.id);
+            this.deletingItem.openModal = false;
+        },
+        editAction: function editAction(item) {
+            this.editItem.name = item.name;
+            this.editItem.description = item.description ? item.description : '';
+            this.editItem.cost = item.cost;
+            this.editItem.amount = item.amount;
+            this.editItem.image = null;
+            this.editItem.rarity_class_id = item.rarity_class_id;
+            this.editItem.id = item.id;
+            this.editMode = true;
+        },
+        createAction: function createAction() {
+            this.errors = [];
+            if (this.editItem.name == '') {
+                this.errors.push('prize name empty');
+            }
+            if (this.errors.length == 0) {
+                this.$store.dispatch('StockPrizeCreateAction', this.editItem);
+                this.editItem.name = '';
+                this.editItem.description = '';
+                this.editItem.cost = 0;
+                this.editItem.amount = 0;
+                this.editItem.item_type_id = 0;
+                this.editItem.image = null;
+                this.editItem.icon = null;
+                this.editItem.rarity_class_id = 0;
+            } else {
+                this.openAlertModal = true;
+            }
+        },
+        getList: function getList() {
+            this.$store.dispatch('StockPrizeListAction');
+        },
+        saveAction: function saveAction() {
+            this.errors = [];
+            if (this.editItem.name == '') {
+                this.errors.push('prize name empty');
+            }
+            if (this.errors.length == 0) {
+                this.$store.dispatch('StockPrizeUpdateAction', this.editItem);
+                this.editItem.name = '';
+                this.editItem.description = '';
+                this.editItem.cost = 0;
+                this.editItem.amount = 0;
+                this.editItem.image = null;
+                this.editItem.id = 0;
+                this.editItem.rarity_class_id = 0;
+                this.editMode = false;
+            } else {
+                this.openAlertModal = true;
+            }
+        },
+        createCancelAction: function createCancelAction() {
+            this.editMode = false;
+        },
+        uploadImage: function uploadImage(file) {
+            this.editItem.image = file;
+        },
+        translateRarity: function translateRarity(RarityName) {
+            switch (RarityName) {
+                case 'common':
+                    return 'Tier 1';
+                case 'uncommon':
+                    return 'Tier 2';
+                case 'rare':
+                    return 'Tier 3';
+                case 'epic':
+                    return 'Tier 4';
+                case 'legendary':
+                    return 'Tier 5';
+                default:
+                    return 'unknown';
+            }
+        }
     },
-    deleteAction: function deleteAction() {
-      this.$store.dispatch('StockPrizeDeleteAction', this.deletingItem.id);
-      this.deletingItem.openModal = false;
-    },
-    editAction: function editAction(item) {
-      this.editItem.name = item.name;
-      this.editItem.description = item.description ? item.description : '';
-      this.editItem.cost = item.cost;
-      this.editItem.amount = item.amount;
-      this.editItem.image = null;
-      this.editItem.id = item.id;
-      this.editMode = true;
-    },
-    createAction: function createAction() {
-      this.errors = [];
-      if (this.editItem.name == '') {
-        this.errors.push('prize name empty');
-      }
-      if (this.errors.length == 0) {
-        this.$store.dispatch('StockPrizeCreateAction', this.editItem);
-        this.editItem.name = '';
-        this.editItem.description = '';
-        this.editItem.cost = 0;
-        this.editItem.amount = 0;
-        this.editItem.item_type_id = 0;
-        this.editItem.image = null;
-        this.editItem.icon = null;
-      } else {
-        this.openAlertModal = true;
-      }
-    },
-    getList: function getList() {
-      this.$store.dispatch('StockPrizeListAction');
-    },
-    saveAction: function saveAction() {
-      this.errors = [];
-      if (this.editItem.name == '') {
-        this.errors.push('prize name empty');
-      }
-      if (this.errors.length == 0) {
-        this.$store.dispatch('StockPrizeUpdateAction', this.editItem);
-        this.editItem.name = '';
-        this.editItem.description = '';
-        this.editItem.cost = 0;
-        this.editItem.amount = 0;
-        this.editItem.image = null;
-        this.editItem.id = 0;
-        this.editMode = false;
-      } else {
-        this.openAlertModal = true;
-      }
-    },
-    createCancelAction: function createCancelAction() {
-      this.editMode = false;
-    },
-    uploadImage: function uploadImage(file) {
-      this.editItem.image = file;
-    }
-  },
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'stockPrizes', 'stockPrizesLoaded', 'stockPrizesSaved']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'stockPrizes', 'stockPrizesLoaded', 'stockPrizesSaved', 'rarityClasses']))
 });
 
 /***/ }),
@@ -48506,6 +48532,8 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.tier))]),
+                      _vm._v(" "),
                       _c("td", [
                         _c(
                           "button",
@@ -48634,6 +48662,61 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editItem.rarity_class_id,
+                          expression: "editItem.rarity_class_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editItem,
+                            "rarity_class_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0", disabled: "" } }, [
+                        _vm._v("Rarity class")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.rarityClasses, function(rarityClass) {
+                        return _c(
+                          "option",
+                          {
+                            key: rarityClass.id,
+                            domProps: { value: rarityClass.id }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.translateRarity(rarityClass.name))
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
                   _vm.editMode
                     ? _c("div", [
                         _c(
@@ -48746,6 +48829,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Amount")]),
         _vm._v(" "),
         _c("th", [_vm._v("Image")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tier")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
@@ -49464,7 +49549,10 @@ var render = function() {
         _vm._l(_vm.paggData, function(pagg) {
           return _c(
             "li",
-            { class: pagg == _vm.page ? "page-item active" : "page-item" },
+            {
+              key: pagg,
+              class: pagg == _vm.page ? "page-item active" : "page-item"
+            },
             [
               pagg != _vm.page
                 ? _c(
@@ -69891,6 +69979,7 @@ var actions = {
     // Stock Prizes
     StockPrizeListAction: function StockPrizeListAction(context) {
         context.commit('getStockPrizesList');
+        context.commit('loadRarityClasses');
     },
     StockPrizeCreateAction: function StockPrizeCreateAction(_ref25, data) {
         var commit = _ref25.commit,
@@ -69902,6 +69991,7 @@ var actions = {
         formData.append('description', data.description);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -69930,6 +70020,7 @@ var actions = {
         formData.append('description', data.description);
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
+        formData.append('rarity_class_id', data.rarity_class_id);
         if (data.image) {
             formData.append('image', data.image);
         }

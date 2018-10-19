@@ -20,6 +20,7 @@ class StockPrizes extends Migration
             $table->unsignedSmallInteger('cost')->default(0);
             $table->unsignedSmallInteger('amount')->default(0);
             $table->string('image')->nullable();
+            $table->unsignedInteger('rarity_class_id');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -186,6 +186,10 @@ function getMainMenuContent(userToken) {
     }).then(function(res){
         return res.json();
     }).then(function(jsonResp){
+        if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+            localStorage.removeItem('userToken');
+            location.reload();
+        }
         let notificationsHtml = '';
         for (let i = 0; i < jsonResp.data.notifications.length; i++ ) {
             notificationsHtml += `

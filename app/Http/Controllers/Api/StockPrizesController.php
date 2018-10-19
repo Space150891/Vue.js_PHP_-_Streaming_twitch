@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\{StockPrize, ViewerPrize};
+use App\Models\{StockPrize, ViewerPrize, RarityClass};
 
 class StockPrizesController extends Controller
 {
@@ -31,6 +31,10 @@ class StockPrizesController extends Controller
     public function index()
     {
         $prizes = StockPrize::all();
+        foreach ($prizes as &$prize) {
+            $rarityClass = RarityClass::find($prize->rarity_class_id);
+            $prize->tier = $rarityClass->tier();
+        }
         return response()->json(['data' => [
             'prizes' => $prizes,
         ]]);
@@ -51,6 +55,7 @@ class StockPrizesController extends Controller
                 'description'   => 'string|max:1023',
                 'cost'          => 'numeric',
                 'amount'        => 'numeric',
+                'rarity_class_id'  => 'numeric',
             ]
         );
         if ($validator->fails()) {
@@ -60,6 +65,7 @@ class StockPrizesController extends Controller
         }
         $prize = new StockPrize();
         $prize->name = $request->name;
+        $prize->rarity_class_id = $request->rarity_class_id;
         $prize->description = $request->has('description') ? $request->description : '';
         $prize->cost = $request->has('cost') ? $request->cost : 0;
         $prize->amount = $request->has('amount') ? $request->amount : 0;
@@ -99,6 +105,7 @@ class StockPrizesController extends Controller
                 'description'   => 'string|max:1023',
                 'cost'          => 'numeric',
                 'amount'        => 'numeric',
+                'rarity_class_id'  => 'numeric',
             ]
         );
         if ($validator->fails()) {
@@ -116,6 +123,7 @@ class StockPrizesController extends Controller
         $prize->description = $request->has('description') ? $request->description : $prize->description;
         $prize->cost = $request->has('cost') ? $request->cost : $prize->cost;
         $prize->amount = $request->has('amount') ? $request->amount : $prize->amount;
+        $prize->rarity_class_id = $request->rarity_class_id;
         $prize->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -191,16 +199,23 @@ class StockPrizesController extends Controller
     public function allPrizes(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'page'      => 'required|numeric|min:1',
-            'on_page'   => 'required|numeric|min:1',
+            'page'          => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+            'rarity_class'  => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ]);
         }
+        $rarityClass = RarityClass::where('name', $request->rarity_class)->first();
+        if (!$rarityClass) {
+            return response()->json([
+                'errors' => ['wrong rarity class name'],
+            ]);
+        }
         $offset = $request->on_page * ($request->page - 1);
-        $stockPrizes = StockPrize::orderBy('created_at', 'desc')->skip($offset)->take($request->on_page)->get();
+        $stockPrizes = StockPrize::where('rarity_class_id', $rarityClass->id)->orderBy('created_at', 'desc')->skip($offset)->take($request->on_page)->get();
 
         $prizes = [];
         for ($i = 0; $i < count($stockPrizes); $i++) {
@@ -218,7 +233,7 @@ class StockPrizesController extends Controller
             'data' => [
                 'prizes'    =>  $prizes,
                 'page'      =>  (int)$request->page,
-                'pages'     =>  (int)ceil(StockPrize::all()->count() / $request->on_page),
+                'pages'     =>  (int)ceil(StockPrize::where('rarity_class_id', $rarityClass->id)->get()->count() / $request->on_page),
             ],
         ]);
     }

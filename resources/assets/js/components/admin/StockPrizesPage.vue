@@ -12,6 +12,7 @@
                     <th>Cost</th>
                     <th>Amount</th>
                     <th>Image</th>
+                    <th>Tier</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -31,6 +32,7 @@
                           v-bind:style="styleImage"
                           alt="prize image"/>
                     </td>
+                    <td> {{ item.tier }}</td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
 						<button class="btn btn-xs btn-warning" @click.prevent="editAction(item)">edit</button>
@@ -44,6 +46,10 @@
                 <input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
                 <input class="form-control" placeholder="Cost..." v-model="editItem.cost" type="number">
                 <input class="form-control" placeholder="Amount..." v-model="editItem.amount" type="number">
+                <select class="form-control" v-model="editItem.rarity_class_id">
+                    <option value="0" disabled>Rarity class</option>
+                    <option v-for="rarityClass in rarityClasses" v-bind:value="rarityClass.id" :key="rarityClass.id">{{ translateRarity(rarityClass.name) }}</option>
+                </select>
                 <div v-if="editMode">
 				    <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
 				    <button @click.prevent="editCancelAction()" class="btn btn-default">cancel</button>
@@ -90,6 +96,7 @@
                 cost: 0,
                 amount : 0,
                 image: null,
+                rarity_class_id: 0,
 				id: 0,
 			},
 			deletingItem: {
@@ -129,6 +136,7 @@
                 this.editItem.cost = item.cost;
                 this.editItem.amount = item.amount;
                 this.editItem.image = null;
+                this.editItem.rarity_class_id = item.rarity_class_id;
 				this.editItem.id = item.id;
 				this.editMode = true;
 			},
@@ -146,6 +154,7 @@
                     this.editItem.item_type_id = 0;
                     this.editItem.image = null;
                     this.editItem.icon = null;
+                    this.editItem.rarity_class_id = 0;
                 } else {
                     this.openAlertModal = true;
                 }
@@ -166,17 +175,33 @@
                     this.editItem.amount = 0;
                     this.editItem.image = null;
                     this.editItem.id = 0;
+                    this.editItem.rarity_class_id = 0;
                     this.editMode = false;
                 } else {
                     this.openAlertModal = true;
                 }
-
 			},
 			createCancelAction: function() {
 				this.editMode = false;
 			},
             uploadImage: function(file) {
                 this.editItem.image = file;
+            },
+            translateRarity: function(RarityName) {
+                switch (RarityName) {
+                    case 'common':
+                        return 'Tier 1';
+                    case 'uncommon':
+                        return 'Tier 2';
+                    case 'rare':
+                        return 'Tier 3';
+                    case 'epic':
+                        return 'Tier 4';
+                    case 'legendary':
+                        return 'Tier 5';
+                    default:
+                        return 'unknown';
+                }
             },
     },
     computed: {
@@ -185,6 +210,7 @@
                 'stockPrizes',
                 'stockPrizesLoaded',
                 'stockPrizesSaved',
+                'rarityClasses',
 			]),
     }
   }

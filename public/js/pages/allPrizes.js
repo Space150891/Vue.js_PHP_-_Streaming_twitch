@@ -1,10 +1,11 @@
 const onPage = 20;
 
-function getPrizePage(page) {
+function getPrizePage(page, rarity, targetId) {
     console.log('try get page', page);
     let formData = new FormData();
     formData.append('on_page', onPage);
     formData.append('page', page);
+    formData.append('rarity_class', rarity);
     fetch(baseUrl + 'api/prizes/all', {
         method: "POST",
         credentials: 'omit',
@@ -13,7 +14,7 @@ function getPrizePage(page) {
     }).then(function(res){
         return res.json();
     }).then(function(jsonResp){
-        let html = '';
+        let html = `<div class="w-100 overflow-hidden"><div class="row">`;
         for (let i=0; i<jsonResp.data.prizes.length; i++) {
             let prize = jsonResp.data.prizes[i];
             html += `
@@ -36,15 +37,16 @@ function getPrizePage(page) {
             </div>
             `;
         }
-        document.getElementById('all-prizes').innerHTML = html;
-        pagination(page, jsonResp.data.pages);
+        html +=`</div>`;
+        html += pagination(page, jsonResp.data.pages);
+        html +=`</div>`;
+        document.getElementById(targetId).innerHTML = html;
     });
 }
 
 function pagination(page, pages) {
     const buttons = 5;
     let html = '<ul class="pagination">';
-    // html += page > 1 ? `<li class="page-item"><a href="${baseUrl + apiUrl + (page - 1)}"  class="page-link"><i class="icon-arrow-small-left"></i></a></li>` : `<li class="page-item"><span class="page-link"><i class="icon-arrow-small-left"></i></span></li>`;
     html += page > 1 ? `<li class="page-item"><a href="#" onclick="getPrizePage(${page-1})" class="page-link"><i class="icon-arrow-small-left"></i></a></li>` : `<li class="page-item"><span class="page-link"><i class="icon-arrow-small-left"></i></span></li>`;
     let list = [];
     const totalButtons = parseInt(buttons > pages ? pages : buttons);
@@ -70,17 +72,16 @@ function pagination(page, pages) {
     }
     html += page < pages ? `<li class="page-item"><a href="#" onclick="getPrizePage(${page +1})" class="page-link"><i class="icon-arrow-small-left"></i></a></li>` : `<li class="page-item"><span class="page-link"><i class="icon-arrow-small-right"></i></span></li>`;
     html += '</ul>';
-    document.getElementById('prize-pagination').innerHTML = html;
+    return html;
+}
+
+let currentPage = 1;
+
+function setRarity(rarity, targetId) {
+    getPrizePage(currentPage, rarity, targetId);
 }
 
 window.onload = function() {
     generateMainMenu();
-    let currentPage = 1;
-    getPrizePage(currentPage);
+    getPrizePage(1, 'common', 'prices-tier-1');
 };
-
-
-
-
-
-

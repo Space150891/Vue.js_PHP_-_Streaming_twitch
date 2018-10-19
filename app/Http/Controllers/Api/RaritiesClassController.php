@@ -30,7 +30,7 @@ class RaritiesClassController extends Controller
      */
     public function index()
     {
-        $rarities = RarityClass::where('name', '<>', 'random')->get();
+        $rarities = RarityClass::where('special', 0)->get();
         return response()->json(['data' => [
             'rarity_classes' => $rarities,
         ]]);
