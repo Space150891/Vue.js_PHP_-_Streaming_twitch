@@ -194,16 +194,16 @@ class ViewersController extends Controller
         $viewer->phone = $request->phone;
         $viewer->state = $request->state;
         $viewer->country_id = $request->country_id;
-        if ($request->has('social_twitch')) {
+        if ($request->has('social_twitch') && preg_match('/\/twitch.tv\/.{0,100}/', $request->social_twitch) === 1) {
             $viewer->social_twitch = $request->social_twitch;
         }
-        if ($request->has('social_twitter')) {
+        if ($request->has('social_twitter') && preg_match('/\/twitter.com\/.{0,100}/', $request->social_twitter) === 1) {
             $viewer->social_twitter = $request->social_twitter;
         }
-        if ($request->has('social_instagram')) {
-            $viewer->social_instagram = $request->social_instagram;    
+        if ($request->has('social_instagram') && preg_match('/\/instagram.com\/.{0,100}/', $request->social_instagram) === 1) {
+            $viewer->social_instagram = $request->social_instagram;
         }
-        if ($request->has('social_youtube')) {
+        if ($request->has('social_youtube') && preg_match('/\/youtube.com\/user\/.{0,100}/', $request->social_youtube) === 1) {
             $viewer->social_youtube = $request->social_youtube;
         }
         $viewer->save();
