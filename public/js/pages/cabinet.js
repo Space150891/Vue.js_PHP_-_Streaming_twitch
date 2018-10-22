@@ -184,8 +184,9 @@ function getViewerDetails(userToken) {
         } else {
             setVerifyGetBut(userToken);
         }
-        document.getElementById('change-cover').onclick = function() {
+        document.getElementById('change-cover').onclick = function(event) {
             $('#file-upload').click();
+            event.preventDefault();
         }
         document.getElementById('file-upload').onchange = function(event) {
             const file = document.getElementById('file-upload').files[0];
@@ -215,6 +216,7 @@ function getViewerDetails(userToken) {
                     );
                 }
             });
+            event.preventDefault();
         }
     });
 }
@@ -243,11 +245,13 @@ function renderCountries(countries, defaulCountryId = 0) {
 }
 
 function addSaveContactsButton(userToken) {
-    document.getElementById('save-contacts').onclick = function() {
+    document.getElementById('save-contacts').onclick = function(event) {
         saveContacts(userToken);
+        event.preventDefault();
     }
-    document.getElementById('save-social').onclick = function() {
+    document.getElementById('save-social').onclick = function(event) {
         saveContacts(userToken);
+        event.preventDefault();
     }
 }
 
@@ -289,7 +293,7 @@ function setVerifyGetBut(userToken) {
     document.getElementById('verify-block').innerHTML = `
         <button class="btn btn-danger"  id="verify-get-but">Verify</button>
     `;
-    document.getElementById('verify-get-but').onclick = function() {
+    document.getElementById('verify-get-but').onclick = function(event) {
         let formData = new FormData();
         formData.append('token', userToken);
         formData.append('phone', document.getElementById('contact-phone').value);
@@ -308,6 +312,7 @@ function setVerifyGetBut(userToken) {
                 setVerifySendBut(userToken);
             }
         });
+        event.preventDefault();
     }
 }
 
@@ -320,7 +325,7 @@ function setVerifySendBut(userToken) {
                 </div>
             </div>
     `;
-    document.getElementById('check-sms-but').onclick = function () {
+    document.getElementById('check-sms-but').onclick = function (event) {
         let formData = new FormData();
         formData.append('token', userToken);
         formData.append('code', document.getElementById('sms-code').value);
@@ -339,6 +344,7 @@ function setVerifySendBut(userToken) {
                 verifiedRender();
             }
         });
+        event.preventDefault();
     }
 }
 

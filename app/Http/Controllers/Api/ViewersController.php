@@ -177,14 +177,6 @@ class ViewersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'              => 'required',
-            'local_address'     => 'required',
-            'adress_details'    => 'required',
-            'full_name'         => 'required',
-            'city'              => 'required',
-            'zip_code'          => 'required',
-            'phone'             => 'required',
-            'state'             => 'required',
-            'country_id'        => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
