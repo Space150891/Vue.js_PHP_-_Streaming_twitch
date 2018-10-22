@@ -42,7 +42,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -70,7 +70,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -108,7 +108,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -141,7 +141,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $custom = CustomAchievement::where([
@@ -176,7 +176,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $custom = CustomAchievement::where([
@@ -208,7 +208,7 @@ class CustomAchievementsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $custom = CustomAchievement::where([

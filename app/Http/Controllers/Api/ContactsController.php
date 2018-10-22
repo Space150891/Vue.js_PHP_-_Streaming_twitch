@@ -63,7 +63,7 @@ class ContactsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!ContactType::find($request->contact_type_id)) {
@@ -132,7 +132,7 @@ class ContactsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!ContactType::find($request->contact_type_id)) {
@@ -171,7 +171,7 @@ class ContactsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $contact = Contact::find($request->id);

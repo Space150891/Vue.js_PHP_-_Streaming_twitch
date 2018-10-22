@@ -54,7 +54,7 @@ class DiamondsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $set = new Diamond();
@@ -92,7 +92,7 @@ class DiamondsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $set = Diamond::find($request->id);
@@ -125,7 +125,7 @@ class DiamondsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $set = Diamond::find($request->id);

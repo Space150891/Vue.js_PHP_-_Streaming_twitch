@@ -55,7 +55,7 @@ class ChannelsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'error' => $validator->errors()->all(),
             ]);
         }
 
@@ -123,7 +123,7 @@ class ChannelsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $id = $request->id;
@@ -153,7 +153,7 @@ class ChannelsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $id = $request->id;
@@ -178,7 +178,7 @@ class ChannelsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $channels = [];

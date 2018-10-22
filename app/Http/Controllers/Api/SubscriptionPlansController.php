@@ -47,7 +47,7 @@ class SubscriptionPlansController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $plan = SubscriptionPlan::find($request->subscription_plan_id);

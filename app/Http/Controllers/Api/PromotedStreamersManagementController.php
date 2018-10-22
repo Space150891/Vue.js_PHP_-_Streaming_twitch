@@ -39,7 +39,7 @@ class PromotedStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!Streamer::find($request->id)) {
@@ -70,7 +70,7 @@ class PromotedStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $promotedStreamer = PromoutedStreamer::find($request->id);
@@ -124,7 +124,7 @@ class PromotedStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $promotedStreamer = PromoutedStreamer::find($request->id);
@@ -153,7 +153,7 @@ class PromotedStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $promotedStreamer = PromoutedStreamer::find($request->id);

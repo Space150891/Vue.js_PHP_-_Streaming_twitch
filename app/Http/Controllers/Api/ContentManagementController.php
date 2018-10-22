@@ -42,7 +42,7 @@ class ContentManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $content = json_decode($request->content);

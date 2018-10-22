@@ -314,7 +314,7 @@ function getMainMenuContent(userToken) {
                         <img src="${jsonResp.data.avatar}" height="32" class="rounded-circle" alt="avatar">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="/profile/dlausch/index.html" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+                        <a href="${baseUrl + 'cabinet'}" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
                         <a href="/profile/dlausch/inventory.html" class="dropdown-item"><i class="icon-file-text2"></i> Inventory</a>
                         <!-- If User is Viewer (FREE) -->
                         <div class="dropdown-divider"></div>

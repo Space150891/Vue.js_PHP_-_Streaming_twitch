@@ -100,7 +100,7 @@ class CasesManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!CaseType::find($request->case_type_id)) {
@@ -194,7 +194,7 @@ class CasesManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $case = LootCase::find($request->id);
@@ -255,7 +255,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $case = LootCase::find($request->id);
@@ -278,7 +278,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $case = LootCase::find($request->id);
@@ -308,7 +308,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         // $item = $case->items()->where('item_id', $request->item_id)->first();
@@ -333,7 +333,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $case = LootCase::find($request->case_id);
@@ -372,7 +372,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $caseType = CaseType::find($request->id);
@@ -433,7 +433,7 @@ class CasesManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $viewerCase = ViewerCase::find($request->viewer_case_id);

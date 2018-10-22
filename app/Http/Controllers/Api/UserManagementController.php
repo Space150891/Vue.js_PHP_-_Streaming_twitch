@@ -39,7 +39,7 @@ class UserManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $adminRoleId = \DB::table('roles')->where('name', 'admin')->first()->id;
@@ -110,7 +110,7 @@ class UserManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
 
@@ -165,7 +165,7 @@ class UserManagementController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $id = $request->id;
@@ -218,7 +218,7 @@ class UserManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
 

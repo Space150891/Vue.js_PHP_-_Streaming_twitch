@@ -43,7 +43,7 @@ class SignedViewersController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $streamer = Streamer::where('name', $request->name)->first();
@@ -141,7 +141,7 @@ class SignedViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();

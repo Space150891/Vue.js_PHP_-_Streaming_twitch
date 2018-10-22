@@ -135,6 +135,8 @@ Route::group([
     Route::post('myfollowed', 'Api\FollowedController@get');
     Route::post('history/boxes/list', 'Api\CasesManagementController@lastList');
     Route::post('history/boxes/last', 'Api\CasesManagementController@lastOne');
+
+    Route::get('countries/get', 'Api\CountriesController@index');
 });
 
 

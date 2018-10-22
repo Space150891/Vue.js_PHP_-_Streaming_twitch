@@ -10,7 +10,7 @@ use Validator;
 use Carbon\Carbon;
 use GuzzleHttp\Client as Guzzle;
 
-use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem, HistoryPoint};
+use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem, HistoryPoint, SignedViewer, Streamer};
 
 class ViewersController extends Controller
 {
@@ -39,7 +39,7 @@ class ViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $id = $request->id;
@@ -62,6 +62,7 @@ class ViewersController extends Controller
         $time = $now->toDateTimeString();
         $user = auth()->user();
         $viewer = $user->viewer()->first();
+        $currentStreamer = $user->streamer()->first();
         $notications = Notification::where([
             ['user_id', '=', $user->id],
             ['event_type', '=', 'user_message'],
@@ -78,23 +79,54 @@ class ViewersController extends Controller
         $updateTime = $now->toDateTimeString();
         $historyPoints = HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->get();
         $lastPoints = (integer)HistoryPoint::where('viewer_id', $viewer->id)->where('created_at', '>', $updateTime)->sum('points');
+        $following = SignedViewer::where('viewer_id', $viewer->id)->get();
+        foreach ($following as &$followed) {
+            $followingStreamer = Streamer::find($followed->streamer_id);
+            $followingUser = $followingStreamer->user()->first();
+            $followed->name = $followingStreamer->name;
+            $followed->avatar = $followingUser->avatar;
+            $followed->subscription = $followingUser->isSubscribed();
+        }
+        $followers = SignedViewer::where('streamer_id', $currentStreamer->id)->get();
+        foreach ($followers as &$follow) {
+            $followViewer = Viewer::find($follow->viewer_id);
+            $followUser = $followViewer->user()->first();
+            $follow->name = $followViewer->name;
+            $follow->avatar = $followUser->avatar;
+            $follow->subscription = $followUser->isSubscribed();
+        }
         return response()->json([
             'data' => [
-                'name'      => $viewer->name,
-                'points'    => $viewer->current_points,
-                'diamonds'  => $viewer->diamonds,
-                'level'     => $viewer->getLevel(),
-                'messages'  => $messages,
-                'card'      => $card,
-                'user_id'   => $user->id,
-                'history_points' => $historyPoints,
-                'last_points' => $lastPoints,
+                'name'              => $viewer->name,
+                'bio'               => $user->bio,
+                'points'            => $viewer->current_points,
+                'diamonds'          => $viewer->diamonds,
+                'level'             => $viewer->getLevel(),
+                'messages'          => $messages,
+                'card'              => $card,
+                'user_id'           => $user->id,
+                'history_points'    => $historyPoints,
+                'last_points'       => $lastPoints,
                 'contacts'  => [
-                    'country'       => $viewer->country,
-                    'city'          => $viewer->city,
-                    'zip_code'      => $viewer->zip_code,
-                    'local_address' => $viewer->local_address,
+                    'country_id'        => $viewer->country_id,
+                    'city'              => $viewer->city,
+                    'zip_code'          => $viewer->zip_code,
+                    'local_address'     => $viewer->local_address,
+                    'full_name'         => $viewer->full_name,
+                    'adress_details'    => $viewer->adress_details,
+                    'state'             => $viewer->state,
+                    'phone'             => $viewer->phone,
+                    'verified'          => $viewer->phone_verified == 1 ? true : false,
                 ],
+                'social'    => [
+                    'twitch'   =>  $viewer->social_twitch,
+                    'twitter'   =>  $viewer->social_twitter,
+                    'instagram'   =>  $viewer->social_instagram,
+                    'youtube'   =>  $viewer->social_youtube,
+                ],
+                'following' => $following,
+                'follower' => $followers,
+                'back'      => $currentStreamer->donate_back,
             ],
         ]);
     }
@@ -106,7 +138,7 @@ class ViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         //
@@ -125,7 +157,7 @@ class ViewersController extends Controller
         //
         if (!$body->success) {
             return response()->json([
-                'error' => 'recaptcha error',
+                'errors' => ['recaptcha error'],
             ]);
         }
         $user = auth()->user();
@@ -144,22 +176,44 @@ class ViewersController extends Controller
     public function updateViewerContacts(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'country'       => 'required|min:1',
-            'city'          => 'required|min:1',
-            'zip_code'      => 'required|min:1',
-            'local_address' => 'required|min:1',
+            'name'              => 'required',
+            'local_address'     => 'required',
+            'adress_details'    => 'required',
+            'full_name'         => 'required',
+            'city'              => 'required',
+            'zip_code'          => 'required',
+            'phone'             => 'required',
+            'state'             => 'required',
+            'country_id'        => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $viewer->country = $request->country;
+        $viewer->name = $request->name;
+        $viewer->local_address = $request->local_address;
+        $viewer->adress_details = $request->adress_details;
+        $viewer->full_name = $request->full_name;
         $viewer->city = $request->city;
         $viewer->zip_code = $request->zip_code;
-        $viewer->local_address = $request->local_address;
+        $viewer->phone = $request->phone;
+        $viewer->state = $request->state;
+        $viewer->country_id = $request->country_id;
+        if ($request->has('social_twitch')) {
+            $viewer->social_twitch = $request->social_twitch;
+        }
+        if ($request->has('social_twitter')) {
+            $viewer->social_twitter = $request->social_twitter;
+        }
+        if ($request->has('social_instagram')) {
+            $viewer->social_instagram = $request->social_instagram;    
+        }
+        if ($request->has('social_youtube')) {
+            $viewer->social_youtube = $request->social_youtube;
+        }
         $viewer->save();
         return response()->json([
             'message' => 'viewer contact updated',

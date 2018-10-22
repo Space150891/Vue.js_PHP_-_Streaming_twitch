@@ -60,7 +60,7 @@ class StockPrizesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $prize = new StockPrize();
@@ -110,7 +110,7 @@ class StockPrizesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $prize = StockPrize::find($request->id);
@@ -154,7 +154,7 @@ class StockPrizesController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $prize = StockPrize::find($request->id);
@@ -205,7 +205,7 @@ class StockPrizesController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $rarityClass = RarityClass::where('name', $request->rarity_class)->first();

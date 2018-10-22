@@ -71,7 +71,7 @@ class ViewerItemsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!Item::find($request->id)) {
@@ -107,7 +107,7 @@ class ViewerItemsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -142,7 +142,7 @@ class ViewerItemsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();

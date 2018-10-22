@@ -38,7 +38,7 @@ class SubscriptionBonusesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $plan = SubscriptionPlan::find($request->subscription_plan_id);
@@ -65,7 +65,7 @@ class SubscriptionBonusesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $plan = SubscriptionPlan::find($request->subscription_plan_id);
@@ -110,7 +110,7 @@ class SubscriptionBonusesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $subscriptionPoint = SubscriptionPoint::find($request->subscription_point_id);
@@ -152,7 +152,7 @@ class SubscriptionBonusesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $subscriptionPoint = SubscriptionPoint::find($request->subscription_point_id);

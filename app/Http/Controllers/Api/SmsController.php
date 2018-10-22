@@ -34,7 +34,7 @@ class SmsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'error' => $validator->errors()->all(),
             ]);
         }
         $phone = $request->phone;
@@ -65,19 +65,19 @@ class SmsController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
         $sms = SmsCode::where('user_id', $user->id)->first();
         if (!$sms) {
             return response()->json([
-                'error' => 'code not sended',
+                'errors' => 'code not sended',
             ]);
         }
         if ($request->code !== $sms->code) {
             return response()->json([
-                'error' => 'wrong code',
+                'errors' => 'wrong code',
             ]);
         }
         $sms->delete();

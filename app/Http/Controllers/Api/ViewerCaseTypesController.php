@@ -61,7 +61,7 @@ class ViewerCaseTypesController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!CaseType::find($request->id)) {

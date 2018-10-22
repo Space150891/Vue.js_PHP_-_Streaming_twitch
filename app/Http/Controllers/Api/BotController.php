@@ -42,7 +42,7 @@ class BotController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if ($request->secretKey !== $botSecret) {
@@ -86,7 +86,7 @@ class BotController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if ($request->secretKey !== $botSecret) {

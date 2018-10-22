@@ -35,4 +35,10 @@ class PagesController extends Controller
     {
         return view('pages.shop', ['caseId'    =>  $caseId]);
     }
+
+    public function cabinet()
+    {
+        return view('pages.cabinet');
+    }
+
 }
