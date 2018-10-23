@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, ViewerItem, Card, ViewerPrize, StockPrize};
+use App\Models\{Viewer, Item, ItemType, ViewerItem, Card, ViewerPrize, StockPrize};
 
 class ViewerItemsController extends Controller
 {
@@ -186,4 +186,75 @@ class ViewerItemsController extends Controller
             ],
         ]);
     }
+
+    public function inventoryFrames(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'          => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $data = $this->paginateItems($request->page, $request->on_page, 'frame');
+        return response()->json([
+            'data' => [
+                'frames' => $data['items'],
+                'page'  => $request->page,
+                'pages' => $data['pages'],
+            ],
+        ]);
+    }
+
+    public function inventoryHeroes(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'          => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $data = $this->paginateItems($request->page, $request->on_page, 'hero');
+        return response()->json([
+            'data' => [
+                'heroes' => $data['items'],
+                'page'  => $request->page,
+                'pages' => $data['pages'],
+            ],
+        ]);
+    }
+
+    private function paginateItems($page, $onPage, $type)
+    {
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $offset = $onPage * ($page - 1);
+        $itemType = ItemType::where('name', $type)->first();
+        $viewerItems = ViewerItem::query()
+                        ->select('items.title', 'viewer_items.id', 'items.description', 'items.image', 'rarity_classes.name as rarity')
+                        ->join('items', 'items.id', '=', 'viewer_items.item_id')
+                        ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
+                        ->join('rarity_classes', 'rarity_classes.id', '=', 'items.rarity_class_id')
+                        ->where('items.item_type_id', $itemType->id)
+                        ->skip($offset)->take($onPage)->get();
+        foreach ($viewerItems as &$viewerItem) {
+            $viewerItem->class = ucfirst($viewerItem->rarity);
+        }
+        $count =  ViewerItem::query()
+        ->select('viewer_items.id')
+        ->join('items', 'items.id', '=', 'viewer_items.item_id')
+        ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
+        ->where('items.item_type_id', $itemType->id)
+        ->count();
+        return [
+            'items' =>  $viewerItems,
+            'pages' =>  ceil($count / $onPage),
+        ];
+    }
+
 }

@@ -20,3 +20,19 @@ function getOrigin(Array $server) :string{
         return '';
     }
 }
+
+function multiMerge($array1, $array2)
+{
+    $data = [];
+    foreach ($array1 as $ar1) {
+        $data[] = $ar1;
+    }
+    foreach ($array2 as $ar2) {
+        $data[] = $ar2;
+    }
+    return $data;
+}
+
+function convertDate($stringDate) {
+    return date("F j, Y", strtotime($stringDate));
+}

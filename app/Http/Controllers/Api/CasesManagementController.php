@@ -736,7 +736,7 @@ class CasesManagementController extends Controller
             'data' => [
                 'cases' => $viewerCases,
                 'page'  => $request->page,
-                'pages' => ViewerCase::where('viewer_id', $viewer->id)->count(),
+                'pages' => ceil(ViewerCase::where('viewer_id', $viewer->id)->count() / $request->on_page),
             ],
         ]);
     }

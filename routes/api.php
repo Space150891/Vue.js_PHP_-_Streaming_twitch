@@ -122,7 +122,12 @@ Route::group([
     Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
     Route::post('cases/types/list', 'Api\CaseTypesManagementController@front');
     Route::post('cases/open', 'Api\CasesManagementController@open');
+    // viewer inventory
     Route::post('cases/inventory', 'Api\CasesManagementController@inventory');
+    Route::post('prizes/inventory', 'Api\ViewerPrizesController@inventory');
+    Route::post('frames/inventory', 'Api\ViewerItemsController@inventoryFrames');
+    Route::post('heroes/inventory', 'Api\ViewerItemsController@inventoryHeroes');
+    Route::post('achievements/inventory', 'Api\AchivementsController@inventory');
 
     Route::post('statistic/get', 'Api\StatisticController@index');
     // custom achivements

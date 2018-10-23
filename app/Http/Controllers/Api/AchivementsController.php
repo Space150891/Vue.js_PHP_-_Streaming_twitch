@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Card, CustomAchievement, UserCustomAchievement, Achievement, AchievementProgres};
+use App\Models\{Card, CustomAchievement, UserCustomAchievement, Achievement, AchievementProgres, RarityClass};
 
 class AchivementsController extends Controller
 {
@@ -194,6 +194,68 @@ class AchivementsController extends Controller
         ]);
     }
 
+    public function inventory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'          => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $user = auth()->user();
+        $return = [];
+        $onPage = $request->on_page;
+        $page = $request->page;
+        $offset = $onPage * ($page - 1);
+        $totalBasic = AchievementProgres::where('user_id', $user->id)->count();
+        $totalCustom = UserCustomAchievement::where('user_id', $user->id)->count();
+        $count = $totalBasic + $totalCustom;
+        $pages = ceil($count / $onPage);
+        $achievementProgres = AchievementProgres::where('user_id', $user->id)
+                        ->orderBy('unlocked_at', 'DESC')
+                        ->skip($offset)->take($onPage)->get();
+        foreach ($achievementProgres as $progres) {
+            $data = [];
+            $achievement = Achievement::find($progres->achievement_id);
+            $data['name'] = $achievement->name;
+            $data['description'] = $achievement->description;
+            $data['total_steps'] = $achievement->steps;
+            $data['done_steps'] = $progres->steps;
+            $data['unlocked_at'] = is_null($progres->unlocked_at) ? null : convertDate($progres->unlocked_at);
+            $data['type'] = 'basic';
+            $data['image']  =  $achievement->image;
+            $data['points'] = $achievement->level_points;
+            $data['diamonds'] = $achievement->diamonds;
+            $data['case_rarity'] = $this->getRarityById($achievement->case_rarity_id);
+            $data['frame_rarity'] = $this->getRarityById($achievement->frame_rarity_id);
+            $data['hero_rarity'] = $this->getRarityById($achievement->hero_rarity_id);
+            $return[] = $data;
+        }
+        $resTotal = count($return);
+        if ($resTotal < $onPage) {
+            $customProgres = UserCustomAchievement::where('user_id', $user->id)
+            ->skip($offset - $totalBasic)->take($onPage - $resTotal)->get();
+            foreach ($customProgres as $progres) {
+                $data = [];
+                $custom = CustomAchievement::find($progres->custom_achievement_id);
+                $data['description'] = $custom->text;
+                $data['unlocked_at'] = convertDate($progres->created_at);
+                $data['type'] = 'custom';
+                $return[] = $data;
+            }
+        }
+        return response()->json([
+            'data' => [
+                'achievements' => $return,
+                'page'  => $page,
+                'pages' => $onPage,
+            ],
+        ]);
+    }
+
     private function alreadyToday($achivementClass)
     {
         \Log::info($achivementClass);
@@ -208,6 +270,16 @@ class AchivementsController extends Controller
         }
         $now = new Carbon;
         return ($achievementProgres->updated_at->toDateString() === $now->toDateString());
+    }
+
+    private function getRarityById($rarityId)
+    {
+        if ($rarityId > 0) {
+            $rarityClass = RarityClass::find($rarityId);
+            return ucfirst($rarityClass->name);
+        } else {
+            return 'not';
+        }
     }
      
 }
