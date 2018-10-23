@@ -396,6 +396,7 @@ class CasesManagementController extends Controller
                 $viewerCase = new ViewerCase();
                 $viewerCase->viewer_id = $viewer->id;
                 $viewerCase->case_id = $caseType->id;
+                $viewerCase->origin = "From StreamCase Store";
                 $viewerCase->save();
             } else {
                 $notify->event_type = 'user_message';
@@ -411,6 +412,7 @@ class CasesManagementController extends Controller
                 $viewerCase = new ViewerCase();
                 $viewerCase->viewer_id = $viewer->id;
                 $viewerCase->case_id = $caseType->id;
+                $viewerCase->origin = "From StreamCase Store";
                 $viewerCase->save();
                 $this->storeBuyedType($user, $caseType->id);
             } else {
@@ -671,8 +673,6 @@ class CasesManagementController extends Controller
         ]);
     }
 
-
-
     public function lastOne(Request $request)
     {
         $now = new Carbon();
@@ -703,6 +703,40 @@ class CasesManagementController extends Controller
         return response()->json([
             'data' => [
                 'cases'   => $box,
+            ],
+        ]);
+    }
+
+    public function inventory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'page'          => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $offset = $request->on_page * ($request->page - 1);
+        $viewerCases = ViewerCase::where('viewer_id', $viewer->id)->orderBy('opened_at', 'ASC')->skip($offset)->take($request->on_page)->get();
+        foreach ($viewerCases as &$viewerCase) {
+            $caseType = CaseType::find($viewerCase->case_id);
+            $rarityClass = RarityClass::find($caseType->rarity_class_id);
+            $viewerCase->name = ucfirst($rarityClass->name);
+            $viewerCase->image = $caseType->image;
+            if (!is_null($viewerCase->opened_at)) {
+                $historyBox = HistoryBox::where('viewer_box_id', $viewerCase->id)->first();
+                $viewerCase->history = $historyBox->getDetails();
+            }
+        }
+        return response()->json([
+            'data' => [
+                'cases' => $viewerCases,
+                'page'  => $request->page,
+                'pages' => ViewerCase::where('viewer_id', $viewer->id)->count(),
             ],
         ]);
     }

@@ -41,4 +41,9 @@ class PagesController extends Controller
         return view('pages.cabinet');
     }
 
+    public function myInventory()
+    {
+        return view('pages.myInventory');
+    }
+
 }

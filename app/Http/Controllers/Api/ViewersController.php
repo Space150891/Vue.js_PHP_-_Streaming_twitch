@@ -10,7 +10,25 @@ use Validator;
 use Carbon\Carbon;
 use GuzzleHttp\Client as Guzzle;
 
-use App\Models\{Viewer, User, Notification, Card, Item, ViewerItem, HistoryPoint, SignedViewer, Streamer};
+use App\Models\{
+    Achievement,
+    AchievementProgres,
+    CaseType,
+    Card,
+    HistoryBox,
+    HistoryPoint,
+    Item,
+    Notification,
+    RarityClass,
+    SignedViewer,
+    Streamer,
+    User,
+    UserCustomAchievement,
+    Viewer,
+    ViewerCase,
+    ViewerItem,
+    ViewerPrize
+};
 
 class ViewersController extends Controller
 {
@@ -212,4 +230,86 @@ class ViewersController extends Controller
         ]);
     }
  
+    public function myInventory()
+    {
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $closedCases = ViewerCase::where('viewer_id', $viewer->id)->whereNull('opened_at')->get();
+        $openedCases = ViewerCase::where('viewer_id', $viewer->id)->whereNotNull('opened_at')->get();
+        foreach ($closedCases as &$viewerCase) {
+            $caseType = CaseType::find($viewerCase->case_id);
+            $rarityClass = RarityClass::find($caseType->rarity_class_id);
+            $viewerCase->name = $rarityClass->name;
+            $viewerCase->image = $caseType->image;
+        }
+        foreach ($openedCases as &$viewerCase) {
+            $caseType = CaseType::find($viewerCase->case_id);
+            $rarityClass = RarityClass::find($caseType->rarity_class_id);
+            $viewerCase->name = $rarityClass->name;
+            $viewerCase->image = $caseType->image;
+            $historyBox = HistoryBox::where('viewer_box_id', $viewerCase->id)->first();
+            $viewerCase->history = $historyBox->getDetails();
+        }
+        $dataPrizes = [];
+        $viewerPrizes = ViewerPrize::where('viewer_id', $viewer->id)->get();
+        foreach ($viewerPrizes as $viewerPrize) {
+            $prize = $viewerPrize->prize()->first();
+            $prize->id = $viewerPrize->id;
+            $dataPrizes[] = $prize;
+        }
+        $heroes = [];
+        $frames = [];
+        $viewerItems = ViewerItem::where('viewer_id', $viewer->id)->get();
+        foreach ($viewerItems as $viewerItem) {
+            $item = $viewerItem->item()->first();
+            $type = $item->type()->first();
+            if ($type->name == 'frame') {
+                $frames[] = $item;
+            }
+            if ($type->name == 'hero') {
+                $heroes[] = $item;
+            }
+        }
+        $achievements = AchievementProgres::where('user_id', $user->id)->whereNotNull('unlocked_at')->get();
+        foreach ($achievements as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            
+        }
+        $customs = [];
+        $customs = UserCustomAchievement::where('user_id', $user->id)->get();
+        for ($i = 0; $i < count($customs); $i++) {
+            $achievement = $customs[$i]->achievement()->first();
+            $streamer = $achievement->streamer()->first();
+            $user = $streamer->user()->first();
+            $customs[$i]->image = $user->avatar;
+            $customs[$i]->text = $achievement->text;
+        }
+        $inProgress = AchievementProgres::where('user_id', $user->id)->whereNull('unlocked_at')->get();
+        foreach ($inProgress as &$achievement) {
+            $ach = Achievement::find($achievement->achievement_id);
+            $achievement->image = $ach->image;
+            $achievement->description = $ach->description;
+            $achievement->total = $ach->steps;
+        }
+        return response()->json([
+            'data' => [
+                'frames'    =>  $frames,
+                'heroes'    =>  $heroes,
+                'achievements'=>[],
+                'cases' => [
+                    'opened'    =>  $openedCases,
+                    'closed'    =>  $closedCases,
+                ],
+                'prizes'        => $dataPrizes,
+                'achievements'  => [
+                    'opened'        => $achievements,
+                    'in_progress'   => $inProgress,
+                    'custom'        => $customs,
+                ]
+            ],
+        ]);
+    }
+
 }

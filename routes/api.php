@@ -38,6 +38,8 @@ Route::group([
     Route::post('viewers/get', 'Api\ViewersController@show');
     Route::post('viewers/current', 'Api\ViewersController@current');
     Route::post('viewer/contacts/update', 'Api\ViewersController@updateViewerContacts');
+    Route::post('viewer/my-inventory', 'Api\ViewersController@myInventory');
+    
     Route::post('viewer/redeem', 'Api\ViewersController@redeem');
 
     Route::post('streamers/get', 'Api\StreamersController@show');
@@ -113,12 +115,14 @@ Route::group([
     Route::post('sms/code/get', 'Api\SmsController@getSms');
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
     Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
-    Route::post('diamonds/list', 'Api\DiamondsController@index');//////
+    Route::post('diamonds/list', 'Api\DiamondsController@index');
+
     Route::post('cases/list', 'Api\CasesManagementController@index');
     Route::post('cases/buy', 'Api\CasesManagementController@buy');
     Route::post('cases/item/list', 'Api\CasesManagementController@itemsList');
     Route::post('cases/types/list', 'Api\CaseTypesManagementController@front');
     Route::post('cases/open', 'Api\CasesManagementController@open');
+    Route::post('cases/inventory', 'Api\CasesManagementController@inventory');
 
     Route::post('statistic/get', 'Api\StatisticController@index');
     // custom achivements

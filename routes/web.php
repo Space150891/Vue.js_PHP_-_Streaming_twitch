@@ -21,6 +21,7 @@ Route::get('/stream-watch/{streamName}', 'PagesController@watchStream');
 Route::get('/prizes', 'PagesController@allPrizes');
 Route::get('/store/{caseId?}', 'PagesController@shop');
 Route::get('/cabinet', 'PagesController@cabinet');
+Route::get('/my-inventory', 'PagesController@myInventory');
 
 // Authentication Routes
 Auth::routes();

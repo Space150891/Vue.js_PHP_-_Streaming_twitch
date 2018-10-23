@@ -212,6 +212,7 @@ class User extends Authenticatable implements JWTSubject
                         $viewerCase = new ViewerCase();
                         $viewerCase->viewer_id = $viewer->id;
                         $viewerCase->case_id = $case->id;
+                        $viewerCase->origin = "Achievement Reward";
                         $viewerCase->save();
                     }
                 }

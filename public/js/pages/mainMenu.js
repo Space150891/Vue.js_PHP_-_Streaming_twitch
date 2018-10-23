@@ -315,7 +315,7 @@ function getMainMenuContent(userToken) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="${baseUrl + 'cabinet'}" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
-                        <a href="/profile/dlausch/inventory.html" class="dropdown-item"><i class="icon-file-text2"></i> Inventory</a>
+                        <a href="${baseUrl + 'my-inventory'}" class="dropdown-item"><i class="icon-file-text2"></i> Inventory</a>
                         <!-- If User is Viewer (FREE) -->
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">Account Type:	&nbsp;

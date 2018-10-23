@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/profile/dlausch/inventory.html" class="navbar-nav-link">
+                    <a href="{{asset('my-inventory')}}" class="navbar-nav-link">
                         <i class="icon-file-text2 mr-2"></i>
                         Inventory
                     </a>

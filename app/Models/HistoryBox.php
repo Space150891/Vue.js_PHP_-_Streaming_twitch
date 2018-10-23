@@ -37,7 +37,7 @@ class HistoryBox extends Model
             $data['name']  = $item->title;
             $data['description']  = $item->description;
             $rarityClass = RarityClass::find($item->rarity_class_id);
-            $data['rarity_class'] = $rarityClass->name;
+            $data['rarity_class'] = ucfirst($rarityClass->name);
             break;
         case 'frame':
             $item = Item::find($this->item_id);
@@ -46,13 +46,15 @@ class HistoryBox extends Model
             $data['name']  = $item->title;
             $data['description']  = $item->description;
             $rarityClass = RarityClass::find($item->rarity_class_id);
-            $data['rarity_class'] = $rarityClass->name;
+            $data['rarity_class'] = ucfirst($rarityClass->name);
             break;
         case 'prize':
             $prize = StockPrize::find($this->item_id);
             $data['image'] = $prize->image;
             $data['name']  = $prize->name;
             $data['description']  = $prize->description;
+            $rarityClass = RarityClass::find($prize->rarity_class_id);
+            $data['rarity_class'] = ucfirst($rarityClass->tier());
             $data['cost'] = $prize->cost;
             break;
         case 'points':

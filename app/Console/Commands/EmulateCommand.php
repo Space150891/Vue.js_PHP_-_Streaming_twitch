@@ -138,6 +138,7 @@ class EmulateCommand extends Command
         // give streamCase to viewer
         $viewerBox = new ViewerCase();
         $viewerBox->viewer_id = $viewer->id;
+        $viewerBox->origin = "emulator";
         $viewerBox->case_id = $case->id;
         $viewerBox->save();
         //

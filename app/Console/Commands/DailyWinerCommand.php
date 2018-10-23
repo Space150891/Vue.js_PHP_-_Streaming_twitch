@@ -56,6 +56,7 @@ class DailyWinerCommand extends Command
         }
         $allItems = Item::where('worth', 0)->get();
         foreach ($streams as $streamId => $viewers) {
+            $streamer = Streamer::find($streamId);
             // select win viewer
             $randWinner = round(rand(0, count($viewers) - 1));
             $winner = $viewers[$randWinner];
@@ -70,7 +71,7 @@ class DailyWinerCommand extends Command
             // notification
             $viewer = Viewer::find($winner);
             $user = $viewer->user()->first();
-            $streamer = Streamer::find($streamId);
+            
             $notify = new Notification();
             $notify->user_id = $user->id;
             $notify->event_type = 'user_message';

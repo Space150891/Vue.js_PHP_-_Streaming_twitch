@@ -570,6 +570,7 @@
             const baseUrl = "{{ env('APP_URL') }}/";
         </script>
         <script src="{{asset('js/pages/mainMenu.js')}}"></script>
+        <script src="{{asset('js/common.js')}}"></script>
         @yield('footer_scripts')
 
     </body>
