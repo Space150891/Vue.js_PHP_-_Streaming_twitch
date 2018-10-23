@@ -376,7 +376,7 @@ window.onload = function() {
     document.getElementById('prizes-but').onclick = getMyPrizes(1, token);
     document.getElementById('frames-but').onclick = getMyFrames(1, token);
     document.getElementById('heroes-but').onclick = getMyHeroes(1, token);
-    document.getElementById('achievemets-but').onclick = getMyAchievements(1, token);
+    document.getElementById('achievements-but').onclick = getMyAchievements(1, token);
 };
 
 
