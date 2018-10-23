@@ -342,7 +342,26 @@ function getMyAchievements(page, userToken) {
             }
             if (achievement.type == 'custom') {
                 html += `
-                
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <li class="media">
+                                    <div class="media-body">
+                                        <div class="media-title">
+                                            <span class="font-weight-semibold">${achievement.description}</span>
+                                        </div>
+                                    </div>
+                            </li>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <span class="text-muted">Unlocked: ${achievement.unlocked_at}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
                 `;
             }
         }
