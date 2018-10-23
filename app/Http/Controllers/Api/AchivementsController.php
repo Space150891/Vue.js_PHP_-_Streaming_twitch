@@ -251,7 +251,7 @@ class AchivementsController extends Controller
             'data' => [
                 'achievements' => $return,
                 'page'  => $page,
-                'pages' => $onPage,
+                'pages' => $count,
             ],
         ]);
     }
