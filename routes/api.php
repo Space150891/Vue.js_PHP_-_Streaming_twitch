@@ -128,6 +128,7 @@ Route::group([
     Route::post('frames/inventory', 'Api\ViewerItemsController@inventoryFrames');
     Route::post('heroes/inventory', 'Api\ViewerItemsController@inventoryHeroes');
     Route::post('achievements/inventory', 'Api\AchivementsController@inventory');
+    Route::post('cases/get', 'Api\CasesManagementController@show');
 
     Route::post('statistic/get', 'Api\StatisticController@index');
     // custom achivements
@@ -187,7 +188,7 @@ Route::group([
 
     
     Route::post('cases/store', 'Api\CasesManagementController@store');
-    Route::post('cases/get', 'Api\CasesManagementController@show');
+    
     Route::post('cases/update', 'Api\CasesManagementController@update');
     Route::post('cases/delete', 'Api\CasesManagementController@destroy');
     Route::post('cases/item/delete', 'Api\CasesManagementController@deleteItem');

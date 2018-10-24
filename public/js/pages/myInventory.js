@@ -97,11 +97,11 @@ function getMyCases(casePage, userToken) {
                         <div class="card-body bg-light text-center">
                             <div class="mb-2">
                                 <h6 class="font-weight-semibold mb-0">
-                                    <a href="#" onclick="openBoxStart(${box.id})" class="text-default">${box.name} StreamCase</a>
+                                    <a href="#"  class="text-default">${box.name} StreamCase</a>
                                 </h6>
                                 <hr>
                             </div>
-                            <button type="button" class="btn bg-danger-400">Open</button>
+                            <button type="button" class="btn bg-danger-400" onclick="getBoxWin('${userToken}', ${box.id})">Open</button>
                         </div>
                     </div>
                 </div>
@@ -385,6 +385,89 @@ function getColorByRarity(rarity) {
     }
 }
 
+function getBoxWin(userToken, boxId) {
+    let formData = new FormData();
+    formData.append('token', userToken);
+    formData.append('viewer_case_id', boxId);
+    fetch(baseUrl + 'api/cases/get', {
+        method: "POST",
+        body: formData,
+        credentials: 'omit',
+        mode: 'cors'
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        
+        document.getElementById('will-box-points').innerHTML = goodInt(jsonResp.data.all.points);
+        document.getElementById('will-box-diamonds').innerHTML = goodInt(jsonResp.data.all.diamonds);
+        document.getElementById('will-box-prize').innerHTML = goodInt(jsonResp.data.all.prize);
+        document.getElementById('will-box-hero').innerHTML = goodInt(jsonResp.data.all.hero);
+        document.getElementById('will-box-frame').innerHTML = goodInt(jsonResp.data.all.frame);
+        document.getElementById('will-box-name').innerHTML = goodInt(jsonResp.data.all.box);
+        document.getElementById('will-box-image').innerHTML = `<img src="${baseUrl + 'storage/' + jsonResp.data.all.box_image}" style="width: 42%;"><div class="ew-center-empty" style="width:42%; height:42%">`;
+        document.getElementById('will-spin-but').style.cssText = `display:block`;
+        $('#modal_weel').modal();
+        document.getElementById('will-spin-but').onclick = function() {
+            document.getElementById('will-spin-but').style.cssText = `display:none`;
+            spinWill(userToken, boxId);
+        }
+    });
+}
+
+function spinWill(userToken, boxId) {
+    
+    let formData = new FormData();
+    formData.append('token', userToken);
+    formData.append('viewer_case_id', boxId);
+    fetch(baseUrl + 'api/cases/open', {
+        method: "POST",
+        body: formData,
+        credentials: 'omit',
+        mode: 'cors'
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        getMyCases(1, userToken);
+        let win = jsonResp.data.win;
+        let deg = 149;
+        let step = 60;
+        switch (win.type) {
+            case 'prize':
+                deg -= step;
+                break;
+            case 'nothing':
+                deg -= step * 2;
+                break;
+            case 'points':
+                deg -= step * 3;
+                break;
+            case 'diamonds':
+                deg -= step * 4;
+                break;
+            case 'hero':
+                deg -= step * 5;
+                break;
+            case 'frame':
+                deg -= step * 6;
+                break;
+        }
+        deg = deg < 0 ? deg + 360 : deg;
+        let i = 0;
+        let loops = 1;
+        let timer = setInterval( () => {
+            if (i > 360) {
+                i = 0;
+                loops -= 1;
+            }
+            if (i > deg && loops == 0) {
+                clearInterval(timer);
+            }
+            document.getElementById('main-weel').style.cssText = `transform: rotate(${i}deg)`;
+            i += 1;
+        }, 5);
+    });
+}
+
 window.onload = function() {
     generateMainMenu();
     const token = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : false;
@@ -392,10 +475,10 @@ window.onload = function() {
         location = baseUrl;
     }
     getMyCases(1, token);
-    document.getElementById('prizes-but').onclick = getMyPrizes(1, token);
-    document.getElementById('frames-but').onclick = getMyFrames(1, token);
-    document.getElementById('heroes-but').onclick = getMyHeroes(1, token);
-    document.getElementById('achievements-but').onclick = getMyAchievements(1, token);
+    document.getElementById('prizes-but').onclick = function() {getMyPrizes(1, token)};
+    document.getElementById('frames-but').onclick = function() {getMyFrames(1, token)};
+    document.getElementById('heroes-but').onclick = function() {getMyHeroes(1, token)};
+    document.getElementById('achievements-but').onclick = function() {getMyAchievements(1, token)};
 };
 
 

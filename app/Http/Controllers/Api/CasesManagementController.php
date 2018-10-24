@@ -153,22 +153,33 @@ class CasesManagementController extends Controller
      */
     public function show(Request $request)
     {
-        $id = $request->id;
-        $case = LootCase::find($id);
-
-        if (!$case) {
+        $validator = Validator::make($request->all(), [
+            'viewer_case_id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
             return response()->json([
-                'errors' => ['case id not found'],
+                'errors' => $validator->errors()->all(),
             ]);
         }
-        $lootItems = $case->items()->get();
-        $caseItems = [];
-        foreach ($lootItems as $lootItem) {
-            $caseItems[] =  $lootItem->item()->first();
+        $viewerCase = ViewerCase::find($request->viewer_case_id);
+        if (!$viewerCase || !is_null($viewerCase->opened_at)) {
+            return response()->json([
+                'errors' => ['case type id not found'],
+            ]);
         }
-        $case->items = $caseItems;
+        $caseType = CaseType::find($viewerCase->case_id);
         return response()->json([
-            'data' => $case,
+            'data' => [
+                'all'   => [
+                    'box'       => $this->getRarityClassById($caseType->rarity_class_id),
+                    'box_image' => $caseType->image,
+                    'hero'      => $this->getRarityClassById($caseType->hero_rarity_id),
+                    'frame'     => $this->getRarityClassById($caseType->frame_rarity_id),
+                    'prize'     => $caseType->prize_cost,
+                    'points'    => $caseType->points_count,
+                    'diamonds'  => $caseType->diamonds_count,
+                ]
+            ],
         ]);
     }
 
@@ -445,10 +456,9 @@ class CasesManagementController extends Controller
             ]);
         }
         $viewerCase->opened_at = date('Y-m-d H:i:s');
-        $viewerCase->save();
+        $viewerCase->save(); //uncoment after testing
         $user = auth()->user();
         $viewer = Viewer::find($viewerCase->viewer_id);
-        // $case = LootCase::find($viewerCase->case_id);
         $caseType = CaseType::find($viewerCase->case_id);
         $rarityClass = RarityClass::find($caseType->rarity_class_id)->first();
         if ($rarityClass) {
@@ -536,10 +546,10 @@ class CasesManagementController extends Controller
                     $history->box_type_id = $caseType->id;
                     $history->item_type_id = $historyBoxItemType->id;
                     $history->item_id = $item->id;
-                    $history->save();
+                    $history->save(); //uncoment after testing
                 } else {
                     $prize['type'] = 'nothing';
-                    $this->winFailure($viewer->id, $caseType->id);
+                    $this->winFailure($viewer->id, $caseType->id, $viewerCase->id);
                 }
                 break;
             case 'frame':
@@ -559,10 +569,10 @@ class CasesManagementController extends Controller
                     $history->box_type_id = $caseType->id;
                     $history->item_type_id = $historyBoxItemType->id;
                     $history->item_id = $item->id;
-                    $history->save();
+                    $history->save(); //uncoment after testing
                 } else {
                     $prize['type'] = 'nothing';
-                    $this->winFailure($viewer->id, $caseType->id);
+                    $this->winFailure($viewer->id, $caseType->id, $viewerCase->id);
                 }
                 
                 break;
@@ -578,7 +588,7 @@ class CasesManagementController extends Controller
                 }
                 if (!$stockPrize) {
                     $prize['type'] = 'nothing';
-                    $this->winFailure($viewer->id, $caseType->id);
+                    $this->winFailure($viewer->id, $caseType->id, $viewerCase->id);
                 } else {
                     $prize['image'] = $stockPrize->image;
                     $history = new HistoryBox();
@@ -587,7 +597,7 @@ class CasesManagementController extends Controller
                     $history->box_type_id = $caseType->id;
                     $history->item_type_id = $historyBoxItemType->id;
                     $history->item_id = $stockPrize->id;
-                    $history->save();
+                    $history->save(); //uncoment after testing
                 }
                 break;
             case 'points':
@@ -604,7 +614,7 @@ class CasesManagementController extends Controller
                 $history->box_type_id = $caseType->id;
                 $history->item_type_id = $historyBoxItemType->id;
                 $history->details = $caseType->points_count;
-                $history->save();
+                $history->save(); //uncoment after testing
                 break;
             case 'diamonds':
                 $viewer->diamonds += $caseType->diamonds_count;
@@ -616,15 +626,24 @@ class CasesManagementController extends Controller
                 $history->box_type_id = $caseType->id;
                 $history->item_type_id = $historyBoxItemType->id;
                 $history->details = $caseType->diamonds_count;
-                $history->save();
+                $history->save(); //uncoment after testing
                 break;
             case 'nothing':
-                $this->winFailure($viewer->id, $caseType->id);
+                $this->winFailure($viewer->id, $caseType->id, $viewerCase->id);
                 break;
         }
         return response()->json([
             'data' => [
-                'win'   => $prize
+                'win'   => $prize,
+                // 'all'   => [
+                //     'box'       => $this->getRarityClassById($caseType->rarity_class_id),
+                //     'box_image' => $caseType->image,
+                //     'hero'      => $this->getRarityClassById($caseType->hero_rarity_id),
+                //     'frame'     => $this->getRarityClassById($caseType->frame_rarity_id),
+                //     'prize'     => $caseType->prize_cost,
+                //     'points'    => $caseType->points_count,
+                //     'diamonds'  => $caseType->diamonds_count,
+                // ]
             ],
         ]);
     }
@@ -742,11 +761,11 @@ class CasesManagementController extends Controller
     }
 
 
-    private function winFailure($viewerId, $boxTypeId)
+    private function winFailure($viewerId, $boxTypeId, $viewerCaseId)
     {
         $historyBoxItemType = HistoryBoxItemType::where('name', 'nothing')->first();
         $history = new HistoryBox();
-        $history->viewer_box_id = $viewerCase->id;
+        $history->viewer_box_id = $viewerCaseId;
         $history->viewer_id = $viewerId;
         $history->box_type_id = $boxTypeId;
         $history->item_type_id = $historyBoxItemType->id;
@@ -763,5 +782,14 @@ class CasesManagementController extends Controller
             $data[] = $ar2;
         }
         return $data;
+    }
+
+    private function getRarityClassById($rarityId)
+    {
+        $rarity = RarityClass::find($rarityId);
+        if (!$rarity) {
+            return 'none';
+        }
+        return ucfirst($rarity->name);
     }
 }

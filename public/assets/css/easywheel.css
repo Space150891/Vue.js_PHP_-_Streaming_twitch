@@ -121,17 +121,20 @@
 	transform-origin: 0 1px;
 	width: 50%;
 	padding-right: 6%;
+	/* padding-left: 110px; */
 	font-weight: bold;
-	font-size: 100%;
+	font-size: 14px;
 	cursor: default;
 	color: #fff;
 	text-align: right;
 }
 .easyWheel .eWheel-center {
+	padding: 0;
     width: 100%;
     height: 100%;
     border-radius: 100%;
 	text-align: center;
+	
 }
 .easyWheel .eWheel-center>.ew-center-empty,
 .easyWheel .eWheel-center>.ew-center-html {
