@@ -76,7 +76,7 @@ function getMyCases(casePage, userToken) {
                                 <hr>
                             </div>
                             ${history}
-                            <button type="button" class="btn bg-teal-400 mt-1" data-toggle="modal" data-target="#modal_price_1847782873">Details</button>
+                            <button type="button" class="btn bg-teal-400 mt-1" onclick="getBoxDetails('${userToken}',${box.id})">Details</button>
                         </div>
                     </div>
                 </div>
@@ -465,6 +465,65 @@ function spinWill(userToken, boxId) {
             document.getElementById('main-weel').style.cssText = `transform: rotate(${i}deg)`;
             i += 1;
         }, 5);
+    });
+}
+
+function getBoxDetails(userToken, boxId) {
+    let formData = new FormData();
+    formData.append('token', userToken);
+    formData.append('viewer_case_id', boxId);
+    fetch(baseUrl + 'api/case/history', {
+        method: "POST",
+        body: formData,
+        credentials: 'omit',
+        mode: 'cors'
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        let history = jsonResp.data.history;
+        document.getElementById('box-history-name').innerHTML = history.box_rarity;
+        let html = '';
+        switch (history.type) {
+            case 'nothing':
+                html = '<h2 class="text-center">nothing<h2>';
+                break;
+            case 'hero':
+                html = `
+                    <div>
+                        <h3 class="text-center">${history.rarity_class} Artwork</h3>
+                        <h3 class="text-center">${history.description || ''}</h3>
+                        <img src="${baseUrl + 'storage/' + history.image}" alt="artwork" style="display:block;margin:0 auto;width: 300px;">
+                    </div>
+                `;
+                break;
+            case 'frame':
+                html = `
+                    <div>
+                        <h3 class="text-center">${history.rarity_class} Frame</h3>
+                        <h3 class="text-center">${history.description || ''}</h3>
+                        <img src="${baseUrl + 'storage/' + history.image}" alt="frame" style="display:block;margin:0 auto;width: 300px;">
+                    </div>
+                `;
+                break;
+            case 'prize':
+                html = `
+                    <div>
+                        <h3 class="text-center">${history.rarity_class} Frame</h3>
+                        <h3 class="text-center">${history.description || ''}</h3>
+                        <img src="${baseUrl + 'storage/' + history.image}" alt="frame" style="display:block;margin:0 auto;width: 300px;">
+                        <h2 class="text-center">${history.cost} $</h2>
+                    </div>
+                `;
+                break;
+            case 'diamonds':
+                html = `<h2 class="text-center text-success">${history.count} <i class="icon-diamond"></i></h2>`;
+                break;
+            case 'points':
+                html = `<h2 class="text-center text-success">${history.count} <i class="icon-cube3"></i></h2>`;
+                break;
+        }
+        document.getElementById('box-history-details').innerHTML = html;
+        $('#modal-box-details').modal();
     });
 }
 

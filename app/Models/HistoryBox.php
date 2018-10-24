@@ -21,13 +21,15 @@ class HistoryBox extends Model
     public function getDetails()
     {
         $boxItemType = HistoryBoxItemType::find($this->item_type_id);
-        $caseType = CaseType::find($this->box_type_id)->first();
+        $caseType = CaseType::find($this->box_type_id);
         $viewer = Viewer::find($this->viewer_id);
+        $rarityClass = RarityClass::find($caseType->rarity_class_id);
         $data = [
             'id'        => $this->id,
             'type'      => $boxItemType->name,
             'viewer'    => $viewer->name,
             'box_image' => $caseType->image,
+            'box_rarity'   => ucfirst($rarityClass->name),
         ];
         switch ($boxItemType->name) {
         case 'hero':

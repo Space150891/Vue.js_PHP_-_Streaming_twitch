@@ -449,7 +449,12 @@ class CasesManagementController extends Controller
                 'errors' => $validator->errors()->all(),
             ]);
         }
-        $viewerCase = ViewerCase::find($request->viewer_case_id);
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $viewerCase = ViewerCase::where([
+            ['id', '=', $request->viewer_case_id],
+            ['viewer_id', '=', $viewer->id],
+        ])->first();
         if (!$viewerCase || !is_null($viewerCase->opened_at)) {
             return response()->json([
                 'errors' => ['case type id not found'],
@@ -457,8 +462,7 @@ class CasesManagementController extends Controller
         }
         $viewerCase->opened_at = date('Y-m-d H:i:s');
         $viewerCase->save(); //uncoment after testing
-        $user = auth()->user();
-        $viewer = Viewer::find($viewerCase->viewer_id);
+        
         $caseType = CaseType::find($viewerCase->case_id);
         $rarityClass = RarityClass::find($caseType->rarity_class_id)->first();
         if ($rarityClass) {
@@ -758,6 +762,44 @@ class CasesManagementController extends Controller
                 'pages' => ceil(ViewerCase::where('viewer_id', $viewer->id)->count() / $request->on_page),
             ],
         ]);
+    }
+
+    public function history(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'viewer_case_id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $viewerCase = ViewerCase::where([
+            ['id', '=', $request->viewer_case_id],
+            ['viewer_id', '=', $viewer->id],
+        ])->first();
+        if (!$viewerCase || is_null($viewerCase->opened_at)) {
+            return response()->json([
+                'errors' => ['case type id not found'],
+            ]);
+        }
+        $history = HistoryBox::where([
+            ['viewer_id', '=', $viewer->id],
+            ['viewer_box_id', '=', $viewerCase->id],
+        ])->first();
+        if (!$history) {
+            return response()->json([
+                'errors' => ['history not found'],
+            ]);
+        }
+        return response()->json([
+            'data' => [
+                'history' => $history->getDetails(),
+            ],
+        ]);
+
     }
 
 

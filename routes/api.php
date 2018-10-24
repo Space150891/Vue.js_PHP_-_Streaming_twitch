@@ -129,6 +129,7 @@ Route::group([
     Route::post('heroes/inventory', 'Api\ViewerItemsController@inventoryHeroes');
     Route::post('achievements/inventory', 'Api\AchivementsController@inventory');
     Route::post('cases/get', 'Api\CasesManagementController@show');
+    Route::post('case/history', 'Api\CasesManagementController@history');
 
     Route::post('statistic/get', 'Api\StatisticController@index');
     // custom achivements

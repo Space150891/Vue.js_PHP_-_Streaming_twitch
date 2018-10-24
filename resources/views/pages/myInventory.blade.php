@@ -186,6 +186,28 @@
         </div>
     </div>
 </div>
+</div>
+
+<div id="modal-box-details" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="box-history-name"></span> StreamCase win</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body" id="box-history-details">
+                
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn bg-danger-800 btn-labeled btn-labeled-left" data-dismiss="modal"><b><i class="icon-close2"></i></b>Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 <script>
