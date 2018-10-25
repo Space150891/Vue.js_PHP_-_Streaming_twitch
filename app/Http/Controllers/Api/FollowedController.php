@@ -35,6 +35,43 @@ class FollowedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $followedUser = User::where('name', $request->name)->first();
+        if (!$followedUser) {
+            return response()->json([
+                'errors' => ['user not found'],
+            ]);
+        }
+        $followedStreamer = $followedUser->streamer()->first();
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $already = SignedViewer::where([
+            ['viewer_id', '=', $viewer->id],
+            ['streamer_id', '=', $followedStreamer->id],
+        ])->first();
+        if ($already) {
+            return response()->json([
+                'message' => 'user already in followings',
+            ]);
+        }
+        $signed = new SignedViewer();
+        $signed->viewer_id = $viewer->id;
+        $signed->streamer_id = $followedStreamer->id;
+        $signed->save();
+        return response()->json([
+            'message' => 'successful add user to followings',
+        ]);
+    }
+
     public function get(Request $request)
     {
         $user = auth()->user();

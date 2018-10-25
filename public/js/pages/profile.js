@@ -56,7 +56,7 @@ function getViewerDetails(token) {
         if (token) {
             document.getElementById('profile-buttons').innerHTML = `
                 <li class="nav-item">
-                    <a href="${baseUrl + 'follow/' + viewerName}" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left"><b><i class="icon-heart5"></i></b> Follow</a>
+                    <a href="${baseUrl + 'follow/' + viewerName}" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left" id="profile-follow-but"><b><i class="icon-heart5"></i></b> Follow</a>
                 </li>
                 <li class="nav-item">
                     <a href="${baseUrl + 'subscribe/' + viewerName}" type="button" class="btn btn-success bg-success-800 btn-labeled btn-labeled-left ml-1"><b><i class="icon-play"></i></b> Subscribe</a>
@@ -68,6 +68,7 @@ function getViewerDetails(token) {
         }
         renderFollower(jsonResp.data.follower);
         renderFollowing(jsonResp.data.following);
+        followBut(token);
     });
 }
 
@@ -119,6 +120,30 @@ function renderFollowing(data) {
         `;
     }
     document.getElementById('following-list').innerHTML = html;
+}
+
+function followBut(token) {
+    document.getElementById('profile-follow-but').onclick = function(event) {
+        let formData = new FormData();
+        formData.append('token', token);
+        formData.append('name', viewerName);
+        fetch(baseUrl + 'api/follow', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors) {
+                commonAlert('Error', jsonResp.errors[0]);
+            } else {
+                commonAlert('Adding to following', jsonResp.message);
+            }
+            
+        });
+        event.preventDefault();
+    }
 }
 
 window.onload = function() {

@@ -144,11 +144,13 @@ Route::group([
     Route::post('translate', 'Api\LocalizeController@translate');
 
     Route::post('myfollowed', 'Api\FollowedController@get');
+    Route::post('follow', 'Api\FollowedController@store');
     Route::post('history/boxes/list', 'Api\CasesManagementController@lastList');
     Route::post('history/boxes/last', 'Api\CasesManagementController@lastOne');
 
     Route::get('countries/get', 'Api\CountriesController@index');
     Route::post('prize/get', 'Api\ViewerPrizesController@show');
+
 });
 
 
