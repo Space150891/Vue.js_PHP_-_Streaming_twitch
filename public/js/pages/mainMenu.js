@@ -351,12 +351,14 @@ function generateMainMenu() {
     getPromotedList();
     getBoxTotalHistory();
     getLastBoxHistory();
-    const elemAuthUser = document.getElementsByClassName('auth-user')[0];
+    // const elemAuthUser = document.getElementsByClassName('auth-user')[0];
+    const elemAuthUser = document.getElementById('auth-user-menu');
     let noToken = `<li class="nav-item">
                   <a href="${baseUrl + 'twitch/redirect'}" class="navbar-nav-link log-in">LogIn</a>
                   </li>`;
     
-    let elemFollowingItems = document.getElementsByClassName('following-items-part')[0];
+    // let elemFollowingItems = document.getElementsByClassName('following-items-part')[0];
+    let elemFollowingItems = document.getElementById('following-items');
     const token = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : false;
     if (token) {
         getFollowed(token);

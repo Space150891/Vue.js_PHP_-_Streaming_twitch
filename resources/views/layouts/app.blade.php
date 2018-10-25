@@ -174,7 +174,7 @@
 
                         <!-- /Promoted streamer -->
                         <!-- Following list online -->
-                    <div class="following-items-part" style="display: none">
+                    <div class="following-items-part" style="display: none" id="following-items">
                         <ul class="nav nav-sidebar" data-nav-type="accordion ">
                             <li class="nav-item-header">
                                 <div class="text-uppercase font-size-xs line-height-xs">Following (Live)</div> <i class="icon-heart5" title="Following (Online)"></i>
