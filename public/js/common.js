@@ -41,3 +41,9 @@ function goodInt(nStr)
     }
     return x1 + x2;
 }
+
+function commonAlert(textHeader, textBody) {
+    document.getElementById('total-alert-header').innerHTML = textHeader;
+    document.getElementById('total-alert-body').innerHTML = textBody;
+    $('#total-alert').modal();
+}

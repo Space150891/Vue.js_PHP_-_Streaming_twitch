@@ -565,6 +565,28 @@
         </script>
         <!-- /COOKIES ALERT -->
 
+
+    <div id="total-alert" class="modal fade " tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content bg-dark">
+				<div class="modal-header bg-teal">
+					<h5 class="modal-title" id="total-alert-header"></h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<h2 id="total-alert-body"></h2>
+				</div>
+				<div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+    
         {{-- Pages js --}}
         <script>
             const baseUrl = "{{ env('APP_URL') }}/";
