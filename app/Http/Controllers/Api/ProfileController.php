@@ -190,24 +190,24 @@ class ProfileController extends Controller
         $viewer = $user->viewer()->first();
         $streamer = $user->streamer()->first();
         $card = false;
-        if ($viewer->promoted_gamecard_id) {
-            $currentCard = Card::find($viewer->promoted_gamecard_id);
-            $card = new \stdClass();
-            $card->id = $currentCard->id;
-            $viewerFrame = ViewerItem::find($currentCard->frame_id);
-            $frame = Item::find($viewerFrame->item_id);
-            $card->frame = $frame->image;
-            $viewerHero = ViewerItem::find($currentCard->hero_id);
-            $hero = Item::find($viewerHero->item_id);
-            $card->hero = $hero->image;
-            if ($currentCard->a_type == "custom") {
-                $achievement = CustomAchievement::find($currentCard->achivement_id);
-                $card->achievement = $achievement->text;
-            } else {
-                $achievement = Achievement::find($currentCard->achivement_id);
-                $card->achievement = $achievement->description;
-            }
-        }
+        // if ($viewer->promoted_gamecard_id) {
+        //     $currentCard = Card::find($viewer->promoted_gamecard_id);
+        //     $card = new \stdClass();
+        //     $card->id = $currentCard->id;
+        //     $viewerFrame = ViewerItem::find($currentCard->frame_id);
+        //     $frame = Item::find($viewerFrame->item_id);
+        //     $card->frame = $frame->image;
+        //     $viewerHero = ViewerItem::find($currentCard->hero_id);
+        //     $hero = Item::find($viewerHero->item_id);
+        //     $card->hero = $hero->image;
+        //     if ($currentCard->a_type == "custom") {
+        //         $achievement = CustomAchievement::find($currentCard->achivement_id);
+        //         $card->achievement = $achievement->text;
+        //     } else {
+        //         $achievement = Achievement::find($currentCard->achivement_id);
+        //         $card->achievement = $achievement->description;
+        //     }
+        // }
         $dataPrizes = [];
         $viewerPrizes = ViewerPrize::where('viewer_id', $viewer->id)->get();
         foreach ($viewerPrizes as $viewerPrize) {
