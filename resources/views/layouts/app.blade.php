@@ -115,7 +115,7 @@
                <span class="font-size-sm font-weight-bold">Promote your Channel</span>
 			</a>
 			</span>
-            <ul class="navbar-nav auth-user">
+            <ul class="navbar-nav auth-user" id="auth-user-menu">
 
             </ul>
         </div>

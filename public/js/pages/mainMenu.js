@@ -336,7 +336,8 @@ function getMainMenuContent(userToken) {
                 </li>
     
         `;
-        document.getElementsByClassName('auth-user')[0].innerHTML = html;
+        // document.getElementsByClassName('auth-user')[0].innerHTML = html;
+        document.getElementById('auth-user-menu').innerHTML = html;
         document.getElementById('reflink').value = "http://dev.streamcases.tv/api/afiliate/" + jsonResp.data.id;
     });
 };
