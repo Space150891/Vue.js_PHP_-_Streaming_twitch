@@ -22,6 +22,8 @@ Route::get('/prizes', 'PagesController@allPrizes');
 Route::get('/store/{caseId?}', 'PagesController@shop');
 Route::get('/cabinet', 'PagesController@cabinet');
 Route::get('/my-inventory', 'PagesController@myInventory');
+Route::get('/upgrade', 'PagesController@upgrade');
+Route::get('/profile/{streamName}', 'PagesController@profile');
 
 // Authentication Routes
 Auth::routes();
@@ -98,9 +100,9 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
     Route::post('subscribe', 'SubscribeController@makePayment');
 
     // Route to show user avatar
-    Route::get('images/profile/{id}/avatar/{image}', [
-        'uses' => 'ProfilesController@userProfileAvatar',
-    ]);
+    // Route::get('images/profile/{id}/avatar/{image}', [
+    //     'uses' => 'ProfilesController@userProfileAvatar',
+    // ]);
 
     // Route to upload user avatar.
     Route::post('avatar/upload', ['as' => 'avatar.upload', 'uses' => 'ProfilesController@upload']);

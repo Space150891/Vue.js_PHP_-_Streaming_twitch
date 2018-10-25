@@ -46,4 +46,14 @@ class PagesController extends Controller
         return view('pages.myInventory');
     }
 
+    public function upgrade()
+    {
+        return view('pages.upgrade');
+    }
+
+    public function profile($name)
+    {
+        return view('pages.profile', ['viewerName'   => $name]);
+    }
+
 }

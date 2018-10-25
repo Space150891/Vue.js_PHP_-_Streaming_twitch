@@ -39,7 +39,7 @@ class ViewersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['show']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -50,27 +50,54 @@ class ViewersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request) //// 
+    public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id'       => 'required|numeric',
+            'viewer_name'       => 'required|min:1',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()->all(),
             ]);
         }
-        $id = $request->id;
-        $viewer = Viewer::find($id);
-
-        if (!$viewer) {
+        $user = User::where('name', $request->viewer_name)->first();
+        if (!$user) {
             return response()->json([
-                'errors' => ['viewer id not found'],
+                'errors' => ['viewer name not found'],
             ]);
         }
-        $viewer->user = $viewer->user()->first();
+        $viewer = $user->viewer()->first();
+        $currentStreamer = $user->streamer()->first();
+        $following = SignedViewer::where('viewer_id', $viewer->id)->get();
+        foreach ($following as &$followed) {
+            $followingStreamer = Streamer::find($followed->streamer_id);
+            $followingUser = $followingStreamer->user()->first();
+            $followed->name = $followingStreamer->name;
+            $followed->avatar = $followingUser->avatar;
+            $followed->subscription = $followingUser->isSubscribed();
+        }
+        $followers = SignedViewer::where('streamer_id', $currentStreamer->id)->get();
+        foreach ($followers as &$follow) {
+            $followViewer = Viewer::find($follow->viewer_id);
+            $followUser = $followViewer->user()->first();
+            $follow->name = $followViewer->name;
+            $follow->avatar = $followUser->avatar;
+            $follow->subscription = $followUser->isSubscribed();
+        }
         return response()->json([
-            'data' => $viewer,
+            'data' => [
+                'name'              => $viewer->name,
+                'bio'               => $user->bio,
+                'social'    => [
+                    'twitch'   =>  $viewer->social_twitch,
+                    'twitter'   =>  $viewer->social_twitter,
+                    'instagram'   =>  $viewer->social_instagram,
+                    'youtube'   =>  $viewer->social_youtube,
+                ],
+                'following' => $following,
+                'follower' => $followers,
+                'back'      => $currentStreamer->donate_back,
+            ],
         ]);
     }
 

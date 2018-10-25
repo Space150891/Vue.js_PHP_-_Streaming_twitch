@@ -31,7 +31,6 @@
     </div>
     <!-- /cover area -->
 
-
     <!-- Profile navigation -->
     <div class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-profile" style="display:block">
         <div class="text-center d-lg-none w-100">
@@ -108,8 +107,6 @@
         </div>
     </div>
     <!-- /profile navigation -->
-
-
     <!-- Content area -->
     <div class="content">
 
@@ -358,28 +355,6 @@
 
     </div>
     <!-- /content area -->
-</div>
-
-<div id="modal_saved" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content" style="background-color:#333333">
-            <div class="modal-header">
-                <h5 class="modal-title text-white">Info</h5>
-                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-            </div>
-
-            <div class="modal-body" id="modal-body-info">
-
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button class="btn bg-danger-800 btn-labeled btn-labeled-left" data-dismiss="modal"><b><i class="icon-close2"></i></b>Close</button>
-
-            </div>
-        </div>
-    </div>
 </div>
 
 @endsection

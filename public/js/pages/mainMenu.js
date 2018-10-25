@@ -327,7 +327,7 @@ function getMainMenuContent(userToken) {
                         <div class="dropdown-divider"></div>
                         <a href="#" class="row justify-content-center p-0 text-center" ><span class="badge bg-success-800 font-size-sm font-weight-bold" data-toggle="modal" data-target="#modal_ref">Referal Link</span></a>
                         <div class="dropdown-divider"></div>
-                        <a href="profile/dlausch/index.html" class="dropdown-item "><i class="icon-cog5 "></i> Account</a>
+                        <a href="${baseUrl + 'profile/' + jsonResp.data.nikname}" class="dropdown-item "><i class="icon-cog5 "></i> Account</a>
                         <a href="#" class="dropdown-item" onclick="logout()"><i class="icon-switch2 "></i> Logout</a>
                     </div>
                 </li>
