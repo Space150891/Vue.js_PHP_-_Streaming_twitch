@@ -583,8 +583,8 @@ window.addEventListener('load', function() {
 	
     cookieAlert.offsetHeight; // Force browser to trigger reflow (https://stackoverflow.com/a/39451131)
 
-    if (!getCookie("acceptCookies")) {
-        cookieAlert.classList.add("show");
+    if (getCookie("acceptCookies")) {
+        cookieAlert.style.display = "none";
     }
 
     acceptCookies.addEventListener("click", function () {
@@ -611,8 +611,8 @@ function getCookie(cname) {
         while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
+        if (c.indexOf(cname) === 0) {
+            return c.substring(cname.length+1, c.length);
         }
     }
     return "";
