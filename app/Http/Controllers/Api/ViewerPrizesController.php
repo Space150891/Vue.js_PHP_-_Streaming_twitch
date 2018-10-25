@@ -29,6 +29,37 @@ class ViewerPrizesController extends Controller
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
+    public function show(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'          => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $offset = $request->on_page * ($request->page - 1);
+        $viewerPrize = ViewerPrize::where([
+            ['viewer_id', '=', $viewer->id],
+            ['id', '=', $request->id],
+        ])->first();
+        $prize = StockPrize::find($viewerPrize->prize_id);
+        $rarityClass = RarityClass::find($prize->rarity_class_id);
+        $viewerPrize->class = ucfirst($rarityClass->tier());
+        $viewerPrize->name = $prize->name;
+        $viewerPrize->description = $prize->description;
+        $viewerPrize->cost = $prize->cost;
+        $viewerPrize->image = $prize->image;
+        return response()->json([
+            'data' => [
+                'prize' => $viewerPrize,
+            ],
+        ]);
+    }
+
     public function inventory(Request $request)
     {
         $validator = Validator::make($request->all(), [

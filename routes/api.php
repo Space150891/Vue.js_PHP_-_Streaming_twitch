@@ -148,6 +148,7 @@ Route::group([
     Route::post('history/boxes/last', 'Api\CasesManagementController@lastOne');
 
     Route::get('countries/get', 'Api\CountriesController@index');
+    Route::post('prize/get', 'Api\ViewerPrizesController@show');
 });
 
 

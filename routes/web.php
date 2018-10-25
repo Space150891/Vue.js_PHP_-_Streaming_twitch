@@ -24,6 +24,7 @@ Route::get('/cabinet', 'PagesController@cabinet');
 Route::get('/my-inventory', 'PagesController@myInventory');
 Route::get('/upgrade', 'PagesController@upgrade');
 Route::get('/profile/{streamName}', 'PagesController@profile');
+Route::get('/redeem/{prizeId}', 'PagesController@redeem');
 
 // Authentication Routes
 Auth::routes();

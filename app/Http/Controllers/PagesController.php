@@ -56,4 +56,9 @@ class PagesController extends Controller
         return view('pages.profile', ['viewerName'   => $name]);
     }
 
+    public function redeem($prizeId)
+    {
+        return view('pages.redeem', ['prizeId'   => $prizeId]);
+    }
+
 }
