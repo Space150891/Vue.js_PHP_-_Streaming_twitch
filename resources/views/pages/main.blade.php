@@ -22,12 +22,15 @@
 							<ul class="list-inline list-inline-condensed-margin mb-0 mt-2 mt-sm-0">
 								<!-- DEV INFO VIEWER COUNT -->
 								<li class="list-inline-item pl-2">
-									<i class="icon-users users-count"></i>
-
+									<i class="icon-users users-count">
+										
+									</i>
 								</li>
 								<!-- DEV INFO REWARD COUNT -->
 								<li class="list-inline-item pl-2">
-									<i class="icon-cube3 cube-count"></i>
+									<i class="icon-cube3 cube-count">
+										
+									</i>
 
 								</li>
 								<li class="list-inline-item pl-2 d-none d-md-inline">

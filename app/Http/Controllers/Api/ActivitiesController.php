@@ -30,7 +30,7 @@ class ActivitiesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('auth:api', ['except' => ['streamInfo']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -63,7 +63,7 @@ class ActivitiesController extends Controller
         foreach ($streamers as $streamer) {
             $active = $this->checkViewerOnline($viewer->id, $streamer->id);
             if ($active) {
-                $points += $this->calculatePoints($viewer->id, $streamer->id);
+                $points += $this->calculatePoints($streamer->id);
                 $active->updated_at = $updatedTime;
                 $active->save();
             } else {
@@ -84,7 +84,32 @@ class ActivitiesController extends Controller
         ]);
     }
 
-    private function calculatePoints($viewerId, $streamerId)
+    public function streamInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'channel'       => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $channel = $request->channel;
+        $streamer = Streamer::where('name', $channel)->first();
+        if (!$streamer) {
+            return response()->json([
+                'errors' => 'streamer not found',
+            ]);
+        }
+        return response()->json([
+            'data' => [
+                'points'    => $this->calculatePoints($streamer->id),
+                'viewers'   => $streamer->getOnlineViewers(),
+            ]
+        ]);
+    }
+
+    private function calculatePoints($streamerId)
     {
         $points = config('ospp.activity.level_points');
         $now = new Carbon;

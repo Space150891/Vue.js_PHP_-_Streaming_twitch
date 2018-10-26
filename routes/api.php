@@ -112,6 +112,7 @@ Route::group([
     Route::post('content/show', 'Api\ContentManagementController@show');
     Route::post('streamers/main/show', 'Api\MainStreamersManagementController@show');
     Route::post('activity/update', 'Api\ActivitiesController@update');
+    Route::post('stream/info', 'Api\ActivitiesController@streamInfo');
     Route::post('sms/code/get', 'Api\SmsController@getSms');
     Route::post('sms/code/check', 'Api\SmsController@checkCode');
     Route::post('roulette/channels/get', 'Api\ChannelsController@randomChannels');
