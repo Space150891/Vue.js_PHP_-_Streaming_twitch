@@ -126,7 +126,6 @@
         </div>
     </div>
 </div>
-</div>
 
 <div id="modal-box-details" class="modal fade" tabindex="-1">
     <div class="modal-dialog">

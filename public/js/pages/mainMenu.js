@@ -75,6 +75,7 @@ function getFollowed(userToken) {
                 (followingOfflineData[i].name) +
                 '<span class="d-block font-weight-normal opacity-50 truncate">' + followingOfflineData[i].game + '</span>' +
                 '</span>' +
+                `<span class="badge bg-danger text-default badge-pill ml-auto ">${followingOfflineData[i].viewers}</span>` +
                 '<span class="ml-3 align-self-center ">' +
                 '</span>' +
                 '</a>' +
