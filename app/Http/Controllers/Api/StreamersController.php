@@ -138,7 +138,7 @@ class StreamersController extends Controller
                 $online = $streamer;
                 $user = $streamer->user()->first();
                 $online->avatar = $user->avatar;
-                $online->viewers_count += $active;
+                $online->viewers_count = $active;
                 $online->points = $streamer->calculatePoints();
                 $onlineStreamers[] = $online;
             }
