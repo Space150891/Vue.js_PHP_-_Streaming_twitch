@@ -133,12 +133,12 @@ class StreamersController extends Controller
             $active = ActiveStreamer::where([
                 ['streamer_id', '=', $streamer->id],
                 // ['updated_at', '>', $updateTime],
-            ])->count();
-            if ($active > 0) {
+            ])->first();
+            if ($active) {
                 $online = $streamer;
                 $user = $streamer->user()->first();
                 $online->avatar = $user->avatar;
-                $online->viewers_count = $active;
+                $online->viewers_count = $streamer->getOnlineViewers();
                 $online->points = $streamer->calculatePoints();
                 $onlineStreamers[] = $online;
             }
