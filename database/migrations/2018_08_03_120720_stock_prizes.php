@@ -21,6 +21,11 @@ class StockPrizes extends Migration
             $table->unsignedSmallInteger('amount')->default(0);
             $table->string('image')->nullable();
             $table->unsignedInteger('rarity_class_id');
+            $table->unsignedInteger('prize_type_id');
+            $table->string('website_url')->nullable();
+            $table->string('video_url')->nullable();
+            $table->string('manufacturer')->nullable();
+            $table->string('store_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

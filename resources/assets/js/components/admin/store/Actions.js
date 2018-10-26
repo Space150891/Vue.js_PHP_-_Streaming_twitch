@@ -636,6 +636,7 @@ export const actions = {
     StockPrizeListAction(context) {
         context.commit('getStockPrizesList');
         context.commit('loadRarityClasses');
+        context.commit('getPrizeTypes');
     },
     StockPrizeCreateAction({commit, state}, data) {
         var formData = new FormData();
@@ -645,6 +646,11 @@ export const actions = {
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('website_url', data.website_url);
+        formData.append('video_url', data.video_url);
+        formData.append('manufacturer', data.manufacturer);
+        formData.append('store_url', data.store_url);
+        formData.append('prize_type_id', data.prize_type_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -674,6 +680,11 @@ export const actions = {
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('website_url', data.website_url);
+        formData.append('video_url', data.video_url);
+        formData.append('manufacturer', data.manufacturer);
+        formData.append('store_url', data.store_url);
+        formData.append('prize_type_id', data.prize_type_id);
         if (data.image) {
             formData.append('image', data.image);
         }

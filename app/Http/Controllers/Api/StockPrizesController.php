@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Validator;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\{StockPrize, ViewerPrize, RarityClass};
+use App\Models\{StockPrize, ViewerPrize, RarityClass, PrizeType};
 
 class StockPrizesController extends Controller
 {
@@ -19,7 +19,7 @@ class StockPrizesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['newPrizes', 'allPrizes']]);
+        $this->middleware('auth:api', ['except' => ['newPrizes', 'allPrizes', 'show']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -34,6 +34,8 @@ class StockPrizesController extends Controller
         foreach ($prizes as &$prize) {
             $rarityClass = RarityClass::find($prize->rarity_class_id);
             $prize->tier = $rarityClass->tier();
+            $prizeType = PrizeType::find($prize->prize_type_id);
+            $prize->type = $prizeType->name;
         }
         return response()->json(['data' => [
             'prizes' => $prizes,
@@ -56,6 +58,11 @@ class StockPrizesController extends Controller
                 'cost'          => 'numeric',
                 'amount'        => 'numeric',
                 'rarity_class_id'  => 'numeric',
+                'website_url'   => 'max:255',
+                'video_url'     => 'max:255',
+                'manufacturer'  => 'max:255',
+                'store_url'     => 'max:255',
+                'prize_type_id' => 'required|numeric',
             ]
         );
         if ($validator->fails()) {
@@ -69,6 +76,11 @@ class StockPrizesController extends Controller
         $prize->description = $request->has('description') ? $request->description : '';
         $prize->cost = $request->has('cost') ? $request->cost : 0;
         $prize->amount = $request->has('amount') ? $request->amount : 0;
+        $prize->website_url = $request->has('website_url') ? $request->website_url : null;
+        $prize->video_url = $request->has('video_url') ? $request->video_url : null;
+        $prize->manufacturer = $request->has('manufacturer') ? $request->manufacturer : null;
+        $prize->store_url = $request->has('store_url') ? $request->store_url : null;
+        $prize->prize_type_id = $request->prize_type_id;
         $prize->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -106,6 +118,11 @@ class StockPrizesController extends Controller
                 'cost'          => 'numeric',
                 'amount'        => 'numeric',
                 'rarity_class_id'  => 'numeric',
+                'website_url'   => 'max:255',
+                'video_url'     => 'max:255',
+                'manufacturer'  => 'max:255',
+                'store_url'     => 'max:255',
+                'prize_type_id' => 'required|numeric',
             ]
         );
         if ($validator->fails()) {
@@ -124,6 +141,11 @@ class StockPrizesController extends Controller
         $prize->cost = $request->has('cost') ? $request->cost : $prize->cost;
         $prize->amount = $request->has('amount') ? $request->amount : $prize->amount;
         $prize->rarity_class_id = $request->rarity_class_id;
+        $prize->website_url = $request->has('website_url') ? $request->website_url : null;
+        $prize->video_url = $request->has('video_url') ? $request->video_url : null;
+        $prize->manufacturer = $request->has('manufacturer') ? $request->manufacturer : null;
+        $prize->store_url = $request->has('store_url') ? $request->store_url : null;
+        $prize->prize_type_id = $request->prize_type_id;
         $prize->save();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -221,11 +243,17 @@ class StockPrizesController extends Controller
         for ($i = 0; $i < count($stockPrizes); $i++) {
             $stockPrize = $stockPrizes[$i];
             $prize = [];
-            $prize['id']  = $i;
+            $prize['id']  = $stockPrize->id;
             $prize['name'] = $stockPrize->name;
             $prize['description'] = $stockPrize->description;
             $prize['image'] = $stockPrize->image;
             $prize['cost']  = $stockPrize->cost;
+            $prize['website_url']  = $stockPrize->website_url;
+            $prize['video_url']  = $stockPrize->video_url;
+            $prize['manufacturer']  = $stockPrize->manufacturer;
+            $prize['store_url']  = $stockPrize->store_url;
+            $prizeType = PrizeType::find($stockPrize->prize_type_id);
+            $prize['type']  = $prizeType->name;
             $prize['winned']  = ViewerPrize::where('prize_id', $stockPrize->id)->count();
             $prizes[] = $prize;
         }
@@ -237,6 +265,32 @@ class StockPrizesController extends Controller
             ],
         ]);
     }
+
+    public function show(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'          => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $prize = StockPrize::find($request->id);
+        if (!$prize) {
+            return response()->json([
+                'errors' => ['stock prize id not found'],
+            ]);
+        }
+        $prizeType = PrizeType::find($prize->prize_type_id);
+        $prize->type  = $prizeType->name;
+        return response()->json([
+            'data' => [
+                'prize'    =>  $prize,
+            ],
+        ]);
+    }
+
 
     private function generateFileName($ext) {
         do {

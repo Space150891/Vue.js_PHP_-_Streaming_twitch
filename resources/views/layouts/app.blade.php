@@ -585,7 +585,29 @@
 			</div>
 		</div>
 	</div>
+    <div id="modal_prize" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="prize-modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
+                <div class="modal-body" id="prize-modal-body">
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <span id="prize-modal-redeem">
+                        <!-- <a href="redeem_shipping.html" target="_self" class="btn bg-green-800 btn-labeled btn-labeled-left"><b><i class="icon-cart"></i></b>Redeem</a> -->
+                    </span>
+                    <button class="btn bg-danger-800 btn-labeled btn-labeled-left" data-dismiss="modal"><b><i class="icon-close2"></i></b>Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+                
     
         {{-- Pages js --}}
         <script>

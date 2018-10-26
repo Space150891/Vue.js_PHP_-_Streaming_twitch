@@ -13,6 +13,11 @@
                     <th>Amount</th>
                     <th>Image</th>
                     <th>Tier</th>
+                    <th>Website URL</th>
+                    <th>Video URL</th>
+                    <th>Prize type</th>
+                    <th>Manufacturer</th>
+                    <th>Store URL</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -33,6 +38,11 @@
                           alt="prize image"/>
                     </td>
                     <td> {{ item.tier }}</td>
+                    <td> {{ item.website_url || '' }}</td>
+                    <td> {{ item.video_url || ''}}</td>
+                    <td> {{ item.type }}</td>
+                    <td> {{ item.manufacturer || '' }}</td>
+                    <td> {{ item.store_url || '' }}</td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
 						<button class="btn btn-xs btn-warning" @click.prevent="editAction(item)">edit</button>
@@ -41,20 +51,67 @@
 			</tbody>
 		</table>
 		<div>
-            <form class="form form-inline">
-				<input class="form-control" placeholder="Name..." v-model="editItem.name" type="text">
-                <input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
-                <input class="form-control" placeholder="Cost..." v-model="editItem.cost" type="number">
-                <input class="form-control" placeholder="Amount..." v-model="editItem.amount" type="number">
-                <select class="form-control" v-model="editItem.rarity_class_id">
-                    <option value="0" disabled>Rarity class</option>
-                    <option v-for="rarityClass in rarityClasses" v-bind:value="rarityClass.id" :key="rarityClass.id">{{ translateRarity(rarityClass.name) }}</option>
-                </select>
-                <div v-if="editMode">
-				    <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
-				    <button @click.prevent="editCancelAction()" class="btn btn-default">cancel</button>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label>Name</label>
+                        <input class="form-control" placeholder="Name..." v-model="editItem.name" type="text">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Description</label>
+                        <input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>Cost</label>
+                        <input class="form-control" placeholder="Cost..." v-model="editItem.cost" type="number">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>Amount</label>
+                        <input class="form-control" placeholder="Amount..." v-model="editItem.amount" type="number">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Rarity class</label>
+                        <select class="form-control" v-model="editItem.rarity_class_id">
+                            <option value="0" disabled>Rarity class</option>
+                            <option v-for="rarityClass in rarityClasses" v-bind:value="rarityClass.id" :key="rarityClass.id">{{ translateRarity(rarityClass.name) }}</option>
+                        </select>
+                    </div>
                 </div>
-                <button v-else @click.prevent="createAction()" class="btn btn-success">Create new</button>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                        <label>Type</label>
+                        <select class="form-control" v-model="editItem.prize_type_id">
+                            <option v-for="prizeType in prizeTypes" v-bind:value="prizeType.id" :key="prizeType.id">{{ prizeType.name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Website URL</label>
+                        <input class="form-control" placeholder="Website URL..." v-model="editItem.website_url" type="text">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Video URL</label>
+                        <input class="form-control" placeholder="Video URL..." v-model="editItem.video_url" type="text">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Manufacturer</label>
+                        <input class="form-control" placeholder="Manufacturer..." v-model="editItem.manufacturer" type="text">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Store URL</label>
+                        <input class="form-control" placeholder="Store URL..." v-model="editItem.store_url" type="text">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div v-if="editMode">
+                            <button @click.prevent="saveAction()" class="btn btn-success">SAVE</button>
+                            <button @click.prevent="editCancelAction()" class="btn btn-default">cancel</button>
+                        </div>
+                        <button v-else @click.prevent="createAction()" class="btn btn-success">Create new</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                </div>
 			</form>
 		</div>
 		<modal-delete 
@@ -97,6 +154,11 @@
                 amount : 0,
                 image: null,
                 rarity_class_id: 0,
+                website_url: '',
+                video_url: '',
+                prize_type_id: 0,
+                manufacturer: '',
+                store_url: 0,
 				id: 0,
 			},
 			deletingItem: {
@@ -137,7 +199,12 @@
                 this.editItem.amount = item.amount;
                 this.editItem.image = null;
                 this.editItem.rarity_class_id = item.rarity_class_id;
-				this.editItem.id = item.id;
+                this.editItem.id = item.id;
+                this.editItem.website_url = item.website_url;
+                this.editItem.video_url = item.video_url;
+                this.editItem.prize_type_id = item.prize_type_id;
+                this.editItem.manufacturer = item.manufacturer;
+                this.editItem.store_url = item.store_url;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -155,6 +222,11 @@
                     this.editItem.image = null;
                     this.editItem.icon = null;
                     this.editItem.rarity_class_id = 0;
+                    this.editItem.website_url = '';
+                    this.editItem.video_url = '';
+                    this.editItem.manufacturer = '';
+                    this.editItem.store_url = '';
+                    this.editItem.prize_type_id = 0;
                 } else {
                     this.openAlertModal = true;
                 }
@@ -176,6 +248,11 @@
                     this.editItem.image = null;
                     this.editItem.id = 0;
                     this.editItem.rarity_class_id = 0;
+                    this.editItem.website_url = '';
+                    this.editItem.video_url = '';
+                    this.editItem.manufacturer = '';
+                    this.editItem.store_url = '';
+                    this.editItem.prize_type_id = 0;
                     this.editMode = false;
                 } else {
                     this.openAlertModal = true;
@@ -211,6 +288,7 @@
                 'stockPrizesLoaded',
                 'stockPrizesSaved',
                 'rarityClasses',
+                'prizeTypes',
 			]),
     }
   }

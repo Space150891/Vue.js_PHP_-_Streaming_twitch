@@ -129,32 +129,7 @@ function getMyPrizes(page, userToken) {
         let html = '';
         for (let i=0;i<jsonResp.data.prizes.length;i++) {
             let prize = jsonResp.data.prizes[i];
-            html += `
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-img-actions">
-                        <img class="card-img-top img-fluid" src="${baseUrl + 'storage/' + prize.image}" alt="prize">
-                        <div class="card-img-actions-overlay card-img-top">
-                            <a href="#" class="btn btn-outline bg-white text-white border-white border-2 ml-2" data-toggle="modal" data-target="#modal_price_0000000002">
-                                Details
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body  bg-dark">
-                        <h5 class="card-title font-weight-semibold">${prize.name}</h5>
-                        <p class="card-text">${prize.description}</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-dark">
-                        <span>
-                            <a href="${baseUrl + 'redeem/' + prize.id}" target="_self" class="btn bg-green-800 btn-labeled btn-labeled-left"><b><i class="icon-cart"></i></b>Redeem</a>
-                        </span>
-                        <span class="justify-content-center pt-2">
-                            <span class="badge badge-danger badge-pill">${prize.cost} $</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            `;
+            html += renderPrize(prize, prize.viewer_prize_id);
         }
         document.getElementById('prizes-list').innerHTML = html;
         document.getElementById('prizes-pagination').innerHTML = paginationAuth(jsonResp.data.page, jsonResp.data.pages, 'getMyPrizes', userToken);

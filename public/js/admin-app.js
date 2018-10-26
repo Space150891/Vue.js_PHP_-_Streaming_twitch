@@ -4936,6 +4936,63 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var config = __webpack_require__("./resources/assets/js/components/config/config.json");
@@ -4951,6 +5008,11 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 amount: 0,
                 image: null,
                 rarity_class_id: 0,
+                website_url: '',
+                video_url: '',
+                prize_type_id: 0,
+                manufacturer: '',
+                store_url: 0,
                 id: 0
             },
             deletingItem: {
@@ -4993,6 +5055,11 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             this.editItem.image = null;
             this.editItem.rarity_class_id = item.rarity_class_id;
             this.editItem.id = item.id;
+            this.editItem.website_url = item.website_url;
+            this.editItem.video_url = item.video_url;
+            this.editItem.prize_type_id = item.prize_type_id;
+            this.editItem.manufacturer = item.manufacturer;
+            this.editItem.store_url = item.store_url;
             this.editMode = true;
         },
         createAction: function createAction() {
@@ -5010,6 +5077,11 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 this.editItem.image = null;
                 this.editItem.icon = null;
                 this.editItem.rarity_class_id = 0;
+                this.editItem.website_url = '';
+                this.editItem.video_url = '';
+                this.editItem.manufacturer = '';
+                this.editItem.store_url = '';
+                this.editItem.prize_type_id = 0;
             } else {
                 this.openAlertModal = true;
             }
@@ -5031,6 +5103,11 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
                 this.editItem.image = null;
                 this.editItem.id = 0;
                 this.editItem.rarity_class_id = 0;
+                this.editItem.website_url = '';
+                this.editItem.video_url = '';
+                this.editItem.manufacturer = '';
+                this.editItem.store_url = '';
+                this.editItem.prize_type_id = 0;
                 this.editMode = false;
             } else {
                 this.openAlertModal = true;
@@ -5059,7 +5136,7 @@ var config = __webpack_require__("./resources/assets/js/components/config/config
             }
         }
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'stockPrizes', 'stockPrizesLoaded', 'stockPrizesSaved', 'rarityClasses']))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'stockPrizes', 'stockPrizesLoaded', 'stockPrizesSaved', 'rarityClasses', 'prizeTypes']))
 });
 
 /***/ }),
@@ -48534,6 +48611,16 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(" " + _vm._s(item.tier))]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.website_url || ""))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.video_url || ""))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.type))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.manufacturer || ""))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(item.store_url || ""))]),
+                      _vm._v(" "),
                       _c("td", [
                         _c(
                           "button",
@@ -48569,197 +48656,401 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", [
-                _c("form", { staticClass: "form form-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.name,
-                        expression: "editItem.name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Name...", type: "text" },
-                    domProps: { value: _vm.editItem.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.description,
-                        expression: "editItem.description"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Description...", type: "text" },
-                    domProps: { value: _vm.editItem.description },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.editItem,
-                          "description",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.cost,
-                        expression: "editItem.cost"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Cost...", type: "number" },
-                    domProps: { value: _vm.editItem.cost },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "cost", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.editItem.amount,
-                        expression: "editItem.amount"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "Amount...", type: "number" },
-                    domProps: { value: _vm.editItem.amount },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.editItem, "amount", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.editItem.rarity_class_id,
-                          expression: "editItem.rarity_class_id"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.editItem,
-                            "rarity_class_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "0", disabled: "" } }, [
-                        _vm._v("Rarity class")
-                      ]),
+                _c("form", [
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-2" }, [
+                      _c("label", [_vm._v("Name")]),
                       _vm._v(" "),
-                      _vm._l(_vm.rarityClasses, function(rarityClass) {
-                        return _c(
-                          "option",
+                      _c("input", {
+                        directives: [
                           {
-                            key: rarityClass.id,
-                            domProps: { value: rarityClass.id }
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(_vm.translateRarity(rarityClass.name))
-                            )
-                          ]
-                        )
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.name,
+                            expression: "editItem.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Name...", type: "text" },
+                        domProps: { value: _vm.editItem.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.editItem, "name", $event.target.value)
+                          }
+                        }
                       })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _vm.editMode
-                    ? _c("div", [
-                        _c(
-                          "button",
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-4" }, [
+                      _c("label", [_vm._v("Description")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
                           {
-                            staticClass: "btn btn-success",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                _vm.saveAction()
-                              }
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.description,
+                            expression: "editItem.description"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Description...", type: "text" },
+                        domProps: { value: _vm.editItem.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          },
-                          [_vm._v("SAVE")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
+                            _vm.$set(
+                              _vm.editItem,
+                              "description",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-1" }, [
+                      _c("label", [_vm._v("Cost")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
                           {
-                            staticClass: "btn btn-default",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                _vm.editCancelAction()
-                              }
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.cost,
+                            expression: "editItem.cost"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Cost...", type: "number" },
+                        domProps: { value: _vm.editItem.cost },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          },
-                          [_vm._v("cancel")]
-                        )
-                      ])
-                    : _c(
-                        "button",
+                            _vm.$set(_vm.editItem, "cost", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-1" }, [
+                      _c("label", [_vm._v("Amount")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.amount,
+                            expression: "editItem.amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Amount...", type: "number" },
+                        domProps: { value: _vm.editItem.amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "amount",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-2" }, [
+                      _c("label", [_vm._v("Rarity class")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
                         {
-                          staticClass: "btn btn-success",
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.editItem.rarity_class_id,
+                              expression: "editItem.rarity_class_id"
+                            }
+                          ],
+                          staticClass: "form-control",
                           on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.createAction()
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.editItem,
+                                "rarity_class_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
                             }
                           }
                         },
-                        [_vm._v("Create new")]
+                        [
+                          _c(
+                            "option",
+                            { attrs: { value: "0", disabled: "" } },
+                            [_vm._v("Rarity class")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.rarityClasses, function(rarityClass) {
+                            return _c(
+                              "option",
+                              {
+                                key: rarityClass.id,
+                                domProps: { value: rarityClass.id }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.translateRarity(rarityClass.name))
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
                       )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-1" }, [
+                      _c("label", [_vm._v("Type")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.editItem.prize_type_id,
+                              expression: "editItem.prize_type_id"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.editItem,
+                                "prize_type_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.prizeTypes, function(prizeType) {
+                          return _c(
+                            "option",
+                            {
+                              key: prizeType.id,
+                              domProps: { value: prizeType.id }
+                            },
+                            [_vm._v(_vm._s(prizeType.name))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-3" }, [
+                      _c("label", [_vm._v("Website URL")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.website_url,
+                            expression: "editItem.website_url"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Website URL...", type: "text" },
+                        domProps: { value: _vm.editItem.website_url },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "website_url",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-3" }, [
+                      _c("label", [_vm._v("Video URL")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.video_url,
+                            expression: "editItem.video_url"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Video URL...", type: "text" },
+                        domProps: { value: _vm.editItem.video_url },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "video_url",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-2" }, [
+                      _c("label", [_vm._v("Manufacturer")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.manufacturer,
+                            expression: "editItem.manufacturer"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Manufacturer...", type: "text" },
+                        domProps: { value: _vm.editItem.manufacturer },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "manufacturer",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-3" }, [
+                      _c("label", [_vm._v("Store URL")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editItem.store_url,
+                            expression: "editItem.store_url"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { placeholder: "Store URL...", type: "text" },
+                        domProps: { value: _vm.editItem.store_url },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editItem,
+                              "store_url",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-6" }, [
+                      _vm.editMode
+                        ? _c("div", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.saveAction()
+                                  }
+                                }
+                              },
+                              [_vm._v("SAVE")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-default",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.editCancelAction()
+                                  }
+                                }
+                              },
+                              [_vm._v("cancel")]
+                            )
+                          ])
+                        : _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.createAction()
+                                }
+                              }
+                            },
+                            [_vm._v("Create new")]
+                          )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" })
                 ])
               ]),
               _vm._v(" "),
@@ -48831,6 +49122,16 @@ var staticRenderFns = [
         _c("th", [_vm._v("Image")]),
         _vm._v(" "),
         _c("th", [_vm._v("Tier")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Website URL")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Video URL")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Prize type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Manufacturer")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Store URL")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
@@ -69980,6 +70281,7 @@ var actions = {
     StockPrizeListAction: function StockPrizeListAction(context) {
         context.commit('getStockPrizesList');
         context.commit('loadRarityClasses');
+        context.commit('getPrizeTypes');
     },
     StockPrizeCreateAction: function StockPrizeCreateAction(_ref25, data) {
         var commit = _ref25.commit,
@@ -69992,6 +70294,11 @@ var actions = {
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('website_url', data.website_url);
+        formData.append('video_url', data.video_url);
+        formData.append('manufacturer', data.manufacturer);
+        formData.append('store_url', data.store_url);
+        formData.append('prize_type_id', data.prize_type_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -70021,6 +70328,11 @@ var actions = {
         formData.append('cost', data.cost);
         formData.append('amount', data.amount);
         formData.append('rarity_class_id', data.rarity_class_id);
+        formData.append('website_url', data.website_url);
+        formData.append('video_url', data.video_url);
+        formData.append('manufacturer', data.manufacturer);
+        formData.append('store_url', data.store_url);
+        formData.append('prize_type_id', data.prize_type_id);
         if (data.image) {
             formData.append('image', data.image);
         }
@@ -70548,6 +70860,9 @@ var getters = {
     },
     subscriptions: function subscriptions(state) {
         return state.subscriptions;
+    },
+    prizeTypes: function prizeTypes(state) {
+        return state.prizeTypes.list;
     }
 };
 
@@ -71356,6 +71671,19 @@ var mutations = {
             state.subscriptions.list = jsonResp.data ? jsonResp.data.subscriptions : [];
             state.subscriptions.loaded = true;
         });
+    },
+    getPrizeTypes: function getPrizeTypes(state) {
+        state.prizeTypes.loaded = false;
+        fetch('api/prize/types', {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            state.prizeTypes.list = jsonResp.data ? jsonResp.data.prize_types : [];
+            state.prizeTypes.loaded = true;
+        });
     }
 };
 
@@ -71476,6 +71804,11 @@ var state = {
         loaded: false,
         saves: false,
         pages: 0
+    },
+    prizeTypes: {
+        list: [],
+        loaded: false,
+        saves: false
     }
 };
 

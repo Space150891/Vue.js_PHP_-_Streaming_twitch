@@ -20,9 +20,12 @@ function getPrizePage(page, rarity, targetId) {
             html += `
             <div class="card">
                 <div class="card-img-actions">
-                    <img class="card-img-top img-fluid" src="${baseUrl + 'storage/' + prize.image}" alt="">
+                    <img class="card-img-top img-fluid" src="${baseUrl + 'storage/' + prize.image}" alt="" style="width:380px;height:380px;">
                     <div class="card-img-actions-overlay card-img-top">
-                    </div>
+                    <a href="#" class="btn btn-outline bg-white text-white border-white border-2 ml-2" data-toggle="modal" data-target="#modal_prize" onclick="modalPrize(${prize.id})">
+                        Details
+                    </a>
+                </div>
                 </div>
                 <div class="card-body bg-dark">
                     <h5 class="card-title font-weight-semibold">${prize.name}</h5>

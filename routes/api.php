@@ -151,7 +151,8 @@ Route::group([
 
     Route::get('countries/get', 'Api\CountriesController@index');
     Route::post('prize/get', 'Api\ViewerPrizesController@show');
-
+    Route::post('prize/types', 'Api\PrizeTypesController@index');
+    Route::post('store/prizes/get', 'Api\StockPrizesController@show');
 });
 
 
@@ -224,6 +225,7 @@ Route::group([
     Route::post('store/prizes/store', 'Api\StockPrizesController@store');
     Route::post('store/prizes/update', 'Api\StockPrizesController@update');
     Route::post('store/prizes/delete', 'Api\StockPrizesController@destroy');
+    
 
     Route::post('diamonds/store', 'Api\DiamondsController@store');
     Route::post('diamonds/update', 'Api\DiamondsController@update');

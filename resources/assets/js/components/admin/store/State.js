@@ -109,4 +109,9 @@ export const state = {
         saves: false,
         pages: 0,
     },
+    prizeTypes: {
+        list: [],
+        loaded: false,
+        saves: false,
+    }
 }

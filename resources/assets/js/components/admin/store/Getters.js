@@ -152,4 +152,7 @@ export const getters = {
     subscriptions: state => {
         return state.subscriptions;
     },
+    prizeTypes: state => {
+        return state.prizeTypes.list;
+    }
 }

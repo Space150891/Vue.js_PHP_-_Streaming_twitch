@@ -240,6 +240,7 @@ class ViewerItemsController extends Controller
                         ->join('items', 'items.id', '=', 'viewer_items.item_id')
                         ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
                         ->join('rarity_classes', 'rarity_classes.id', '=', 'items.rarity_class_id')
+                        ->orderBy('viewer_items.updated_at', 'DESC')
                         ->where('items.item_type_id', $itemType->id)
                         ->skip($offset)->take($onPage)->get();
         foreach ($viewerItems as &$viewerItem) {

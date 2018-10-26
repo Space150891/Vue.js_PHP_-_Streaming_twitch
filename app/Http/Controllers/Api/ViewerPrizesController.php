@@ -13,7 +13,8 @@ use App\Models\{
     Viewer,
     ViewerPrize,
     StockPrize,
-    RarityClass
+    RarityClass,
+    PrizeType
 };
 
 class ViewerPrizesController extends Controller
@@ -47,6 +48,7 @@ class ViewerPrizesController extends Controller
             ['id', '=', $request->id],
         ])->first();
         $prize = StockPrize::find($viewerPrize->prize_id);
+        
         $rarityClass = RarityClass::find($prize->rarity_class_id);
         $viewerPrize->class = ucfirst($rarityClass->tier());
         $viewerPrize->name = $prize->name;
@@ -83,6 +85,15 @@ class ViewerPrizesController extends Controller
             $viewerPrize->description = $prize->description;
             $viewerPrize->cost = $prize->cost;
             $viewerPrize->image = $prize->image;
+            //
+            $viewerPrize->website_url  = $prize->website_url;
+            $viewerPrize->video_url  = $prize->video_url;
+            $viewerPrize->manufacturer  = $prize->manufacturer;
+            $viewerPrize->store_url  = $prize->store_url;
+            $prizeType = PrizeType::find($prize->prize_type_id);
+            $viewerPrize->type  = $prizeType->name;
+            $viewerPrize->viewer_prize_id = $viewerPrize->id;
+            $viewerPrize->id = $prize->id;
         }
         return response()->json([
             'data' => [

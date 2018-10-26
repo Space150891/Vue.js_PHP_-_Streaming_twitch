@@ -896,4 +896,20 @@ export const mutations = {
             state.subscriptions.loaded = true;
         });
     },
+    getPrizeTypes(state) {
+        state.prizeTypes.loaded = false;
+        fetch('api/prize/types',
+        {
+            method: "POST",
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        })
+        .then(function(jsonResp){
+            state.prizeTypes.list = jsonResp.data ? jsonResp.data.prize_types : [];
+            state.prizeTypes.loaded = true;
+        });
+    }
 }

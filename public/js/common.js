@@ -47,3 +47,101 @@ function commonAlert(textHeader, textBody) {
     document.getElementById('total-alert-body').innerHTML = textBody;
     $('#total-alert').modal();
 }
+
+function renderPrize(prize, redeem=false) {
+    console.log('REDEEM', redeem);
+    let redeemHtml = ``;
+    if (redeem) {
+        redeemHtml = `
+        <span><a href="${baseUrl + 'redeem/' + prize.id}" target="_self" class="btn bg-green-800 btn-labeled btn-labeled-left"><b><i class="icon-cart"></i></b>Redeem</a>
+        `;
+    }
+    let modalLink='';
+    if (redeem) {
+        modalLink = `modalPrize(${prize.id}, ${redeem})`;
+    } else {
+        modalLink = `modalPrize(${prize.id})`;
+    }
+    return `
+    <div class="col-xl-3 col-sm-6">
+        <div class="card">
+            <div class="card-img-actions">
+                <img class="card-img-top img-fluid" src="${baseUrl + 'storage/' + prize.image}" style="width:380px;height:380px" alt="ppize">
+                <div class="card-img-actions-overlay card-img-top">
+                    <a href="#" class="btn btn-outline bg-white text-white border-white border-2 ml-2" data-toggle="modal" data-target="#modal_prize" onclick="${modalLink}">
+                        Details
+                    </a>
+                </div>
+            </div>
+            <div class="card-body  bg-dark">
+
+                <h5 class="card-title font-weight-semibold">${prize.name}</h5>
+                <p class="card-text">Type: <b>${prize.type}</b></p>
+                <p class="card-text">${prize.manufacturer ? 'Brand: <b>' + prize.manufacturer + '</b>' : ''} </p>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between bg-dark">
+                ${redeemHtml}
+                </span>
+                <span class="justify-content-center pt-2">
+                    <span class="badge badge-danger badge-pill">${prize.cost}$</span>
+
+                </span>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function modalPrize(prizeId, redeem = false){
+    
+    let formData = new FormData();
+    formData.append('id', prizeId);
+    fetch(baseUrl + 'api/store/prizes/get', {
+        method: "POST",
+        credentials: 'omit',
+        mode: 'cors',
+        body: formData,
+    }).then(function(res){
+        return res.json();
+    }).then(function(jsonResp){
+        prize = jsonResp.data.prize;
+        document.getElementById('prize-modal-title').innerHTML = prize.name;
+        let videoHtml = '';
+        if (prize.video_url) {
+            videoHtml = `<div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="${prize.video_url}" frameborder="0" allowfullscreen=""></iframe>
+            </div><hr>`;
+        }
+        let webHtml = '';
+        if (prize.website_url) {
+            webHtml = `
+            <a href="${prize.website_url}" target="_blank" class="btn bg-teal-400 btn-labeled btn-labeled-left">
+                <b><i class="icon-link"></i></b>Website
+            </a>
+            `;
+        }
+        let manufacturerHtml = ``;
+        if (prize.type == 'CD-Key') {
+            if (prize.store_url && prize.manufacturer) {
+                manufacturerHtml = `
+                <a href="${prize.store_url}" target="_blank" class="btn bg-teal-400 btn-labeled btn-labeled-left">
+                    <b><i class="icon-link"></i></b>${prize.manufacturer}
+                </a>
+                `;
+            }
+        }
+        let html = `
+            ${videoHtml}
+            ${webHtml}
+            ${manufacturerHtml}
+        `;
+        document.getElementById('prize-modal-body').innerHTML = html;
+        if (redeem) {
+            const redeemHtml = `
+            <a href="${baseUrl + 'redeem/' + redeem}" target="_self" class="btn bg-green-800 btn-labeled btn-labeled-left"><b><i class="icon-cart"></i></b>Redeem</a>
+            `;
+            document.getElementById('prize-modal-redeem').innerHTML = redeemHtml;
+        }
+    });
+}
