@@ -278,7 +278,7 @@ class AchivementsController extends Controller
             $rarityClass = RarityClass::find($rarityId);
             return ucfirst($rarityClass->name);
         } else {
-            return 'not';
+            return '0';
         }
     }
      
