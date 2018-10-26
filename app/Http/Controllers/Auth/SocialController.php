@@ -184,7 +184,7 @@ class SocialController extends Controller
         // $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
-        $user = User::where('name', strtolower($body['name']))->first();
+        $user = User::where('name', $body['name'])->first();
         if (!$user) {
             $user = new User();
             $user->name = $body['name'];
@@ -217,7 +217,7 @@ class SocialController extends Controller
             $viewer = $user->viewer()->first();
         }
         $ip = getOrigin($_SERVER);
-        $user->name = strtolower($body['name']);
+        $user->name = $body['name'];
         $user->email = strtolower($body['email']);
         $user->save();
         $user->first_name = $body['display_name'];
