@@ -637,18 +637,8 @@ class CasesManagementController extends Controller
                 break;
         }
         return response()->json([
-            'data' => [
-                'win'   => $prize,
-                // 'all'   => [
-                //     'box'       => $this->getRarityClassById($caseType->rarity_class_id),
-                //     'box_image' => $caseType->image,
-                //     'hero'      => $this->getRarityClassById($caseType->hero_rarity_id),
-                //     'frame'     => $this->getRarityClassById($caseType->frame_rarity_id),
-                //     'prize'     => $caseType->prize_cost,
-                //     'points'    => $caseType->points_count,
-                //     'diamonds'  => $caseType->diamonds_count,
-                // ]
-            ],
+            'winner'    => $prize['type'],
+            'selector'  => 'id',
         ]);
     }
 

@@ -397,121 +397,20 @@ function getBoxWin(userToken, boxId) {
     }).then(function(res){
         return res.json();
     }).then(function(jsonResp){
+        
+        document.getElementById('will-box-points').innerHTML = goodInt(jsonResp.data.all.points);
+        document.getElementById('will-box-diamonds').innerHTML = goodInt(jsonResp.data.all.diamonds);
+        document.getElementById('will-box-prize').innerHTML = goodInt(jsonResp.data.all.prize);
+        document.getElementById('will-box-hero').innerHTML = goodInt(jsonResp.data.all.hero);
+        document.getElementById('will-box-frame').innerHTML = goodInt(jsonResp.data.all.frame);
+        document.getElementById('will-box-name').innerHTML = goodInt(jsonResp.data.all.box);
+        document.getElementById('will-box-image').innerHTML = `<img src="${baseUrl + 'storage/' + jsonResp.data.all.box_image}" style="width: 42%;"><div class="ew-center-empty" style="width:42%; height:42%">`;
+        document.getElementById('will-spin-but').style.cssText = `display:block`;
         $('#modal_weel').modal();
-        var tick = new Audio(`${baseUrl + 'assets/media/tick.mp3'}`);
-    document.getElementById('easyWheel-body').innerHTML = `
-        <div class="easyWheel"></div>
-        <h2 class="easyWheel-message text-center text-white">&nbsp;</h2>
-    `;
-    document.getElementById('easyWheel-footer').innerHTML = `
-        <button class="btn bg-green-800 btn-labeled btn-labeled-left spin-button"><b><i class="icon-spinner4"></i></b>Spin</button>
-        <button class="btn bg-danger-800 btn-labeled btn-labeled-left" data-dismiss="modal"><b><i class="icon-close2"></i></b>Close</button>
-    `;
-  $('.easyWheel').easyWheel({
-    items: [{
-        id: 'points',
-        name: `${goodInt(jsonResp.data.all.points)}  <i class="icon-cube3 mr-2"></i>`,
-        color: "rgb(231, 76, 60)",
-        message: `You won ${goodInt(jsonResp.data.all.points)} Credits!`
-      },
-      {
-        id: 'diamonds',
-        name: `${goodInt(jsonResp.data.all.diamonds)} <i class="icon-diamond mr-2"></i>`,
-        color: "rgb(231, 76, 60)",
-        message: `You won ${goodInt(jsonResp.data.all.diamonds)} Diamonds!`
-      },
-      {
-        id: 'hero',
-        name: `${jsonResp.data.all.frame} <br> Artwork`,
-        color: "rgb(39, 174, 96)",
-        message: `You won a ${jsonResp.data.all.hero} Artwork!`
-      },
-      {
-        id: 'frame',
-        name: `${jsonResp.data.all.frame} <br> Frame`,
-        color: "rgb(241, 196, 15)",
-        message: `You won a ${jsonResp.data.all.frame} Frame`
-      },
-      {
-        id: 'prize',
-        name: `${jsonResp.data.all.prize} $ Prize`,
-        color: "rgb(41, 128, 185)",
-        message: `You won a ${jsonResp.data.all.prize} $ Prize`
-      },
-      {
-        id: 'nothing',
-        name: "Nothing",
-        color: "rgb(46, 204, 113)",
-        message: "You won nothing"
-      }
-    ],
-    duration: 15000,
-    rotates: 7,
-    frame: 1,
-    easing: "easyWheel",
-    rotateCenter: false,
-    type: "spin",
-    markerAnimation: true,
-
-    width: 400,
-    fontSize: 20,
-    textOffset: 6,
-    letterSpacing: 0,
-    textLine: "v",
-    textArc: false,
-    shadowOpacity: 3,
-    sliceLineWidth: 2,
-    outerLineWidth: 5,
-    centerWidth: 50,
-    centerLineWidth: 4,
-    centerImageWidth: 42,
-    textColor: "rgb(255, 255, 255)",
-    markerColor: "rgb(192, 57, 43)",
-    centerLineColor: "#424242",
-    centerBackground: "#333333",
-    sliceLineColor: "#424242",
-    outerLineColor: "#424242",
-    shadow: "#000",
-    selectedSliceColor: "#333",
-
-    button: '.spin-button',
-    centerImage: `${baseUrl + 'storage/' + jsonResp.data.all.box_image}`,
-
-    frame: 1,
-    ajax: {
-      url: baseUrl + 'api/cases/open', //Change http://localhost/ to your website name
-      type: 'POST',
-      nonce: false, //enable Additional security
-      data: {
-        token : userToken,
-        viewer_case_id : boxId
-      }
-    },
-    onStart: function(results, count, now) {
-      $(".spin-button").fadeOut("slow", function() {
-        $(".spin-button").remove();
-      });
-
-      $('.easyWheel-message').html("Good luck!");
-
-    },
-    onComplete: function(results, count, now) {
-      $(".redeem-button").fadeIn("fast", function() {
-        $(".redeem-button").fadeTo(100, 0.1).fadeTo(200, 1.0);
-
-      });
-      $('.easyWheel-message').html(results.message);
-      console.log(results.message);
-
-    },
-    onStep: function(item, slicePercent, circlePercent) {
-      if (typeof tick.currentTime !== 'undefined')
-        tick.currentTime = 0;
-      tick.play();
-    },
-
-  });
-        ///
+        document.getElementById('will-spin-but').onclick = function() {
+            document.getElementById('will-spin-but').style.cssText = `display:none`;
+            spinWill(userToken, boxId);
+        }
     });
 }
 
