@@ -124,7 +124,7 @@ class StreamersController extends Controller
                 'errors' => $validator->errors()->all(),
             ]);
         }
-        $streamers = Streamer::where('game', strtolower($request->game_name))->get();
+        $streamers = Streamer::where('game', $request->game_name)->get();
         $onlineStreamers = [];
         foreach ($streamers as $streamer) {
             $now = new Carbon;

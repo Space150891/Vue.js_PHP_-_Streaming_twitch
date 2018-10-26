@@ -75,7 +75,7 @@ class FakeStreamersCommand extends Command
             $streamer->user_id = $user->id;
             $streamer->twitch_id = $stream['user_id'];
             $streamer->name = $user->name;
-            $streamer->game = strtolower($game);
+            $streamer->game = $game;
             $streamer->save();
             $viewer = new Viewer();
             $viewer->user_id = $user->id;
