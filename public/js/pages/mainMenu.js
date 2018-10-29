@@ -28,7 +28,7 @@ function getPromotedList(){
         elemPromoted.innerHTML = childrenElPromoted;
     });
 };
-console.log('NEW');
+
 function getFollowed(userToken) {
     let formData = new FormData();
     formData.append('token', userToken);
@@ -45,20 +45,25 @@ function getFollowed(userToken) {
         let elemFollowingOnline = document.getElementsByClassName('following-online-data')[0];
         let childrenElFollowingOnline = '';
         for (let i = 0; i < followingOnlineData.length; i++) {
-            childrenElFollowingOnline += '<li class="nav-item">' +
-                '<a href="/stream-watch/' + (followingOnlineData[i].name) + '" class="nav-link">' +
-                '<i>' +
-                '<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png " width="32 " height="32 " class="rounded-circle " alt=" ">' +
-                '</i>' +
-                '<span class="truncate">' +
-                (followingOnlineData[i].name) +
-                '<span class="d-block font-weight-normal opacity-50 truncate">' + followingOnlineData[i].game + '</span>' +
-                '</span>' +
-                '<span class="ml-3 align-self-center ">' +
-                '<span class="badge bg-success text-default badge-pill ml-auto ">' + followingOnlineData[i].viewers + '</span>\n' +
-                '</span>' +
-                '</a>' +
-                '</li>';
+            let avatar = `https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png`;
+            if (followingOnlineData[i].image) {
+                avatar = followingOnlineData[i].image;
+            }
+            childrenElFollowingOnline += `
+                <li class="nav-item">
+                    <a href="/stream-watch/${followingOnlineData[i].name}" class="nav-link">
+                    <i>
+                        <img src="${avatar}" width="32 " height="32 " class="rounded-circle " alt="avatar>
+                    </i>
+                    <span class="truncate">
+                        ${followingOnlineData[i].name}
+                        <span class="d-block font-weight-normal opacity-50 truncate">${followingOnlineData[i].game}</span>
+                    </span>
+                    <span class="ml-3 align-self-center">
+                    <span class="badge bg-success text-default badge-pill ml-auto ">${followingOnlineData[i].viewers}</span>
+                    </span>
+                    </a>
+                </li>`;
         }
         elemFollowingOnline.innerHTML = childrenElFollowingOnline;
         // offline
@@ -66,10 +71,13 @@ function getFollowed(userToken) {
         let elemFollowingOffline = document.getElementsByClassName('following-offline-data')[0];
         let childrenElFollowingOffline = '';
         for (let i = 0; i < followingOfflineData.length; i++) {
+            if (followingOnlineData[i].image) {
+                avatar = followingOnlineData[i].image;
+            }
             childrenElFollowingOffline += '<li class="nav-item">' +
                 '<a href="/stream-watch/' + (followingOfflineData[i].name) + '" class="nav-link">' +
                 '<i>' +
-                '<img src="https://static-cdn.jtvnw.net/jtv_user_pictures/6d942669-203f-464d-8623-db376ff971e0-profile_image-70x70.png " width="32 " height="32 " class="rounded-circle " alt=" ">' +
+                '<img src="' + avatar + '" width="32 " height="32 " class="rounded-circle " alt=" ">' +
                 '</i>' +
                 '<span class="truncate">' +
                 (followingOfflineData[i].name) +

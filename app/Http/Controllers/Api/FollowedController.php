@@ -81,18 +81,21 @@ class FollowedController extends Controller
         $offline = [];
         foreach ($followed as $f) {
             $streamer = Streamer::find($f->streamer_id);
+            $folowedUser = $streamer->user()->first();
             $isActive = ActiveStreamer::where('streamer_id', $streamer->id)->first();
             if ($isActive) {
                 $online[] = [
                     'id'       =>  $streamer->id,
                     'name'     =>  $streamer->name,
                     'game'     =>  $streamer->game,
+                    'image'    =>  $folowedUser->avatar,
                     'viewers'  =>  $streamer->getOnlineViewers(),
                 ];
             } else {
                 $offline[] = [
                     'id'       =>  $streamer->id,
                     'game'     =>  $streamer->game,
+                    'image'    =>  $folowedUser->avatar,
                     'name'     =>  $streamer->name,
                 ];
             }

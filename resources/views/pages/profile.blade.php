@@ -11,10 +11,8 @@
     <div class="profile-cover-img" style="background-image: url(https://static-cdn.jtvnw.net/jtv_user_pictures/ce34a7d2-4819-47a1-b7a5-f019d456f5db-profile_banner-480.png)"></div>
     <!-- DEV INFO if no cover image then global_assets/images/background/user_bg.jpg -->
     <div class="media align-items-center text-center text-md-left flex-column flex-md-row m-0">
-        <div class="mr-md-3 mb-2 mb-md-0">
-            <a href="#" class="profile-thumb">
-                <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/086a13ac-9237-4605-bcd1-41ce1f79e764-profile_image-300x300.png" class="border-white rounded-circle" width="48" height="48" alt="">
-            </a>
+        <div class="mr-md-3 mb-2 mb-md-0" id="user-avatar">
+            
         </div>
 
         <div class="media-body text-white">

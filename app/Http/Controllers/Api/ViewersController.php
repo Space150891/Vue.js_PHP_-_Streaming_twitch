@@ -86,6 +86,7 @@ class ViewersController extends Controller
         }
         return response()->json([
             'data' => [
+                'avatar'            => $user->avatar,
                 'name'              => $viewer->name,
                 'bio'               => $user->bio,
                 'social'    => [

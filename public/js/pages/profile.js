@@ -69,6 +69,12 @@ function getViewerDetails(token) {
         renderFollower(jsonResp.data.follower);
         renderFollowing(jsonResp.data.following);
         followBut(token);
+        let avatar = jsonResp.data.avatar ? jsonResp.data.avatar : `https://static-cdn.jtvnw.net/jtv_user_pictures/086a13ac-9237-4605-bcd1-41ce1f79e764-profile_image-300x300.png`;
+        document.getElementById('user-avatar').innerHTML = `
+            <a href="${baseUrl + 'profile/' +  jsonResp.data.nikname}" class="profile-thumb" >
+                <img src="${avatar}" class="border-white rounded-circle" width="48" height="48" alt="avatar">
+            </a>
+        `;
     });
 }
 
@@ -153,7 +159,6 @@ window.onload = function() {
     //     location = baseUrl;
     // }
     getViewerDetails(token);
-    
 };
 
 

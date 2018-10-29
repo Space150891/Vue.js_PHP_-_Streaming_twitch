@@ -10,6 +10,12 @@ function getCabinetData(userToken) {
         return res.json();
     }).then(function(jsonResp){
         accauntInfo(jsonResp.data.subscription);
+        let avatar = jsonResp.data.avatar ? jsonResp.data.avatar : `https://static-cdn.jtvnw.net/jtv_user_pictures/086a13ac-9237-4605-bcd1-41ce1f79e764-profile_image-300x300.png`;
+        document.getElementById('user-avatar').innerHTML = `
+            <a href="${baseUrl + 'profile/' +  jsonResp.data.nikname}" class="profile-thumb" >
+                <img src="${avatar}" class="border-white rounded-circle" width="48" height="48" alt="avatar">
+            </a>
+        `;
     });
 }
 
@@ -138,6 +144,7 @@ function accauntInfo(subscription) {
     </div>
     `;
     document.getElementById('accaunt-abilities-list').innerHTML = html;
+    
 }
 
 function getViewerDetails(userToken) {
