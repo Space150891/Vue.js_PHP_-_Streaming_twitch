@@ -54,7 +54,7 @@ class ActivitiesController extends Controller
                     'errors' => 'streamer not found',
                 ]);
             }
-            $active = ActiveStreamer::where('streamer_id', $ttreamer->id)->first();
+            $active = ActiveStreamer::where('streamer_id', $streamer->id)->first();
             if (!$active) {
                 return response()->json([
                     'errors' => 'streamer offline',
