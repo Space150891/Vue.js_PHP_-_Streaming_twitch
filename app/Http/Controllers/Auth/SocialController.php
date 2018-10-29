@@ -181,13 +181,17 @@ class SocialController extends Controller
             'Authorization' => 'OAuth ' . $accessToken,
         ] ]);
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
-        // $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $statusSode = (string) $result->getStatusCode();
+        // \Log::info('TWITCH OAUTH');
+        // \Log::info((string) $result->getBody());
         $body = json_decode((string) $result->getBody(), true);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
+            $user = User::where('name', $body['display_name'])->first();
+        }
+        if (!$user) {
             $user = new User();
-            $user->name = $body['name'];
+            $user->name = $body['display_name'];
             $user->bio = $body['bio'];
             $user->avatar = $body['logo'];
             $user->twitch_id = $body['_id'];
@@ -217,10 +221,13 @@ class SocialController extends Controller
             $viewer = $user->viewer()->first();
         }
         $ip = getOrigin($_SERVER);
-        $user->name = $body['name'];
+        $user->name = $body['display_name'];
+        $streamer->name = $user->name;
+        $viewer->name = $user->name;
+        $viewer->save();
         $user->email = strtolower($body['email']);
         $user->save();
-        $user->first_name = $body['display_name'];
+        $user->first_name = $body['name'];
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
         $user->twitch_id = $body['_id'];
@@ -229,7 +236,6 @@ class SocialController extends Controller
         $streamer->twitch_id = $twitchUserId;
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
         $streamData = json_decode((string) $result->getBody(), true);
-        //$streamData = isset($body['data'][0]) ? $body['data'][0] : false;
         $streamer->save();
         if ($streamData['game']) {
             $result = $guzzle->request('GET', 'https://api.twitch.tv/helix/games', ['query' => ['name' => $streamData['game']]]);
@@ -250,7 +256,6 @@ class SocialController extends Controller
             }
         }
         $streamer->save();
-        ////
         $user->addAchievement('App\Achievements\FirstLoginAchievement');
         if (!$this->alreadyToday('App\Achievements\Login10daysAchievement', $user->id)) {
             $user->addAchievement('App\Achievements\Login10daysAchievement');
