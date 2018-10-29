@@ -19,6 +19,7 @@ class CreateNotifications extends Migration
             $table->string('title');
             $table->string('event_type');
             $table->string('message')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

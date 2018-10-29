@@ -28,7 +28,7 @@ function getPromotedList(){
         elemPromoted.innerHTML = childrenElPromoted;
     });
 };
-
+console.log('NEW');
 function getFollowed(userToken) {
     let formData = new FormData();
     formData.append('token', userToken);
@@ -191,11 +191,16 @@ function getMainMenuContent(userToken) {
             location.reload();
         }
         let notificationsHtml = '';
+        
         for (let i = 0; i < jsonResp.data.notifications.length; i++ ) {
+            let image = '';
+            if (jsonResp.data.notifications[i].image) {
+                image = `<img src="${baseUrl + 'storage/' + jsonResp.data.notifications[i].image}" width="36" height="36" class="rounded-circle" alt=""></img>`;
+            }
             notificationsHtml += `
                 <li class="media">
                     <div class="mr-3">
-                        <img src="global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                        ${image}
                     </div>
                     <div class="media-body">
                         <div class="media-title">
