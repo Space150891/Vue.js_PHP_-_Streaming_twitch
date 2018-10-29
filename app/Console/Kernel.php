@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\StartWSCommand',
         'App\Console\Commands\StripeCreatePlansCommand',
         'App\Console\Commands\EmulateCommand',
+        'App\Console\Commands\UploadItemsCommand',
     ];
 
     /**

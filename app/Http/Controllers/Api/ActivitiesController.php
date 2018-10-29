@@ -156,12 +156,16 @@ class ActivitiesController extends Controller
     private function checkViewerOnline($viewerId, $streamerId)
     {
         $now = new Carbon;
-        $now->subSeconds(config('ospp.activity.valid_pause'));
-        $updateTime = $now->toDateTimeString();
+        $now->subSeconds(config('ospp.activity.valid_pause') - config('ospp.activity.period'));
+        $minTime = $now->toDateTimeString();
+        $now = new Carbon;
+        $now->subSeconds(config('ospp.activity.period'));
+        $maxTime = $now->toDateTimeString();
         return Activity::where([
-            ['viewer_id', '=', $viewerId],
+            ['viewer_id',   '=', $viewerId],
             ['streamer_id', '=', $streamerId],
-            ['updated_at', '>', $updateTime],
+            ['updated_at',  '<=', $minTime],
+            ['updated_at',  '>', $maxTime],
         ])->first();
     }
 

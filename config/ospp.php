@@ -15,5 +15,6 @@ return [
         'valid_pause'   => 100,
         'level_points'  => 10,
         'dromp_limit'   => 60,
+        'period'        => 60,
     ],
 ];
