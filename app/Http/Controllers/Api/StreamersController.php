@@ -134,6 +134,7 @@ class StreamersController extends Controller
                 ['streamer_id', '=', $streamer->id],
                 // ['updated_at', '>', $updateTime],
             ])->first();
+            $active = env('TEST_MODE') ? true : $active;
             if ($active) {
                 $online = $streamer;
                 $user = $streamer->user()->first();
