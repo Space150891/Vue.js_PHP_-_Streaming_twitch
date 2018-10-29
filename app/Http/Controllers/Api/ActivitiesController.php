@@ -10,6 +10,7 @@ use Validator;
 use Carbon\Carbon;
 use App\Models\{
     Activity,
+    ActiveStreamer,
     Afiliate,
     Streamer,
     SubscribedStreamers,
@@ -53,8 +54,15 @@ class ActivitiesController extends Controller
                     'errors' => 'streamer not found',
                 ]);
             }
+            $active = ActiveStreamer::where('streamer_id', $ttreamer->id)->first();
+            if (!$active) {
+                return response()->json([
+                    'errors' => 'streamer offline',
+                ]);
+            }
             $streamers[] = $streamer;
         }
+
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $now = new Carbon();
