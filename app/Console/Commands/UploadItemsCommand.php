@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\{
     Item,
     ItemType,
-    RarityClass,
+    RarityClass
 };
 
 class UploadItemsCommand extends Command
