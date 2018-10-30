@@ -210,6 +210,7 @@ Route::group([
     Route::post('streamers/promoted/get', 'Api\PromotedStreamersManagementController@show');
     
     Route::post('streamers/promoted/add', 'Api\PromotedStreamersManagementController@store');
+    Route::post('streamers/promoted/update', 'Api\PromotedStreamersManagementController@update');
     Route::post('streamers/promoted/delete', 'Api\PromotedStreamersManagementController@delete');
 
     Route::post('streamers/main/store', 'Api\MainStreamersManagementController@store');

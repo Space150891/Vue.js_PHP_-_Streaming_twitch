@@ -4539,6 +4539,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4552,7 +4558,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			},
 			errors: [],
 			openAlertModal: false,
-			streamerAddId: 0
+			editMode: false,
+			newStreamer: {
+				id: 0,
+				streamer_id: 0,
+				points: 0
+			}
 		};
 	},
 	mounted: function mounted() {
@@ -4572,7 +4583,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 			this.deletingItem.openModal = false;
 		},
 		addAction: function addAction() {
-			this.$store.dispatch('addPromotedAction', this.streamerAddId);
+			this.$store.dispatch('addPromotedAction', this.newStreamer);
+			this.flashEdit();
 		},
 		getList: function getList() {
 			this.$store.dispatch('getPromotedListAction');
@@ -4582,6 +4594,27 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 		},
 		setDown: function setDown(id) {
 			this.$store.dispatch('downPromotedAction', id);
+		},
+		flashEdit: function flashEdit() {
+			this.newStreamer.id = 0;
+			this.newStreamer.streamer_id = 0;
+			this.newStreamer.points = 0;
+		},
+		edit: function edit(item) {
+
+			this.editMode = true;
+			this.newStreamer.streamer_id = item.streamer_id;
+			this.newStreamer.id = item.id;
+			this.newStreamer.points = item.points;
+		},
+		cancelAction: function cancelAction() {
+			this.flashEdit();
+			this.editMode = false;
+		},
+		updateAction: function updateAction() {
+			this.$store.dispatch('updatePromotedAction', this.newStreamer);
+			this.flashEdit();
+			this.editMode = false;
 		}
 	},
 	computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['checkToken', 'streamers', 'promotedStreamers', 'promotedLoaded']))
@@ -49640,6 +49673,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.twitch_id))]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.points))]),
+                      _vm._v(" "),
                       _c("td", [
                         _c(
                           "button",
@@ -49653,6 +49688,20 @@ var render = function() {
                             }
                           },
                           [_vm._v("del")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.edit(item)
+                              }
+                            }
+                          },
+                          [_vm._v("edit")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -49697,8 +49746,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.streamerAddId,
-                          expression: "streamerAddId"
+                          value: _vm.newStreamer.streamer_id,
+                          expression: "newStreamer.streamer_id"
                         }
                       ],
                       staticClass: "form-control",
@@ -49712,9 +49761,13 @@ var render = function() {
                               var val = "_value" in o ? o._value : o.value
                               return val
                             })
-                          _vm.streamerAddId = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
+                          _vm.$set(
+                            _vm.newStreamer,
+                            "streamer_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
                         }
                       }
                     },
@@ -49737,19 +49790,74 @@ var render = function() {
                     2
                   ),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.addAction()
-                        }
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newStreamer.points,
+                        expression: "newStreamer.points"
                       }
-                    },
-                    [_vm._v("Add")]
-                  )
+                    ],
+                    attrs: { type: "number" },
+                    domProps: { value: _vm.newStreamer.points },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newStreamer, "points", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  !_vm.editMode
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.addAction()
+                            }
+                          }
+                        },
+                        [_vm._v("Add")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.editMode
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.updateAction()
+                            }
+                          }
+                        },
+                        [_vm._v("Update")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.editMode
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.cancelAction()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      )
+                    : _vm._e()
                 ])
               ]),
               _vm._v(" "),
@@ -49793,6 +49901,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Game")]),
         _vm._v(" "),
         _c("th", [_vm._v("Stream id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Points")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
@@ -70100,14 +70210,15 @@ var actions = {
         context.commit('getPromotedList');
         context.commit('getStreamersList');
     },
-    addPromotedAction: function addPromotedAction(_ref18, id) {
+    addPromotedAction: function addPromotedAction(_ref18, data) {
         var commit = _ref18.commit,
             state = _ref18.state;
 
         state.promotedStreamers.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
-        formData.append('id', id);
+        formData.append('id', data.streamer_id);
+        formData.append('points', data.points);
         fetch(state.apiUrl + 'streamers/promoted/add', {
             method: "POST",
             body: formData,
@@ -70122,9 +70233,34 @@ var actions = {
             commit('getPromotedList');
         });
     },
-    deletePromotedAction: function deletePromotedAction(_ref19, id) {
+    updatePromotedAction: function updatePromotedAction(_ref19, data) {
         var commit = _ref19.commit,
             state = _ref19.state;
+
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('streamer_id', data.streamer_id);
+        console.log('data in action', data);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'streamers/promoted/update', {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors'
+        }).then(function (res) {
+            return res.json();
+        }).then(function (jsonResp) {
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
+    },
+    deletePromotedAction: function deletePromotedAction(_ref20, id) {
+        var commit = _ref20.commit,
+            state = _ref20.state;
 
         state.promotedStreamers.loaded = false;
         var formData = new FormData();
@@ -70144,9 +70280,9 @@ var actions = {
             commit('getPromotedList');
         });
     },
-    upPromotedAction: function upPromotedAction(_ref20, id) {
-        var commit = _ref20.commit,
-            state = _ref20.state;
+    upPromotedAction: function upPromotedAction(_ref21, id) {
+        var commit = _ref21.commit,
+            state = _ref21.state;
 
         state.promotedStreamers.loaded = false;
         var formData = new FormData();
@@ -70166,9 +70302,9 @@ var actions = {
             commit('getPromotedList');
         });
     },
-    downPromotedAction: function downPromotedAction(_ref21, id) {
-        var commit = _ref21.commit,
-            state = _ref21.state;
+    downPromotedAction: function downPromotedAction(_ref22, id) {
+        var commit = _ref22.commit,
+            state = _ref22.state;
 
         state.promotedStreamers.loaded = false;
         var formData = new FormData();
@@ -70194,9 +70330,9 @@ var actions = {
         context.commit('getPromotedList');
         context.commit('getMainStreamersList');
     },
-    addMainStreamerAction: function addMainStreamerAction(_ref22, item) {
-        var commit = _ref22.commit,
-            state = _ref22.state;
+    addMainStreamerAction: function addMainStreamerAction(_ref23, item) {
+        var commit = _ref23.commit,
+            state = _ref23.state;
 
         var formData = new FormData();
         state.mainStreamers.loaded = false;
@@ -70219,9 +70355,9 @@ var actions = {
             commit('getMainStreamersList');
         });
     },
-    updateMainStreamerAction: function updateMainStreamerAction(_ref23, item) {
-        var commit = _ref23.commit,
-            state = _ref23.state;
+    updateMainStreamerAction: function updateMainStreamerAction(_ref24, item) {
+        var commit = _ref24.commit,
+            state = _ref24.state;
 
         var formData = new FormData();
         state.mainStreamers.loaded = false;
@@ -70244,9 +70380,9 @@ var actions = {
             commit('getMainStreamersList');
         });
     },
-    deleteMainStreamerAction: function deleteMainStreamerAction(_ref24, id) {
-        var commit = _ref24.commit,
-            state = _ref24.state;
+    deleteMainStreamerAction: function deleteMainStreamerAction(_ref25, id) {
+        var commit = _ref25.commit,
+            state = _ref25.state;
 
         var formData = new FormData();
         state.mainStreamers.loaded = false;
@@ -70283,9 +70419,9 @@ var actions = {
         context.commit('loadRarityClasses');
         context.commit('getPrizeTypes');
     },
-    StockPrizeCreateAction: function StockPrizeCreateAction(_ref25, data) {
-        var commit = _ref25.commit,
-            state = _ref25.state;
+    StockPrizeCreateAction: function StockPrizeCreateAction(_ref26, data) {
+        var commit = _ref26.commit,
+            state = _ref26.state;
 
         var formData = new FormData();
         formData.append('token', state.token);
@@ -70316,9 +70452,9 @@ var actions = {
             commit('getStockPrizesList');
         });
     },
-    StockPrizeUpdateAction: function StockPrizeUpdateAction(_ref26, data) {
-        var commit = _ref26.commit,
-            state = _ref26.state;
+    StockPrizeUpdateAction: function StockPrizeUpdateAction(_ref27, data) {
+        var commit = _ref27.commit,
+            state = _ref27.state;
 
         var formData = new FormData();
         formData.append('token', state.token);
@@ -70350,9 +70486,9 @@ var actions = {
             commit('getStockPrizesList');
         });
     },
-    StockPrizeDeleteAction: function StockPrizeDeleteAction(_ref27, id) {
-        var commit = _ref27.commit,
-            state = _ref27.state;
+    StockPrizeDeleteAction: function StockPrizeDeleteAction(_ref28, id) {
+        var commit = _ref28.commit,
+            state = _ref28.state;
 
         var formData = new FormData();
         formData.append('token', state.token);
@@ -70376,9 +70512,9 @@ var actions = {
     getDiamondsListAction: function getDiamondsListAction(context) {
         context.commit('getDiamondsList');
     },
-    DiamondsCreateAction: function DiamondsCreateAction(_ref28, data) {
-        var commit = _ref28.commit,
-            state = _ref28.state;
+    DiamondsCreateAction: function DiamondsCreateAction(_ref29, data) {
+        var commit = _ref29.commit,
+            state = _ref29.state;
 
         state.diamonds.loaded = false;
         var formData = new FormData();
@@ -70401,9 +70537,9 @@ var actions = {
             commit('getDiamondsList');
         });
     },
-    DiamondsSaveAction: function DiamondsSaveAction(_ref29, data) {
-        var commit = _ref29.commit,
-            state = _ref29.state;
+    DiamondsSaveAction: function DiamondsSaveAction(_ref30, data) {
+        var commit = _ref30.commit,
+            state = _ref30.state;
 
         state.diamonds.loaded = false;
         var formData = new FormData();
@@ -70427,9 +70563,9 @@ var actions = {
             commit('getDiamondsList');
         });
     },
-    DiamondsDeleteAction: function DiamondsDeleteAction(_ref30, id) {
-        var commit = _ref30.commit,
-            state = _ref30.state;
+    DiamondsDeleteAction: function DiamondsDeleteAction(_ref31, id) {
+        var commit = _ref31.commit,
+            state = _ref31.state;
 
         state.diamonds.loaded = false;
         var formData = new FormData();
@@ -70449,16 +70585,16 @@ var actions = {
             commit('getDiamondsList');
         });
     },
-    loadStatisticAction: function loadStatisticAction(_ref31, data) {
-        var commit = _ref31.commit,
-            state = _ref31.state;
+    loadStatisticAction: function loadStatisticAction(_ref32, data) {
+        var commit = _ref32.commit,
+            state = _ref32.state;
 
         console.log('Action loading table');
         commit('loadStatistic', data);
     },
-    deleteCustomAchivementAction: function deleteCustomAchivementAction(_ref32, id) {
-        var commit = _ref32.commit,
-            state = _ref32.state;
+    deleteCustomAchivementAction: function deleteCustomAchivementAction(_ref33, id) {
+        var commit = _ref33.commit,
+            state = _ref33.state;
 
         state.customAchievements.loaded = false;
         var formData = new FormData();
@@ -70481,9 +70617,9 @@ var actions = {
             commit('loadAllCustomAchivements');
         });
     },
-    setOkCustomAchivementAction: function setOkCustomAchivementAction(_ref33, id) {
-        var commit = _ref33.commit,
-            state = _ref33.state;
+    setOkCustomAchivementAction: function setOkCustomAchivementAction(_ref34, id) {
+        var commit = _ref34.commit,
+            state = _ref34.state;
 
         state.customAchievements.loaded = false;
         var formData = new FormData();
@@ -70506,9 +70642,9 @@ var actions = {
             commit('loadAllCustomAchivements');
         });
     },
-    setBlockCustomAchivementAction: function setBlockCustomAchivementAction(_ref34, id) {
-        var commit = _ref34.commit,
-            state = _ref34.state;
+    setBlockCustomAchivementAction: function setBlockCustomAchivementAction(_ref35, id) {
+        var commit = _ref35.commit,
+            state = _ref35.state;
 
         state.customAchievements.loaded = false;
         var formData = new FormData();
@@ -70531,9 +70667,9 @@ var actions = {
             commit('loadAllCustomAchivements');
         });
     },
-    updateSubscriptionPointsAction: function updateSubscriptionPointsAction(_ref35, data) {
-        var commit = _ref35.commit,
-            state = _ref35.state;
+    updateSubscriptionPointsAction: function updateSubscriptionPointsAction(_ref36, data) {
+        var commit = _ref36.commit,
+            state = _ref36.state;
 
         state.subscriptionPlans.loaded = false;
         var formData = new FormData();
@@ -70560,9 +70696,9 @@ var actions = {
     },
 
     // subscription bonus points
-    createSubscriptionBonusPointsAction: function createSubscriptionBonusPointsAction(_ref36, data) {
-        var commit = _ref36.commit,
-            state = _ref36.state;
+    createSubscriptionBonusPointsAction: function createSubscriptionBonusPointsAction(_ref37, data) {
+        var commit = _ref37.commit,
+            state = _ref37.state;
 
         state.subscriptionBonusPoints.loaded = false;
         var formData = new FormData();
@@ -70584,9 +70720,9 @@ var actions = {
             commit('loadSubscriptionBonusPoints', data.selectedPlan);
         });
     },
-    updateSubscriptionBonusPointsAction: function updateSubscriptionBonusPointsAction(_ref37, data) {
-        var commit = _ref37.commit,
-            state = _ref37.state;
+    updateSubscriptionBonusPointsAction: function updateSubscriptionBonusPointsAction(_ref38, data) {
+        var commit = _ref38.commit,
+            state = _ref38.state;
 
         state.subscriptionBonusPoints.loaded = false;
         var formData = new FormData();
@@ -70609,9 +70745,9 @@ var actions = {
             commit('loadSubscriptionBonusPoints', data.selectedPlan);
         });
     },
-    deleteSubscriptionBonusPointsAction: function deleteSubscriptionBonusPointsAction(_ref38, data) {
-        var commit = _ref38.commit,
-            state = _ref38.state;
+    deleteSubscriptionBonusPointsAction: function deleteSubscriptionBonusPointsAction(_ref39, data) {
+        var commit = _ref39.commit,
+            state = _ref39.state;
 
         state.subscriptionBonusPoints.loaded = false;
         var formData = new FormData();
@@ -70634,9 +70770,9 @@ var actions = {
         context.commit('loadAchievements');
         context.commit('loadAllRarityClasses');
     },
-    achievementSaveAction: function achievementSaveAction(_ref39, data) {
-        var commit = _ref39.commit,
-            state = _ref39.state;
+    achievementSaveAction: function achievementSaveAction(_ref40, data) {
+        var commit = _ref40.commit,
+            state = _ref40.state;
 
         state.achievements.loaded = false;
         var formData = new FormData();

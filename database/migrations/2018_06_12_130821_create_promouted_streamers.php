@@ -16,6 +16,7 @@ class CreatePromoutedStreamers extends Migration
         Schema::create('promouted_streamers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('streamer_id');
+            $table->integer('points')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

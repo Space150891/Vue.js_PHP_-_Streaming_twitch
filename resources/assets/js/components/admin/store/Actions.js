@@ -462,12 +462,36 @@ export const actions = {
         context.commit('getPromotedList');
         context.commit('getStreamersList');
     },
-    addPromotedAction({commit, state}, id) {
+    addPromotedAction({commit, state}, data) {
         state.promotedStreamers.loaded = false;
         var formData = new FormData();
         formData.append('token', state.token);
-        formData.append('id', id);
+        formData.append('id', data.streamer_id);
+        formData.append('points', data.points);
         fetch(state.apiUrl + 'streamers/promoted/add',
+        {
+            method: "POST",
+            body: formData,
+            credentials: 'omit',
+            mode: 'cors',
+        })
+        .then(function(res){
+            return res.json();
+        }).then(function(jsonResp){
+            if (jsonResp.errors && jsonResp.errors[0] == 'Unauthenticated.') {
+                state.token = false;
+            }
+            commit('getPromotedList');
+        });
+    },
+    updatePromotedAction({commit, state}, data) {
+        state.promotedStreamers.loaded = false;
+        var formData = new FormData();
+        formData.append('token', state.token);
+        formData.append('id', data.id);
+        formData.append('streamer_id', data.streamer_id);
+        formData.append('points', data.points);
+        fetch(state.apiUrl + 'streamers/promoted/update',
         {
             method: "POST",
             body: formData,

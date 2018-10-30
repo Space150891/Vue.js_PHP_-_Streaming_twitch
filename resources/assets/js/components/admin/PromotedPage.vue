@@ -10,6 +10,7 @@
 					<th>Name</th>
 					<th>Game</th>
           <th>Stream id</th>
+					<th>Points</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -19,8 +20,10 @@
           <td>{{item.name}}</td>
 					<td>{{item.game}}</td>
 					<td>{{item.twitch_id}}</td>
+					<td>{{item.points}}</td>
 					<td>
 						<button class="btn btn-xs btn-danger" @click.prevent="confirmDeleteAction(item)">del</button>
+						<button @click.prevent="edit(item)" class="btn btn-warning">edit</button>
 						<button @click.prevent="setUp(item.id)" class="btn btn-info">
 							<i class="fa fa-arrow-up"></i>
 						</button>
@@ -33,11 +36,14 @@
 		</table>
 		<div>
 			<form class="form form-inline">
-				<select v-model="streamerAddId" class="form-control">
+				<select v-model="newStreamer.streamer_id" class="form-control">
 					<option value=0>Select streamer</option>
 					<option v-for="streamer in streamers" v-bind:value="streamer.id" :key="streamer.id">{{streamer.name}}</option>
 				</select>
-				<button @click.prevent="addAction()" class="btn btn-success">Add</button>
+				<input type="number" v-model="newStreamer.points">
+				<button v-if="!editMode" @click.prevent="addAction()" class="btn btn-success">Add</button>
+				<button v-if="editMode" @click.prevent="updateAction()" class="btn btn-success">Update</button>
+				<button v-if="editMode" @click.prevent="cancelAction()" class="btn btn-warning">Cancel</button>
 			</form>
 		</div>
 		<modal-delete 
@@ -65,7 +71,12 @@
 			},
 			errors: [],
           	openAlertModal: false,
-			streamerAddId: 0,
+			editMode: false,
+			newStreamer :{
+				id: 0,
+				streamer_id: 0,
+				points: 0,
+			}
         }
     },
 		mounted() {
@@ -84,7 +95,8 @@
 				this.deletingItem.openModal = false;
 			},
 			addAction: function () {
-                this.$store.dispatch('addPromotedAction', this.streamerAddId);
+								this.$store.dispatch('addPromotedAction', this.newStreamer);
+								this.flashEdit();
 			},
 			getList: function () {
 				this.$store.dispatch('getPromotedListAction');
@@ -95,6 +107,27 @@
 			setDown: function (id) {
 				this.$store.dispatch('downPromotedAction', id);
 			},
+			flashEdit() {
+				this.newStreamer.id = 0;
+				this.newStreamer.streamer_id = 0;
+				this.newStreamer.points = 0;
+			},
+			edit(item) {
+				
+				this.editMode = true;
+				this.newStreamer.streamer_id = item.streamer_id;
+				this.newStreamer.id = item.id;
+				this.newStreamer.points = item.points;
+			},
+			cancelAction() {
+				this.flashEdit();
+				this.editMode = false;
+			},
+			updateAction() {
+				this.$store.dispatch('updatePromotedAction', this.newStreamer);
+				this.flashEdit();
+				this.editMode = false;
+			}
     },
     computed: {
 			...mapGetters([

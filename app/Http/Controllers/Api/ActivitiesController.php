@@ -12,6 +12,7 @@ use App\Models\{
     Activity,
     ActiveStreamer,
     Afiliate,
+    PromoutedStreamer,
     Streamer,
     SubscribedStreamers,
     SubscriptionPlan,
@@ -165,6 +166,10 @@ class ActivitiesController extends Controller
                     $points += $bonusPoint->points;
                 }
             }
+        }
+        $promoted = PromoutedStreamer::where('streamer_id', $streamerId)->first();
+        if ($promoted) {
+            $points += $promoted->points;
         }
         return $points;
     }

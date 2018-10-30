@@ -56,6 +56,7 @@ class PromotedStreamersManagementController extends Controller
         $promotedStreamer = new  PromoutedStreamer();
         $promotedStreamer->streamer_id = $request->id;
         $promotedStreamer->position = $maxPosition + 1;
+        $promotedStreamer->points = $request->has('points') ? $request->points : 0;
         $promotedStreamer->save();
         return response()->json([
             'message' => ['successful added streamer to promoted streamers'],
@@ -171,6 +172,38 @@ class PromotedStreamersManagementController extends Controller
         }
         return response()->json([
             'message' => ['successful up streamer in promoted streamers list'],
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+        [
+            'id'            => 'required|numeric',
+            'streamer_id'   => 'required|numeric',
+            'points'        => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        if (!Streamer::find($request->streamer_id)) {
+            return response()->json([
+                'errors' => ['streamer id not found'],
+            ]);
+        }
+        $promoted = PromoutedStreamer::find($request->id);
+        if (!$promoted) {
+            return response()->json([
+                'errors' => ['this streamer not promoted ' . $request->id],
+            ]);
+        }
+        $promoted->streamer_id = $request->streamer_id;
+        $promoted->points = $request->points;
+        $promoted->save();
+        return response()->json([
+            'message' => ['successful update promoted streamer'],
         ]);
     }
  
