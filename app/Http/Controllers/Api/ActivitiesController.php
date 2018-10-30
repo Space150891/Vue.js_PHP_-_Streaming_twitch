@@ -62,7 +62,6 @@ class ActivitiesController extends Controller
             }
             $streamers[] = $streamer;
         }
-
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $now = new Carbon();
@@ -71,11 +70,35 @@ class ActivitiesController extends Controller
         foreach ($streamers as $streamer) {
             $active = $this->checkViewerOnline($viewer->id, $streamer->id);
             if ($active) {
-                $points += $this->calculatePoints($streamer->id);
                 $active->updated_at = $updatedTime;
                 $active->save();
             } else {
-                $this->newActivity($viewer->id, $streamer->id);
+                // new activity
+                $activity = Activity::where([
+                    ['viewer_id', '=', $viewer->id],
+                    ['streamer_id', '=', $streamer->id],
+                ])->first();
+                if ($activity) {
+                    $now = new Carbon;
+                    $activity->created_at = $now->toDateTimeString();
+                    $activity->updated_at = $now->toDateTimeString();
+                } else {
+                    $activity = new Activity();
+                    $activity->viewer_id = $viewerId;
+                    $activity->streamer_id = $streamerId;
+                }
+                $activity->save();
+            }
+        }
+        $allowStreams = Activity::where([
+            ['viewer_id', '=', $viewer->id],
+        ])->orderBy('created_at', 'DESC')->limit(count($channels))->get()->toArray();
+        $allowStreams = array_map(function($item){
+            return $item['streamer_id'];
+        }, $allowStreams);
+        foreach ($streamers as $streamer) {
+            if (in_array($streamer->id, $allowStreams)) {
+                $points += $this->calculatePoints($streamer->id);
             }
         }
         $viewer->addPoints([
@@ -85,6 +108,7 @@ class ActivitiesController extends Controller
         ]);
         $viewer->save();
         $this->giveAfiliates();
+        // 
         return response()->json([
             'data' => [
                 'points'   => $viewer->level_points,
@@ -179,6 +203,7 @@ class ActivitiesController extends Controller
 
     private function newActivity($viewerId, $streamerId)
     {
+
         $activity = Activity::where([
             ['viewer_id', '=', $viewerId],
             ['streamer_id', '=', $streamerId],
