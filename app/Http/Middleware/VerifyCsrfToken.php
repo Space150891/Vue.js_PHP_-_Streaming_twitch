@@ -13,5 +13,8 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'paypal/pay',
+        'liqpay/getform',
+        'paypal/notify',
+        'paypal/notify2',
     ];
 }

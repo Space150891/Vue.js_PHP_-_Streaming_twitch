@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate};
+use App\Models\{Profile, Social, User, Viewer, Streamer, Channel, Afiliate, Game, Achievement, AchievementProgres};
 use App\Traits\ActivationTrait;
 use App\Traits\CaptureIpTrait;
 use Illuminate\Support\Facades\Config;
@@ -14,7 +14,15 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Facades\Auth;
-use App\Achievements\{FirstLoginAchievement, Login10daysAchievement, Login20daysAchievement};
+use App\Achievements\{
+    FirstLoginAchievement,
+    Login10daysAchievement,
+    Login20daysAchievement,
+    FirstReferViewerAchievement,
+    Refer100ViewersAchievement
+};
+use App\Mail\WellcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class SocialController extends Controller
 {
@@ -95,7 +103,7 @@ class SocialController extends Controller
 
                 $user->profile()->save($profile);
                 $viewer = new Viewer();
-                // $user->twitch_id = 
+                // $user->twitch_id =
                 $user->save();
 
                 // save viewer and streamer
@@ -140,11 +148,10 @@ class SocialController extends Controller
         $redirect = config('services.twitch.redirect');
         $state = str_random(30);
         $url = "https://api.twitch.tv/kraken/oauth2/authorize";
-        // $url = "https://id.twitch.tv/oauth2/authorize";
         $url .= "?client_id={$clientId}";
         $url .= "&redirect_uri={$redirect}";
         $url .= "&response_type=code";
-        $url .= "&scope=user_read";
+        $url .= "&scope=channel_read user_read";
         $url .= "&state={$state}";
         $request->session()->put('twitch_state', $state);
         return redirect($url);
@@ -155,6 +162,7 @@ class SocialController extends Controller
         $clientId = config('services.twitch.client_id');
         $secret = config('services.twitch.client_secret');
         $redirect = config('services.twitch.redirect');
+        $ip = getOrigin($_SERVER);
         $guzzle = new Guzzle();
         $url = "https://id.twitch.tv/oauth2/token";
         $url .= "?client_id={$clientId}";
@@ -166,29 +174,40 @@ class SocialController extends Controller
         $statusSode = (string) $result->getStatusCode();
         $body = json_decode((string) $result->getBody(), true);
         $accessToken = $body['access_token'];
-        $guzzle = new Guzzle([ 'headers' => [ 
+        $refreshToken = $body['refresh_token'];
+        $guzzle = new Guzzle([ 'headers' => [
+            // 'Accept'    => 'application/vnd.twitchtv.v3+json',
             'Client-ID' => $clientId,
             'Authorization' => 'OAuth ' . $accessToken,
-            ] ]);
+        ] ]);
         $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/user');
         $statusSode = (string) $result->getStatusCode();
+        // \Log::info('TWITCH OAUTH');
+        // \Log::info((string) $result->getBody());
         $body = json_decode((string) $result->getBody(), true);
-        \Log::info('USER');
-        \Log::info($body);
         $user = User::where('name', $body['name'])->first();
         if (!$user) {
-            $ip = $request->ip();
-            $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
-            if ($afiliate) {
-                $afiliate->register_at = Carbon::now()->toDateTimeString();
-                $afiliate->save();
-            }
+            $user = User::where('name', $body['display_name'])->first();
+        }
+        if (!$user) {
             $user = new User();
+            $user->name = $body['display_name'];
+            $user->bio = $body['bio'];
+            $user->avatar = $body['logo'];
+            $user->twitch_id = $body['_id'];
             $user->token = '';
             $user->activated = 1;
             $user->password = \Hash::make('123');
             $user->last_name = '';
-            $user->name = $body['name'];
+            $user->email = strtolower($body['email']);
+            $mail = new WellcomeMail();
+            Mail::to($user->email)->send($mail);
+            $afiliate = Afiliate::where('ip_address', $ip)->whereNull('register_at')->first();
+            if ($afiliate) {
+                $afiliate->register_at = Carbon::now()->toDateTimeString();
+                $afiliate->afiliate_id = $user->id;
+                $afiliate->save();
+            }
             $user->save();
             $streamer = new Streamer();
             $streamer->user_id = $user->id;
@@ -201,35 +220,56 @@ class SocialController extends Controller
             $streamer = $user->streamer()->first();
             $viewer = $user->viewer()->first();
         }
-        
-        $user->name = $body['name'];
-        $user->first_name = $body['display_name'];
-        $user->email = $body['email'];
+        $ip = getOrigin($_SERVER);
+        $user->name = $body['display_name'];
+        $streamer->name = $user->name;
+        $viewer->name = $user->name;
+        $viewer->save();
+        $user->email = strtolower($body['email']);
+        $user->save();
+        $user->first_name = $body['name'];
         $user->bio = $body['bio'];
         $user->avatar = $body['logo'];
+        $user->twitch_id = $body['_id'];
         $user->save();
         $twitchUserId = $body['_id'];
-        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $twitchUserId);
-        $body = json_decode((string) $result->getBody(), true);
-        \Log::info('STREAMS');
-        \Log::info($body);
         $streamer->twitch_id = $twitchUserId;
-        $streamer->game = isset($body['stream']['channel']['game']) ? strtolower($body['stream']['channel']['game']) : null;
+        $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/channel');
+        $streamData = json_decode((string) $result->getBody(), true);
         $streamer->save();
-        $user->addProgress(new FirstLoginAchievement(), 1);
-        if (!$this->alreadyToday('Login10daysAchievement', $user)) {
-            $user->addProgress(new Login10daysAchievement(), 1);
+        if ($streamData['game']) {
+            $result = $guzzle->request('GET', 'https://api.twitch.tv/helix/games', ['query' => ['name' => $streamData['game']]]);
+            $body = json_decode((string) $result->getBody(), true);
+            $gameData = $body['data'][0];
+            $streamer->game = $gameData['name'];
+            $streamer->image = isset($streamData['video_banner']) ? $streamData['video_banner'] : null;
+            $streamer->viewers_count = isset($streamData['views']) ? $streamData['views'] : 0;
+            $streamer->followers_count = isset($streamData['followers']) ? $streamData['followers'] : 0;
+            $streamer->save();
+            $game = Game::where('twitch_id', $gameData['id'])->first();
+            if (!$game) {
+                $game = new Game();
+                $game->name = $gameData['name'];
+                $game->twitch_id = $gameData['id'];
+                $game->avatar = $this->getImage($gameData['box_art_url'], 136, 190);
+                $game->save();
+            }
         }
-        if (!$this->alreadyToday('Login20daysAchievement', $user)) {
-            $user->addProgress(new Login20daysAchievement(), 1);
+        $streamer->save();
+        $user->addAchievement('App\Achievements\FirstLoginAchievement');
+        if (!$this->alreadyToday('App\Achievements\Login10daysAchievement', $user->id)) {
+            $user->addAchievement('App\Achievements\Login10daysAchievement');
+        }
+        if (!$this->alreadyToday('App\Achievements\Login20daysAchievement', $user->id)) {
+            $user->addAchievement('App\Achievements\Login20daysAchievement');
         }
         $token = auth()->login($user);
         $data = [
-            'access_token'  => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'access_token'          => $token,
+            'twitch_refresh_token'  => $refreshToken,
+            'token_type'            => 'bearer',
+            'expires_in'            => auth()->factory()->getTTL() * 60
         ];
-        \Log::info('token='.$token);
         return view('layouts.app', $data);
     }
 
@@ -252,32 +292,26 @@ class SocialController extends Controller
         return view('pages.getjwt', $data);
     }
 
-    private function alreadyToday($achivementName, $user)
+    private function alreadyToday($achivementClass, $userId)
     {
-        if ($this->isFirst($achivementName)) {
+        \Log::info('searching achievement ' . $achivementClass);
+        $achievement = Achievement::where('class_name', $achivementClass)->first();
+        $achievementProgres = AchievementProgres::where([
+            ['user_id', '=', $userId],
+            ['achievement_id', '=', $achievement->id],
+        ])->first();
+        if (!$achievementProgres) {
             return false;
         }
-        $class = $this->getClass($achivementName);
-        $achivement = $user->achievements($class)->first();
-        if  (!$achivement) {
-            return false;
-        }
-        $updated   = $achivement->updated_at->toDateString();
         $now = new Carbon;
-        $today = $now->toDateString();
-        return ($today === $updated);
+        return ($achievementProgres->updated_at->toDateString() === $now->toDateString());
     }
 
-    private function getClass($achivementName)
+    private function getImage($url, $width, $heigth)
     {
-        $class = "\App\Achievements\\" . $achivementName;
-        return new $class;
+        $url = str_replace("{width}", $width, $url);
+        $url = str_replace("{height}", $heigth, $url);
+        return $url;
     }
 
-    private function isFirst($achivementName)
-    {
-        $class = "App\Achievements\\" . $achivementName;
-        $count = \DB::table('achievement_details')->where('class_name', $class)->count();
-        return ($count === 0);
-    }
 }

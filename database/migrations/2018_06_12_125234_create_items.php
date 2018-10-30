@@ -21,6 +21,7 @@ class CreateItems extends Migration
             $table->integer('worth')->default(0);
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
+            $table->unsignedInteger('rarity_class_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

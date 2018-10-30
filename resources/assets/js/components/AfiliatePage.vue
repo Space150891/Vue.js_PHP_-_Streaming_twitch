@@ -6,7 +6,7 @@
         
         <h4>Visited: {{afiliates.visited}}</h4>
         <h4>Registered: {{afiliates.registered}}</h4>
-        <h4>Total: {{afiliates.total}}</h4>
+        <h4>Confirmed: {{afiliates.confirmed}}</h4>
     </div>
     <div v-else class="cabinet-page">
         Please login

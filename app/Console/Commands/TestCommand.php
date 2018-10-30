@@ -5,9 +5,29 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Stripe\Stripe;
-use App\Models\{Profile, User, Viewer, Streamer, Game};
+use App\Models\{
+    Achievement,
+    AchievementProgres,
+    Activity,
+    ActiveStreamer,
+    CaseType,
+    Country,
+    Item,
+    Game,
+    HistoryBox,
+    Notification,
+    Profile,
+    RarityClass,
+    SignedViewer,
+    Streamer,
+    SubscribedStreamers,
+    User,
+    UserCustomAchievement,
+    Viewer,
+    ViewerItem
+};
 use GuzzleHttp\Client as Guzzle;
-use Illuminate\Support\Facades\Redis;
+use LiqPay;
 
 class TestCommand extends Command
 {
@@ -42,27 +62,56 @@ class TestCommand extends Command
      */
     public function handle()
     {
-    //    $this->emitEvent();
-        $streamers = Streamer::all();
-        foreach ($streamers as $streamer) {
-            echo $streamer->name ."\n";
+       $text = 'https://twitch.tv/ninja';
+       $res = preg_match('/\/twitch.tv\/.{0,100}/', $text);
+       var_dump($res);
+    }
+
+    private function se()
+    {
+        $client = new Guzzle();
+        $streamer = Streamer::find(103);
+        $response = $client->get('https://api.streamelements.com/kappa/v2/channels/me', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+            ]
+        ]);
+        $result = json_decode((string)$response->getBody(), true);
+        $channelId = $result['_id'];
+        // dd($channelId);
+        ///
+        $response = $client->get('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+            ],
+        ]);
+        $result = json_decode((string)$response->getBody(), true);
+        var_dump($result);
+        ///
+        try {
+            $response = $client->post('https://api.streamelements.com/kappa/v2/tips/' . $channelId, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $streamer->streamelements_access,
+                ],
+                'form_params' => [
+                    'currency'      => 'USD',
+                    "payFees"       => false,
+                    "user" => [
+                        "username"  => "viewer",
+                        "email"     => "viewer@mail.com"
+                    ],
+                    "amount"        => 100.00,
+                    "message"       => "Donation",
+                    "imported"      => 'true',
+                ],
+            ]);
+        } catch(\Exception $e) {
+            exit($e->getMessage());
         }
-    }
 
-    private function emitEvent()
-    {
-        $data = [
-            'event_type'      => 'user_message',
-            'message'         => 'test ' . time(),
-            'user_name'       => 'alex_k2017',
-            'timestamp'       => time(),
-        ];
-        Redis::command('RPUSH', ['messages:' . $data['user_name'], json_encode($data)]);
+        $result = json_decode((string)$response->getBody(), true);
+        var_dump($result);
+        // $result = (string)$response->getBody();
     }
-
-    private function increaseAchivements($name, $points)
-    {
-        $class = "\App\Achievements\\" . $name;
-        $a = new $class;
-    }
+    
 }

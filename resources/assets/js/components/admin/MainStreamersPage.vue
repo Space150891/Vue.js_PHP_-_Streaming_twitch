@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/main-streamers"></admin-menu>
   <div v-if="checkToken && mainStreamersLoaded">
 		<h5>Main Streamers</h5>
@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in mainStreamers">
+				<tr v-for="item in mainStreamers" :key="item.id">
                     <td>{{item.name}}</td>
 					<td>
                         {{item.promouted_start}} - {{item.promouted_end}}
@@ -32,7 +32,7 @@
 			<form class="form form-inline">
 				<select v-model="addingItem.promouted_id" class="form-control">
 					<option value=0>Select streamer</option>
-					<option v-for="streamer in promotedStreamers" v-bind:value="streamer.id">{{streamer.name}}</option>
+					<option v-for="streamer in promotedStreamers" v-bind:value="streamer.id" :key="streamer.id">{{streamer.name}}</option>
 				</select>
                 From:
                 <vue-timepicker v-model="addingItem.promouted_start"></vue-timepicker>
@@ -43,7 +43,7 @@
 		</div>
         <div v-if="editMode" class="edit-modal-back">
             <div class="edit-modal">
-                <h3 class=""text-center>{{editItem.name}}</h3>
+                <h3 class="text-center">{{editItem.name}}</h3>
                 <div>
                     <label class="time-label">From:</label>
                     <vue-timepicker v-model="editItem.promouted_start"></vue-timepicker>

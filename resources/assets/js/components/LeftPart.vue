@@ -2,11 +2,18 @@
 <div class="leftPart-main">
     <div class="scroll-item btn-up" @click.prevent="scrollUp()"><span class="leftPart-scroll"> > </span></div>
     <div class="leftPart">
-        <h2>Promoted Streamers</h2>
-        <a v-for="(item) in promotedStreamers" v-bind:href="'#/profile/' + item.user_id">
+        <h2>{{ translate.left_menu.promoted_streamers }}</h2>
+        <a 
+          v-for="(item) in promotedStreamers" :key="item.id"
+          v-bind:href="'#/profile/' + item.user_id"
+          @click.prevent="watchStream(item.name)"
+        >
             <div  class="leftPart-item" >
                 <div class="leftPart-img">
-                    <img v-bind:src="item.avatar" v-bind:alt="item.name">
+                    <img
+                      v-bind:src="item.avatar ? item.avatar : backPublic + '/images/tvitch-question.png'"
+                      v-bind:alt="item.name"
+                    >
                 </div>
                 <div class="leftPart-mainText">
                     <h2>{{ item.name }}</h2>
@@ -25,10 +32,12 @@
 </template>
 
 <script>
+var config = require('./config/config.json');
     export default {
         data(){
             return {
                 num : 10,
+                backPublic : config.baseUrl,
             }
         },
         methods: {
@@ -55,12 +64,21 @@
             },
         },
         mounted() {
-			this.$store.commit('getPromotedList');
+            this.$store.commit('getPromotedList');
+            this.$store.commit('getTranslate', {page: 'left_menu'});
 		},
+        methods: {
+            watchStream(streamerName) {
+               this.$store.commit('setWatchingStreams', [streamerName]);
+               window.location.assign('#/watch-streams');
+           },
+        },
         computed: {
             promotedStreamers: function () {
-            console.log(this.$store.getters.promotedStreamers);
               return this.$store.getters.promotedStreamers;
+            },
+            translate: function () {
+              return this.$store.getters.translate;
             },
         },
     }

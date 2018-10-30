@@ -18,6 +18,8 @@ class CreateAfiliates extends Migration
             $table->string('ip_address');
             $table->integer('user_id');
             $table->datetime('register_at')->nullable();
+            $table->datetime('confirm_at')->nullable();
+            $table->integer('afiliate_id')->nullable();
             $table->timestamps();
         });
     }

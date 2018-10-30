@@ -11,10 +11,7 @@ use Validator;
 use Illuminate\Support\Facades\Storage;
 use jeremykenedy\LaravelRoles\Models\Role;
 
-use App\Models\Profile;
-use App\Models\User;
-use App\Models\Viewer;
-use App\Models\Streamer;
+use App\Models\{Profile, User, Viewer, Streamer, SignedViewer, SubscribedStreamers, SubscriptionPlan, MonthPlan};
 
 class UserManagementController extends Controller
 {
@@ -34,20 +31,48 @@ class UserManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pagintaionEnabled = config('usersmanagement.enablePagination');
-        if ($pagintaionEnabled) {
-            $users = User::paginate(config('usersmanagement.paginateListSize'));
-        } else {
-            $users = User::all();
+        $validator = Validator::make($request->all(), [
+            'page'       => 'required|numeric|min:1',
+            'on_page'       => 'required|numeric|min:1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
         }
-        $roles = Role::all();
-
-        return response()->json(['data' => [
-            'users' => $users,
-            'roles' => $roles
-        ]]);
+        $adminRoleId = \DB::table('roles')->where('name', 'admin')->first()->id;
+        $adminId = \DB::table('role_user')->where('role_id', $adminRoleId)->value('user_id');
+        $total = User::where('id', '!=', $adminId)->count();
+        $pages = ceil($total / $request->on_page);
+        $users = User::select(
+                            'users.id',
+                            'users.name',
+                            'users.email',
+                            'users.twitch_id',
+                            'users.created_at',
+                            'viewers.level_points',
+                            'viewers.diamonds',
+                            'streamers.id as streamer_id'
+                            )
+                            ->leftJoin('streamers', 'streamers.user_id', '=', 'users.id')
+                            ->leftJoin('viewers', 'viewers.user_id', '=', 'users.id')
+                            ->where('users.id', '!=', $adminId)
+                            ->orderBy('users.created_at', 'asc')
+                            ->skip(($request->page - 1) * $request->on_page)
+                            ->take($request->on_page)->get();
+        for ($i = 0; $i < count($users); $i++) {
+            $viewer = $users[$i]->viewer()->first();
+            $users[$i]->level = $viewer ? $viewer->getLevel() : 0;
+            $users[$i]->followers = SignedViewer::where('streamer_id', $users[$i]->streamer_id)->count();
+        }
+        return response()->json([
+            'data' => [
+                'users'     => $users,
+                'pages'     => $pages,
+            ],
+        ]);
     }
 
     /**
@@ -85,7 +110,7 @@ class UserManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
 
@@ -133,6 +158,16 @@ class UserManagementController extends Controller
      */
     public function show(Request $request)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'id'   =>  'required|numeric|min:1',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
         $id = $request->id;
         $user = User::find($id);
         if (!$user) {
@@ -140,17 +175,12 @@ class UserManagementController extends Controller
                 'errors' => ['user id not found'],
             ]);
         }
-
-        $roles = Role::all();
-
-        foreach ($user->roles as $user_role) {
-            $currentRole = $user_role;
-        }
-
+        $streamer = $user->streamer()->first();
+        $viewer = $user->viewer()->first();
         $data = [
-            'user'        => $user,
-            'roles'       => $roles,
-            'currentRole' => $currentRole,
+            'id'            => $user->id,
+            'name'          => $user->name,
+            'subscriptions' => $streamer ? $this->getSubscriptiosList($streamer->id) : [],
         ];
         return response()->json([
             'data' => $data,
@@ -188,7 +218,7 @@ class UserManagementController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
 
@@ -307,4 +337,22 @@ class UserManagementController extends Controller
             json_encode($results),
         ], Response::HTTP_OK);
     }
+
+    private function getSubscriptiosList($streamerId)
+    {
+        $list = [];
+        $subscriptions = SubscribedStreamers::where('streamer_id', $streamerId)->get();
+        foreach ($subscriptions as $subscription) {
+            $monthPlan = MonthPlan::find($subscription->month_plan_id);
+            $subPlan = SubscriptionPlan::find($subscription->subscription_plan_id);
+            $plan = new \stdClass();
+            $plan->subscription = $subPlan->name;
+            $plan->month = $monthPlan->monthes;
+            $plan->valid_from = $subscription->valid_from;
+            $plan->valid_until = $subscription->valid_until;
+            $list[] = $plan;
+        }
+        return $list;
+    }
+
 }

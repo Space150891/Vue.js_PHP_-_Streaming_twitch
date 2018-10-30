@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <div v-if="checkToken && caseItemsLoaded">
 		<h5>Case <strong>{{ LootCase.name }}</strong></h5>
 		<table class="table table-striped">
@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in caseItems">
+				<tr v-for="item in caseItems" :key="item.id">
                     <td>{{ item.title }}</td>
                     <td>
                         <img 
@@ -34,11 +34,11 @@
             <form class="form form-inline">
                 <select v-model="newItem.item_id" class="form-control">
                     <option value="0">Select item</option>
-                    <option v-for="item in items" v-bind:value="item.id">{{ item.title + ' ' + item.type + ' ' + item.worth }}</option>
+                    <option v-for="item in items" v-bind:value="item.id"  :key="item.id">{{ item.title + ' ' + item.type + ' ' + item.worth }}</option>
                 </select>
                 <select v-model="newItem.rarity_id" class="form-control">
                     <option value="0">Select rarity</option>
-                    <option v-for="rarity in rarities" v-bind:value="rarity.id">{{ rarity.name + ' ' + rarity.percent + '%' }}</option>
+                    <option v-for="rarity in rarities" v-bind:value="rarity.id"  :key="rarity.id">{{ rarity.name + ' ' + rarity.percent + '%' }}</option>
                 </select>
                 <button @click.prevent="createAction()" class="btn btn-success">Add</button>
 			</form>

@@ -16,6 +16,10 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('viewer_id');
+            $table->integer('frame_id');
+            $table->integer('hero_id');
+            $table->integer('achivement_id');
+            $table->string('a_type', 30)->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class LocalEnvironmentServiceProvider extends ServiceProvider
      * @var array
      */
     protected $localProviders = [
-        \Barryvdh\Debugbar\ServiceProvider::class,
+        // \Barryvdh\Debugbar\ServiceProvider::class,
     ];
 
     /**

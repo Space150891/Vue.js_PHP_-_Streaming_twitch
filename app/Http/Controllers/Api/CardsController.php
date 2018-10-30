@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{Viewer, Item, Card, CardItem, ViewerItem};
+use App\Models\{Viewer, Item, Card, CardItem, ViewerItem, CustomAchievement, Achievement};
 
 class CardsController extends Controller
 {
@@ -34,14 +34,27 @@ class CardsController extends Controller
         $viewer = $user->viewer()->first();
         $cards = [];
         foreach ($viewer->cards()->get() as $card) {
-            $cards[] = [
-                'card'  => $card,
-                'items' => $this->getCardItems($card->id),
-            ];
+            $c = new \stdClass();
+            $c->id = $card->id;
+            $viewerItemFrame = ViewerItem::find($card->frame_id);
+            $frame = Item::find($viewerItemFrame->item_id);
+            $c->frame = $frame->image;
+            $viewerItemHero = ViewerItem::find($card->hero_id);
+            $hero = Item::find($viewerItemHero->item_id);
+            $c->hero = $hero->image;
+            if ($card->a_type == "custom") {
+                $achievement = CustomAchievement::find($card->achivement_id);
+                $c->achievement = $achievement->text;
+            } else {
+                $achievement = Achievement::find($card->achivement_id);
+                $c->achievement = $achievement->description;
+            }
+            $c->promoted = ($viewer->promoted_gamecard_id == $c->id) ? true : false;
+            $cards[] = $c;
         }
         
         return response()->json([
-            'data' => $cards,
+            'data' => ['cards' => $cards]
         ]);
     }
 
@@ -52,8 +65,19 @@ class CardsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) // tested
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'frame_id'      => 'required|numeric',
+            'hero_id'       => 'required|numeric',
+            'achivement_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $totalCards = Card::where([
@@ -66,8 +90,19 @@ class CardsController extends Controller
         }
         $card = new Card();
         $card->viewer_id = $viewer->id;
+        $card->frame_id = $request->frame_id;
+        $card->hero_id = $request->hero_id;
+        if (strpos((string) $request->achivement_id, "c") === 0) {
+            $card->achivement_id = (int)substr((string)$request->achivement_id, 1);
+            $card->a_type = "custom";
+        } else {
+            $card->achivement_id = $request->achivement_id;
+        }
         $card->save();
-        
+        if ($totalCards == 0) {
+            $viewer->promoted_gamecard_id = $card->id;
+            $viewer->save();
+        }
         return response()->json([
             'message' => 'card successful created',
             'data' => [
@@ -84,15 +119,12 @@ class CardsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
         $viewer = $user->viewer()->first();
-        $viewerItem = ViewerItem::where([
-            ['viewer_id', '=', $viewer->id],
-            ['item_id', '=', $request->item_id],
-        ])->first();
+        $viewerItem = ViewerItem::find($request->item_id);
         if (!$viewerItem) {
             return response()->json([
                 'errors' => ['You do not have this item.'],
@@ -101,7 +133,6 @@ class CardsController extends Controller
         $find = CardItem::query()
                 ->where('viewer_id', '=', $viewer->id)
                 ->where('item_id', '=', $request->item_id)
-                ->join('cards', 'cards.id', '=', 'card_items.card_id')
                 ->first();
         if ($find) {
             return response()->json([
@@ -141,7 +172,7 @@ class CardsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -164,7 +195,7 @@ class CardsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -191,7 +222,7 @@ class CardsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -226,7 +257,7 @@ class CardsController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $user = auth()->user();
@@ -240,10 +271,47 @@ class CardsController extends Controller
                 'errors' => ['You do not have this card'],
             ]);
         }
-        $card->items()->delete();
         $card->delete();
+        $total = Card::where('viewer_id', $viewer->id)->count();
+        
+        if ($total == 0) {
+            $viewer->promoted_gamecard_id = null;
+            $viewer->save();
+        } elseif ($request->card_id == $viewer->promoted_gamecard_id) {
+            $firstCard = Card::where('viewer_id', $viewer->id)->first();
+            $viewer->promoted_gamecard_id = $firstCard->id;
+            $viewer->save();
+        }
         return response()->json([
             'message' => ['card successful deleted'],
+        ]);
+    }
+
+    public function main(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'card_id'       => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $user = auth()->user();
+        $viewer = $user->viewer()->first();
+        $card = Card::where([
+            'id'   =>  $request->card_id,
+            'viewer_id' =>  $viewer->id,
+        ])->first();
+        if (!$card) {
+            return response()->json([
+                'errors' => ['You do not have this card'],
+            ]);
+        }
+        $viewer->promoted_gamecard_id = $card->id;
+        $viewer->save();
+        return response()->json([
+            'message' => ['set main card successful'],
         ]);
     }
 

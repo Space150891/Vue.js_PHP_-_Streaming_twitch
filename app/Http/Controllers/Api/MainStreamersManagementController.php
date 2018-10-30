@@ -9,7 +9,17 @@ use Illuminate\Http\Response;
 use Validator;
 use Carbon\Carbon;
 
-use App\Models\{PromoutedStreamer, Streamer, User, MainStreamer};
+use App\Models\{
+    Activity,
+    MainStreamer,
+    MonthPlan,
+    PromoutedStreamer,
+    Streamer, 
+    SubscriptionPlan,
+    SubscribedStreamers,
+    SubscriptionPoint,
+    User
+};
 
 class MainStreamersManagementController extends Controller
 {
@@ -27,22 +37,53 @@ class MainStreamersManagementController extends Controller
 
     public function show(Request $request)
     {
-        $now = Carbon::createFromTimestampUTC(0);
-        $mainStreamer = MainStreamer::where([
-            ['promouted_start', '>=', $now],
-            ['promouted_end', '<=', $now],
-        ])->first();
+        $time = new Carbon();
+        $time->setTimezone('UTC');
+        $now = $time->toTimeString();
+        $allMain = MainStreamer::all();
+        $mainStreamer = false;
+        $streamer = false;
+        foreach ($allMain as $oneMain) {
+            if (
+                $this->compareTime($now, '>=', $oneMain->promouted_start) &&
+                $this->compareTime($now, '<=', $oneMain->promouted_end)
+            ) {
+                $mainStreamer = $oneMain;
+                break;
+            }
+        }
         if ($mainStreamer) {
             $promouted = $mainStreamer->promouted()->first();
             $streamer = $promouted->streamer()->first();
             return response()->json([
-                'data' => $streamer->name,
+                'data' => $this->prepareMainStreamer($streamer),
             ]);
         }
-        $allStreamers = Streamer::all();
-        $num = round(rand(count($allStreamers)));
+        
+        $now = Carbon::today()->toDateTimeString();
+        $sPlans = SubscriptionPlan::orderBy('cost', 'desc')->get();
+        $stream = false;
+        foreach ($sPlans as $sPlan) {
+            $subscribed = SubscribedStreamers::where([
+                ['valid_from', '<=', $now],
+                ['valid_until', '>=', $now],
+                ['subscription_plan_id', '=', $sPlan->id],
+            ])->get();
+            if (count($subscribed) > 0) {
+                $num = round(rand(0, count($subscribed) - 1));
+                $streamer = Streamer::find($subscribed[$num]->id);
+                break;
+            }
+        }
+        if ($streamer) {
+            $stream = $streamer;
+        } else {
+            $allStreamers = Streamer::all();
+            $num = round(rand(0, count($allStreamers) - 1));
+            $stream = $allStreamers[$num];
+        }
         return response()->json([
-            'data' => $allStreamers[$num]->name,
+            'data' => $this->prepareMainStreamer($stream),
         ]);
     }
 
@@ -56,7 +97,7 @@ class MainStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if (!PromoutedStreamer::find($request->promouted_id)) {
@@ -70,6 +111,7 @@ class MainStreamersManagementController extends Controller
             ]);
         }
         $allMainStreamers = MainStreamer::all();
+        
         foreach ($allMainStreamers as $allMainStreamer) {
             if ($this->compareTime($request->promouted_end, '>', $allMainStreamer->promouted_start) 
                 && $this->compareTime($request->promouted_start, '<', $allMainStreamer->promouted_end)) {
@@ -98,12 +140,9 @@ class MainStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
-        \Log::info("updating ID={$request->id}");
-        \Log::info("updating start={$request->promouted_start}");
-        \Log::info("updating end={$request->promouted_end}");
         $mainStreamer = MainStreamer::find($request->id);
         if (!$mainStreamer) {
             return response()->json([
@@ -115,7 +154,7 @@ class MainStreamersManagementController extends Controller
                 'errors' => ['ending time must be later than starting time '],
             ]);
         }
-        $allMainStreamers = MainStreamer::all();
+        $allMainStreamers = MainStreamer::where('id', '!=', $request->id)->get();
         foreach ($allMainStreamers as $allMainStreamer) {
             if ($this->compareTime($request->promouted_end, '>', $allMainStreamer->promouted_start) 
                 && $this->compareTime($request->promouted_start, '<', $allMainStreamer->promouted_end)) {
@@ -141,7 +180,7 @@ class MainStreamersManagementController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $mainStreamer = MainStreamer::find($request->id);
@@ -190,6 +229,7 @@ class MainStreamersManagementController extends Controller
                 break;
             case '>=':
                 if ($timestampA >= $timestampB) {
+                    
                     return true;
                 }
                 return false;
@@ -225,6 +265,17 @@ class MainStreamersManagementController extends Controller
 
     private function duration($timeStart, $timeEnd) {
         return $this->timeToStamp($timeEnd) - $this->timeToStamp($timeStart);
+    }
+
+    private function prepareMainStreamer($streamer)
+    {
+        $data = [
+            'id'        => $streamer->id,
+            'name'      => $streamer->name,
+            'viewers'   => $streamer->getOnlineViewers(),
+            'points'    => $streamer->calculatePoints(),
+        ];
+        return $data;
     }
 
 }

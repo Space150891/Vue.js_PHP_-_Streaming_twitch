@@ -1,10 +1,11 @@
 <template>
 <ul class="list-group">
   <li 
-    v-for="(message, index) in sseMessages"
+    v-for="(message, index) in sseMessages" :key="index"
     @click="deleteMessage(index)"
     class="list-group-item">
     {{message}}
+    
   </li>
 </ul>
 </template>

@@ -129,16 +129,16 @@
         },
         methods: {
            sendFBAchivement() {
-                this.$store.commit('pushAchivement', {name: 'FirstFBlikeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB10likeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB20likeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB50likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FirstFBlikeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB10likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB20likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB50likeAchievement'});
             },
             sendTWAchivement() {
-                this.$store.commit('pushAchivement', {name: 'FirstTweetAchievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet10Achievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet20Achievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet50Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FirstTweetAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet10Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet20Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet50Achievement'});
             }
         },
         computed: {

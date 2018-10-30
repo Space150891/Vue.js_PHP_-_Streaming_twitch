@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
-use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment};
+use App\Models\{User, Streamer, SubscriptionPlan, MonthPlan, SubscribedStreamers, Payment, Diamond, Viewer, Achievement, AchievementProgres};
+use App\Achievements\{BuyFirstDiamondsAchievement, Buy100DiamondsAchievement, Donate100Achievement, FirstDonateAchievement};
+use GuzzleHttp\Client as Guzzle;
 
 class PayPalController extends Controller
 {
@@ -27,24 +29,48 @@ class PayPalController extends Controller
      */
     public function getExpressCheckout(Request $request)
     {
-        if (!$request->has('subscription_plan_id') || !$request->has('month_plan_id') || !$request->has('streamer_id')) {
+        if (!$request->has('type') || !$request->has('user_id')) {
+            return redirect('/');
+        }
+        if ((!$request->has('subscription_plan_id') || !$request->has('month_plan_id')) && $request->type == "subscription") {
             return redirect('/#/subscribe');
         }
-        if ($request->subscription_plan_id == 0 || $request->month_plan_id == 0 || $request->streamer_id == 0) {
-            return redirect('/#/subscribe');
+        if (!$request->has('diamonds_set_id') && $request->type == "buy_diamonds") {
+            return redirect('/#/shop');
         }
         $recurring = false;
+        $user = User::find($request->user_id);
+        $userId = $user->id;
         $payment = new Payment();
-        $payment->subscription_plan_id = $request->subscription_plan_id;
-        $payment->month_plan_id = $request->month_plan_id;
-        $payment->streamer_id = $request->streamer_id;
-        $payment->type = "paypal";
+        if ($request->type == 'buy_diamonds') {
+            $data = ['diamonds_set_id'  =>  $request->diamonds_set_id, 'service'    => 'paypal'];
+            $payment->details = json_encode($data);
+        }
+        if ($request->type == 'subscription') {
+            $data = [
+                'subscription_plan_id'  => $request->subscription_plan_id,
+                'month_plan_id'         => $request->month_plan_id,
+                'service'    => 'paypal'
+            ];
+            $payment->details = json_encode($data);
+            $payment->user_id = $userId;
+            $payment->type = $request->type;
+            $payment->status = "draft";
+            $payment->save();
+            $subscribeButtons = config('paypal.buttons');
+            $subscriptionPlan = SubscriptionPlan::find($request->subscription_plan_id);
+            $monthPlan = MonthPlan::find($request->month_plan_id);
+            $name = substr($subscriptionPlan->name, 0, 1) . $monthPlan->monthes;
+            return redirect($subscribeButtons[$name]);
+        }
+        $payment->user_id = $userId;
+        $payment->type = $request->type;
         $payment->status = "draft";
         $payment->save();
         $form = [
-            'subscription_plan_id'  => $request->subscription_plan_id,
-            'month_plan_id'         =>  $request->month_plan_id,
-            'streamer_id'           =>  $request->streamer_id,
+            'type'                  =>  $payment->type,
+            'details'               =>  $payment->details,
+            'user_id'               =>  $userId,
             'id'                    =>  $payment->id,
         ];
         $cart = $this->getCheckoutData($form, $recurring);
@@ -76,15 +102,13 @@ class PayPalController extends Controller
         $token = $request->get('token');
         $payment = Payment::where('token', $token)->first();
         $form = [
-            'subscription_plan_id'  => $payment->subscription_plan_id,
-            'month_plan_id'         =>  $payment->month_plan_id,
-            'streamer_id'           =>  $payment->streamer_id,
+            'type'                  => $payment->type,
+            'details'               =>  $payment->details,
+            'user_id'               =>  $payment->user_id,
             'id'                    =>  $payment->id,
         ];
         $PayerID = $request->get('PayerID');
-
         $cart = $this->getCheckoutData($form, $recurring);
-
         // Verify Express Checkout Token
         $response = $this->provider->getExpressCheckoutDetails($token);
 
@@ -108,34 +132,50 @@ class PayPalController extends Controller
             if (trim($status) === 'Completed') {
                 $payment->status = "Done";
                 $payment->save();
-                $subscribed = new SubscribedStreamers();
-                $subscribed->streamer_id = $payment->streamer_id;
-                $subscribed->subscription_plan_id = $payment->subscription_plan_id;
-                $subscribed->month_plan_id = $payment->month_plan_id;
-                $monthPlan = MonthPlan::find($payment->month_plan_id);
-                $old = SubscribedStreamers::where([
-                    ['streamer_id', '=', $payment->streamer_id],
-                    ['valid_until', '>', Carbon::today()->toDateTimeString()]
-                ])->orderBy('valid_until', 'desc')->first();
-                if ($old) {
-                    $subscribed->valid_from = $old->valid_until;
-                    \Log::info('find old ' . $old->valid_until);
-                } else {
-                    $subscribed->valid_from = Carbon::today()->toDateTimeString();
+                if ($payment->type == 'buy_diamonds') {
+                    $user = User::find($payment->user_id);
+                    $viewer = $user->viewer()->first();
+                    $details = json_decode($payment->details, true);
+                    $set = Diamond::find($details['diamonds_set_id']);
+                    $viewer->diamonds += $set->amount;
+                    $viewer->save();
+                    $user->addAchievement('App\Achievements\BuyFirstDiamondsAchievement');
+                    $user->addAchievement('App\Achievements\Buy100DiamondsAchievement', $set->amount);
+                    return redirect('/#/shop');
                 }
+                if ($payment->type == 'subscription') {
+                    $user = User::find($payment->user_id);
+                    $streamer = $user->streamer()->first();
+                    $details = json_decode($payment->details, true);
+                    $sPlanId = $details['subscription_plan_id'];
+                    $mPlanId = $details['month_plan_id'];
+                    $subscribed = new SubscribedStreamers();
+                    $subscribed->streamer_id = $streamer->id;
+                    $subscribed->subscription_plan_id = $sPlanId;
+                    $subscribed->month_plan_id = $mPlanId;
+                    $monthPlan = MonthPlan::find($mPlanId);
+                    $old = SubscribedStreamers::where([
+                        ['streamer_id', '=', $streamer->id],
+                        ['valid_until', '>', Carbon::today()->toDateTimeString()]
+                    ])->orderBy('valid_until', 'desc')->first();
+                    if ($old) {
+                        $subscribed->valid_from = $old->valid_until;
+                    } else {
+                        $subscribed->valid_from = Carbon::today()->toDateTimeString();
+                    }
 
-                $toDate = new Carbon($subscribed->valid_from);
-                $toDate->addMonths($monthPlan->monthes);
-                \Log::info('valid to  ' . $toDate->toDateTimeString());
-                $subscribed->valid_until = $toDate->toDateTimeString();
-                $subscribed->save();
+                    $toDate = new Carbon($subscribed->valid_from);
+                    $toDate->addMonths($monthPlan->monthes);
+                    $subscribed->valid_until = $toDate->toDateTimeString();
+                    $subscribed->save();
+                    return redirect('/#/subscribe');
+                }
             }
-
             return redirect('/');
         }
     }
 
-    
+
 
     /**
      * Parse PayPal IPN.
@@ -150,11 +190,49 @@ class PayPalController extends Controller
 
         $request->merge(['cmd' => '_notify-validate']);
         $post = $request->all();
-
+        
         $response = (string) $this->provider->verifyIPN($post);
-
-        $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
-        Storage::disk('local')->put($logFile, $response);
+        if ($response === 'VERIFIED') {
+            \Log::info('viewer ' . $post['payer_email'] . ' donate to streamer ' . $post['receiver_email'] . ' USD ' . $post['mc_gross']);
+            $user_streamer = User::where('email', $post['receiver_email']);
+            if (!$user_streamer) {
+                \Log::info('user not found email=' . $post['receiver_email']);
+                exit();
+            }
+            $streamer = $user_streamer->streamer()->first();
+            $user_viewer = User::where('email', $post['payer_email']);
+            if (!$user_viewer) {
+                \Log::info('user not found email=' . $post['receiver_email']);
+                exit();
+            }
+            $user_viewer->addAchievement('App\Achievements\FirstDonateAchievement');
+            $user_viewer->addAchievement('App\Achievements\Donate100Achievement', $post['mc_gross']);
+            $user_viewer->addAchievement('Donate10', $post['mc_gross']);
+            $user_viewer->addAchievement('Donate20', $post['mc_gross']);
+            $user_viewer->addAchievement('Donate50', $post['mc_gross']);
+            $user_viewer->addAchievement('Donate200', $post['mc_gross']);
+            $user_viewer->addAchievement('Donate500', $post['mc_gross']);
+            $viewer = $user_viewer->viewer()->first();
+            $viewer->addPoints([
+                'points'    => $post['mc_gross'] * 1000,
+                'title'     => 'Donate',
+                'description'   => 'maked donation ' . $post['mc_gross'] . ' USD',
+            ]);
+            $viewer->save();
+            $client = new Guzzle();
+            $response = $client->post('https://streamlabs.com/api/v1.0/donations', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $streamer->streamlabs_access,
+                ],
+                'form_params' => [
+                    "name"          => $viewer->name,
+                    "message"       => "new donation!!!",
+                    "identifier"    => $post['payer_email'],
+                    "amount"        => $post['mc_gross'],
+                    "currency"      => "USD",
+                ]
+            ]);
+        }
     }
 
     /**
@@ -166,20 +244,33 @@ class PayPalController extends Controller
      */
     protected function getCheckoutData($form, $recurring = false)
     {
-        $subscriptionPlan = SubscriptionPlan::find($form['subscription_plan_id']);
-        $monthPlan = MonthPlan::find($form['month_plan_id']);
         $data = [];
+        if ($form['type'] == 'subscription') {
+            $details = json_decode($form['details'], true);
+            $subscriptionPlan = SubscriptionPlan::find($details['subscription_plan_id']);
+            $monthPlan = MonthPlan::find($details['month_plan_id']);
+            $name = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+            $price = round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2);
+            $description = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+        }
+        if ($form['type'] == 'buy_diamonds') {
+            $details = json_decode($form['details'], true);
+            $set = Diamond::find($details['diamonds_set_id']);
+            $name = 'Buy ' . $set->amount . ' diamonds';
+            $price = $set->cost;
+            $description = $name;
+        }
         $data['items'] = [
             [
-                'name'  => 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes,
-                'price' => round($subscriptionPlan->cost * $monthPlan->monthes * (100 - $monthPlan->percent) / 100, 2),
+                'name'  => $name,
+                'price' => $price,
                 'qty'   => 1,
             ],
         ];
-        // $data['return_url'] = 'http://localhost:8081/paypal/success';
         $data['return_url'] =config('paypal.redirect_url');
-        $data['invoice_id'] = $form['id'];
-        $data['invoice_description'] = 'Subscription ' . $subscriptionPlan->name . ' months ' . $monthPlan->monthes;
+        // $data['invoice_id'] = $form['id'];
+        $data['invoice_id'] = uniqid();
+        $data['invoice_description'] = $description;
         $data['cancel_url'] = url('/');
         $total = 0;
         foreach ($data['items'] as $item) {
@@ -188,4 +279,22 @@ class PayPalController extends Controller
         $data['total'] = $total;
         return $data;
     }
+
+    public function notify2(Request $request)
+    {
+        $all = $request->all();
+        \Log::info('NOTIFY BODY');
+        \Log::info(json_encode($all));
+        $client = new Guzzle();
+        
+        $response = $client->post('https://ipnpb.sandbox.paypal.com/cgi-bin/webscr', [
+            'form_params' => $all
+        ]);
+        $result = (string)$response->getBody();
+        \Log::info('ANSWER=' . $result);
+        return response('OK', 200);
+
+        
+    }
+
 }

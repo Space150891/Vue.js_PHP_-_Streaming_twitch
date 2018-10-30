@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redis;
 use Validator;
+use Carbon\Carbon;
 
-use App\Models\Viewer;
-use App\Models\User;
+use App\Models\{User, Activity, Viewer, Streamer, ActiveStreamer};
 
 class BotController extends Controller
 {
@@ -21,7 +20,7 @@ class BotController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getEvent']]);
+        $this->middleware('auth:api', ['except' => ['getEvent', 'activeChannels']]);
         header("Access-Control-Allow-Origin: " . getOrigin($_SERVER));
     }
 
@@ -36,15 +35,14 @@ class BotController extends Controller
     {
         $botSecret = config('ospp.bot.secret_key');
         $validator = Validator::make($request->all(), [
-            'secretKey'       => 'required|min:1|max:256',
-            'event_type'      => 'required|min:1|max:256',
-            'user_name'       => 'required|min:1|max:256',
-            'channel_name'    => 'required|min:1|max:256',
-            'timestamp'       => 'required|numeric',
+            'secretKey' => 'required|min:1|max:256',
+            'type'      => 'required|min:1|max:256',
+            'viewers'   => 'required',
+            'channel'   => 'required|min:1|max:256',
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         if ($request->secretKey !== $botSecret) {
@@ -52,15 +50,61 @@ class BotController extends Controller
                 'errors' => ['secret key is wrong'],
             ]);
         }
+        $streamer = Streamer::where('name', $request->channel)->first();
+        if ($request->secretKey !== $botSecret) {
+            return response()->json([
+                'errors' => ['channel name not found'],
+            ]);
+        }
+        $validPause = config('ospp.activity.valid_pause');
+        $now = new Carbon();
+        $now->subSeconds($validPause);
+        $time = $now->toDateTimeString();
+        $activity = Activity::where([
+            ['updated_at', '>', $time],
+            ['streamer_id', '=', $streamer->id]
+        ])->get();
+        $viewers = [];
+        foreach ($activity as $active) {
+            $viewer = Viewer::find($active->viewer_id);
+            $viewers[] = $viewer->name;
+        }
         $data = [
-            'event_type'      => $request->event_type,
-            'user_name'       => $request->user_name,
-            'channel_name'    => $request->channel_name,
-            'timestamp'       => $request->timestamp,
+            'viewers'   => $viewers,
+            'channel'   => $request->channel,
         ];
-        Redis::command('RPUSH', ['messages:' . $request->user_name, json_encode($data)]);
         return response()->json([
             'data' => $data,
+        ]);
+    }
+
+    public function activeChannels(Request $request)
+    {
+        $botSecret = config('ospp.bot.secret_key');
+        $validator = Validator::make($request->all(), [
+            'secretKey' => 'required|min:1|max:256',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        if ($request->secretKey !== $botSecret) {
+            return response()->json([
+                'errors' => ['secret key is wrong'],
+            ]);
+        }
+        $activs = ActiveStreamer::all();
+        $data = [];
+        foreach ($activs as $active) {
+            if (!in_array($active->streamer_name, $data)) {
+                $data[] = $active->streamer_name;
+            }
+        }
+        return response()->json([
+            'data' => [
+                'streams'   =>  $data,
+            ],
         ]);
     }
  

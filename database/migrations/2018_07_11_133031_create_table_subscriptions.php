@@ -17,7 +17,7 @@ class CreateTableSubscriptions extends Migration
             $table->increments('id');
             $table->integer('streamer_id');
             $table->integer('subscription_plan_id');
-            $table->integer('mounth_plan_id');
+            $table->integer('month_plan_id');
             $table->dateTime('valid_from');
             $table->dateTime('valid_until');
             $table->timestamps();

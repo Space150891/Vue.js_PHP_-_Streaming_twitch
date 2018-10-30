@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/item-types')}" href="#/item-types" >Item-types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/item-types')}" href="#/item-types" >Item types</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/rarities')}" href="#/rarities" >Rarities</a>
@@ -16,19 +16,43 @@
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/items')}" href="#/items" >Items</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case Types</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/case-types')}" href="#/case-types" >Case types</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/cases')}" href="#/cases" >Cases</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers management</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/streamers')}" href="#/streamers" >Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/users')}" href="#/users" >All users</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/promoted')}" href="#/promoted" >Promouted streamers</a>
           </li>
           <li class="nav-item">
-            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main Streamers</a>
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-streamers')}" href="#/main-streamers" >Main streamers</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/main-content')}" href="#/main-content" >Main content / multistream</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/stock-prizes')}" href="#/stock-prizes" >Stock prizes</a>
+          </li>
+           <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/diamonds')}" href="#/diamonds" >Diamonds</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/statistic')}" href="#/statistic">Statistic</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/custom-achivements')}" href="#/custom-achivements">Custom achivements</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/bonus-points')}" href="#/bonus-points">Subscripton Bonuses</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/achievements')}" href="#/achievements">Achievements</a>
+          </li>
+          <li class="nav-item">
+            <a v-bind:class="{'nav-link' : true , 'active' : (page == '/achievements')}" href="#/subscriptions">Subscriptions</a>
           </li>
           <li class="nav-item">
             <a v-bind:class="{'nav-link' : true , 'active' : (page == '/logout')}" href="#/logout" >LOGOUT</a>
@@ -36,8 +60,10 @@
         </ul>
       </div>
     </nav>
-    <nav v-else>
-        <a class="navbar-brand" href="#/login">Login</a>
+    <nav v-else class="text-center">
+      <form class="form-inline">
+        <a class="btn btn-outline-info" href="#/login">Login</a>
+      </form>
     </nav>
   </div>
 </template>

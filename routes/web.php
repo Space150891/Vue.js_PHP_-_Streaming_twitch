@@ -13,8 +13,18 @@
 |
 */
 
-// Homepage Route
-Route::get('/', 'WelcomeController@welcome')->name('welcome');
+// Pages Route
+Route::get('/', 'PagesController@main')->name('main');
+Route::get('/games', 'PagesController@games');
+Route::get('/game/{gameName}', 'PagesController@game');
+Route::get('/stream-watch/{streamName}', 'PagesController@watchStream');
+Route::get('/prizes', 'PagesController@allPrizes');
+Route::get('/store/{caseId?}', 'PagesController@shop');
+Route::get('/cabinet', 'PagesController@cabinet');
+Route::get('/my-inventory', 'PagesController@myInventory');
+Route::get('/upgrade', 'PagesController@upgrade');
+Route::get('/profile/{streamName}', 'PagesController@profile');
+Route::get('/redeem/{prizeId}', 'PagesController@redeem');
 
 // Authentication Routes
 Auth::routes();
@@ -91,9 +101,9 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
     Route::post('subscribe', 'SubscribeController@makePayment');
 
     // Route to show user avatar
-    Route::get('images/profile/{id}/avatar/{image}', [
-        'uses' => 'ProfilesController@userProfileAvatar',
-    ]);
+    // Route::get('images/profile/{id}/avatar/{image}', [
+    //     'uses' => 'ProfilesController@userProfileAvatar',
+    // ]);
 
     // Route to upload user avatar.
     Route::post('avatar/upload', ['as' => 'avatar.upload', 'uses' => 'ProfilesController@upload']);
@@ -147,9 +157,6 @@ Route::get('/vue/{vue_capture?}', function () {
 // Route::get('/homepage', 'HomePageController');
 // Route::get('/directory', 'DirectoryPageController');
 
-Route::get('sse', 'Api\ServerEventsController@serverSideEvents');
-Route::get('testpagesse', 'Api\ServerEventsController@testPageSSE');
-
 Route::post('front/gettoken', 'Auth\SocialController@getToken');
 
 // admin routes
@@ -158,3 +165,13 @@ Route::get('admin', 'AdminController@adminPage');
 Route::post('paypal/pay', 'PayPalController@getExpressCheckout');
 Route::get('paypal/success', 'PayPalController@getExpressCheckoutSuccess');
 Route::post('paypal/notify', 'PayPalController@notify');
+Route::post('paypal/notify2', 'PayPalController@notify2');
+Route::get('start-stream/{token}', 'StreamController@startStream');
+Route::post('liqpay/getform', 'LiqpayController@genSubscribeForm');
+Route::post('liqpay/subscribe', 'LiqpayController@acceptSubscribe');
+
+Route::post('stripe/subscribe', 'StripeController@subscribe');
+
+Route::get('streamlabs/login', 'StreamlabsController@Login');
+Route::get('streamlabs/oauth', 'StreamlabsController@Oauth');
+

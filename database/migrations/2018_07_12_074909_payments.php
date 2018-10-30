@@ -15,9 +15,8 @@ class Payments extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('streamer_id');
-            $table->integer('subscription_plan_id');
-            $table->integer('month_plan_id');
+            $table->integer('user_id');
+            $table->longText('details')->nullable();
             $table->string('type');
             $table->string('status');
             $table->string('token')->nullable();

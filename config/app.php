@@ -139,13 +139,12 @@ return [
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
-        Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        
+
         /*
          * Package Service Providers...
          */
@@ -171,11 +170,14 @@ return [
         App\Providers\LocalEnvironmentServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         jeremykenedy\laravelexceptionnotifier\LaravelExceptionNotifier::class,
-        Laravel\Cashier\CashierServiceProvider::class, 
+        Laravel\Cashier\CashierServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Gstt\Achievements\AchievementsServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Softon\Sms\SmsServiceProvider::class,
+        Artem328\LaravelYandexKassa\YandexKassaServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
+        Artem328\LaravelYandexKassa\YandexKassaServiceProvider::class,
     ],
 
     /*
@@ -214,7 +216,6 @@ return [
         'Password'     => Illuminate\Support\Facades\Password::class,
         'Queue'        => Illuminate\Support\Facades\Queue::class,
         'Redirect'     => Illuminate\Support\Facades\Redirect::class,
-        'Redis'        => Illuminate\Support\Facades\Redis::class,
         'Request'      => Illuminate\Support\Facades\Request::class,
         'Response'     => Illuminate\Support\Facades\Response::class,
         'Route'        => Illuminate\Support\Facades\Route::class,
@@ -232,7 +233,9 @@ return [
         'Image'        => Intervention\Image\Facades\Image::class,
         'Uuid'         => Webpatser\Uuid\Uuid::class,
         'PayPal'       => Srmklive\PayPal\Facades\PayPal::class,
+        'YandexKassa' => Artem328\LaravelYandexKassa\Facades\YandexKassa::class,
         'Sms'          => Softon\Sms\Facades\Sms::class,
+        'YandexKassa' => Artem328\LaravelYandexKassa\Facades\YandexKassa::class,
     ],
 
 ];

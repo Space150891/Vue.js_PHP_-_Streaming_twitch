@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/item-types"></admin-menu>
   <div v-if="checkToken && itemTypesLoaded">
 		<h5>Item types page</h5>
@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="itemType in itemTypes">
+				<tr v-for="itemType in itemTypes" :key="itemType.id">
 					<td>{{itemType.id}}</td>
 					<td>{{itemType.name}}</td>
 					<td>

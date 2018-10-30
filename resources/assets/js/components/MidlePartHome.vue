@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="midle-home-content">
-                            <h2>CONTENT</h2>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi sed ratione optio natus, doloribus porro. Officiis pariatur qui repudiandae quidem, quasi non nostrum at molestiae iure perspiciatis odio tempore repellat neque. Dolores dolorum obcaecati debitis alias quibusdam molestiae laboriosam iusto molestias enim, itaque hic minima incidunt nemo voluptatem, laudantium voluptas consectetur animi sint corporis a ex. Vero eum, culpa corporis aliquid quisquam earum rem quaerat nulla sapiente adipisci quibusdam minus mollitia, quas optio illum deserunt voluptates dignissimos accusamus reprehenderit! Dolor praesentium quidem consequuntur hic placeat, corrupti adipisci ex? Praesentium quasi cum dignissimos voluptates aspernatur dicta! Laudantium, id officiis. Libero, error.  
+                            <h2>{{mainContent.mainHeader}}</h2>
+                            <div  v-html="mainContent.mainText"></div>
                         </div>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
                     <div class="col-sm-12 col-lg-8">
                         <div class="video-part">
                             <iframe
-                                src="https://player.twitch.tv/?channel=twitchpresents"
+                                v-bind:src="'https://player.twitch.tv/?channel=' + this.mainChannel"
                                 width=100%
                                 height="100%"
                                 frameborder="0"
@@ -29,7 +29,7 @@
                         <div class="chat-part">
                             <iframe frameborder="1"
                                 scrolling="true"
-                                src="https://www.twitch.tv/embed/twitchpresents/chat"
+                                v-bind:src="'https://www.twitch.tv/embed/' + this.mainChannel +'/chat'"
                                 height="100%"
                                 width="100%">
                             </iframe>
@@ -51,8 +51,41 @@
 </template>
 
 <script>
+import { mapGetters} from 'vuex';
 export default {
-    
+    data: () => {
+        return {
+            switcher : false,
+        }
+    },
+    mounted() {
+		this.getContent();
+        this.channelSwitcher();
+	},
+    destroyed() {
+        if (this.switcher) {
+            clearInterval(this.switcher);
+        }
+    },
+    methods: {
+		getContent: function () {
+			this.$store.commit('getMainContent');
+		},
+        channelSwitcher: function () {
+            let storage = this.$store;
+            storage.commit('getMainChannel');
+            this.switcher = setInterval(function(){
+                storage.commit('getMainChannel');
+            }, 10 * 1000 * 10);
+        },
+    },
+    computed: {
+		...mapGetters([
+			'mainContent',
+            'mainContentLoaded',
+            'mainChannel',
+		]),
+    }
 }
 </script>
 

@@ -19,11 +19,25 @@
                     </router-link>
                 </li>
             </ul>
+            <follow-drop-down
+              v-bind:links="wachingStreamers"
+            >
+            </follow-drop-down>
+            <drop-down
+              mainLabel="Streamer Profile"
+              baseUrl="profile"
+              v-bind:links="wachingStreamers"
+            ></drop-down>
+            <drop-down
+              mainLabel="Donate Streamer"
+              baseUrl="donate"
+              v-bind:links="wachingStreamers"
+            ></drop-down>
             <a href="#" class="sign" v-if="checkToken" @click.prevent="signOut()">Sign out</a>
             <a href="twitch/redirect" class="sign" v-else >Sign up</a>
-
+            <a href="#/shop" class="cabinet-but" v-if="checkToken">SHOP</a>
             <a href="#/cabinet" class="cabinet-but" v-if="checkToken">Cabinet</a>
-            <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Subscribe</a>
+            <a href="#/subscribe" class="cabinet-but" v-if="checkToken">Promote your channel</a>
             <a href="#/afiliate" class="cabinet-but" v-if="checkToken">Afiliate</a>
             <ul class="navbar-nav my-2 my-lg-0 left" v-if="checkToken">
                 <li class="nav-item">
@@ -39,12 +53,15 @@
                     <a @click.prevent="showMessages()" href="#" class="nav-link bag-span">
                             <img class="nav-icon" src="../../../../public/images/bag.svg" alt="bag">
                     </a>
-                    <span class="tagging-item" v-if="menuEvents.total > 0">{{menuEvents.total}}</span>
+                    <span class="tagging-item" v-if="menuMessages.length > 0">{{menuMessages.length}}</span>
                     <ul v-if="messagesVisible" class="menu-message-list">
-                        <li v-for="menuEvent in menuEvents.list">
-                            {{menuEvent.message}}
+                        <li
+                            v-for="(message, index) in menuMessages"
+                            v-if="index < 3"
+                        >
+                            {{message}}
                         </li>
-                        <li v-if="menuEvents.total > 3" class="text-center">
+                        <li v-if="menuMessages.length > 3" class="text-center">
                             <a href="#/notifications">
                                 View all
                             </a>
@@ -80,6 +97,11 @@
                         link: "/directory",
                     },
                     {
+                        name: "Roulette",
+                        activ: false,
+                        link: "/roulette",
+                    },
+                    {
                         name: "Prices",
                         activ: false,
                         link: "/prices",
@@ -95,23 +117,12 @@
             currentViewer: function() {
                 return this.$store.getters.currentViewer;
             },
-            menuEvents: function() {
-                const allEvents = this.$store.getters.sseMenuEvents.reverse();
-                let sortedEvents = [];
-                let total = 0;
-                for (let i=0; i<allEvents.length; i++) {
-                    if (allEvents[i].event_type === 'user_message') {
-                        total++;
-                        if (sortedEvents.length < 3) {
-                            sortedEvents.push(allEvents[i]);
-                        }
-                    }
-                }
-                return {
-                    list : sortedEvents,
-                    total : total
-                    };
-            }
+            menuMessages: function() {
+                return this.$store.getters.menuMessages;
+            },
+            wachingStreamers: function () {
+                return this.$store.getters.wachingStreamers;
+            },
         },
         mounted: function () {
             this.$store.commit('signUp');
@@ -130,21 +141,21 @@
             showMessages() {
                 this.messagesVisible = true;
                 setTimeout(() => {
-                    this.$store.commit('clearMenuEvents');
+                    this.$store.commit('clearMenuMessages');
                     this.messagesVisible = false;
                 }, 2000);
             },
             sendFBAchivement() {
-                this.$store.commit('pushAchivement', {name: 'FirstFBlikeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB10likeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB20likeAchievement'});
-                this.$store.commit('pushAchivement', {name: 'FB50likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FirstFBlikeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB10likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB20likeAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FB50likeAchievement'});
             },
             sendTWAchivement() {
-                this.$store.commit('pushAchivement', {name: 'FirstTweetAchievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet10Achievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet20Achievement'});
-                this.$store.commit('pushAchivement', {name: 'Tweet50Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\FirstTweetAchievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet10Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet20Achievement'});
+                this.$store.commit('pushAchivement', {name: 'App\\Achievements\\Tweet50Achievement'});
             }
         }
     }

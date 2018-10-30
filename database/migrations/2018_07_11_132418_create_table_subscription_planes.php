@@ -17,6 +17,7 @@ class CreateTableSubscriptionPlanes extends Migration
             $table->increments('id');
             $table->float('cost', 5, 2);
             $table->string('name');
+            $table->integer('points')->default(0);
             $table->timestamps();
         });
     }

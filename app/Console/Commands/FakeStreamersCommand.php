@@ -52,14 +52,20 @@ class FakeStreamersCommand extends Command
             ] ]);
         $result = $guzzle->request('GET', 'https://api.twitch.tv/helix/streams?first=' . $num);
         $allStreams = json_decode((string) $result->getBody(), true);
+        //dd($allStreams['data']);
         foreach ($allStreams['data'] as $stream) {
             $result = $guzzle->request('GET', 'https://api.twitch.tv/kraken/streams/' . $stream['user_id']);
             $data = json_decode((string) $result->getBody(), true);
             $name = $data['stream']['channel']['name'];
             $game = $data['stream']['channel']['game'];
             $oldUser = User::where('name', $name)->first();
+            if (!$oldUser) {
+                $oldUser = User::where('name', strtolower($name))->first();
+            }
             if ($oldUser) {
-                echo "user is already in DB \n";
+                echo "user is already in DB  new name={$name}\n";
+                $oldUser->name = $name;
+                $oldUser->save();
                 continue;
             }
             echo "GAME = {$game} \n";
@@ -75,7 +81,7 @@ class FakeStreamersCommand extends Command
             $streamer->user_id = $user->id;
             $streamer->twitch_id = $stream['user_id'];
             $streamer->name = $user->name;
-            $streamer->game = strtolower($game);
+            $streamer->game = $game;
             $streamer->save();
             $viewer = new Viewer();
             $viewer->user_id = $user->id;

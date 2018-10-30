@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\Channel;
+use App\Models\{Channel, Streamer, Activity};
 
 class ChannelsController extends Controller
 {
@@ -55,7 +55,7 @@ class ChannelsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
+                'error' => $validator->errors()->all(),
             ]);
         }
 
@@ -87,7 +87,6 @@ class ChannelsController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -116,7 +115,6 @@ class ChannelsController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
             'id'       => 'required',
             'name'     => 'required|max:255|unique:users',
@@ -125,10 +123,10 @@ class ChannelsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
-
+        $id = $request->id;
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -150,15 +148,15 @@ class ChannelsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->id;
         $validator = Validator::make($request->all(), [
             'id'       => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
+        $id = $request->id;
         $channel = Channel::find($id);
         if (!$channel) {
             return response()->json([
@@ -173,5 +171,71 @@ class ChannelsController extends Controller
         
     }
 
+    public function randomChannels(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'total'       => 'required|in:1,2,4',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all(),
+            ]);
+        }
+        $channels = [];
+        $need = $request->total;
+        //
+        $selected = [];
+        $groups = [];
+        $allStreamers = Streamer::query()
+        ->select('streamers.name', 'streamers.id', 'activities.viewer_id')
+        ->Leftjoin('activities', 'activities.streamer_id', '=', 'streamers.id')
+        ->get();
+        $StreamersSums = [];
+        foreach ($allStreamers as $streamer) {
+            if (isset($StreamersSums[$streamer->name])) {
+                if ($streamer->viewer_id > 0) {
+                    $StreamersSums[$streamer->name]++;
+                }
+            } else {
+                if ($streamer->viewer_id > 0) {
+                    $StreamersSums[$streamer->name] = 1;
+                } else {
+                    $StreamersSums[$streamer->name] = 0;
+                }
+                
+            }
+        }
+        foreach ($StreamersSums as $k => $v) {
+            if (isset($groups[$v])) {
+                $groups[$v][] = $k;
+            } else {
+                $groups[$v] = [$k];
+            }
+        }
+        $channels = [];
+        ksort($groups);
+        foreach ($groups as $k => $group) {
+            $needMore = $need - count($channels);
+            if ($needMore === 0) {
+                break;
+            }
+            if (count($group) <= $needMore) {
+                $channels = array_merge($channels, $group);
+            } else {
+                do {
+                    $num = round(rand(0, count($group) - 1));
+                    if (!in_array($group[$num], $channels)) {
+                        $channels[] = $group[$num];
+                    }
+                } while ($need - count($channels) > 0);
+            }
+        }
+
+        return response()->json([
+            'data' => [
+                'channels'  => $channels,
+            ],
+        ]);
+    }
  
 }

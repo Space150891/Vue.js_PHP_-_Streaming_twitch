@@ -60,7 +60,7 @@ class ReferalViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $viewer = Viewer::find($request->id);
@@ -95,7 +95,7 @@ class ReferalViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $viewer = Viewer::find($request->id);

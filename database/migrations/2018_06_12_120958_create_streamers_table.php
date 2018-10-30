@@ -22,6 +22,17 @@ class CreateStreamersTable extends Migration
             $table->string('name')->default('');
             $table->integer('user_id');
             $table->string('paypal')->nullable();
+            $table->string('donate_front')->nullable();
+            $table->string('donate_back')->nullable();
+            $table->string('donate_text')->nullable();
+            $table->string('stream_token', 50)->nullable();
+            $table->integer('prize_alert')->default(30);
+            $table->string('image')->nullable();
+            $table->integer('viewers_count')->default(0);
+            $table->integer('followers_count')->default(0);
+            $table->string('streamlabs_access', 512)->nullable();
+            $table->string('streamlabs_refresh', 512)->nullable();
+            $table->string('streamelements_access', 1023)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

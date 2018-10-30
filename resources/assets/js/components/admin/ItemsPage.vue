@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div  >
   <admin-menu page="/items"></admin-menu>
   <div v-if="checkToken && itemsLoaded">
 		<h5>Items page</h5>
@@ -11,13 +11,15 @@
                     <th>Item Type</th>
                     <th>Description</th>
                     <th>Worth</th>
+                    <th>Rarity class</th>
                     <th>Image</th>
                     <th>Icon</th>
+
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in items">
+				<tr v-for="item in items" :key="item.id">
 					<td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
 					<td>{{ item.type }}</td>
@@ -25,6 +27,7 @@
                         <span v-if="item.description">{{ item.description }}</span>
                     </td>
                     <td>{{ item.worth }}</td>
+                    <td>{{ item.rarity_class }}</td>
                     <td>
                         <img 
                           v-if="item.image"
@@ -51,7 +54,11 @@
 				<input class="form-control" placeholder="Title..." v-model="editItem.title" type="text">
                 <select v-model="editItem.item_type_id" class="form-control">
                     <option value="0">Select item type</option>
-                    <option v-for="itemType in itemTypes" v-bind:value="itemType.id">{{ itemType.name }}</option>
+                    <option v-for="itemType in itemTypes" v-bind:value="itemType.id" :key="itemType.id">{{ itemType.name }}</option>
+                </select>
+                <select v-model="editItem.rarity_class_id" class="form-control">
+                    <option value="0">Select ratity class</option>
+                    <option v-for="rarityClass in rarityClasses" v-bind:value="rarityClass.id" :key="rarityClass.id">{{ rarityClass.name }}</option>
                 </select>
                 <input class="form-control" placeholder="Description..." v-model="editItem.description" type="text">
                 <input class="form-control" placeholder="Worth..." v-model="editItem.worth" type="number">
@@ -108,6 +115,7 @@
                 worth : 0,
                 image: null,
                 icon: null,
+                rarity_class_id: 0,
 				id: 0,
 			},
 			deletingItem: {
@@ -149,7 +157,8 @@
                 this.editItem.item_type_id = item.item_type_id;
                 this.editItem.image = null;
                 this.editItem.icon = null;
-				this.editItem.id = null;
+                this.editItem.id = item.id;
+                this.editItem.rarity_class_id = item.rarity_class_id;
 				this.editMode = true;
 			},
 			createAction: function () {
@@ -168,6 +177,7 @@
                     this.editItem.item_type_id = 0;
                     this.editItem.image = null;
                     this.editItem.icon = null;
+                    this.editItem.rarity_class_id = 0;
                 } else {
                     this.openAlertModal = true;
                 }
@@ -181,10 +191,13 @@
                     this.errors.push('item title empty');
                 }
                 if (this.editItem.item_type_id == 0) {
-                    this.errors.push('select item type id');
+                    this.errors.push('select item type');
+                }
+                if (this.editItem.rarity_class_id == 0) {
+                    this.errors.push('select rarity class');
                 }
                 if (this.errors.length == 0) {
-                    this.$store.commit('createItem', this.editItem);
+                    this.$store.dispatch('ItemSaveAction', this.editItem);
                     this.editItem.title = '';
                     this.editItem.description = '';
                     this.editItem.worth = 0;
@@ -193,6 +206,7 @@
                     this.editItem.icon = null;
                     this.editItem.id = 0;
                     this.editMode = false;
+                    this.editItem.rarity_class_id = 0;
                     this.$store.commit('getItemsList');
                 } else {
                     this.openAlertModal = true;
@@ -216,6 +230,7 @@
                 'items',
                 'itemsLoaded',
                 'itemsSaved',
+                'rarityClasses',
 			]),
     }
   }

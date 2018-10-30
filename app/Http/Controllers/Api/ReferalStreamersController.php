@@ -60,7 +60,7 @@ class ReferalStreamersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $streamer = Streamer::find($request->id);
@@ -95,7 +95,7 @@ class ReferalStreamersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
         $viewer = Streamer::find($request->id);

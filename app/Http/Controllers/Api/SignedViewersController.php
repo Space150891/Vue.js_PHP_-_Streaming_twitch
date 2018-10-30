@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Validator;
 
-use App\Models\{User, Viewer, Streamer, SignedViewer};
+use App\Models\{User, Viewer, Streamer, SignedViewer, Achievement, AchievementProgres};
+use App\Achievements\{FirstStreamerSubscribeAchievement, Streamer100SubscribeAchievement};
 
 class SignedViewersController extends Controller
 {
@@ -34,7 +35,7 @@ class SignedViewersController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'id'   =>  'required|min:1',
+                'name'   =>  'required|min:1',
             ]
         );
         $user = auth()->user();
@@ -42,10 +43,11 @@ class SignedViewersController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
-        if (!Streamer::find($request->id)) {
+        $streamer = Streamer::where('name', $request->name)->first();
+        if (!$streamer) {
             return response()->json([
                 'errors' => ['streamer id not found'],
             ]);
@@ -53,7 +55,7 @@ class SignedViewersController extends Controller
 
         $hasStreamer = SignedViewer::where([
             ['viewer_id', '=', $viewer->id],
-            ['streamer_id', '=', $request->id],
+            ['streamer_id', '=', $streamer->id],
         ])->first();
         
         if ($hasStreamer) {
@@ -64,9 +66,13 @@ class SignedViewersController extends Controller
 
         $signedViewer = new SignedViewer();
         $signedViewer->viewer_id = $viewer->id;
-        $signedViewer->streamer_id = $request->id;
+        $signedViewer->streamer_id = $streamer->id;
         $signedViewer->save();
-        
+        $user->addAchievement('App\Achievements\FirstStreamerSubscribeAchievement');
+        $user->addAchievement('App\Achievements\Streamer100SubscribeAchievement');
+        $user->addAchievement('Subscribe2Channels');
+        $user->addAchievement('Subscribe5Channels');
+        $user->addAchievement('Subscribe10Channels');
         return response()->json([
             'message' => 'streamer added successful',
             'data' => [
@@ -135,10 +141,9 @@ class SignedViewersController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->all(),
             ]);
         }
-        \Log::info('delete id=' . $request->id);
         $user = auth()->user();
         $viewer = $user->viewer()->first();
         $signedViewer = SignedViewer::where([
